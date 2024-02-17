@@ -16,45 +16,48 @@ class MyTextFiled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 353,
-      height: 56,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: Colors.grey.withOpacity(0.5),
-          width: 1,
+    return Padding(
+      padding: const EdgeInsets.all(1),
+      child: Container(
+        width: 353,
+        height: 56,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: Colors.grey.withOpacity(0.5),
+            width: 1,
+          ),
         ),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: controller,
-              obscureText: obscureText,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-                hintText: hintText,
-                hintStyle: TextStyle(
-                  color: Colors.grey.withOpacity(0.5),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: controller,
+                obscureText: obscureText,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  hintText: hintText,
+                  hintStyle: TextStyle(
+                    color: Colors.grey.withOpacity(0.5),
+                    fontSize: 16,
+                    fontFamily: 'Inter',
+                  ),
+                ),
+                style: TextStyle(
+                  color: Colors.black,
                   fontSize: 16,
                   fontFamily: 'Inter',
                 ),
               ),
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontFamily: 'Inter',
-              ),
             ),
-          ),
-          const SizedBox(width: 10),
-        ],
+            const SizedBox(width: 10),
+          ],
+        ),
       ),
     );
   }
