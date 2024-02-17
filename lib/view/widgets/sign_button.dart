@@ -3,9 +3,11 @@
 import 'package:family_tree_application/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-class MyButton extends StatelessWidget {
+import '../../constants/routes.dart';
+
+class SignButton extends StatelessWidget {
   final Function()? onTap;
-  const MyButton({super.key, required this.onTap});
+  const SignButton({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +16,13 @@ class MyButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 50),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(AppRoute.verifyCode);
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: CustomColors.myCustomColor, //
             foregroundColor: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 159, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 140, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -28,7 +32,7 @@ class MyButton extends StatelessWidget {
             elevation: 4, // Shadow depth
           ),
           child: Text(
-            'Login',
+            'Register',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

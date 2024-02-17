@@ -2,6 +2,7 @@
 
 import 'package:family_tree_application/constants/routes.dart';
 import 'package:family_tree_application/view/screens/auth/get_started.dart';
+import 'package:family_tree_application/view/screens/auth/signup_verify_code.dart';
 
 import 'package:flutter/material.dart';
 
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
           AppRoute.getStarted: (context) => GetStarted(),
           AppRoute.login: (context) => Login(),
           AppRoute.signUp: (context) => SignUp(),
+          AppRoute.verifyCode: (context) => VerifyCode(),
         });
   }
 }

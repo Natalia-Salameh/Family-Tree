@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
+import '../../../constants/imageasset.dart';
 import '../../widgets/my_button.dart';
 import '../../widgets/my_frame.dart';
 import '../../widgets/my_textfield.dart';
@@ -92,9 +93,12 @@ class _LoginState extends State<Login> {
                 Row(
                   children: [
                     Expanded(
-                      child: Divider(
-                        thickness: 0.6,
-                        color: const Color.fromARGB(255, 132, 128, 128),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Divider(
+                          thickness: 0.6,
+                          color: Color.fromARGB(255, 179, 174, 174),
+                        ),
                       ),
                     ),
                     Text(
@@ -102,9 +106,12 @@ class _LoginState extends State<Login> {
                       style: TextStyle(color: Color.fromARGB(255, 75, 73, 73)),
                     ),
                     Expanded(
-                      child: Divider(
-                        thickness: 0.8,
-                        color: Color.fromARGB(255, 168, 164, 164),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Divider(
+                          thickness: 0.8,
+                          color: Color.fromARGB(255, 179, 174, 174),
+                        ),
                       ),
                     ),
                   ],
@@ -115,15 +122,15 @@ class _LoginState extends State<Login> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Frame(imagePath: 'lib/images/Google.png'),
+                    Frame(imagePath: AppImageAsset.google),
                     const SizedBox(
                       width: 30,
                     ),
-                    Frame(imagePath: 'lib/images/facebook.png'),
+                    Frame(imagePath: AppImageAsset.facebook),
                     const SizedBox(
                       width: 30,
                     ),
-                    Frame(imagePath: 'lib/images/Apple.png'),
+                    Frame(imagePath: AppImageAsset.apple),
                   ],
                 ),
               ],
