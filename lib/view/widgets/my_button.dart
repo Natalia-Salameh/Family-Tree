@@ -1,8 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
+import 'package:family_tree_application/constants/colors.dart';
 import 'package:flutter/material.dart';
-
-import '../constants/colors.dart';
 
 class MyButton extends StatelessWidget {
   final Function()? onTap;

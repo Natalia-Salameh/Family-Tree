@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:family_tree_application/components/my_textfield.dart';
-import 'package:flutter/material.dart';
 
-import '../../../constants/colors.dart';
+import 'package:family_tree_application/constants/imageasset.dart';
+import 'package:family_tree_application/view/widgets/my_button.dart';
+import 'package:family_tree_application/view/widgets/my_frame.dart';
+import 'package:family_tree_application/view/widgets/my_textfield.dart';
+import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -113,15 +115,15 @@ class _LoginState extends State<Login> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Frame(imagePath: 'lib/images/Google.png'),
+                    Frame(imagePath: AppImageAsset.google),
                     const SizedBox(
                       width: 30,
                     ),
-                    Frame(imagePath: 'lib/images/facebook.png'),
+                    Frame(imagePath: AppImageAsset.facebook),
                     const SizedBox(
                       width: 30,
                     ),
-                    Frame(imagePath: 'lib/images/Apple.png'),
+                    Frame(imagePath: AppImageAsset.apple),
                   ],
                 ),
               ],
