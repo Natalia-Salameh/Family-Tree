@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:family_tree_application/components/my_textfield.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
+import '../../widgets/my_button.dart';
+import '../../widgets/my_frame.dart';
+import '../../widgets/my_textfield.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
