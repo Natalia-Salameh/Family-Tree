@@ -1,13 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:family_tree_application/Pages/getStarted/get_started.dart';
+import 'package:family_tree_application/constants/routes.dart';
+import 'package:family_tree_application/view/screens/auth/get_started.dart';
 
 import 'package:flutter/material.dart';
 
-import 'Pages/splash/splash1_screen.dart';
-import 'Pages/splash/splash2_screen.dart';
-import 'Pages/splash/splash3_screen.dart';
-import 'Pages/splash/splash4_screen.dart';
+import 'view/screens/splash_screen.dart';
+import 'view/screens/onBoarding/on_boarding1.dart';
+import 'view/screens/onBoarding/on_boarding2.dart';
+import 'view/screens/onBoarding/on_boarding3.dart';
 import 'view/screens/auth/login.dart';
 import 'view/screens/auth/signup.dart';
 
@@ -25,13 +26,13 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
         routes: {
-          '/splashscreen': (context) => SplashScreen(),
-          '/splash2screen': (context) => Splash2Screen(),
-          '/splash3screen': (context) => Splash3(),
-          '/splash4screen': (context) => Splash4(),
-          '/getStarted': (context) => GetStarted(),
-          '/loginpage': (context) => Login(),
-          '/SignUpPage': (context) => SignUp(),
+          AppRoute.splash: (context) => SplashScreen(),
+          AppRoute.onBoarding1: (context) => OnBoarding1(),
+          AppRoute.onBoarding2: (context) => OnBoarding2(),
+          AppRoute.onBoarding3: (context) => OnBoarding3(),
+          AppRoute.getStarted: (context) => GetStarted(),
+          AppRoute.login: (context) => Login(),
+          AppRoute.signUp: (context) => SignUp(),
         });
   }
 }

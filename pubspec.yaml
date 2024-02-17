@@ -55,13 +55,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - lib/images/ajial.png
-    - lib/images/tree-image.png
-    - lib/images/bridge.png
-    - lib/images/story.png
-    - lib/images/Apple.png
-    - lib/images/Google.png
-    - lib/images/facebook.png
+    - assets/images/
     # Other assets can be listed here as well
 
   #   - images/a_dot_ham.jpeg

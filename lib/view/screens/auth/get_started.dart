@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:family_tree_application/constants/colors.dart';
+import 'package:family_tree_application/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -59,7 +60,7 @@ class _GetStartedState extends State<GetStarted> {
               padding: const EdgeInsets.only(top: 100),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/loginpage');
+                  Navigator.of(context).pushNamed(AppRoute.login);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: CustomColors.myCustomColor, //
@@ -86,7 +87,7 @@ class _GetStartedState extends State<GetStarted> {
               padding: const EdgeInsets.only(top: 30),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/SignUpPage');
+                  Navigator.of(context).pushNamed(AppRoute.signUp);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: CustomColors.myCustomColor, //

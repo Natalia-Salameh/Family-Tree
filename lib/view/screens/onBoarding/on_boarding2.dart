@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:family_tree_application/constants/imageasset.dart';
+import 'package:family_tree_application/constants/routes.dart';
 import 'package:flutter/material.dart';
 
-import 'splash4_screen.dart';
+import 'on_boarding3.dart';
 
-class Splash3 extends StatelessWidget {
-  const Splash3({super.key});
+class OnBoarding2 extends StatelessWidget {
+  const OnBoarding2({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +16,7 @@ class Splash3 extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(
-              'lib/images/bridge.png',
+            AppImageAsset.onBoardingImageTwo,
               height: 300,
               width: 400,
             ),
@@ -61,7 +63,7 @@ class Splash3 extends StatelessWidget {
                   SizedBox(width: 8),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, '/splash4screen');
+                      Navigator.of(context).pushNamed(AppRoute.onBoarding3);
                     },
                     child: Container(
                       width: 80,
