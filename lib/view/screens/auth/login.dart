@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:family_tree_application/components/my_button.dart';
-import 'package:family_tree_application/components/my_frame.dart';
 import 'package:family_tree_application/components/my_textfield.dart';
 import 'package:flutter/material.dart';
 

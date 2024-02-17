@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:family_tree_application/constants/imageasset.dart';
+import 'package:family_tree_application/constants/routes.dart';
 import 'package:flutter/material.dart';
 
-class Splash4 extends StatelessWidget {
-  const Splash4({super.key});
+class OnBoarding3 extends StatelessWidget {
+  const OnBoarding3({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +14,7 @@ class Splash4 extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(
-              'lib/images/story.png',
+            AppImageAsset.onBoardingImageThree,
               height: 300,
               width: 400,
             ),
@@ -39,7 +41,7 @@ class Splash4 extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   // sese ba3deen
-                  Navigator.pushNamed(context, '/getStarted');
+                  Navigator.of(context).pushNamed(AppRoute.getStarted);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF098666), //

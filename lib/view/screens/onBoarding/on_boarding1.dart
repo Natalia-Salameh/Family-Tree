@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 
+import 'package:family_tree_application/constants/imageasset.dart';
+import 'package:family_tree_application/constants/routes.dart';
 import 'package:flutter/material.dart';
 
-import 'splash3_screen.dart';
+import 'on_boarding2.dart';
 
-class Splash2Screen extends StatelessWidget {
-  const Splash2Screen({super.key});
+class OnBoarding1 extends StatelessWidget {
+  const OnBoarding1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class Splash2Screen extends StatelessWidget {
               ),
             ),
             Image.asset(
-              'lib/images/tree-image.png',
+            AppImageAsset.onBoardingImageOne,
               height: 300,
               width: 400,
             ),
@@ -62,7 +64,7 @@ class Splash2Screen extends StatelessWidget {
                   SizedBox(width: 8),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, '/splash3screen');
+                      Navigator.of(context).pushNamed(AppRoute.onBoarding2);
                     },
                     child: Container(
                       width: 80,
