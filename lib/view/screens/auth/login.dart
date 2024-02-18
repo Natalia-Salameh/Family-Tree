@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../constants/colors.dart';
 import '../../../constants/imageasset.dart';
 import '../../widgets/my_button.dart';
 import '../../widgets/my_frame.dart';

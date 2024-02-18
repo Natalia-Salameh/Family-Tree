@@ -10,16 +10,16 @@ class OnBoarding3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 230),
+        padding: const EdgeInsets.only(top: 190),
         child: Column(
           children: [
             Image.asset(
-            AppImageAsset.onBoardingImageThree,
+              AppImageAsset.onBoardingImageThree,
               height: 300,
               width: 400,
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 25.0),
+              padding: const EdgeInsets.only(top: 60),
               child: SizedBox(
                   width: 430,
                   height: 81,
@@ -37,7 +37,7 @@ class OnBoarding3 extends StatelessWidget {
                   )),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(top: 40),
               child: ElevatedButton(
                 onPressed: () {
                   // sese ba3deen
