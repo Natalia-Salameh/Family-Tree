@@ -24,7 +24,7 @@ class OnBoarding1 extends StatelessWidget {
                   'Welcome to Ajial',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF098666),
+                    color: CustomColors.myCustomColor,
                     fontSize: 30,
                     fontWeight: FontWeight.w500,
                     height: 4,
@@ -47,7 +47,7 @@ class OnBoarding1 extends StatelessWidget {
                   'Discover Your Roots, \nHonor All Branches',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFF212121),
+                    color: CustomColors.myBlack,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     height: 1.5,
@@ -79,7 +79,7 @@ class OnBoarding1 extends StatelessWidget {
                         width: 80,
                         height: 8,
                         decoration: BoxDecoration(
-                          color: Colors.grey,
+                          color: CustomColors.myGrey,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -89,7 +89,7 @@ class OnBoarding1 extends StatelessWidget {
                       width: 80,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: CustomColors.myGrey,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),

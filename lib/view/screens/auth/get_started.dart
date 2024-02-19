@@ -33,7 +33,7 @@ class _GetStartedState extends State<GetStarted> {
                         'Lets Get Started With',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.heebo(
-                          color: Color(0xFF212121),
+                          color: CustomColors.myBlack,
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                           height: 0,
@@ -49,7 +49,7 @@ class _GetStartedState extends State<GetStarted> {
                       'Ajial',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.playball(
-                        color: Color(0xFF212121),
+                        color: CustomColors.myBlack,
                         fontSize: 55,
                         fontWeight: FontWeight.bold,
                         height: 0,

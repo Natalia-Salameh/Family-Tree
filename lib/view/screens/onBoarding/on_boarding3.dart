@@ -30,7 +30,7 @@ class OnBoarding3 extends StatelessWidget {
                     'Every Click, A Story Unfolds',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFF212121),
+                      color: CustomColors.myBlack,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       height: 0,

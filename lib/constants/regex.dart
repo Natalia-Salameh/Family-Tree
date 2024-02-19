@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class RegexValidator {
   static String? validateUsername(String username) {
     if (!RegExp(r"^[a-zA-Z0-9._]+@gmail.com$").hasMatch(username)) {

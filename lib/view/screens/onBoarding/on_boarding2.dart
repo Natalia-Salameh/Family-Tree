@@ -29,7 +29,7 @@ class OnBoarding2 extends StatelessWidget {
                     'Bridging Distances,\n Uniting Hearts',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFF212121),
+                      color: CustomColors.myBlack,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       height: 0,
@@ -68,7 +68,7 @@ class OnBoarding2 extends StatelessWidget {
                       width: 80,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: CustomColors.myGrey,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),

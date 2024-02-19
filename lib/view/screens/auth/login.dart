@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:family_tree_application/constants/colors.dart';
 import 'package:family_tree_application/view/widgets/logo_buttons.dart';
 import 'package:flutter/material.dart';
 
@@ -73,7 +74,7 @@ class _LoginState extends State<Login> {
                       Text(
                         'Forgot Password?',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 41, 39, 39),
+                          color: CustomColors.smallText,
                         ),
                       ),
                     ],
@@ -101,14 +102,14 @@ class _LoginState extends State<Login> {
                     ),
                     Text(
                       ' Or Login With ',
-                      style: TextStyle(color: Color.fromARGB(255, 75, 73, 73)),
+                      style: TextStyle(color: CustomColors.smallText),
                     ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Divider(
                           thickness: 0.8,
-                          color: Color.fromARGB(255, 179, 174, 174),
+                          color: CustomColors.dividercolor,
                         ),
                       ),
                     ),

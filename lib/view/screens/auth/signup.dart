@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
+import 'package:family_tree_application/constants/colors.dart';
 import 'package:family_tree_application/view/widgets/logo_buttons.dart';
 import 'package:family_tree_application/view/widgets/sign_button.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,7 @@ class _SignUpState extends State<SignUp> {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Divider(
                           thickness: 0.6,
-                          color: Color.fromARGB(255, 111, 107, 107),
+                          color: CustomColors.dividercolor,
                         ),
                       ),
                     ),
@@ -104,7 +105,7 @@ class _SignUpState extends State<SignUp> {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Divider(
                           thickness: 0.8,
-                          color: Color.fromARGB(255, 137, 132, 132),
+                          color: CustomColors.dividercolor,
                         ),
                       ),
                     ),
