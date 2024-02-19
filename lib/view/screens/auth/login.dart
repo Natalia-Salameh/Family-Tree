@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:family_tree_application/view/widgets/logo_buttons.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/imageasset.dart';
 import '../../widgets/my_button.dart';
-import '../../widgets/my_frame.dart';
 import '../../widgets/my_textfield.dart';
 
 class Login extends StatefulWidget {
@@ -42,7 +41,7 @@ class _LoginState extends State<Login> {
                       child: Text(
                         "Login",
                         style: TextStyle(
-                            fontSize: 40, fontWeight: FontWeight.bold),
+                            fontSize: 35, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -67,7 +66,7 @@ class _LoginState extends State<Login> {
                   height: 5,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -93,7 +92,7 @@ class _LoginState extends State<Login> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Divider(
                           thickness: 0.6,
                           color: Color.fromARGB(255, 179, 174, 174),
@@ -106,7 +105,7 @@ class _LoginState extends State<Login> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Divider(
                           thickness: 0.8,
                           color: Color.fromARGB(255, 179, 174, 174),
@@ -118,20 +117,7 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 15,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Frame(imagePath: AppImageAsset.google),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Frame(imagePath: AppImageAsset.facebook),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Frame(imagePath: AppImageAsset.apple),
-                  ],
-                ),
+                LogoButton()
               ],
             ),
           ),

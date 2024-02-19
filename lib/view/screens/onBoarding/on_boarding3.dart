@@ -4,13 +4,16 @@ import 'package:family_tree_application/constants/imageasset.dart';
 import 'package:family_tree_application/constants/routes.dart';
 import 'package:flutter/material.dart';
 
+import '../../../constants/colors.dart';
+
 class OnBoarding3 extends StatelessWidget {
   const OnBoarding3({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 190),
+        body: SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 170),
         child: Column(
           children: [
             Image.asset(
@@ -29,7 +32,6 @@ class OnBoarding3 extends StatelessWidget {
                     style: TextStyle(
                       color: Color(0xFF212121),
                       fontSize: 24,
-                      fontFamily: 'Arial Rounded MT Bold',
                       fontWeight: FontWeight.bold,
                       height: 0,
                       letterSpacing: -0.30,
@@ -44,14 +46,14 @@ class OnBoarding3 extends StatelessWidget {
                   Navigator.of(context).pushNamed(AppRoute.getStarted);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF098666), //
+                  backgroundColor: CustomColors.myCustomColor, //
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
                   side: BorderSide(
-                      color: Color(0xFF098666),
+                      color: CustomColors.myCustomColor,
                       width: 2), // Border color and width
                   elevation: 4, // Shadow depth
                 ),
@@ -67,6 +69,6 @@ class OnBoarding3 extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }

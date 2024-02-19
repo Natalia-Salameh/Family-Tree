@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
-import 'package:family_tree_application/constants/routes.dart';
+import 'package:family_tree_application/view/widgets/logo_buttons.dart';
 import 'package:family_tree_application/view/widgets/sign_button.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/imageasset.dart';
-import '../../widgets/my_button.dart';
+
 import '../../widgets/my_frame.dart';
 import '../../widgets/my_textfield.dart';
 
@@ -39,12 +39,14 @@ class _SignUpState extends State<SignUp> {
                       icon: Icon(Icons.arrow_back),
                       onPressed: () => Navigator.pop(context), // Go back
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 100),
-                      child: Text(
-                        "Sign Up",
-                        style: TextStyle(
-                            fontSize: 36, fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 90),
+                        child: Text(
+                          "Sign Up",
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ],
@@ -86,7 +88,7 @@ class _SignUpState extends State<SignUp> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Divider(
                           thickness: 0.6,
                           color: Color.fromARGB(255, 111, 107, 107),
@@ -99,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Divider(
                           thickness: 0.8,
                           color: Color.fromARGB(255, 137, 132, 132),
@@ -111,20 +113,7 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(
                   height: 15,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Frame(imagePath: AppImageAsset.google),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Frame(imagePath: AppImageAsset.facebook),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Frame(imagePath: AppImageAsset.apple),
-                  ],
-                ),
+                LogoButton()
               ],
             ),
           ),

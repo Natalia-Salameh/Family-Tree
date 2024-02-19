@@ -4,7 +4,7 @@ import 'package:family_tree_application/constants/imageasset.dart';
 import 'package:family_tree_application/constants/routes.dart';
 import 'package:flutter/material.dart';
 
-import 'on_boarding3.dart';
+import '../../../constants/colors.dart';
 
 class OnBoarding2 extends StatelessWidget {
   const OnBoarding2({super.key});
@@ -12,16 +12,16 @@ class OnBoarding2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 230),
+        padding: const EdgeInsets.only(top: 200),
         child: Column(
           children: [
             Image.asset(
-            AppImageAsset.onBoardingImageTwo,
+              AppImageAsset.onBoardingImageTwo,
               height: 300,
               width: 400,
             ),
             Padding(
-                padding: const EdgeInsets.only(top: 25.0),
+                padding: const EdgeInsets.only(top: 30.0),
                 child: SizedBox(
                   width: 430,
                   height: 81,
@@ -31,7 +31,6 @@ class OnBoarding2 extends StatelessWidget {
                     style: TextStyle(
                       color: Color(0xFF212121),
                       fontSize: 24,
-                      fontFamily: 'Arial Rounded MT Bold',
                       fontWeight: FontWeight.bold,
                       height: 0,
                       letterSpacing: -0.30,
@@ -39,7 +38,7 @@ class OnBoarding2 extends StatelessWidget {
                   ),
                 )),
             Padding(
-              padding: const EdgeInsets.only(top: 60),
+              padding: const EdgeInsets.only(top: 110),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -47,7 +46,7 @@ class OnBoarding2 extends StatelessWidget {
                     width: 80,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: CustomColors.myCustomColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -56,7 +55,7 @@ class OnBoarding2 extends StatelessWidget {
                     width: 80,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: CustomColors.myCustomColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),

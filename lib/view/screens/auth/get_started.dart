@@ -21,33 +21,36 @@ class _GetStartedState extends State<GetStarted> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 25),
+              padding: const EdgeInsets.only(top: 30),
               child: Column(
                 children: [
                   SizedBox(
                     width: 430,
                     height: 81,
-                    child: Text(
-                      'Lets Get Started With',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.heebo(
-                        color: Color(0xFF212121),
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        height: 0,
-                        letterSpacing: -0.30,
+                    child: Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Text(
+                        'Lets Get Started With',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.heebo(
+                          color: Color(0xFF212121),
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          height: 0,
+                          letterSpacing: -0.1,
+                        ),
                       ),
                     ),
                   ),
                   SizedBox(
                     width: 300,
-                    height: 110,
+                    height: 100,
                     child: Text(
                       'Ajial',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.playball(
                         color: Color(0xFF212121),
-                        fontSize: 70,
+                        fontSize: 55,
                         fontWeight: FontWeight.bold,
                         height: 0,
                       ),
@@ -65,7 +68,7 @@ class _GetStartedState extends State<GetStarted> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: CustomColors.myCustomColor, //
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 159, vertical: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 143, vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -92,7 +95,7 @@ class _GetStartedState extends State<GetStarted> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: CustomColors.myCustomColor, //
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 150, vertical: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 136, vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

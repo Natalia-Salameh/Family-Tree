@@ -17,7 +17,7 @@ class MyTextFiled extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(1),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
         width: 353,
         height: 56,

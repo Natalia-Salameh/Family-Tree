@@ -22,7 +22,7 @@ class SignButton extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: CustomColors.myCustomColor, //
             foregroundColor: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 140, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 130, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
