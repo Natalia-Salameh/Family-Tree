@@ -17,10 +17,11 @@ class _VerifyCodeState extends State<VerifyCode> {
   String? _code;
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: SafeArea(
             child: Padding(
-      padding: const EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: screenHeight * 0.03),
       child: Center(
         child: Column(
           children: [
@@ -34,7 +35,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                   onPressed: () => Navigator.pop(context), // Go back
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 80),
+                  padding: EdgeInsets.symmetric(horizontal: screenHeight * 0.1),
                   child: Text(
                     "Verify code",
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
@@ -56,8 +57,8 @@ class _VerifyCodeState extends State<VerifyCode> {
                 ),
                 Column(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    Padding(
+                      padding: EdgeInsets.all(screenHeight * 0.01),
                       child: Center(
                         child: Text(
                           'Enter your code',
@@ -88,7 +89,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                               color: Colors.blue[700]),
                         ),
                       ),
-                      margin: const EdgeInsets.all(12),
+                      margin: EdgeInsets.all(screenHeight * 0.02),
                       onCompleted: (String value) {
                         setState(() {
                           _code = value;
@@ -102,7 +103,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                       },
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(screenHeight * 0.01),
                       child: Center(
                         child: _onEditing
                             ? const Text('Please enter full code')

@@ -8,12 +8,14 @@ class Frame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+      padding: EdgeInsets.symmetric(
+          horizontal: screenHeight * 0.01, vertical: screenHeight * 0.02),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: Color.fromARGB(255, 217, 214, 214),
+          color: const Color.fromARGB(255, 217, 214, 214),
         ),
       ),
       child: Image.asset(

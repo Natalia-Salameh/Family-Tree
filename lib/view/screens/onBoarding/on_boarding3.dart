@@ -10,10 +10,11 @@ class OnBoarding3 extends StatelessWidget {
   const OnBoarding3({super.key});
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(top: 170),
+        padding: EdgeInsets.only(top: screenHeight * 0.21),
         child: Column(
           children: [
             Image.asset(
@@ -22,7 +23,7 @@ class OnBoarding3 extends StatelessWidget {
               width: 400,
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 60),
+              padding: EdgeInsets.only(top: screenHeight * 0.08),
               child: SizedBox(
                   width: 430,
                   height: 81,
@@ -39,7 +40,7 @@ class OnBoarding3 extends StatelessWidget {
                   )),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 40),
+              padding: EdgeInsets.only(top: screenHeight * 0.07),
               child: ElevatedButton(
                 onPressed: () {
                   // sese ba3deen

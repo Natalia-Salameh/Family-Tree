@@ -10,9 +10,10 @@ class OnBoarding2 extends StatelessWidget {
   const OnBoarding2({super.key});
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 200),
+        padding: EdgeInsets.only(top: screenHeight * 0.26),
         child: Column(
           children: [
             Image.asset(
@@ -21,7 +22,7 @@ class OnBoarding2 extends StatelessWidget {
               width: 400,
             ),
             Padding(
-                padding: const EdgeInsets.only(top: 30.0),
+                padding: EdgeInsets.only(top: screenHeight * 0.05),
                 child: SizedBox(
                   width: 430,
                   height: 81,
@@ -38,7 +39,7 @@ class OnBoarding2 extends StatelessWidget {
                   ),
                 )),
             Padding(
-              padding: const EdgeInsets.only(top: 110),
+              padding: EdgeInsets.only(top: screenHeight * 0.11),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

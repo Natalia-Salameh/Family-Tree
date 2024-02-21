@@ -16,12 +16,14 @@ class MyTextFiled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: screenHeight * 0.01),
       child: Container(
         width: 353,
         height: 56,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
+        padding: EdgeInsets.symmetric(
+            horizontal: screenHeight * 0.01, vertical: screenHeight * 0.0),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),

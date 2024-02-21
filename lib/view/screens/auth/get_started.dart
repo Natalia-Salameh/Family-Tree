@@ -15,52 +15,50 @@ class GetStarted extends StatefulWidget {
 class _GetStartedState extends State<GetStarted> {
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 130),
+        padding: EdgeInsets.only(top: screenHeight * 0.22),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 430,
-                    height: 81,
-                    child: Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Text(
-                        'Lets Get Started With',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.heebo(
-                          color: CustomColors.myBlack,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          height: 0,
-                          letterSpacing: -0.1,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 300,
-                    height: 100,
+            Column(
+              children: [
+                SizedBox(
+                  width: 430,
+                  height: 81,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: screenHeight * 0.01),
                     child: Text(
-                      'Ajial',
+                      'Lets Get Started With',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.playball(
+                      style: GoogleFonts.heebo(
                         color: CustomColors.myBlack,
-                        fontSize: 55,
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
                         height: 0,
+                        letterSpacing: -0.1,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  width: 300,
+                  height: 100,
+                  child: Text(
+                    'Ajial',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.playball(
+                      color: CustomColors.myBlack,
+                      fontSize: 55,
+                      fontWeight: FontWeight.bold,
+                      height: 0,
+                    ),
+                  ),
+                ),
+              ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 100),
+              padding: EdgeInsets.only(top: screenHeight * 0.10),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(AppRoute.login);
@@ -87,7 +85,7 @@ class _GetStartedState extends State<GetStarted> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 30),
+              padding: EdgeInsets.only(top: screenHeight * 0.04),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(AppRoute.signUp);

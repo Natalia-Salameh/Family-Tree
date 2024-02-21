@@ -11,10 +11,11 @@ class SignButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(top: 50),
+        padding: EdgeInsets.only(top: screenHeight * 0.05),
         child: ElevatedButton(
           onPressed: () {
             Navigator.of(context).pushNamed(AppRoute.verifyCode);

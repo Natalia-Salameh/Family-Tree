@@ -24,10 +24,11 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: EdgeInsets.only(top: screenHeight * 0.02),
           child: Center(
             child: Column(
               children: [
@@ -42,7 +43,8 @@ class _SignUpState extends State<SignUp> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 90),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenHeight * 0.13),
                         child: Text(
                           "Sign Up",
                           style: TextStyle(
@@ -89,7 +91,8 @@ class _SignUpState extends State<SignUp> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenHeight * 0.02),
                         child: Divider(
                           thickness: 0.6,
                           color: CustomColors.dividercolor,
@@ -102,7 +105,8 @@ class _SignUpState extends State<SignUp> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenHeight * 0.02),
                         child: Divider(
                           thickness: 0.8,
                           color: CustomColors.dividercolor,

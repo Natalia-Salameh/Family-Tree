@@ -21,10 +21,11 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: EdgeInsets.only(top: screenHeight * 0.02),
           child: Center(
             child: Column(
               children: [
@@ -38,7 +39,8 @@ class _LoginState extends State<Login> {
                       onPressed: () => Navigator.pop(context), // Go back
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 100),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenHeight * 0.13),
                       child: Text(
                         "Login",
                         style: TextStyle(
@@ -67,7 +69,8 @@ class _LoginState extends State<Login> {
                   height: 5,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: screenHeight * 0.03),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -93,7 +96,8 @@ class _LoginState extends State<Login> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenHeight * 0.03),
                         child: Divider(
                           thickness: 0.6,
                           color: Color.fromARGB(255, 179, 174, 174),
@@ -106,7 +110,8 @@ class _LoginState extends State<Login> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenHeight * 0.03),
                         child: Divider(
                           thickness: 0.8,
                           color: CustomColors.dividercolor,

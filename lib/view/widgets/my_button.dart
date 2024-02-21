@@ -9,10 +9,11 @@ class MyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(top: 50),
+        padding: EdgeInsets.only(top: screenHeight * 0.06),
         child: ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
