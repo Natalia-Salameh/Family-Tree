@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:family_tree_application/constants/imageasset.dart';
-import 'package:family_tree_application/constants/routes.dart';
+import 'package:family_tree_application/core/constants/imageasset.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
-
-import 'on_boarding3.dart';
 
 class OnBoarding2 extends StatelessWidget {
   const OnBoarding2({super.key});

@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-
-import 'package:family_tree_application/constants/imageasset.dart';
+import 'package:family_tree_application/core/constants/imageasset.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/my_button.dart';
 import 'package:family_tree_application/view/widgets/my_frame.dart';
 import 'package:family_tree_application/view/widgets/my_textfield.dart';
@@ -17,7 +17,12 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  void logUserIn() {}
+  void logUserIn() {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      AppRoute.form,
+      (route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

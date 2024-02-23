@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:family_tree_application/constants/colors.dart';
-import 'package:family_tree_application/constants/routes.dart';
+import 'package:family_tree_application/core/constants/colors.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -63,14 +63,14 @@ class _GetStartedState extends State<GetStarted> {
                   Navigator.of(context).pushNamed(AppRoute.login);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: CustomColors.myCustomColor, //
-                  foregroundColor: Colors.white,
+                  backgroundColor: CustomColors.primaryColor, //
+                  foregroundColor: CustomColors.white,
                   padding: EdgeInsets.symmetric(horizontal: 159, vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   side: BorderSide(
-                      color: CustomColors.myCustomColor,
+                      color: CustomColors.primaryColor,
                       width: 2), // Border color and width
                   elevation: 4, // Shadow depth
                 ),
@@ -90,14 +90,14 @@ class _GetStartedState extends State<GetStarted> {
                   Navigator.of(context).pushNamed(AppRoute.signUp);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: CustomColors.myCustomColor, //
-                  foregroundColor: Colors.white,
+                  backgroundColor: CustomColors.primaryColor, //
+                  foregroundColor: CustomColors.white,
                   padding: EdgeInsets.symmetric(horizontal: 150, vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   side: BorderSide(
-                      color: CustomColors.myCustomColor,
+                      color: CustomColors.primaryColor,
                       width: 2), // Border color and width
                   elevation: 4, // Shadow depth
                 ),

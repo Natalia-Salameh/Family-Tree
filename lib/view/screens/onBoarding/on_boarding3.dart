@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:family_tree_application/constants/imageasset.dart';
-import 'package:family_tree_application/constants/routes.dart';
+import 'package:family_tree_application/core/constants/imageasset.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 
 class OnBoarding3 extends StatelessWidget {
