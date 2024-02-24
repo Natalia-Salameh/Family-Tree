@@ -1,5 +1,5 @@
 import 'package:family_tree_application/constants/colors.dart';
-import 'package:family_tree_application/constants/routes.dart';
+
 import 'package:family_tree_application/view/screens/home/search.dart';
 import 'package:family_tree_application/view/screens/home/tree.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +52,6 @@ class _HomeState extends State<Home> {
     },
     // Add more people as needed
   };
-  Tree personTree = Tree();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -102,8 +101,7 @@ class _HomeState extends State<Home> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  FamilyTreeViewPage(tree: personTree),
+                              builder: (context) => TreeViewPage(),
                             ),
                           );
                         },

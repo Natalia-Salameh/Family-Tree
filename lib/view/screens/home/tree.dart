@@ -1,84 +1,117 @@
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
-class Tree {
-  final Graph graph = Graph()..isTree = true;
-
-  Tree() {
-    // Define parent nodes
-    final Node parentNode1 = Node.Id('Parent1');
-    final Node parentNode2 = Node.Id('Parent2');
-
-    // Define children nodes
-    final Node childNode1 = Node.Id('Child1');
-    final Node childNode2 = Node.Id('Child2');
-    final Node childNode3 = Node.Id('Child3');
-    final Node childNode4 = Node.Id('Child4');
-
-    // Connect Parent1 to Child1 and Child2
-    graph.addEdge(parentNode1, childNode1);
-    graph.addEdge(parentNode1, childNode2);
-
-    // Connect Parent2 to Child3 and Child4
-    graph.addEdge(parentNode2, childNode3);
-    graph.addEdge(parentNode2, childNode4);
-  }
-  Widget buildView(BuildContext context) {
-    BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration()
-      ..orientation = BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM
-      ..siblingSeparation = 150
-      ..levelSeparation = 150
-      ..subtreeSeparation = 150;
-
-    return InteractiveViewer(
-      constrained: false,
-      boundaryMargin: const EdgeInsets.all(100),
-      minScale: 0.01,
-      maxScale: 5.6,
-      child: Center(
-        // Wrap the GraphView in a Center widget
-        child: GraphView(
-          graph: graph,
-          algorithm:
-              BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
-          builder: (Node node) {
-            // Make sure to return a widget for each node
-            return Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: const [
-                  BoxShadow(color: Colors.grey, spreadRadius: 1)
-                ],
-              ),
-              child: Text(node.key?.value ?? 'Undefined'),
-            );
-          },
-        ),
-      ),
-    );
-  }
+class TreeViewPage extends StatefulWidget {
+  @override
+  _TreeViewPageState createState() => _TreeViewPageState();
 }
 
-class FamilyTreeViewPage extends StatelessWidget {
-  final Tree tree;
-
-  const FamilyTreeViewPage({Key? key, required this.tree}) : super(key: key);
+class _TreeViewPageState extends State<TreeViewPage> {
+  double _scale = 1.0;
+  get name => null;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Family Tree'),
+    return Scaffold(
+        appBar: AppBar(),
+        body: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _scale *= 1.5;
+                    });
+                  },
+                  icon: Icon(Icons.add),
+                ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _scale /= 1.5;
+                    });
+                  },
+                  icon: Icon(Icons.remove),
+                ),
+              ],
+            ),
+            Expanded(
+              child: InteractiveViewer(
+                  scaleEnabled: false,
+                  transformationController: TransformationController()
+                    ..value = Matrix4.diagonal3Values(_scale, _scale, 1),
+                  constrained: false,
+                  boundaryMargin: EdgeInsets.all(100),
+                  minScale: 0.01,
+                  maxScale: 5.6,
+                  child: GraphView(
+                    graph: graph,
+                    algorithm: BuchheimWalkerAlgorithm(
+                        builder, TreeEdgeRenderer(builder)),
+                    paint: Paint()
+                      ..color = Colors.green
+                      ..strokeWidth = 1
+                      ..style = PaintingStyle.stroke,
+                    builder: (Node node) {
+                      // Create a new Node object for each node ID
+                      final nodeKey = node.key!.value as int?;
+                      final nodeObject = Node.Id(nodeKey!);
+
+                      return circleWidget(nodeObject);
+                    },
+                  )),
+            ),
+          ],
+        ));
+  }
+
+  /// Random r = Random();
+
+  Widget circleWidget(Node node) {
+    return InkWell(
+      onTap: () {
+        // Create a new node with a unique ID
+        final newNode = Node.Id(graph.nodeCount() + 1);
+
+        // Add the new node as a child to the clicked node
+        graph.addEdge(node, newNode);
+
+        // Update the graph
+        setState(() {});
+      },
+      child: Container(
+        width: 100, // Specify the width of the circle
+        height: 100, // Specify the height of the circle
+        decoration: BoxDecoration(
+          shape: BoxShape.circle, // This makes the container circular
+          color: Colors.blue[100], // Background color of the circle
+          boxShadow: [
+            BoxShadow(color: Colors.blue[100]!, spreadRadius: 1),
+          ],
         ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: tree.buildView(context),
-          ),
-        ),
+        alignment: Alignment.center,
+        child: Text('Node ${node.key!.value}'),
       ),
     );
+  }
+
+  final Graph graph = Graph()..isTree = true;
+  BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
+
+  @override
+  void initState() {
+    super.initState();
+    final node1 = Node.Id(1);
+
+    graph.addNode(node1);
+
+    builder
+      ..siblingSeparation = (100)
+      ..levelSeparation = (100)
+      ..subtreeSeparation = (10)
+      ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
   }
 }
