@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
           AppRoute.verifyCode: (context) => VerifyCode(),
           AppRoute.home: (context) => Home(),
          // AppRoute.search: (context) => Search(),
+         
         });
   }
 }

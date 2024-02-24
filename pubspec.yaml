@@ -38,6 +38,7 @@ dependencies:
   flutter_verification_code: ^1.1.7
   flutter_floating_bottom_bar: ^1.2.0
   searchable_listview: ^2.10.1
+  graphview: ^1.2.0
 
 dev_dependencies:
   flutter_test:

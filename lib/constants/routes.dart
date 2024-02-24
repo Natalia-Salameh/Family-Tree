@@ -18,6 +18,7 @@ class AppRoute {
   static const String verifyCode = "verifyCode";
   static const String home = "home";
   static const String search = "search";
+   static const String persontree = "persontree";
 }
 
 // Map<String, Widget Function(BuildContext)> routes = {

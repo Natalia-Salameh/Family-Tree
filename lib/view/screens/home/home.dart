@@ -1,6 +1,7 @@
 import 'package:family_tree_application/constants/colors.dart';
 import 'package:family_tree_application/constants/routes.dart';
 import 'package:family_tree_application/view/screens/home/search.dart';
+import 'package:family_tree_application/view/screens/home/tree.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -51,6 +52,7 @@ class _HomeState extends State<Home> {
     },
     // Add more people as needed
   };
+  Tree personTree = Tree();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -96,7 +98,15 @@ class _HomeState extends State<Home> {
                           'View Family',
                           style: TextStyle(color: CustomColors.myCustomColor),
                         ),
-                        onPressed: () {/* ... */},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  FamilyTreeViewPage(tree: personTree),
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(width: 10),
                     ],
