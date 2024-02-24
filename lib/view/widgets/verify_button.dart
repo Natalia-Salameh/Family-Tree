@@ -3,6 +3,8 @@
 import 'package:family_tree_application/constants/colors.dart';
 import 'package:flutter/material.dart';
 
+import '../../constants/routes.dart';
+
 class VerifyButton extends StatelessWidget {
   final Function()? onTap;
   const VerifyButton({super.key, required this.onTap});
@@ -15,7 +17,9 @@ class VerifyButton extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(top: screenHeight * 0.06),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(AppRoute.home);
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: CustomColors.myCustomColor, //
             foregroundColor: Colors.white,
