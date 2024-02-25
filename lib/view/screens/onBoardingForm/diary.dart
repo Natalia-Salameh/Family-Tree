@@ -1,18 +1,20 @@
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
+import 'package:family_tree_application/view/widgets/form/full_name.dart';
 import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
 import 'package:flutter/material.dart';
 
-class FinalFamilyTree extends StatefulWidget {
+class Diary extends StatefulWidget {
   final double progress;
-  const FinalFamilyTree({Key? key, required this.progress}) : super(key: key);
+  const Diary({Key? key, required this.progress}) : super(key: key);
 
   @override
-  State<FinalFamilyTree> createState() => _UserFormState();
+  State<Diary> createState() => _UserFormState();
 }
 
-class _UserFormState extends State<FinalFamilyTree> {
+class _UserFormState extends State<Diary> {
   final GlobalKey<FormState> formStateKey = GlobalKey<FormState>();
+  final TextEditingController diaryController = TextEditingController();
 
   double progress = 1;
 
@@ -33,12 +35,24 @@ class _UserFormState extends State<FinalFamilyTree> {
                   ),
                   const SizedBox(height: 30),
                   const Text(
-                    "Here is your final family tree for now!",
+                    "Leave a legacy for your descendants!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomTextForm(
+                    hintText: "Diary",
+                    maxLines: 18,
+                    myController: diaryController,
+                    alignLabelWithHint: true,
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   SizedBox(
                     height: 40,

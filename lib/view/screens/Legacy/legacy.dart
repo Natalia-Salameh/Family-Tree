@@ -25,7 +25,7 @@ class _UserFormState extends State<Legacy> {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.edit_square),
+            icon: const Icon(Icons.edit),
           )
         ],
       ),

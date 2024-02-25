@@ -1,7 +1,7 @@
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/enums.dart';
 import 'package:family_tree_application/mock_data.dart';
-import 'package:family_tree_application/view/screens/onBoardingForm/Tree.dart';
+import 'package:family_tree_application/view/screens/onBoardingForm/tree.dart';
 import 'package:family_tree_application/view/widgets/bottom_sheet.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/family_name.dart';
@@ -60,9 +60,12 @@ class _UserFormState extends State<UserForm> {
                     children: [
                       Expanded(
                         flex: 2,
-                        child: CustomTextForm(
-                          hintText: "Full name",
-                          myController: fullNameController,
+                        child: SizedBox(
+                          height: 40,
+                          child: CustomTextForm(
+                            hintText: "Full name",
+                            myController: fullNameController,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -129,9 +132,12 @@ class _UserFormState extends State<UserForm> {
                       );
                     },
                     child: AbsorbPointer(
-                      child: CustomTextForm(
-                        hintText: "Birthday",
-                        myController: dateController,
+                      child: SizedBox(
+                        height: 40,
+                        child: CustomTextForm(
+                          hintText: "Birthday",
+                          myController: dateController,
+                        ),
                       ),
                     ),
                   ),

@@ -1,5 +1,5 @@
 import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/view/screens/onBoardingForm/final_family_tree.dart';
+import 'package:family_tree_application/view/screens/onBoardingForm/diary.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
 import 'package:family_tree_application/view/widgets/profile.dart';
@@ -25,16 +25,17 @@ class _UserFormState extends State<TreeState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Center(
             child: Column(
               children: [
+                const SizedBox(height: 20),
                 ProgressBar(
                   progress: widget.progress,
                 ),
+                const SizedBox(height: 30),
                 const Text(
                   "Click on the add button to start adding your relatives!",
                   textAlign: TextAlign.center,
@@ -43,8 +44,7 @@ class _UserFormState extends State<TreeState> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 30),
-                Profile(),
+                const SizedBox(height: 500),
                 SizedBox(
                   height: 40,
                   child: Button(
@@ -53,7 +53,7 @@ class _UserFormState extends State<TreeState> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => FinalFamilyTree(
+                              builder: (context) => Diary(
                                 progress: progress,
                               ),
                             ),
