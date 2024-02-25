@@ -1,7 +1,7 @@
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/enums.dart';
 import 'package:family_tree_application/mock_data.dart';
-import 'package:family_tree_application/view/screens/onBoeardingForm/Tree.dart';
+import 'package:family_tree_application/view/screens/onBoardingForm/Tree.dart';
 import 'package:family_tree_application/view/widgets/bottom_sheet.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/family_name.dart';
@@ -52,7 +52,10 @@ class _UserFormState extends State<UserForm> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Profile(),
+                  const Padding(
+                    padding: EdgeInsets.all(26),
+                    child: Profile(),
+                  ),
                   Row(
                     children: [
                       Expanded(

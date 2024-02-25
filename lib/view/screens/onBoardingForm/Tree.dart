@@ -1,5 +1,5 @@
 import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/view/screens/onBoeardingForm/final_family_tree.dart';
+import 'package:family_tree_application/view/screens/onBoardingForm/final_family_tree.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
 import 'package:family_tree_application/view/widgets/profile.dart';

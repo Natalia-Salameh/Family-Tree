@@ -2,7 +2,7 @@
 
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/auth/get_started.dart';
-import 'package:family_tree_application/view/screens/onBoeardingForm/user_form.dart';
+import 'package:family_tree_application/view/screens/onBoardingForm/user_form.dart';
 
 import 'package:flutter/material.dart';
 

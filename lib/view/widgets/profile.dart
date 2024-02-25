@@ -6,21 +6,18 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(26),
-      child: Container(
-        width: 80,
-        height: 80,
-        decoration: const ShapeDecoration(
-          shape: OvalBorder(
-            side: BorderSide(width: 1, color: CustomColors.primaryColor),
-          ),
+    return Container(
+      width: 80,
+      height: 80,
+      decoration: const ShapeDecoration(
+        shape: OvalBorder(
+          side: BorderSide(width: 1, color: CustomColors.primaryColor),
         ),
-        child: const Icon(
-          Icons.person,
-          size: 60,
-          color: CustomColors.primaryColor,
-        ),
+      ),
+      child: const Icon(
+        Icons.person,
+        size: 60,
+        color: CustomColors.primaryColor,
       ),
     );
   }

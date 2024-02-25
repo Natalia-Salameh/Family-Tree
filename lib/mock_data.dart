@@ -26,5 +26,4 @@ class MockData {
   ];
 
   static String groupValue = "gender";
-
 }
