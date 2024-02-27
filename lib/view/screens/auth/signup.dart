@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
-import 'package:family_tree_application/constants/colors.dart';
+import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/view/widgets/logo_buttons.dart';
 import 'package:family_tree_application/view/widgets/sign_button.dart';
 import 'package:flutter/material.dart';
-
-import '../../../constants/imageasset.dart';
 
 import '../../widgets/my_frame.dart';
 import '../../widgets/my_textfield.dart';

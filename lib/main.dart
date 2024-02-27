@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         home: SplashScreen(),
         routes: {
           AppRoute.splash: (context) => SplashScreen(),
-          AppRoute.onBoarding1: (context) => Legacy(),
+          AppRoute.onBoarding1: (context) => OnBoarding1(),
           AppRoute.onBoarding2: (context) => OnBoarding2(),
           AppRoute.onBoarding3: (context) => OnBoarding3(),
           AppRoute.getStarted: (context) => GetStarted(),

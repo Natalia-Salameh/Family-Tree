@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/view/widgets/logo_buttons.dart';
 import 'package:family_tree_application/view/widgets/my_button.dart';
 import 'package:family_tree_application/view/widgets/my_frame.dart';
 import 'package:family_tree_application/view/widgets/my_textfield.dart';

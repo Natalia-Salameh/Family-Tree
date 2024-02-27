@@ -1,15 +1,15 @@
-import 'package:family_tree_application/constants/colors.dart';
-
+import 'package:family_tree_application/core/constants/colors.dart';
+import 'package:family_tree_application/mock_data.dart';
+import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
 import 'package:family_tree_application/view/screens/home/search.dart';
 import 'package:family_tree_application/view/screens/home/tree.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../constants/imageasset.dart';
 import '../bottom_nav.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -17,41 +17,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
-
-  // Map of people with their details
-  final Map<String, dynamic> people = {
-    'person1': {
-      'name': 'Alex Smith',
-      'subject': 'Mathematics',
-      'location': 'New York',
-      'image': AppImageAsset.father,
-    },
-    'person2': {
-      'name': 'Maria Garcia',
-      'subject': 'Biology',
-      'location': 'Los Angeles',
-      'image': AppImageAsset.child,
-    },
-    'person3': {
-      'name': 'John Doe',
-      'subject': 'History',
-      'location': 'Chicago',
-      'image': AppImageAsset.profile,
-    },
-    'person4': {
-      'name': 'Alex Smith',
-      'subject': 'Mathematics',
-      'location': 'New York',
-      'image': AppImageAsset.mother,
-    },
-    'person5': {
-      'name': 'Maria Garcia',
-      'subject': 'Biology',
-      'location': 'Los Angeles',
-      'image': AppImageAsset.child,
-    },
-    // Add more people as needed
-  };
 
   void _onItemTapped(int index) {
     setState(() {
@@ -65,10 +30,10 @@ class _HomeState extends State<Home> {
       Padding(
         padding: const EdgeInsets.all(20),
         child: ListView.builder(
-          itemCount: people.length,
+          itemCount: MockData.people.length,
           itemBuilder: (context, index) {
             String personKey = 'person${index + 1}';
-            var person = people[personKey];
+            var person = MockData.people[personKey];
             return Card(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -116,11 +81,11 @@ class _HomeState extends State<Home> {
         ),
       ),
       const Center(child: Text('Add Page')),
-      const Center(child: Text('Profile Page')),
+      const Center(child: Legacy()),
     ];
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: _selectedIndex == 0 ? AppBar(
         title: Text(
           'Ajial',
           style: GoogleFonts.lobster(
@@ -143,7 +108,6 @@ class _HomeState extends State<Home> {
               ),
               onPressed: () {
                 // Handle search button press
-
                 showSearch(
                   context: context,
                   delegate: CustomSearchDelegate(),
@@ -152,7 +116,7 @@ class _HomeState extends State<Home> {
             ),
           ),
         ],
-      ),
+      ) : null,
       body: _pages[_selectedIndex],
       bottomNavigationBar: CustomFloatingBottomBar(
         selectedIndex: _selectedIndex,

@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:flutter/material.dart';
 
-import '../../constants/imageasset.dart';
 import 'my_frame.dart';
 
 class LogoButton extends StatelessWidget {
