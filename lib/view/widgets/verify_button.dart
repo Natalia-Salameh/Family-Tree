@@ -1,11 +1,13 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
-import 'package:family_tree_application/core/constants/colors.dart';
+import 'package:family_tree_application/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-class MyButton extends StatelessWidget {
+import '../../constants/routes.dart';
+
+class VerifyButton extends StatelessWidget {
   final Function()? onTap;
-  const MyButton({super.key, required this.onTap});
+  const VerifyButton({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -15,21 +17,23 @@ class MyButton extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(top: screenHeight * 0.06),
         child: ElevatedButton(
-          onPressed: onTap,
+          onPressed: () {
+            Navigator.of(context).pushNamed(AppRoute.home);
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: CustomColors.myCustomColor, //
             foregroundColor: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 146, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 150, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             side: BorderSide(
-                color: CustomColors.primaryColor,
+                color: CustomColors.myCustomColor,
                 width: 2), // Border color and width
             elevation: 4, // Shadow depth
           ),
           child: Text(
-            'Login',
+            'Verify',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

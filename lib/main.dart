@@ -4,6 +4,9 @@ import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
 import 'package:family_tree_application/view/screens/Legacy/legacy_edit.dart';
 import 'package:family_tree_application/view/screens/auth/get_started.dart';
+import 'package:family_tree_application/view/screens/auth/signup_verify_code.dart';
+import 'package:family_tree_application/view/screens/home/home.dart';
+import 'package:family_tree_application/view/screens/home/search.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/user_form.dart';
 
 import 'package:flutter/material.dart';
@@ -34,6 +37,10 @@ class MyApp extends StatelessWidget {
           AppRoute.getStarted: (context) => GetStarted(),
           AppRoute.login: (context) => Login(),
           AppRoute.signUp: (context) => SignUp(),
+          AppRoute.verifyCode: (context) => VerifyCode(),
+          AppRoute.home: (context) => Home(),
+         // AppRoute.search: (context) => Search(),
+         
           AppRoute.form: (context) => UserForm(),
           AppRoute.editLegacy: (context) => LegacyEdit(),
         });

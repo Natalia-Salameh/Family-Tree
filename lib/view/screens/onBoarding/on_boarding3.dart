@@ -4,22 +4,26 @@ import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 
+import '../../../constants/colors.dart';
+
 class OnBoarding3 extends StatelessWidget {
   const OnBoarding3({super.key});
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 230),
+        body: SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.only(top: screenHeight * 0.21),
         child: Column(
           children: [
             Image.asset(
-            AppImageAsset.onBoardingImageThree,
+              AppImageAsset.onBoardingImageThree,
               height: 300,
               width: 400,
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 25.0),
+              padding: EdgeInsets.only(top: screenHeight * 0.08),
               child: SizedBox(
                   width: 430,
                   height: 81,
@@ -27,9 +31,8 @@ class OnBoarding3 extends StatelessWidget {
                     'Every Click, A Story Unfolds',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFF212121),
+                      color: CustomColors.myBlack,
                       fontSize: 24,
-                      fontFamily: 'Arial Rounded MT Bold',
                       fontWeight: FontWeight.bold,
                       height: 0,
                       letterSpacing: -0.30,
@@ -37,21 +40,21 @@ class OnBoarding3 extends StatelessWidget {
                   )),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 30),
+              padding: EdgeInsets.only(top: screenHeight * 0.07),
               child: ElevatedButton(
                 onPressed: () {
                   // sese ba3deen
                   Navigator.of(context).pushNamed(AppRoute.getStarted);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF098666), //
+                  backgroundColor: CustomColors.myCustomColor, //
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
                   side: BorderSide(
-                      color: Color(0xFF098666),
+                      color: CustomColors.myCustomColor,
                       width: 2), // Border color and width
                   elevation: 4, // Shadow depth
                 ),
@@ -67,6 +70,6 @@ class OnBoarding3 extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }
