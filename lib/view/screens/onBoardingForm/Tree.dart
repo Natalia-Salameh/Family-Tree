@@ -2,7 +2,6 @@ import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/diary.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
-import 'package:family_tree_application/view/widgets/profile.dart';
 import 'package:flutter/material.dart';
 
 class TreeState extends StatefulWidget {

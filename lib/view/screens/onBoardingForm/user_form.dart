@@ -114,23 +114,15 @@ class _UserFormState extends State<UserForm> {
                   const SizedBox(
                     height: 10,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) => BirthdayBottomSheet(
-                          dateController: dateController,
-                          child: CupertinoDatePicker(
-                            mode: CupertinoDatePickerMode.date,
-                            onDateTimeChanged: (DateTime value) {
-                              final dateTimeText =
-                                  "${value.year}-${value.month}-${value.day}";
-                              dateController.text = dateTimeText;
-                            },
-                          ),
-                        ),
-                      );
-                    },
+                  CustomBottomSheet(
+                    builder: (context) => CupertinoDatePicker(
+                      mode: CupertinoDatePickerMode.date,
+                      onDateTimeChanged: (DateTime value) {
+                        final dateTimeText =
+                            "${value.year}-${value.month}-${value.day}";
+                        dateController.text = dateTimeText;
+                      },
+                    ),
                     child: AbsorbPointer(
                       child: SizedBox(
                         height: 40,

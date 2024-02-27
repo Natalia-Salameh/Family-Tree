@@ -1,24 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
-class BirthdayBottomSheet extends StatelessWidget {
-  final TextEditingController dateController;
+class CustomBottomSheet extends StatelessWidget {
+  final Widget Function(BuildContext) builder;
   final Widget? child;
 
-  const BirthdayBottomSheet({
+  const CustomBottomSheet({
     Key? key,
-    required this.dateController,
-    required this.child,
+    required this.builder,
+    this.child,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      height: 420,
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 420,
+              width: 400,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: builder(context),
+            );
+          },
+        );
+      },
       child: child,
     );
   }
