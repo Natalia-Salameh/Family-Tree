@@ -7,6 +7,9 @@ import 'package:family_tree_application/view/widgets/my_frame.dart';
 import 'package:family_tree_application/view/widgets/my_textfield.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/my_button.dart';
+import '../../widgets/my_textfield.dart';
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -26,10 +29,11 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: EdgeInsets.only(top: screenHeight * 0.02),
           child: Center(
             child: Column(
               children: [
@@ -43,11 +47,12 @@ class _LoginState extends State<Login> {
                       onPressed: () => Navigator.pop(context), // Go back
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 100),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenHeight * 0.13),
                       child: Text(
                         "Login",
                         style: TextStyle(
-                            fontSize: 40, fontWeight: FontWeight.bold),
+                            fontSize: 35, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -72,14 +77,15 @@ class _LoginState extends State<Login> {
                   height: 5,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: screenHeight * 0.03),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
                         'Forgot Password?',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 41, 39, 39),
+                          color: CustomColors.smallText,
                         ),
                       ),
                     ],
@@ -97,19 +103,27 @@ class _LoginState extends State<Login> {
                 Row(
                   children: [
                     Expanded(
-                      child: Divider(
-                        thickness: 0.6,
-                        color: const Color.fromARGB(255, 132, 128, 128),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenHeight * 0.03),
+                        child: Divider(
+                          thickness: 0.6,
+                          color: Color.fromARGB(255, 179, 174, 174),
+                        ),
                       ),
                     ),
                     Text(
                       ' Or Login With ',
-                      style: TextStyle(color: Color.fromARGB(255, 75, 73, 73)),
+                      style: TextStyle(color: CustomColors.smallText),
                     ),
                     Expanded(
-                      child: Divider(
-                        thickness: 0.8,
-                        color: Color.fromARGB(255, 168, 164, 164),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenHeight * 0.03),
+                        child: Divider(
+                          thickness: 0.8,
+                          color: CustomColors.dividercolor,
+                        ),
                       ),
                     ),
                   ],
@@ -117,20 +131,7 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 15,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Frame(imagePath: AppImageAsset.google),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Frame(imagePath: AppImageAsset.facebook),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Frame(imagePath: AppImageAsset.apple),
-                  ],
-                ),
+                LogoButton()
               ],
             ),
           ),

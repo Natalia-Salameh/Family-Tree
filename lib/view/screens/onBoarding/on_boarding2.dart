@@ -4,22 +4,25 @@ import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 
+import '../../../constants/colors.dart';
+
 class OnBoarding2 extends StatelessWidget {
   const OnBoarding2({super.key});
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 230),
+        padding: EdgeInsets.only(top: screenHeight * 0.26),
         child: Column(
           children: [
             Image.asset(
-            AppImageAsset.onBoardingImageTwo,
+              AppImageAsset.onBoardingImageTwo,
               height: 300,
               width: 400,
             ),
             Padding(
-                padding: const EdgeInsets.only(top: 25.0),
+                padding: EdgeInsets.only(top: screenHeight * 0.05),
                 child: SizedBox(
                   width: 430,
                   height: 81,
@@ -27,9 +30,8 @@ class OnBoarding2 extends StatelessWidget {
                     'Bridging Distances,\n Uniting Hearts',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFF212121),
+                      color: CustomColors.myBlack,
                       fontSize: 24,
-                      fontFamily: 'Arial Rounded MT Bold',
                       fontWeight: FontWeight.bold,
                       height: 0,
                       letterSpacing: -0.30,
@@ -37,7 +39,7 @@ class OnBoarding2 extends StatelessWidget {
                   ),
                 )),
             Padding(
-              padding: const EdgeInsets.only(top: 60),
+              padding: EdgeInsets.only(top: screenHeight * 0.11),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -45,7 +47,7 @@ class OnBoarding2 extends StatelessWidget {
                     width: 80,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: CustomColors.myCustomColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -54,7 +56,7 @@ class OnBoarding2 extends StatelessWidget {
                     width: 80,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: CustomColors.myCustomColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -67,7 +69,7 @@ class OnBoarding2 extends StatelessWidget {
                       width: 80,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: CustomColors.myGrey,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
