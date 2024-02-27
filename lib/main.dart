@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:family_tree_application/constants/routes.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/auth/get_started.dart';
+import 'package:family_tree_application/view/screens/onBoardingForm/user_form.dart';
 
 import 'package:flutter/material.dart';
 
@@ -18,8 +19,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,6 +32,7 @@ class MyApp extends StatelessWidget {
           AppRoute.getStarted: (context) => GetStarted(),
           AppRoute.login: (context) => Login(),
           AppRoute.signUp: (context) => SignUp(),
+          AppRoute.form: (context) => UserForm(),
         });
   }
 }

@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
-import 'package:family_tree_application/constants/colors.dart';
+import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
@@ -14,16 +14,16 @@ class MyButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 50),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: onTap,
           style: ElevatedButton.styleFrom(
-            backgroundColor: CustomColors.myCustomColor, //
-            foregroundColor: Colors.white,
+            backgroundColor: CustomColors.primaryColor, //
+            foregroundColor: CustomColors.white,
             padding: EdgeInsets.symmetric(horizontal: 159, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             side: BorderSide(
-                color: CustomColors.myCustomColor,
+                color: CustomColors.primaryColor,
                 width: 2), // Border color and width
             elevation: 4, // Shadow depth
           ),

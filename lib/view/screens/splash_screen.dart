@@ -1,8 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
-import 'package:family_tree_application/constants/routes.dart';
-import 'package:family_tree_application/view/screens/onBoarding/on_boarding1.dart';
-import 'package:family_tree_application/constants/imageasset.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {

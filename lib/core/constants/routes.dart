@@ -15,6 +15,9 @@ class AppRoute {
   static const String getStarted = "getStarted";
   static const String signUp = "SignUp";
   static const String login = "login";
+  static const String form = "UserForm";
+  static const String tree = "TreeState";
+  static const String finalTree = "TreeState";
 }
 
 // Map<String, Widget Function(BuildContext)> routes = {
