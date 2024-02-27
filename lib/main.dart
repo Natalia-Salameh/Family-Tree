@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
+import 'package:family_tree_application/view/screens/Legacy/legacy_edit.dart';
 import 'package:family_tree_application/view/screens/auth/get_started.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/user_form.dart';
 
@@ -26,13 +28,14 @@ class MyApp extends StatelessWidget {
         home: SplashScreen(),
         routes: {
           AppRoute.splash: (context) => SplashScreen(),
-          AppRoute.onBoarding1: (context) => OnBoarding1(),
+          AppRoute.onBoarding1: (context) => Legacy(),
           AppRoute.onBoarding2: (context) => OnBoarding2(),
           AppRoute.onBoarding3: (context) => OnBoarding3(),
           AppRoute.getStarted: (context) => GetStarted(),
           AppRoute.login: (context) => Login(),
           AppRoute.signUp: (context) => SignUp(),
           AppRoute.form: (context) => UserForm(),
+          AppRoute.editLegacy: (context) => LegacyEdit(),
         });
   }
 }

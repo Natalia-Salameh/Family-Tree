@@ -18,6 +18,7 @@ class AppRoute {
   static const String form = "UserForm";
   static const String tree = "TreeState";
   static const String finalTree = "TreeState";
+  static const String editLegacy = "editLegacy";
 }
 
 // Map<String, Widget Function(BuildContext)> routes = {
