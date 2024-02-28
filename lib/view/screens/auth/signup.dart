@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
-import 'package:family_tree_application/core/constants/colors.dart';
+
 import 'package:family_tree_application/view/widgets/logo_buttons.dart';
 import 'package:family_tree_application/view/widgets/sign_button.dart';
 import 'package:flutter/material.dart';
 
+
+import '../../../core/constants/colors.dart';
 import '../../widgets/my_frame.dart';
 import '../../widgets/my_textfield.dart';
 
@@ -93,7 +95,7 @@ class _SignUpState extends State<SignUp> {
                             horizontal: screenHeight * 0.02),
                         child: Divider(
                           thickness: 0.6,
-                          color: CustomColors.dividercolor,
+                          color: CustomColors.background,
                         ),
                       ),
                     ),
@@ -107,7 +109,7 @@ class _SignUpState extends State<SignUp> {
                             horizontal: screenHeight * 0.02),
                         child: Divider(
                           thickness: 0.8,
-                          color: CustomColors.dividercolor,
+                          color: CustomColors.background,
                         ),
                       ),
                     ),

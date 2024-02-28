@@ -21,6 +21,7 @@ class AppRoute {
   static const String editLegacy = "editLegacy";
   static const String home = "home";
   static const String verifyCode = "verifyCode";
+
 }
 
 // Map<String, Widget Function(BuildContext)> routes = {

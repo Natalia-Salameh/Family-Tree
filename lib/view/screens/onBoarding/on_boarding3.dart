@@ -5,7 +5,6 @@ import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 
-
 class OnBoarding3 extends StatelessWidget {
   const OnBoarding3({super.key});
   @override
@@ -31,7 +30,7 @@ class OnBoarding3 extends StatelessWidget {
                     'Every Click, A Story Unfolds',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: CustomColors.myBlack,
+                      color: CustomColors.black,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       height: 0,
@@ -47,14 +46,14 @@ class OnBoarding3 extends StatelessWidget {
                   Navigator.of(context).pushNamed(AppRoute.getStarted);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: CustomColors.myCustomColor, //
+                  backgroundColor: CustomColors.primaryColor, //
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
                   side: BorderSide(
-                      color: CustomColors.myCustomColor,
+                      color: CustomColors.primaryColor,
                       width: 2), // Border color and width
                   elevation: 4, // Shadow depth
                 ),

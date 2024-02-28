@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
           AppRoute.signUp: (context) => SignUp(),
           AppRoute.verifyCode: (context) => VerifyCode(),
           AppRoute.home: (context) => Home(),
-         // AppRoute.search: (context) => Search(),
-         
+          // AppRoute.search: (context) => Search(),
+
           AppRoute.form: (context) => UserForm(),
           AppRoute.editLegacy: (context) => LegacyEdit(),
         });

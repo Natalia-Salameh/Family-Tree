@@ -1,8 +1,10 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
+
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
+
 
 
 class VerifyButton extends StatelessWidget {
@@ -21,14 +23,14 @@ class VerifyButton extends StatelessWidget {
             Navigator.of(context).pushNamed(AppRoute.home);
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: CustomColors.myCustomColor, //
+            backgroundColor: CustomColors.primaryColor, //
             foregroundColor: Colors.white,
             padding: EdgeInsets.symmetric(horizontal: 150, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             side: BorderSide(
-                color: CustomColors.myCustomColor,
+                color: CustomColors.primaryColor,
                 width: 2), // Border color and width
             elevation: 4, // Shadow depth
           ),
