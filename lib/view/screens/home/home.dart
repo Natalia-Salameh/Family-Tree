@@ -1,11 +1,10 @@
-import 'package:family_tree_application/constants/colors.dart';
-
 import 'package:family_tree_application/view/screens/home/search.dart';
 import 'package:family_tree_application/view/screens/home/tree.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../constants/imageasset.dart';
+import '../../../core/constants/colors.dart';
+import '../../../core/constants/imageasset.dart';
 import '../bottom_nav.dart';
 
 class Home extends StatefulWidget {
@@ -95,7 +94,7 @@ class _HomeState extends State<Home> {
                       TextButton(
                         child: const Text(
                           'View Family',
-                          style: TextStyle(color: CustomColors.myCustomColor),
+                          style: TextStyle(color: CustomColors.primaryColor),
                         ),
                         onPressed: () {
                           Navigator.push(
@@ -125,7 +124,7 @@ class _HomeState extends State<Home> {
           'Ajial',
           style: GoogleFonts.lobster(
             textStyle: const TextStyle(
-              color: CustomColors.myBlack,
+              color: CustomColors.black,
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
@@ -138,7 +137,7 @@ class _HomeState extends State<Home> {
             child: IconButton(
               icon: const Icon(
                 Icons.search,
-                color: CustomColors.myBlack,
+                color: CustomColors.black,
                 size: 30,
               ),
               onPressed: () {

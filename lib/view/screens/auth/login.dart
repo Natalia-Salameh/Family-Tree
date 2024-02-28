@@ -2,11 +2,13 @@
 
 import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/view/widgets/logo_buttons.dart';
 import 'package:family_tree_application/view/widgets/my_button.dart';
 import 'package:family_tree_application/view/widgets/my_frame.dart';
 import 'package:family_tree_application/view/widgets/my_textfield.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/colors.dart';
 import '../../widgets/my_button.dart';
 import '../../widgets/my_textfield.dart';
 
@@ -85,7 +87,7 @@ class _LoginState extends State<Login> {
                       Text(
                         'Forgot Password?',
                         style: TextStyle(
-                          color: CustomColors.smallText,
+                          color: CustomColors.background,
                         ),
                       ),
                     ],
@@ -114,7 +116,7 @@ class _LoginState extends State<Login> {
                     ),
                     Text(
                       ' Or Login With ',
-                      style: TextStyle(color: CustomColors.smallText),
+                      style: TextStyle(color: CustomColors.background),
                     ),
                     Expanded(
                       child: Padding(
@@ -122,7 +124,7 @@ class _LoginState extends State<Login> {
                             horizontal: screenHeight * 0.03),
                         child: Divider(
                           thickness: 0.8,
-                          color: CustomColors.dividercolor,
+                          color: CustomColors.background,
                         ),
                       ),
                     ),

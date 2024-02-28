@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../constants/imageasset.dart';
+import '../../core/constants/imageasset.dart';
 import 'my_frame.dart';
 
 class LogoButton extends StatelessWidget {

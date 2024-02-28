@@ -4,7 +4,7 @@ import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/colors.dart';
+import '../../../core/constants/colors.dart';
 
 class OnBoarding2 extends StatelessWidget {
   const OnBoarding2({super.key});
@@ -30,7 +30,7 @@ class OnBoarding2 extends StatelessWidget {
                     'Bridging Distances,\n Uniting Hearts',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: CustomColors.myBlack,
+                      color: CustomColors.black,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       height: 0,
@@ -47,7 +47,7 @@ class OnBoarding2 extends StatelessWidget {
                     width: 80,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: CustomColors.myCustomColor,
+                      color: CustomColors.primaryColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -56,7 +56,7 @@ class OnBoarding2 extends StatelessWidget {
                     width: 80,
                     height: 8,
                     decoration: BoxDecoration(
-                      color: CustomColors.myCustomColor,
+                      color: CustomColors.primaryColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -69,7 +69,7 @@ class OnBoarding2 extends StatelessWidget {
                       width: 80,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: CustomColors.myGrey,
+                        color: CustomColors.background,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),

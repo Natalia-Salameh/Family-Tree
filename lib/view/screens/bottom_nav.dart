@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:family_tree_application/constants/colors.dart';
+
+import '../../core/constants/colors.dart';
 
 class CustomFloatingBottomBar extends StatelessWidget {
   final int selectedIndex;
@@ -26,14 +27,14 @@ class CustomFloatingBottomBar extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.home),
               color: selectedIndex == 0
-                  ? CustomColors.myCustomColor
+                  ? CustomColors.primaryColor
                   : Colors.black54,
               onPressed: () => onItemTapped(0),
             ),
             Container(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: CustomColors.myCustomColor,
+                color: CustomColors.primaryColor,
               ),
               child: IconButton(
                 icon: const Icon(Icons.add),
@@ -44,7 +45,7 @@ class CustomFloatingBottomBar extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.person),
               color: selectedIndex == 2
-                  ? CustomColors.myCustomColor
+                  ? CustomColors.primaryColor
                   : Colors.black54,
               onPressed: () => onItemTapped(2),
             ),

@@ -4,7 +4,7 @@ import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/colors.dart';
+import '../../../core/constants/colors.dart';
 
 class OnBoarding1 extends StatelessWidget {
   const OnBoarding1({super.key});
@@ -23,7 +23,7 @@ class OnBoarding1 extends StatelessWidget {
                 'Welcome to Ajial',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: CustomColors.myCustomColor,
+                  color: CustomColors.primaryColor,
                   fontSize: 33,
                   fontWeight: FontWeight.w500,
                   height: 4,
@@ -45,7 +45,7 @@ class OnBoarding1 extends StatelessWidget {
                   'Discover Your Roots, \nHonor All Branches',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: CustomColors.myBlack,
+                    color: CustomColors.black,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     height: 1.5,
@@ -64,7 +64,7 @@ class OnBoarding1 extends StatelessWidget {
                       width: 80,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: CustomColors.myCustomColor,
+                        color: CustomColors.primaryColor,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -77,7 +77,7 @@ class OnBoarding1 extends StatelessWidget {
                         width: 80,
                         height: 8,
                         decoration: BoxDecoration(
-                          color: CustomColors.myGrey,
+                          color: CustomColors.background,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -87,7 +87,7 @@ class OnBoarding1 extends StatelessWidget {
                       width: 80,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: CustomColors.myGrey,
+                        color: CustomColors.background,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),

@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         home: SplashScreen(),
         routes: {
           AppRoute.splash: (context) => SplashScreen(),
-          AppRoute.onBoarding1: (context) => Legacy(),
+          AppRoute.onBoarding1: (context) => OnBoarding1(),
           AppRoute.onBoarding2: (context) => OnBoarding2(),
           AppRoute.onBoarding3: (context) => OnBoarding3(),
           AppRoute.getStarted: (context) => GetStarted(),
@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
           AppRoute.signUp: (context) => SignUp(),
           AppRoute.verifyCode: (context) => VerifyCode(),
           AppRoute.home: (context) => Home(),
-         // AppRoute.search: (context) => Search(),
-         
+          // AppRoute.search: (context) => Search(),
+
           AppRoute.form: (context) => UserForm(),
           AppRoute.editLegacy: (context) => LegacyEdit(),
         });

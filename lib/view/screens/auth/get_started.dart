@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+
+import '../../../core/constants/routes.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
@@ -32,7 +34,7 @@ class _GetStartedState extends State<GetStarted> {
                       'Lets Get Started With',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.heebo(
-                        color: CustomColors.myBlack,
+                        color: CustomColors.black,
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         height: 0,
@@ -48,7 +50,7 @@ class _GetStartedState extends State<GetStarted> {
                     'Ajial',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.playball(
-                      color: CustomColors.myBlack,
+                      color: CustomColors.black,
                       fontSize: 55,
                       fontWeight: FontWeight.bold,
                       height: 0,
@@ -64,7 +66,7 @@ class _GetStartedState extends State<GetStarted> {
                   Navigator.of(context).pushNamed(AppRoute.login);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: CustomColors.myCustomColor, //
+                  backgroundColor: CustomColors.primaryColor, //
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 143, vertical: 16),
                   shape: RoundedRectangleBorder(
@@ -91,7 +93,7 @@ class _GetStartedState extends State<GetStarted> {
                   Navigator.of(context).pushNamed(AppRoute.signUp);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: CustomColors.myCustomColor, //
+                  backgroundColor: CustomColors.primaryColor, //
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 136, vertical: 16),
                   shape: RoundedRectangleBorder(
