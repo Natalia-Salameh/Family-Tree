@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/colors.dart';
 
-
 class SignButton extends StatelessWidget {
   final Function()? onTap;
   const SignButton({super.key, required this.onTap});
@@ -18,9 +17,7 @@ class SignButton extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(top: screenHeight * 0.05),
         child: ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).pushNamed(AppRoute.verifyCode);
-          },
+          onPressed: onTap,
           style: ElevatedButton.styleFrom(
             backgroundColor: CustomColors.primaryColor, //
             foregroundColor: Colors.white,

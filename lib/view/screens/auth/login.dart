@@ -9,8 +9,7 @@ import 'package:family_tree_application/view/widgets/my_textfield.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/constants/colors.dart';
-import '../../widgets/my_button.dart';
-import '../../widgets/my_textfield.dart';
+import '../../../core/functions/validinput.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -20,13 +19,16 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   void logUserIn() {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      AppRoute.form,
-      (route) => false,
-    );
+    if (_formKey.currentState!.validate()) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        AppRoute.form,
+        (route) => false,
+      );
+    }
   }
 
   @override
@@ -37,104 +39,109 @@ class _LoginState extends State<Login> {
         child: Padding(
           padding: EdgeInsets.only(top: screenHeight * 0.02),
           child: Center(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () => Navigator.pop(context), // Go back
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: screenHeight * 0.13),
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                            fontSize: 35, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 85,
-                ),
-                MyTextFiled(
-                  controller: usernameController,
-                  hintText: 'Username',
-                  obscureText: false,
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                MyTextFiled(
-                  controller: passwordController,
-                  hintText: 'password',
-                  obscureText: true,
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: screenHeight * 0.03),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Row(
                     children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          color: CustomColors.background,
+                      IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: () => Navigator.pop(context), // Go back
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenHeight * 0.13),
+                        child: Text(
+                          "Login",
+                          style: TextStyle(
+                              fontSize: 35, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                MyButton(
-                  onTap: logUserIn,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: screenHeight * 0.03),
-                        child: Divider(
-                          thickness: 0.6,
-                          color: Color.fromARGB(255, 179, 174, 174),
+                  const SizedBox(
+                    height: 85,
+                  ),
+                  MyTextFiled(
+                    controller: usernameController,
+                    hintText: 'Username',
+                    obscureText: false,
+                    validator: (value) => validInput(value!, 'Username'),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  MyTextFiled(
+                    controller: passwordController,
+                    hintText: 'Password',
+                    obscureText: true,
+                    validator: (value) => validInput(value!, 'Password'),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screenHeight * 0.03),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            color: CustomColors.background,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  MyButton(
+                    onTap: logUserIn,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenHeight * 0.03),
+                          child: Divider(
+                            thickness: 0.6,
+                            color: Color.fromARGB(255, 179, 174, 174),
+                          ),
                         ),
                       ),
-                    ),
-                    Text(
-                      ' Or Login With ',
-                      style: TextStyle(color: CustomColors.background),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: screenHeight * 0.03),
-                        child: Divider(
-                          thickness: 0.8,
-                          color: CustomColors.background,
+                      Text(
+                        ' Or Login With ',
+                        style: TextStyle(color: CustomColors.background),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenHeight * 0.03),
+                          child: Divider(
+                            thickness: 0.8,
+                            color: CustomColors.background,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                LogoButton()
-              ],
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  LogoButton()
+                ],
+              ),
             ),
           ),
         ),
