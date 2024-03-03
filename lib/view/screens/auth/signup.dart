@@ -1,17 +1,14 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
-
+import 'package:flutter/material.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/logo_buttons.dart';
 import 'package:family_tree_application/view/widgets/sign_button.dart';
-import 'package:flutter/material.dart';
-
 import '../../../core/constants/colors.dart';
-import '../../../core/constants/routes.dart';
 import '../../../core/functions/validinput.dart';
 import '../../widgets/my_frame.dart';
 import '../../widgets/my_textfield.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+  const SignUp({Key? key}) : super(key: key);
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -22,7 +19,8 @@ class _SignUpState extends State<SignUp> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  void SignUserUp() {
+
+  void signUserUp() {
     if (_formKey.currentState!.validate()) {
       Navigator.of(context).pushNamed(AppRoute.verifyCode);
     }
@@ -38,6 +36,7 @@ class _SignUpState extends State<SignUp> {
           child: Center(
             child: Form(
               key: _formKey,
+              autovalidateMode: AutovalidateMode.always,
               child: Column(
                 children: [
                   const SizedBox(
@@ -98,7 +97,7 @@ class _SignUpState extends State<SignUp> {
                     height: 5,
                   ),
                   SignButton(
-                    onTap: SignUserUp,
+                    onTap: signUserUp,
                   ),
                   const SizedBox(
                     height: 30,

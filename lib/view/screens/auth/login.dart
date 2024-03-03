@@ -1,18 +1,14 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-import 'package:family_tree_application/core/constants/imageasset.dart';
+import 'package:flutter/material.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/logo_buttons.dart';
 import 'package:family_tree_application/view/widgets/my_button.dart';
 import 'package:family_tree_application/view/widgets/my_frame.dart';
 import 'package:family_tree_application/view/widgets/my_textfield.dart';
-import 'package:flutter/material.dart';
-
-import '../../../core/constants/colors.dart';
-import '../../../core/functions/validinput.dart';
+import 'package:family_tree_application/core/constants/colors.dart';
+import 'package:family_tree_application/core/functions/validinput.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  const Login({Key? key}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
@@ -22,13 +18,12 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
   void logUserIn() {
-    if (_formKey.currentState!.validate()) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        AppRoute.form,
-        (route) => false,
-      );
-    }
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      AppRoute.form,
+      (route) => false,
+    );
   }
 
   @override
@@ -41,6 +36,7 @@ class _LoginState extends State<Login> {
           child: Center(
             child: Form(
               key: _formKey,
+              autovalidateMode: AutovalidateMode.always,
               child: Column(
                 children: [
                   const SizedBox(
