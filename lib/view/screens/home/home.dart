@@ -1,3 +1,4 @@
+import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
 import 'package:family_tree_application/view/screens/home/search.dart';
 import 'package:family_tree_application/view/screens/home/tree.dart';
 import 'package:flutter/material.dart';
@@ -51,10 +52,16 @@ class _HomeState extends State<Home> {
     },
     // Add more people as needed
   };
+  bool _showLegacyPage = false;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (index == 2) {
+        _showLegacyPage = true;
+      } else {
+        _showLegacyPage = false;
+      }
     });
   }
 
@@ -69,20 +76,24 @@ class _HomeState extends State<Home> {
             String personKey = 'person${index + 1}';
             var person = people[personKey];
             return Card(
+              color: Colors.white,
+              shadowColor: CustomColors.black,
+              elevation: 5,
+              margin: EdgeInsets.all(7),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 30),
                   ListTile(
                     leading: Image.asset(
                       person?['image'],
-                      height: 50,
-                      width: 50,
+                      height: 60,
+                      width: 60,
                       fit: BoxFit.cover,
                     ),
                     title: Text(
                       person['name'],
-                      style: const TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 24),
                     ),
                     subtitle:
                         Text('${person['subject']} - ${person['location']}'),
@@ -90,7 +101,7 @@ class _HomeState extends State<Home> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 15),
                       TextButton(
                         child: const Text(
                           'View Family',
@@ -105,7 +116,7 @@ class _HomeState extends State<Home> {
                           );
                         },
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 15),
                     ],
                   ),
                 ],
@@ -115,44 +126,51 @@ class _HomeState extends State<Home> {
         ),
       ),
       const Center(child: Text('Add Page')),
-      const Center(child: Text('Profile Page')),
+      const Center(child: Legacy()),
     ];
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Ajial',
-          style: GoogleFonts.lobster(
-            textStyle: const TextStyle(
-              color: CustomColors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
-            ),
-          ),
-        ),
-        backgroundColor: Colors.white,
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: IconButton(
-              icon: const Icon(
-                Icons.search,
-                color: CustomColors.black,
-                size: 30,
+      backgroundColor: Color.fromARGB(255, 232, 231, 231),
+      appBar: _showLegacyPage
+          ? null
+          : AppBar(
+              title: Text(
+                'Ajial',
+                style: GoogleFonts.lobster(
+                  textStyle: const TextStyle(
+                    color: CustomColors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 32,
+                  ),
+                ),
               ),
-              onPressed: () {
-                // Handle search button press
+              backgroundColor: Color.fromARGB(255, 232, 231, 231),
+              actions: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.search,
+                      color: CustomColors.black,
+                      size: 30,
+                    ),
+                    onPressed: () {
+                      // Handle search button press
 
-                showSearch(
-                  context: context,
-                  delegate: CustomSearchDelegate(),
-                );
-              },
+                      showSearch(
+                        context: context,
+                        delegate: CustomSearchDelegate(),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
+      body: Stack(
+        children: [
+          _pages[_selectedIndex],
+          if (_showLegacyPage) Legacy(),
         ],
       ),
-      body: _pages[_selectedIndex],
       bottomNavigationBar: CustomFloatingBottomBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,

@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
 
           AppRoute.form: (context) => UserForm(),
           AppRoute.editLegacy: (context) => LegacyEdit(),
+          AppRoute.legacy: (context) => Legacy(),
         });
   }
 }
