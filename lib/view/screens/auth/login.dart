@@ -30,113 +30,115 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(top: screenHeight * 0.02),
-          child: Center(
-            child: Form(
-              key: _formKey,
-              autovalidateMode: AutovalidateMode.always,
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () => Navigator.pop(context), // Go back
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: screenHeight * 0.13),
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                              fontSize: 35, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 85,
-                  ),
-                  MyTextFiled(
-                    controller: usernameController,
-                    hintText: 'Username',
-                    obscureText: false,
-                    validator: (value) => validInput(value!, 'Username'),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  MyTextFiled(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    obscureText: true,
-                    validator: (value) => validInput(value!, 'Password'),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: screenHeight * 0.03),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(top: screenHeight * 0.02),
+            child: Center(
+              child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.always,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Row(
                       children: [
-                        Text(
-                          'Forgot Password?',
-                          style: TextStyle(
-                            color: CustomColors.background,
+                        IconButton(
+                          icon: Icon(Icons.arrow_back),
+                          onPressed: () => Navigator.pop(context), // Go back
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenHeight * 0.13),
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                                fontSize: 35, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  MyButton(
-                    onTap: logUserIn,
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: screenHeight * 0.03),
-                          child: Divider(
-                            thickness: 0.6,
-                            color: Color.fromARGB(255, 179, 174, 174),
+                    const SizedBox(
+                      height: 85,
+                    ),
+                    MyTextFiled(
+                      controller: usernameController,
+                      hintText: 'Username',
+                      obscureText: false,
+                      validator: (value) => validInput(value!, 'Username'),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    MyTextFiled(
+                      controller: passwordController,
+                      hintText: 'Password',
+                      obscureText: true,
+                      validator: (value) => validInput(value!, 'Password'),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenHeight * 0.03),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                              color: CustomColors.background,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    MyButton(
+                      onTap: logUserIn,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: screenHeight * 0.03),
+                            child: Divider(
+                              thickness: 0.6,
+                              color: Color.fromARGB(255, 179, 174, 174),
+                            ),
                           ),
                         ),
-                      ),
-                      Text(
-                        ' Or Login With ',
-                        style: TextStyle(color: CustomColors.background),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: screenHeight * 0.03),
-                          child: Divider(
-                            thickness: 0.8,
-                            color: CustomColors.background,
+                        Text(
+                          ' Or Login With ',
+                          style: TextStyle(color: CustomColors.background),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: screenHeight * 0.03),
+                            child: Divider(
+                              thickness: 0.8,
+                              color: CustomColors.background,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  LogoButton()
-                ],
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    LogoButton()
+                  ],
+                ),
               ),
             ),
           ),

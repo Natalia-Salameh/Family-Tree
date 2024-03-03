@@ -14,4 +14,5 @@ class AppImageAsset {
   static const String couple = "$rootImages/couple.png";
   static const String child = "$rootImages/boy.png";
   static const String profile = "$rootImages/profile.png";
+  static const String flogo = "$rootImages/Asset1.svg";
 }
