@@ -1,10 +1,12 @@
+import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/mock_data.dart';
+import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
 import 'package:family_tree_application/view/screens/home/search.dart';
 import 'package:family_tree_application/view/screens/home/tree.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/constants/colors.dart';
-import '../../../core/constants/imageasset.dart';
 import '../bottom_nav.dart';
 
 class Home extends StatefulWidget {
@@ -16,11 +18,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
-
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (index == 1) {
+      Navigator.of(context).pushNamed(AppRoute.userForm);
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override
@@ -79,43 +84,45 @@ class _HomeState extends State<Home> {
           },
         ),
       ),
-      const Center(child: Text('Add Page')),
+       Center(child: TreeViewPage()),
       const Center(child: Legacy()),
     ];
 
     return Scaffold(
-      appBar: _selectedIndex == 0 ? AppBar(
-        title: Text(
-          'Ajial',
-          style: GoogleFonts.lobster(
-            textStyle: const TextStyle(
-              color: CustomColors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
-            ),
-          ),
-        ),
-        backgroundColor: Colors.white,
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: IconButton(
-              icon: const Icon(
-                Icons.search,
-                color: CustomColors.black,
-                size: 30,
+      appBar: _selectedIndex == 0
+          ? AppBar(
+              title: Text(
+                'Ajial',
+                style: GoogleFonts.lobster(
+                  textStyle: const TextStyle(
+                    color: CustomColors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
+                ),
               ),
-              onPressed: () {
-                // Handle search button press
-                showSearch(
-                  context: context,
-                  delegate: CustomSearchDelegate(),
-                );
-              },
-            ),
-          ),
-        ],
-      ) : null,
+              backgroundColor: Colors.white,
+              actions: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.search,
+                      color: CustomColors.black,
+                      size: 30,
+                    ),
+                    onPressed: () {
+                      // Handle search button press
+                      showSearch(
+                        context: context,
+                        delegate: CustomSearchDelegate(),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            )
+          : null,
       body: _pages[_selectedIndex],
       bottomNavigationBar: CustomFloatingBottomBar(
         selectedIndex: _selectedIndex,

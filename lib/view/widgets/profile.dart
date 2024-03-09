@@ -7,8 +7,8 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 80,
-      height: 80,
+      width: 70,
+      height: 70,
       decoration: const ShapeDecoration(
         shape: OvalBorder(
           side: BorderSide(width: 1, color: CustomColors.primaryColor),

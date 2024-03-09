@@ -12,4 +12,6 @@ class CustomColors {
 
   static const Color smallText = Color.fromARGB(255, 41, 39, 39);
   static const Color dividercolor = Color.fromARGB(255, 179, 174, 174);
+
+  static const Color lightGrey = Color.fromARGB(255, 234, 230, 230);
 }
