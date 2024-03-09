@@ -7,6 +7,7 @@ import 'package:family_tree_application/view/screens/auth/get_started.dart';
 import 'package:family_tree_application/view/screens/auth/signup_verify_code.dart';
 import 'package:family_tree_application/view/screens/home/home.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/member_form.dart';
+import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
 
 import 'package:flutter/material.dart';
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           AppRoute.home: (context) => Home(),
           AppRoute.form: (context) => MemberForm(),
           AppRoute.editLegacy: (context) => LegacyEdit(),
+          // AppRoute.legacy: (context) => Legacy(),
           AppRoute.userForm: (context) => UserForm(),
         });
   }

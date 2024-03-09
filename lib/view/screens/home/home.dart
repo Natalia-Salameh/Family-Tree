@@ -39,20 +39,24 @@ class _HomeState extends State<Home> {
             String personKey = 'person${index + 1}';
             var person = MockData.people[personKey];
             return Card(
+              color: Colors.white,
+              shadowColor: CustomColors.black,
+              elevation: 5,
+              margin: EdgeInsets.all(7),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 30),
                   ListTile(
                     leading: Image.asset(
                       person?['image'],
-                      height: 50,
-                      width: 50,
+                      height: 60,
+                      width: 60,
                       fit: BoxFit.cover,
                     ),
                     title: Text(
                       person['name'],
-                      style: const TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 24),
                     ),
                     subtitle:
                         Text('${person['subject']} - ${person['location']}'),
@@ -60,7 +64,7 @@ class _HomeState extends State<Home> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 15),
                       TextButton(
                         child: const Text(
                           'View Family',
@@ -75,7 +79,7 @@ class _HomeState extends State<Home> {
                           );
                         },
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 15),
                     ],
                   ),
                 ],
@@ -87,7 +91,6 @@ class _HomeState extends State<Home> {
        Center(child: TreeViewPage()),
       const Center(child: Legacy()),
     ];
-
     return Scaffold(
       appBar: _selectedIndex == 0
           ? AppBar(

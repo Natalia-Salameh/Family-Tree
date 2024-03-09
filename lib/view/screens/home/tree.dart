@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
-
 class TreeViewPage extends StatefulWidget {
   @override
   _TreeViewPageState createState() => _TreeViewPageState();
@@ -61,7 +60,7 @@ class _TreeViewPageState extends State<TreeViewPage> {
                       final nodeKey = node.key!.value as int?;
                       final nodeObject = Node.Id(nodeKey!);
 
-                      return circleWidget(nodeObject);
+                      return rectangleWidget(nodeObject);
                     },
                   )),
             ),
@@ -69,9 +68,9 @@ class _TreeViewPageState extends State<TreeViewPage> {
         ));
   }
 
-  /// Random r = Random();
+  //Random r = Random();
 
-  Widget circleWidget(Node node) {
+  Widget rectangleWidget(Node node) {
     return InkWell(
       onTap: () {
         // Create a new node with a unique ID
@@ -84,17 +83,33 @@ class _TreeViewPageState extends State<TreeViewPage> {
         setState(() {});
       },
       child: Container(
-        width: 100, // Specify the width of the circle
-        height: 100, // Specify the height of the circle
+        padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          shape: BoxShape.circle, // This makes the container circular
-          color: Colors.blue[100], // Background color of the circle
+          borderRadius: BorderRadius.circular(4),
           boxShadow: [
             BoxShadow(color: Colors.blue[100]!, spreadRadius: 1),
           ],
         ),
-        alignment: Alignment.center,
-        child: Text('Node ${node.key!.value}'),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Node ${node.key!.value}'),
+            SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () {
+                // Create a new node with a unique ID
+                final newNode = Node.Id(graph.nodeCount() + 1);
+
+                // Add the new node as a child to the clicked node
+                graph.addEdge(node, newNode);
+
+                // Update the graph
+                setState(() {});
+              },
+              child: Text('Add child'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -104,7 +119,6 @@ class _TreeViewPageState extends State<TreeViewPage> {
 
   @override
   void initState() {
-    super.initState();
     final node1 = Node.Id(1);
 
     graph.addNode(node1);

@@ -19,6 +19,7 @@ class AppRoute {
   static const String tree = "TreeState";
   static const String finalTree = "TreeState";
   static const String editLegacy = "editLegacy";
+  static const String legacy = "legacy";
   static const String home = "home";
   static const String verifyCode = "verifyCode";
   static const String userForm = "userForm";
