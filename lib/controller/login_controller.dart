@@ -12,8 +12,6 @@ class LoginController extends GetxController {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       if (usernameController.text.isNotEmpty &&
           passwordController.text.isNotEmpty) {
-        // Assuming you want to navigate to a new page called HomePage()
-        // Replace 'HomePage()' with your actual next page widget
         Get.to(() => const UserForm());
       }
     }
