@@ -1,21 +1,13 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
-
+import 'package:get/get.dart';
 
 import '../../widgets/verify_button.dart';
 
-class VerifyCode extends StatefulWidget {
-  const VerifyCode({super.key});
+class VerifyCode extends StatelessWidget {
+  final _onEditing = true.obs;
+  final _code = ''.obs;
 
-  @override
-  State<VerifyCode> createState() => _VerifyCodeState();
-}
-
-class _VerifyCodeState extends State<VerifyCode> {
-  bool _onEditing = true;
-  String? _code;
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -92,29 +84,25 @@ class _VerifyCodeState extends State<VerifyCode> {
                       ),
                       margin: EdgeInsets.all(screenHeight * 0.02),
                       onCompleted: (String value) {
-                        setState(() {
-                          _code = value;
-                        });
+                        _code.value = value;
                       },
                       onEditing: (bool value) {
-                        setState(() {
-                          _onEditing = value;
-                        });
-                        if (!_onEditing) FocusScope.of(context).unfocus();
+                        _onEditing.value = value;
+                        if (!_onEditing.value) FocusScope.of(context).unfocus();
                       },
                     ),
                     Padding(
                       padding: EdgeInsets.all(screenHeight * 0.01),
                       child: Center(
-                        child: _onEditing
+                        child: Obx(() => _onEditing.value
                             ? const Text('Please enter full code')
-                            : Text('Your code: $_code'),
+                            : Text('Your code: ${_code.value}')),
                       ),
                     ),
+                    VerifyButton(
+                      onTap: () {},
+                    ),
                   ],
-                ),
-                VerifyButton(
-                  onTap: () {},
                 ),
               ],
             ),

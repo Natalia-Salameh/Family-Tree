@@ -1,9 +1,11 @@
 import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/bottom_sheet.dart';
 import 'package:family_tree_application/view/widgets/profile.dart';
 import 'package:family_tree_application/view/widgets/tabbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'legacy_edit.dart';
 
 class Legacy extends StatefulWidget {
   const Legacy({Key? key}) : super(key: key);
@@ -65,7 +67,7 @@ class _UserFormState extends State<Legacy> {
                   ),
                   child: MaterialButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(AppRoute.editLegacy);
+                      Get.to(LegacyEdit());
                     },
                     child: const Text(
                       "Edit legacy",

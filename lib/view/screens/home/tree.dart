@@ -1,132 +1,120 @@
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
+class FamilyMember {
+  final String name;
+  final Color color;
+  final Offset position;
+
+  FamilyMember(this.name, this.color, this.position);
+}
+
 class TreeViewPage extends StatefulWidget {
   @override
   _TreeViewPageState createState() => _TreeViewPageState();
 }
 
 class _TreeViewPageState extends State<TreeViewPage> {
-  double _scale = 1.0;
-  get name => null;
+  final Graph graph = Graph()..isTree = true;
+  final BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration()
+    ..siblingSeparation = (100)
+    ..levelSeparation = (120)
+    ..subtreeSeparation = (80)
+    ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
+  final Map<String, FamilyMember> familyMembers = {
+    'Amir': FamilyMember('Amir', Colors.green, Offset(100, 100)),
+    'Sandy': FamilyMember('Sandy', Colors.yellow, Offset(200, 100)),
+    'Fida': FamilyMember('Fida', Colors.pink, Offset(300, 200)),
+    'Nour': FamilyMember('Nour', Colors.blue, Offset(400, 200)),
+    'Fadi': FamilyMember('Fadi', Colors.orange, Offset(150, 300)),
+    'Dyala': FamilyMember('Dyala', Colors.purple, Offset(350, 300)),
+    'Leen': FamilyMember('Leen', Colors.red, Offset(250, 400)),
+    'Maram': FamilyMember('Maram', Colors.teal, Offset(300, 500)),
+  };
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Create nodes for each family member
+    familyMembers.forEach((index, member) {
+      graph.addNode(Node.Id(index));
+    });
+
+    // Connect the nodes to form the family tree
+    graph.addEdge(Node.Id(1), Node.Id(5)); // Amir -> Fadi
+    graph.addEdge(Node.Id(2), Node.Id(5)); // Sandy -> Fadi
+    graph.addEdge(Node.Id(3), Node.Id(6)); // Fida -> Dyala
+    graph.addEdge(Node.Id(4), Node.Id(6)); // Nour -> Dyala
+    graph.addEdge(Node.Id(5), Node.Id(7)); // Fadi -> Leen
+    graph.addEdge(Node.Id(6), Node.Id(7)); // Dyala -> Leen
+    graph.addEdge(Node.Id(5), Node.Id(8)); // Fadi -> Maram
+    graph.addEdge(Node.Id(6), Node.Id(8)); // Dyala -> Maram
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _scale *= 1.5;
-                    });
-                  },
-                  icon: Icon(Icons.add),
-                ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _scale /= 1.5;
-                    });
-                  },
-                  icon: Icon(Icons.remove),
-                ),
-              ],
-            ),
-            Expanded(
-              child: InteractiveViewer(
-                  scaleEnabled: false,
-                  transformationController: TransformationController()
-                    ..value = Matrix4.diagonal3Values(_scale, _scale, 1),
-                  constrained: false,
-                  boundaryMargin: EdgeInsets.all(100),
-                  minScale: 0.01,
-                  maxScale: 5.6,
-                  child: GraphView(
-                    graph: graph,
-                    algorithm: BuchheimWalkerAlgorithm(
-                        builder, TreeEdgeRenderer(builder)),
-                    paint: Paint()
-                      ..color = Colors.green
-                      ..strokeWidth = 1
-                      ..style = PaintingStyle.stroke,
-                    builder: (Node node) {
-                      // Create a new Node object for each node ID
-                      final nodeKey = node.key!.value as int?;
-                      final nodeObject = Node.Id(nodeKey!);
-
-                      return rectangleWidget(nodeObject);
-                    },
-                  )),
-            ),
-          ],
-        ));
-  }
-
-  //Random r = Random();
-
-  Widget rectangleWidget(Node node) {
-    return InkWell(
-      onTap: () {
-        // Create a new node with a unique ID
-        final newNode = Node.Id(graph.nodeCount() + 1);
-
-        // Add the new node as a child to the clicked node
-        graph.addEdge(node, newNode);
-
-        // Update the graph
-        setState(() {});
-      },
-      child: Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          boxShadow: [
-            BoxShadow(color: Colors.blue[100]!, spreadRadius: 1),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Node ${node.key!.value}'),
-            SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () {
-                // Create a new node with a unique ID
-                final newNode = Node.Id(graph.nodeCount() + 1);
-
-                // Add the new node as a child to the clicked node
-                graph.addEdge(node, newNode);
-
-                // Update the graph
-                setState(() {});
-              },
-              child: Text('Add child'),
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        title: Text('Family Tree'),
+      ),
+      body: Stack(
+        children: [
+          // Draw the lines
+          CustomPaint(
+            size: Size.infinite,
+            painter: LinePainter(familyMembers),
+          ),
+          // Draw the nodes
+          ...familyMembers.entries.map((entry) {
+            return Positioned(
+              left: entry.value.position.dx,
+              top: entry.value.position.dy,
+              child: familyMemberWidget(entry.value),
+            );
+          }).toList(),
+        ],
       ),
     );
   }
 
-  final Graph graph = Graph()..isTree = true;
-  BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
+  Widget familyMemberWidget(FamilyMember member) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: member.color,
+        shape: BoxShape.circle,
+      ),
+      child: Text(
+        member.name,
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}
+
+class LinePainter extends CustomPainter {
+  final Map<String, FamilyMember> familyMembers;
+
+  LinePainter(this.familyMembers);
 
   @override
-  void initState() {
-    final node1 = Node.Id(1);
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 2;
 
-    graph.addNode(node1);
+    // Define the lines here
+    // For example, to draw a line from Amir to Fadi:
+    canvas.drawLine(
+      familyMembers['Amir']!.position,
+      familyMembers['Fadi']!.position,
+      paint,
+    );
 
-    builder
-      ..siblingSeparation = (100)
-      ..levelSeparation = (100)
-      ..subtreeSeparation = (10)
-      ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
+    // Draw the rest of the lines
   }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

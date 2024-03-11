@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
-import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'onBoarding/on_boarding1.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _navigatetoSplash2() async {
     await Future.delayed(Duration(milliseconds: 1500), () {});
-    Navigator.of(context).pushReplacementNamed(AppRoute.onBoarding1);
+    Get.to(OnBoarding1());
   }
 
   @override

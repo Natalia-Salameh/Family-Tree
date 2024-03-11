@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:family_tree_application/core/constants/colors.dart';
+import 'package:family_tree_application/view/screens/auth/login.dart';
+import 'package:family_tree_application/view/screens/auth/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-
-import '../../../core/constants/routes.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
@@ -63,7 +63,7 @@ class _GetStartedState extends State<GetStarted> {
               padding: EdgeInsets.only(top: screenHeight * 0.10),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(AppRoute.login);
+                  Get.to(() => Login());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: CustomColors.primaryColor, //
@@ -90,7 +90,7 @@ class _GetStartedState extends State<GetStarted> {
               padding: EdgeInsets.only(top: screenHeight * 0.04),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(AppRoute.signUp);
+                  Get.to(() => SignUp());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: CustomColors.primaryColor, //

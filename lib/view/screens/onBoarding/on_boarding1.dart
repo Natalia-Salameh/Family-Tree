@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:family_tree_application/core/constants/imageasset.dart';
-import 'package:family_tree_application/core/constants/routes.dart';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/constants/colors.dart';
+import '../../../core/constants/imageasset.dart';
+import 'on_boarding2.dart';
 
 class OnBoarding1 extends StatelessWidget {
   const OnBoarding1({super.key});
@@ -71,7 +73,7 @@ class OnBoarding1 extends StatelessWidget {
                     SizedBox(width: 8),
                     InkWell(
                       onTap: () {
-                        Navigator.of(context).pushNamed(AppRoute.onBoarding2);
+                        Get.to(OnBoarding2());
                       },
                       child: Container(
                         width: 80,
