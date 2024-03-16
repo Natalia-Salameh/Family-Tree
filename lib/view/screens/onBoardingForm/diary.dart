@@ -1,8 +1,10 @@
 import 'package:family_tree_application/core/constants/colors.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/full_name.dart';
 import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Diary extends StatefulWidget {
   final double progress;
@@ -57,7 +59,9 @@ class _UserFormState extends State<Diary> {
                   SizedBox(
                     height: 40,
                     child: Button(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.offAllNamed(AppRoute.home);
+                        },
                         color: CustomColors.primaryColor,
                         child: const Text(
                           "Get started",

@@ -3,6 +3,7 @@ import 'package:family_tree_application/view/screens/onBoardingForm/diary.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TreeState extends StatefulWidget {
   final double progress;
@@ -49,15 +50,9 @@ class _UserFormState extends State<TreeState> {
                   child: Button(
                       onPressed: () {
                         setState(() {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Diary(
+                          Get.offAll(() => Diary(
                                 progress: progress,
-                              ),
-                            ),
-                            (route) => false,
-                          );
+                              ));
                           progress = progress + 0.5;
                         });
                       },

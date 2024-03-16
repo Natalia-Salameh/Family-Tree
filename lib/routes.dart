@@ -1,0 +1,33 @@
+import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/view/screens/Forms/user_form.dart';
+import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
+import 'package:family_tree_application/view/screens/Legacy/legacy_edit.dart';
+import 'package:family_tree_application/view/screens/auth/get_started.dart';
+import 'package:family_tree_application/view/screens/auth/login.dart';
+import 'package:family_tree_application/view/screens/auth/signup.dart';
+import 'package:family_tree_application/view/screens/auth/signup_verify_code.dart';
+import 'package:family_tree_application/view/screens/home/home.dart';
+import 'package:family_tree_application/view/screens/home/tree.dart';
+import 'package:family_tree_application/view/screens/onBoarding/on_boarding1.dart';
+import 'package:family_tree_application/view/screens/onBoarding/on_boarding2.dart';
+import 'package:family_tree_application/view/screens/onBoarding/on_boarding3.dart';
+import 'package:family_tree_application/view/screens/onBoardingForm/member_form.dart';
+import 'package:family_tree_application/view/screens/splash_screen.dart';
+import 'package:get/get.dart';
+
+List<GetPage<dynamic>>? routes = [
+  GetPage(name: AppRoute.splash, page: () => const SplashScreen()),
+  GetPage(name: AppRoute.onBoarding1, page: () => const OnBoarding1()),
+  GetPage(name: AppRoute.onBoarding2, page: () => const OnBoarding2()),
+  GetPage(name: AppRoute.onBoarding3, page: () => const OnBoarding3()),
+  GetPage(name: AppRoute.getStarted, page: () => const GetStarted()),
+  GetPage(name: AppRoute.login, page: () => const Login()),
+  GetPage(name: AppRoute.signUp, page: () => SignUp()),
+  GetPage(name: AppRoute.verifyCode, page: () => VerifyCode()),
+  GetPage(name: AppRoute.home, page: () => const Home()),
+  GetPage(name: AppRoute.userForm, page: () => const UserForm()),
+  GetPage(name: AppRoute.editLegacy, page: () => const LegacyEdit()),
+  GetPage(name: AppRoute.legacy, page: () => const Legacy()),
+  GetPage(name: AppRoute.memberForm, page: () => const MemberForm()),
+  GetPage(name: AppRoute.tree, page: () => TreeViewPage())
+];

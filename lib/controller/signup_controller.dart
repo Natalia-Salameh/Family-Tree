@@ -9,16 +9,14 @@ class SignUpController extends GetxController {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   GlobalKey<FormState> get formKey => _formKey;
-void signUserUp() {
-  if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-    if (usernameController.text.isNotEmpty &&
-        passwordController.text.isNotEmpty &&
-        confirmPasswordController.text.isNotEmpty &&
-        passwordController.text == confirmPasswordController.text) {
-      Get.to(() => VerifyCode());
+  void signUserUp() {
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      if (usernameController.text.isNotEmpty &&
+          passwordController.text.isNotEmpty &&
+          confirmPasswordController.text.isNotEmpty &&
+          passwordController.text == confirmPasswordController.text) {
+        Get.to(() => VerifyCode());
+      }
     }
   }
 }
-
-      }
-   

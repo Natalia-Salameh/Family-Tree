@@ -1,4 +1,4 @@
-import 'package:family_tree_application/view/screens/onBoardingForm/user_form.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +12,7 @@ class LoginController extends GetxController {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       if (usernameController.text.isNotEmpty &&
           passwordController.text.isNotEmpty) {
-        Get.to(() => const UserForm());
+        Get.offAllNamed(AppRoute.home);
       }
     }
   }

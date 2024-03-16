@@ -1,5 +1,7 @@
 {
     "cSpell.words": [
         "Cupertino"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "disabled",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
