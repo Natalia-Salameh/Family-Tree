@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       // Use GetMaterialApp instead of MaterialApp
       debugShowCheckedModeBanner: false,
-      initialRoute: "/splashscreen",
+      initialRoute: "/form",
       getPages: [
         GetPage(name: '/splashscreen', page: () => SplashScreen()),
         GetPage(name: '/onBoarding1', page: () => OnBoarding1()),

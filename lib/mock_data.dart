@@ -1,6 +1,8 @@
 import 'package:drop_down_list/model/selected_list_item.dart';
+import 'package:family_tree_application/enums.dart';
 
 class MockData {
+  static LifeStatus lifeStatusValue = LifeStatus.alive;
   static final List<SelectedListItem> familyName = [
     SelectedListItem(
       name: 'سلامة',

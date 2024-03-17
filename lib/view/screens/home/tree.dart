@@ -1,120 +1,147 @@
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
-class FamilyMember {
-  final String name;
-  final Color color;
-  final Offset position;
 
-  FamilyMember(this.name, this.color, this.position);
-}
 
-class TreeViewPage extends StatefulWidget {
+class FamilyTreePage extends StatefulWidget {
   @override
-  _TreeViewPageState createState() => _TreeViewPageState();
+  _FamilyTreePageState createState() => _FamilyTreePageState();
 }
 
-class _TreeViewPageState extends State<TreeViewPage> {
+class _FamilyTreePageState extends State<FamilyTreePage> {
   final Graph graph = Graph()..isTree = true;
-  final BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration()
-    ..siblingSeparation = (100)
-    ..levelSeparation = (120)
-    ..subtreeSeparation = (80)
-    ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
-  final Map<String, FamilyMember> familyMembers = {
-    'Amir': FamilyMember('Amir', Colors.green, Offset(100, 100)),
-    'Sandy': FamilyMember('Sandy', Colors.yellow, Offset(200, 100)),
-    'Fida': FamilyMember('Fida', Colors.pink, Offset(300, 200)),
-    'Nour': FamilyMember('Nour', Colors.blue, Offset(400, 200)),
-    'Fadi': FamilyMember('Fadi', Colors.orange, Offset(150, 300)),
-    'Dyala': FamilyMember('Dyala', Colors.purple, Offset(350, 300)),
-    'Leen': FamilyMember('Leen', Colors.red, Offset(250, 400)),
-    'Maram': FamilyMember('Maram', Colors.teal, Offset(300, 500)),
-  };
+  BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
+  double _scale = 1.0;
 
   @override
   void initState() {
     super.initState();
 
-    // Create nodes for each family member
-    familyMembers.forEach((index, member) {
-      graph.addNode(Node.Id(index));
-    });
+    // Initialize the tree configuration
+    builder
+      ..siblingSeparation = (100)
+      ..levelSeparation = (150)
+      ..subtreeSeparation = (100)
+      ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
 
-    // Connect the nodes to form the family tree
-    graph.addEdge(Node.Id(1), Node.Id(5)); // Amir -> Fadi
-    graph.addEdge(Node.Id(2), Node.Id(5)); // Sandy -> Fadi
-    graph.addEdge(Node.Id(3), Node.Id(6)); // Fida -> Dyala
-    graph.addEdge(Node.Id(4), Node.Id(6)); // Nour -> Dyala
-    graph.addEdge(Node.Id(5), Node.Id(7)); // Fadi -> Leen
-    graph.addEdge(Node.Id(6), Node.Id(7)); // Dyala -> Leen
-    graph.addEdge(Node.Id(5), Node.Id(8)); // Fadi -> Maram
-    graph.addEdge(Node.Id(6), Node.Id(8)); // Dyala -> Maram
+    _initializeGraph();
+  }
+
+  void _initializeGraph() {
+    // Creating a unified node for Marleen and Antoun
+    final Node parent = Node.Id(1);
+    graph.addNode(parent);
+
+    // Creating child nodes
+    final Node child1 = Node.Id(2);
+    final Node child2 = Node.Id(3);
+    final Node child3 = Node.Id(4);
+
+    // Adding child nodes to the graph
+    graph.addNode(child1);
+    graph.addNode(child2);
+    graph.addNode(child3);
+
+    // Connecting children to the parent
+    graph.addEdge(parent, child1);
+    graph.addEdge(parent, child2);
+    graph.addEdge(parent, child3);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Family Tree'),
+        title: Text("Family Tree"),
       ),
-      body: Stack(
+      body: Column(
         children: [
-          // Draw the lines
-          CustomPaint(
-            size: Size.infinite,
-            painter: LinePainter(familyMembers),
+          _zoomControls(),
+          Expanded(
+            child: InteractiveViewer(
+              transformationController: TransformationController()
+                ..value = Matrix4.diagonal3Values(_scale, _scale, 1),
+              constrained: false,
+              boundaryMargin: EdgeInsets.all(100),
+              minScale: 0.01,
+              maxScale: 5.6,
+              child: GraphView(
+                graph: graph,
+                algorithm:
+                    BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
+                builder: (Node node) {
+                  // Custom widget for nodes
+                  return _nodeWidget(node);
+                },
+              ),
+            ),
           ),
-          // Draw the nodes
-          ...familyMembers.entries.map((entry) {
-            return Positioned(
-              left: entry.value.position.dx,
-              top: entry.value.position.dy,
-              child: familyMemberWidget(entry.value),
-            );
-          }).toList(),
         ],
       ),
     );
   }
 
-  Widget familyMemberWidget(FamilyMember member) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: member.color,
-        shape: BoxShape.circle,
-      ),
-      child: Text(
-        member.name,
-        style: TextStyle(color: Colors.white),
-      ),
+  Widget _zoomControls() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          icon: Icon(Icons.zoom_in),
+          onPressed: () {
+            setState(() {
+              _scale *= 1.2;
+            });
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.zoom_out),
+          onPressed: () {
+            setState(() {
+              _scale /= 1.2;
+            });
+          },
+        ),
+      ],
     );
   }
-}
 
-class LinePainter extends CustomPainter {
-  final Map<String, FamilyMember> familyMembers;
-
-  LinePainter(this.familyMembers);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 2;
-
-    // Define the lines here
-    // For example, to draw a line from Amir to Fadi:
-    canvas.drawLine(
-      familyMembers['Amir']!.position,
-      familyMembers['Fadi']!.position,
-      paint,
-    );
-
-    // Draw the rest of the lines
+  Widget _nodeWidget(Node node) {
+    // Determine if this is the parent node
+    if (node.key?.value == 1) {
+      // Parent Node
+      return Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black, width: 2),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _parentText("Marleen"),
+            VerticalDivider(),
+            _parentText("Antoun"),
+          ],
+        ),
+      );
+    } else {
+      // Child Node
+      return Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.blue, width: 2),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text('Child Node ${node.key!.value}',
+            style: TextStyle(fontSize: 16)),
+      );
+    }
   }
 
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  Widget _parentText(String name) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+    );
+  }
 }
