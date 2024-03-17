@@ -1,3 +1,5 @@
+import 'package:family_tree_application/controller/diary_controller.dart';
+import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
@@ -6,22 +8,13 @@ import 'package:family_tree_application/view/widgets/form/progress_Indicator.dar
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Diary extends StatefulWidget {
-  final double progress;
-  const Diary({Key? key, required this.progress}) : super(key: key);
-
-  @override
-  State<Diary> createState() => _UserFormState();
-}
-
-class _UserFormState extends State<Diary> {
-  final GlobalKey<FormState> formStateKey = GlobalKey<FormState>();
-  final TextEditingController diaryController = TextEditingController();
-
-  double progress = 1;
+class Diary extends StatelessWidget {
+  const Diary({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final progressController = Get.find<ProgressController>();
+    final diaryController = Get.put(DiaryController());
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -33,7 +26,7 @@ class _UserFormState extends State<Diary> {
                 children: [
                   const SizedBox(height: 20),
                   ProgressBar(
-                    progress: progress,
+                    progress: progressController.progress.value,
                   ),
                   const SizedBox(height: 30),
                   const Text(
@@ -50,7 +43,7 @@ class _UserFormState extends State<Diary> {
                   CustomTextForm(
                     hintText: "Diary",
                     maxLines: 18,
-                    myController: diaryController,
+                    myController: diaryController.diaryController.value,
                     alignLabelWithHint: true,
                   ),
                   const SizedBox(

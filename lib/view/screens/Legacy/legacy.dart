@@ -6,14 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:get/get.dart';
 
-class Legacy extends StatefulWidget {
-  const Legacy({Key? key}) : super(key: key);
+class Legacy extends StatelessWidget {
+  const Legacy({super.key});
 
-  @override
-  State<Legacy> createState() => _UserFormState();
-}
-
-class _UserFormState extends State<Legacy> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

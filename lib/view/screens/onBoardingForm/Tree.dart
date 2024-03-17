@@ -1,29 +1,18 @@
+import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/diary.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TreeState extends StatefulWidget {
-  final double progress;
-  const TreeState({Key? key, required this.progress}) : super(key: key);
-
-  @override
-  State<TreeState> createState() => _UserFormState();
-}
-
-class _UserFormState extends State<TreeState> {
-  final GlobalKey<FormState> formStateKey = GlobalKey<FormState>();
-
-  final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
-  late DateTime dateTime;
-  double progress = 0.5;
+class TreeState extends StatelessWidget {
+  const TreeState({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final progressController = Get.find<ProgressController>();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -33,7 +22,7 @@ class _UserFormState extends State<TreeState> {
               children: [
                 const SizedBox(height: 20),
                 ProgressBar(
-                  progress: widget.progress,
+                  progress: progressController.progress.value,
                 ),
                 const SizedBox(height: 30),
                 const Text(
@@ -49,12 +38,8 @@ class _UserFormState extends State<TreeState> {
                   height: 40,
                   child: Button(
                       onPressed: () {
-                        setState(() {
-                          Get.offAll(() => Diary(
-                                progress: progress,
-                              ));
-                          progress = progress + 0.5;
-                        });
+                        progressController.updateProgress();
+                        Get.offAllNamed(AppRoute.diary);
                       },
                       color: CustomColors.primaryColor,
                       child: const Text(

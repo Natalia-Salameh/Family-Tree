@@ -11,6 +11,8 @@ import 'package:family_tree_application/view/screens/home/tree.dart';
 import 'package:family_tree_application/view/screens/onBoarding/on_boarding1.dart';
 import 'package:family_tree_application/view/screens/onBoarding/on_boarding2.dart';
 import 'package:family_tree_application/view/screens/onBoarding/on_boarding3.dart';
+import 'package:family_tree_application/view/screens/onBoardingForm/Tree.dart';
+import 'package:family_tree_application/view/screens/onBoardingForm/diary.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/member_form.dart';
 import 'package:family_tree_application/view/screens/splash_screen.dart';
 import 'package:get/get.dart';
@@ -25,9 +27,11 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.signUp, page: () => SignUp()),
   GetPage(name: AppRoute.verifyCode, page: () => VerifyCode()),
   GetPage(name: AppRoute.home, page: () => const Home()),
-  GetPage(name: AppRoute.userForm, page: () => const UserForm()),
+  GetPage(name: AppRoute.userForm, page: () => UserForm()),
   GetPage(name: AppRoute.editLegacy, page: () => const LegacyEdit()),
   GetPage(name: AppRoute.legacy, page: () => const Legacy()),
   GetPage(name: AppRoute.memberForm, page: () => const MemberForm()),
-  GetPage(name: AppRoute.tree, page: () => TreeViewPage())
+  GetPage(name: AppRoute.tree, page: () => TreeViewPage()),
+  GetPage(name: AppRoute.treeForm, page: () => TreeState()),
+  GetPage(name: AppRoute.diary, page: () => const Diary()),
 ];

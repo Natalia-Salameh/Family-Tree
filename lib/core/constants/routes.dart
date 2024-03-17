@@ -7,10 +7,12 @@ class AppRoute {
   static const String signUp = "/signUp";
   static const String login = "/login";
   static const String memberForm = "/memberForm";
-  static const String tree = "/treeState";
+  static const String treeForm = "/treeState";
   static const String editLegacy = "/editLegacy";
   static const String legacy = "/legacy";
   static const String home = "/home";
   static const String verifyCode = "/verifyCode";
   static const String userForm = "/userForm";
+  static const String tree = "/TreeViewPage";
+  static const String diary = "/Diary";
 }

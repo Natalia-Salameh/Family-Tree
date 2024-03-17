@@ -1,9 +1,11 @@
+import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() {
+  Get.put(ProgressController());
   runApp(const MyApp());
 }
 

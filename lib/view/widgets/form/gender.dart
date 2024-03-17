@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class RadioButton extends StatelessWidget {
   final String label;
   final Gender genderValue;
-  final String selectedGender;
+  final Gender? selectedGender;
   final void Function(String?) onGenderSelected;
 
   const RadioButton({
