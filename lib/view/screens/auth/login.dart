@@ -41,7 +41,7 @@ class _LoginState extends State<Login> {
                       children: [
                         IconButton(
                           icon: Icon(Icons.arrow_back),
-                          onPressed: () => Navigator.pop(context), // Go back
+                          onPressed: () => Get.back(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(

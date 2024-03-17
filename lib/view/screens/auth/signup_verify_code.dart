@@ -1,3 +1,4 @@
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,7 @@ class VerifyCode extends StatelessWidget {
               children: [
                 IconButton(
                   icon: Icon(Icons.arrow_back),
-                  onPressed: () => Navigator.pop(context), // Go back
+                  onPressed: () => Get.back(),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: screenHeight * 0.1),
