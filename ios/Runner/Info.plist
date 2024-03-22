@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need to access your library to upload images</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need to access your camera to upload images</string>	
 	<key>CFBundleDisplayName</key>
 	<string>Family Tree Application</string>
 	<key>CFBundleExecutable</key>
