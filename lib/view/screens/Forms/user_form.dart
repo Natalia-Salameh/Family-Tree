@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/enums.dart';
@@ -10,9 +12,58 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_widget/image_picker_widget.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class UserForm extends StatelessWidget {
   final UserFormController controller = Get.put(UserFormController());
+
+  UserForm({super.key});
+
+  Future<String> getStorageDirectory() async {
+    final directory = Platform.isAndroid
+        ? await getExternalStorageDirectory()
+        : await getApplicationDocumentsDirectory();
+    return directory?.path ?? "";
+  }
+
+  Future<void> uploadImage() async {
+    try {
+      // Check and request permissions
+      final permissionStatus = await Permission.photos.request();
+
+      // If permissions have not been granted, return and do not continue.
+      if (!permissionStatus.isGranted) {
+        print('Permission to access photos is denied');
+        return;
+      }
+
+      final picker = ImagePicker();
+      final image = await picker.pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      final dir = await getStorageDirectory();
+      final directory = Directory(dir);
+
+      if (!directory.existsSync()) {
+        await directory.create(recursive: true);
+      }
+
+      final userImage = File(image.path);
+      final newFile = await userImage.copy('${directory.path}/userImage.png');
+      // Update UI or state to reflect the new image path
+      print("Image saved to ${newFile.path}");
+
+      // If you need to update the UI state, consider using a state management solution like setState (for StatefulWidget), Provider, GetX, etc.
+      // For example, if you're using a state management solution, you'd update the state here to display the new image in the UI.
+    } catch (e) {
+      print('Failed to upload image: $e');
+      // Handle any other types of exceptions here, perhaps by showing an error message to the user.
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,15 +76,24 @@ class UserForm extends StatelessWidget {
               alignment: Alignment.topCenter,
               child: Column(
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(26),
                     child: Stack(
                       children: [
-                        ProfilePicture(
-                          name: "",
-                          radius: 31,
-                          fontsize: 21,
-                        ),
+                        Center(
+                            child: ImagePickerWidget(
+                          diameter: 180,
+                          initialImage:
+                              "https://strattonapps.com/wp-content/uploads/2020/02/flutter-logo-5086DD11C5-seeklogo.com_.png",
+                          shape: ImagePickerWidgetShape.circle,
+                          isEditable: true,
+                          shouldCrop: true,
+                          imagePickerOptions:
+                              ImagePickerOptions(imageQuality: 65),
+                          onChange: (File file) {
+                            print("I changed the file to: ${file.path}");
+                          },
+                        )),
                       ],
                     ),
                   ),

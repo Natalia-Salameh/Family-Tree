@@ -4,7 +4,6 @@ import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/enums.dart';
 import 'package:family_tree_application/mock_data.dart';
-import 'package:family_tree_application/view/screens/onBoardingForm/tree.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/family_name.dart';
 import 'package:family_tree_application/view/widgets/form/full_name.dart';

@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
           },
         ),
       ),
-      Center(child: TreeViewPage()),
+      Center(child: FamilyTreePage()),
       const Center(child: Legacy()),
     ];
     return Scaffold(

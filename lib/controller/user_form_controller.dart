@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:family_tree_application/enums.dart';
 
 class UserFormController extends GetxController {
+  var profileImagePath = ''.obs;
   final selectedGender = Rx<Gender?>(null);
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();

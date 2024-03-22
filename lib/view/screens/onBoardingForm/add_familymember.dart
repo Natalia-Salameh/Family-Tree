@@ -1,4 +1,7 @@
+import 'package:family_tree_application/controller/progress_bar.dart';
+import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/enums.dart';
 import 'package:family_tree_application/mock_data.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/tree.dart';
@@ -11,6 +14,7 @@ import 'package:family_tree_application/view/widgets/form/progress_Indicator.dar
 import 'package:family_tree_application/view/widgets/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class UserAdd extends StatefulWidget {
   const UserAdd({Key? key}) : super(key: key);
@@ -20,12 +24,16 @@ class UserAdd extends StatefulWidget {
 }
 
 class _UserFormState extends State<UserAdd> {
+  final UserFormController controller = Get.put(UserFormController());
+  final progressController = Get.find<ProgressController>();
+
   final GlobalKey<FormState> formStateKey = GlobalKey<FormState>();
 
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
   final TextEditingController materialStateController = TextEditingController();
+
   late DateTime dateTime;
   double progress = 0.0;
 
@@ -47,9 +55,6 @@ class _UserFormState extends State<UserAdd> {
               child: Column(
                 children: [
                   const SizedBox(height: 20),
-                  ProgressBar(
-                    progress: progress,
-                  ),
                   const SizedBox(height: 20),
                   const Padding(
                     padding: EdgeInsets.all(26),
@@ -83,21 +88,56 @@ class _UserFormState extends State<UserAdd> {
                   const SizedBox(
                     height: 10,
                   ),
-                  CustomBottomSheet(
-                    builder: (context) => CupertinoDatePicker(
-                      mode: CupertinoDatePickerMode.date,
-                      onDateTimeChanged: (DateTime value) {
-                        final dateTimeText =
-                            "${value.year}-${value.month}-${value.day}";
-                        dateController.text = dateTimeText;
-                      },
-                    ),
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) => Container(
+                          height: 300,
+                          width: double.infinity,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  CupertinoButton(
+                                    child: const Text("Done",
+                                        style: TextStyle(
+                                            color: CustomColors.primaryColor)),
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                child: CupertinoDatePicker(
+                                  mode: CupertinoDatePickerMode.date,
+                                  onDateTimeChanged: (DateTime value) {
+                                    final dateTimeText =
+                                        "${value.year}-${value.month}-${value.day}";
+                                    controller.dateController.text =
+                                        dateTimeText;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                     child: AbsorbPointer(
                       child: SizedBox(
                         height: 40,
                         child: CustomTextForm(
                           hintText: "Birthday",
-                          myController: dateController,
+                          myController: controller.dateController,
                         ),
                       ),
                     ),
@@ -165,18 +205,20 @@ class _UserFormState extends State<UserAdd> {
                     height: 40,
                     child: Button(
                         onPressed: () {
-                          setState(() {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TreeState(
-                                  progress: progress,
-                                ),
-                              ),
-                              (route) => false,
-                            );
-                            progress = progress + 0.7;
-                          });
+                          Get.toNamed(AppRoute.treeForm);
+
+                          // setState(() {
+                          //   Navigator.pushAndRemoveUntil(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) => TreeState(
+                          //         progress: progress,
+                          //       ),
+                          //     ),
+                          //     (route) => false,
+                          //   );
+                          //   progress = progress + 0.7;
+                          // });
                         },
                         color: CustomColors.primaryColor,
                         child: const Text(
