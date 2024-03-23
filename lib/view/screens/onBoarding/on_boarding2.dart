@@ -40,45 +40,6 @@ class OnBoarding2 extends StatelessWidget {
                     ),
                   ),
                 )),
-            Padding(
-              padding: EdgeInsets.only(top: screenHeight * 0.11),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    width: 80,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: CustomColors.primaryColor,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  Container(
-                    width: 80,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: CustomColors.primaryColor,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  InkWell(
-                    onTap: () {
-                      Get.to(OnBoarding3());
-                    },
-                    child: Container(
-                      width: 80,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: CustomColors.background,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

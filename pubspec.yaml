@@ -50,6 +50,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   image_picker_widget: ^2.4.1
   permission_handler: ^11.3.0
+  smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
   flutter_test:

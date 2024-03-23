@@ -17,8 +17,11 @@ import 'package:family_tree_application/view/screens/onBoardingForm/member_form.
 import 'package:family_tree_application/view/screens/splash_screen.dart';
 import 'package:get/get.dart';
 
+import 'view/screens/onBoarding/onBoardingNav.dart';
+
 List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.splash, page: () => const SplashScreen()),
+  GetPage(name: AppRoute.onBoardingNav, page: () => const OnBoardingWrapper()),
   GetPage(name: AppRoute.onBoarding1, page: () => const OnBoarding1()),
   GetPage(name: AppRoute.onBoarding2, page: () => const OnBoarding2()),
   GetPage(name: AppRoute.onBoarding3, page: () => const OnBoarding3()),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
-
-
 class FamilyTreePage extends StatefulWidget {
   @override
   _FamilyTreePageState createState() => _FamilyTreePageState();
@@ -17,7 +15,6 @@ class _FamilyTreePageState extends State<FamilyTreePage> {
   void initState() {
     super.initState();
 
-    // Initialize the tree configuration
     builder
       ..siblingSeparation = (100)
       ..levelSeparation = (150)
@@ -28,24 +25,43 @@ class _FamilyTreePageState extends State<FamilyTreePage> {
   }
 
   void _initializeGraph() {
-    // Creating a unified node for Marleen and Antoun
+    // Parent node for Marleen and Antoun
     final Node parent = Node.Id(1);
     graph.addNode(parent);
 
-    // Creating child nodes
-    final Node child1 = Node.Id(2);
-    final Node child2 = Node.Id(3);
-    final Node child3 = Node.Id(4);
+    // Nodes for their children
+    final Node maram = Node.Id(2);
+    final Node seleena = Node.Id(3);
+    final Node marwa = Node.Id(4); // Marwa, also a parent
+    graph.addNode(maram);
+    graph.addNode(seleena);
+    graph.addNode(marwa);
 
-    // Adding child nodes to the graph
-    graph.addNode(child1);
-    graph.addNode(child2);
-    graph.addNode(child3);
+    // Connecting Marleen and Antoun's children
+    graph.addEdge(parent, maram);
+    graph.addEdge(parent, seleena);
+    graph.addEdge(parent, marwa);
 
-    // Connecting children to the parent
-    graph.addEdge(parent, child1);
-    graph.addEdge(parent, child2);
-    graph.addEdge(parent, child3);
+    // Maram's family
+    final Node naya = Node.Id(6); // Maram and Jimmy's child
+    graph.addNode(naya);
+    graph.addEdge(maram, naya);
+
+    // Marwa's family
+    final Node eyyan = Node.Id(7);
+    final Node tatiana = Node.Id(8);
+    final Node abanoub = Node.Id(9);
+    final Node ella = Node.Id(10);
+    graph.addNode(eyyan);
+    graph.addNode(tatiana);
+    graph.addNode(abanoub);
+    graph.addNode(ella);
+
+    // Connecting Marwa's children
+    graph.addEdge(marwa, eyyan);
+    graph.addEdge(marwa, tatiana);
+    graph.addEdge(marwa, abanoub);
+    graph.addEdge(marwa, ella);
   }
 
   @override
@@ -70,7 +86,6 @@ class _FamilyTreePageState extends State<FamilyTreePage> {
                 algorithm:
                     BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
                 builder: (Node node) {
-                  // Custom widget for nodes
                   return _nodeWidget(node);
                 },
               ),
@@ -106,36 +121,74 @@ class _FamilyTreePageState extends State<FamilyTreePage> {
   }
 
   Widget _nodeWidget(Node node) {
-    // Determine if this is the parent node
     if (node.key?.value == 1) {
-      // Parent Node
-      return Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 2),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _parentText("Marleen"),
-            VerticalDivider(),
-            _parentText("Antoun"),
-          ],
-        ),
-      );
+      return _createParentNode(["Marleen", "Antoun"]);
+    } else if (node.key?.value == 2) {
+      return _createParentNode(["Maram", "Jimmy"]);
+    } else if (node.key?.value == 4) {
+      // Marwa and Issa, now a combined parent node
+      return _createParentNode(["Marwa", "Issa"]);
+    } else if ([6, 7, 8, 9, 10].contains(node.key?.value)) {
+      // This includes Naya (Maram's child) and Marwa's children
+      String name = "Child";
+      switch (node.key!.value) {
+        case 6:
+          name = "Naya";
+          break;
+        case 7:
+          name = "Eyyan";
+          break;
+        case 8:
+          name = "Tatiana";
+          break;
+        case 9:
+          name = "Abanoub";
+          break;
+        case 10:
+          name = "Ella";
+          break;
+      }
+      return _createChildNode(name);
     } else {
-      // Child Node
-      return Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.blue, width: 2),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text('Child Node ${node.key!.value}',
-            style: TextStyle(fontSize: 16)),
-      );
+      // For other children (Seleena, Marwa before her update)
+      String name = "Child";
+      switch (node.key!.value) {
+        case 3:
+          name = "Seleena";
+          break;
+        default:
+          name = "Unknown";
+      }
+      return _createChildNode(name);
     }
+  }
+
+  Widget _createParentNode(List<String> names) {
+    List<Widget> nameWidgets = [];
+    for (var name in names) {
+      nameWidgets.add(_parentText(name));
+      if (name != names.last) nameWidgets.add(VerticalDivider());
+    }
+
+    return Container(
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black, width: 2),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(mainAxisSize: MainAxisSize.min, children: nameWidgets),
+    );
+  }
+
+  Widget _createChildNode(String name) {
+    return Container(
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.blue, width: 2),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(name, style: TextStyle(fontSize: 16)),
+    );
   }
 
   Widget _parentText(String name) {

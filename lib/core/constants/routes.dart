@@ -15,4 +15,5 @@ class AppRoute {
   static const String userForm = "/userForm";
   static const String tree = "/TreeViewPage";
   static const String diary = "/Diary";
+    static const String onBoardingNav = "/onBoardingNav";
 }

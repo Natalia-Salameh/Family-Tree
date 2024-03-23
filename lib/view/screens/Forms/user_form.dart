@@ -10,7 +10,6 @@ import 'package:family_tree_application/view/widgets/form/full_name.dart';
 import 'package:family_tree_application/view/widgets/form/gender.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_widget/image_picker_widget.dart';
@@ -55,9 +54,6 @@ class UserForm extends StatelessWidget {
       final newFile = await userImage.copy('${directory.path}/userImage.png');
       // Update UI or state to reflect the new image path
       print("Image saved to ${newFile.path}");
-
-      // If you need to update the UI state, consider using a state management solution like setState (for StatefulWidget), Provider, GetX, etc.
-      // For example, if you're using a state management solution, you'd update the state here to display the new image in the UI.
     } catch (e) {
       print('Failed to upload image: $e');
       // Handle any other types of exceptions here, perhaps by showing an error message to the user.
