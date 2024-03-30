@@ -170,11 +170,13 @@ class _FamilyTreePageState extends State<FamilyTreePage> {
       if (name != names.last) nameWidgets.add(VerticalDivider());
     }
 
+    // Adjusting the padding and the decoration to try and make the node as circular as possible
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(10), // May need to adjust based on the content
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 2),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius:
+            BorderRadius.circular(100), // High value to make it rounded
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: nameWidgets),
     );
@@ -182,10 +184,11 @@ class _FamilyTreePageState extends State<FamilyTreePage> {
 
   Widget _createChildNode(String name) {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.symmetric(
+          horizontal: 16, vertical: 25), // Adjust for circular shape
       decoration: BoxDecoration(
         border: Border.all(color: Colors.blue, width: 2),
-        borderRadius: BorderRadius.circular(8),
+        shape: BoxShape.circle, // Making the shape circular
       ),
       child: Text(name, style: TextStyle(fontSize: 16)),
     );

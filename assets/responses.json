@@ -1,0 +1,28 @@
+{
+  "registration": {
+    "success": {
+      "code": 200,
+      "message": "Registration successful"
+    },
+    "failure": {
+      "code": 400,
+      "message": "User already exists"
+    }
+  },
+  "login": {
+    "success": {
+      "code": 200,
+      "message": "User found"
+    },
+    "failure": {
+      "code": 404,
+      "message": "User not found"
+    },
+     "incorrectPassword": {
+      "code": 401,
+      "message": "Incorrect password"
+    }
+  }
+
+  
+}
