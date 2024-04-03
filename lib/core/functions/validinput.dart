@@ -1,22 +1,32 @@
 String? validInput(String val, String field) {
+  // Check if the value is empty
   if (val.isEmpty) {
     return "$field can't be empty";
   } else if (field == 'Username') {
-    if (!val.endsWith('@gmail.com')) {
-      return "$field must end with @gmail.com";
-    }
+    // Removed the check for "@gmail.com"
+    // You can add other username validations here if needed
   } else if (field == 'Password') {
+    // Password length check
     if (val.length < 8) {
       return "$field must be at least 8 characters";
-    } else if (!RegExp(r'(?=.*[a-z])').hasMatch(val)) {
+    }
+    // At least one lowercase letter check
+    else if (!RegExp(r'(?=.*[a-z])').hasMatch(val)) {
       return "$field must contain at least one lowercase letter";
-    } else if (!RegExp(r'(?=.*[A-Z])').hasMatch(val)) {
+    }
+    // At least one uppercase letter check
+    else if (!RegExp(r'(?=.*[A-Z])').hasMatch(val)) {
       return "$field must contain at least one uppercase letter";
-    } else if (!RegExp(r'(?=.*\d)').hasMatch(val)) {
+    }
+    // At least one digit check
+    else if (!RegExp(r'(?=.*\d)').hasMatch(val)) {
       return "$field must contain at least one digit";
-    } else if (!RegExp(r'(?=.*[!@#$%^&*()_+=|<>?{}[\]~-])').hasMatch(val)) {
+    }
+    // At least one special character check
+    else if (!RegExp(r'(?=.*[!@#$%^&*()_+=|<>?{}[\]~-])').hasMatch(val)) {
       return "$field must contain at least one special character";
     }
   }
+  // If all checks pass, return null
   return null;
 }

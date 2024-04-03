@@ -36,7 +36,7 @@ class SignUpController extends GetxController {
           Map<String, dynamic> registrationFailure =
               responses['registration']['failure'];
           Get.snackbar("Error", registrationFailure['message'],
-              snackPosition: SnackPosition.BOTTOM);
+              snackPosition: SnackPosition.TOP);
         } else {
           // Simulate successful registration
           Map<String, dynamic> registrationSuccess =
