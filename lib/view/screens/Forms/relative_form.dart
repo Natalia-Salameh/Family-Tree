@@ -1,20 +1,18 @@
-import 'package:family_tree_application/controller/progress_bar.dart';
+import 'dart:io';
+
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/enums.dart';
 import 'package:family_tree_application/mock_data.dart';
-import 'package:family_tree_application/view/screens/onBoardingForm/tree.dart';
-import 'package:family_tree_application/view/widgets/bottom_sheet.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/family_name.dart';
 import 'package:family_tree_application/view/widgets/form/full_name.dart';
-import 'package:family_tree_application/view/widgets/form/gender.dart';
-import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
 import 'package:family_tree_application/view/widgets/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker_widget/image_picker_widget.dart';
 
 class UserAdd extends StatefulWidget {
   const UserAdd({Key? key}) : super(key: key);
@@ -25,7 +23,6 @@ class UserAdd extends StatefulWidget {
 
 class _UserFormState extends State<UserAdd> {
   final UserFormController controller = Get.put(UserFormController());
-  final progressController = Get.find<ProgressController>();
 
   final GlobalKey<FormState> formStateKey = GlobalKey<FormState>();
 
@@ -56,10 +53,7 @@ class _UserFormState extends State<UserAdd> {
                 children: [
                   const SizedBox(height: 20),
                   const SizedBox(height: 20),
-                  const Padding(
-                    padding: EdgeInsets.all(26),
-                    child: Profile(),
-                  ),
+                  const Profile(),
                   Row(
                     children: [
                       Expanded(
@@ -81,9 +75,6 @@ class _UserFormState extends State<UserAdd> {
                             familyNames: MockData.familyName),
                       ),
                     ],
-                  ),
-                  const SizedBox(
-                    height: 50,
                   ),
                   const SizedBox(
                     height: 10,
@@ -143,7 +134,7 @@ class _UserFormState extends State<UserAdd> {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 10,
                   ),
                   SizedBox(
                     height: 40,
@@ -206,19 +197,6 @@ class _UserFormState extends State<UserAdd> {
                     child: Button(
                         onPressed: () {
                           Get.toNamed(AppRoute.treeForm);
-
-                          // setState(() {
-                          //   Navigator.pushAndRemoveUntil(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => TreeState(
-                          //         progress: progress,
-                          //       ),
-                          //     ),
-                          //     (route) => false,
-                          //   );
-                          //   progress = progress + 0.7;
-                          // });
                         },
                         color: CustomColors.primaryColor,
                         child: const Text(

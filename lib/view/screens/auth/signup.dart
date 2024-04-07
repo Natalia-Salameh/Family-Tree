@@ -8,8 +8,9 @@ import '../../widgets/logo_buttons.dart';
 import '../../widgets/my_textfield.dart';
 import '../../widgets/sign_button.dart';
 
-class SignUp extends GetView<SignUpController> {
-  SignUpController con = Get.put(SignUpController());
+class SignUp extends StatelessWidget {
+  SignUp({super.key});
+  final SignUpController registerController = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class SignUp extends GetView<SignUpController> {
           child: Padding(
             padding: EdgeInsets.only(top: screenHeight * 0.02),
             child: Form(
-              key: con.formKey,
+              key: registerController.formKey,
               child: Center(
                 child: Column(
                   children: [
@@ -50,7 +51,7 @@ class SignUp extends GetView<SignUpController> {
                       height: 80,
                     ),
                     MyTextFiled(
-                      controller: con.usernameController,
+                      controller: registerController.usernameController,
                       hintText: 'Username',
                       obscureText: false,
                       validator: (value) => validInput(value!, 'Username'),
@@ -59,7 +60,7 @@ class SignUp extends GetView<SignUpController> {
                       height: 20,
                     ),
                     MyTextFiled(
-                      controller: con.passwordController,
+                      controller: registerController.passwordController,
                       hintText: 'Password',
                       obscureText: true,
                       validator: (value) => validInput(value!, 'Password'),
@@ -68,23 +69,27 @@ class SignUp extends GetView<SignUpController> {
                       height: 20,
                     ),
                     MyTextFiled(
-                      controller: con.confirmPasswordController,
+                      controller: registerController.confirmPasswordController,
                       hintText: 'Confirm Password',
                       obscureText: true,
-                      validator: (value) {
-                        if (value != con.passwordController.text) {
-                          return 'Passwords do not match';
-                        }
-                        return validInput(value!, 'Password');
-                      },
+                      // validator: (value) {
+                      //   if (value !=
+                      //       registerController.passwordController.text) {
+                      //     return 'Passwords do not match';
+                      //   }
+                      //   return validInput(value!, 'Password');
+                      // },
                     ),
                     const SizedBox(
                       height: 5,
                     ),
                     SignButton(
-                      key: UniqueKey(), // Updated
-                      onTap: () {
-                        con.signUserUp();
+                      key: UniqueKey(),
+                      onTap: () async {
+                        // if (registerController.formKey.currentState!
+                        //     .validate()) {
+                          await registerController.signUp();
+                        // }
                       },
                     ),
                     const SizedBox(

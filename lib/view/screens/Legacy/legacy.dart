@@ -38,7 +38,9 @@ class Legacy extends StatelessWidget {
                           ListTile(
                             leading: const Icon(Icons.settings),
                             title: const Text("Settings"),
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed(AppRoute.settings);
+                            },
                           ),
                           const Divider(
                             height: 1,

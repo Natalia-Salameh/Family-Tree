@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:family_tree_application/controller/member_form_controller.dart';
 import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
@@ -13,6 +15,7 @@ import 'package:family_tree_application/view/widgets/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker_widget/image_picker_widget.dart';
 
 class MemberForm extends StatelessWidget {
   const MemberForm({super.key});
@@ -45,32 +48,7 @@ class MemberForm extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(26),
-                          child: Stack(
-                            children: [
-                              const Profile(),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  child: IconButton(
-                                    icon: const Icon(Icons.camera_alt_outlined,
-                                        size: 16),
-                                    color: CustomColors.primaryColor,
-                                    onPressed: () {},
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        const Profile(),
                         Row(
                           children: [
                             Expanded(

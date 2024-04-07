@@ -28,9 +28,6 @@ class MockData {
     ),
   ];
 
-  static String groupValue = "gender";
-
-  // Map of people with their details
   static final Map<String, dynamic> people = {
     'person1': {
       'name': 'Alex Smith',
@@ -62,6 +59,66 @@ class MockData {
       'location': 'Los Angeles',
       'image': AppImageAsset.child,
     },
-    // Add more people as needed
+  };
+
+  static final Map<String, dynamic> person = {
+    "id": 1,
+    "FirstName": "Charles",
+    // "SecondName": "khader",
+    // "ThirdName": "nasri",
+    // "FamilyName": "Saed",
+    "Gender": "Male",
+    "Approved": "yes",
+    "NumConfirm": 10,
+    "NumReport": 3,
+    "Spouses": [
+      {
+        "marriageid": 11,
+        "Partner": {
+          "id": 7,
+          "firstName": "Diana",
+          "Gender": "Female",
+          "Children": [
+            {
+              "Child": {
+                "id": 4,
+                "firstName": "William",
+                "Gender": "Male",
+              }
+            },
+            {
+              "Child": {
+                "id": 5,
+                "firstName": "Harry",
+                "Gender": "Male",
+              }
+            }
+          ],
+        }
+      },
+      {
+        "marriageid": 22,
+        "Partner": {
+          "id": 8,
+          "firstName": "Camila",
+          "Gender": "Female",
+        }
+      }
+    ],
+    "Parents": [
+      {
+        "marriageid": 3,
+        "Father": {
+          "id": 2,
+          "firstName": "Philip",
+          "Gender": "Male",
+        },
+        "Mother": {
+          "id": 3,
+          "firstName": "Elizabeth",
+          "Gender": "Female",
+        }
+      }
+    ],
   };
 }

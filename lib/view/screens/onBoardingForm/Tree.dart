@@ -2,7 +2,6 @@ import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
-import 'package:family_tree_application/view/screens/onBoardingForm/diary.dart';
 import 'package:family_tree_application/view/widgets/GetxBottom_sheet.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
@@ -51,18 +50,14 @@ class TreeState extends StatelessWidget {
                           CustomBottomSheet(
                             images: [
                               Image.asset(
+                                AppImageAsset.mother,
+                              ),
+                              Image.asset(
                                 AppImageAsset.couple,
                                 height: 50,
                               ),
                               Image.asset(
                                 AppImageAsset.child,
-                              ),
-                              Image.asset(
-                                AppImageAsset.mother,
-                              ),
-                              /* Add more images here */
-                              Image.asset(
-                                AppImageAsset.father,
                               ),
                             ],
                           ),

@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:family_tree_application/controller/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:family_tree_application/view/widgets/logo_buttons.dart';
@@ -10,15 +8,10 @@ import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/functions/validinput.dart';
 import 'package:get/get.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class Login extends StatelessWidget {
+  Login({super.key});
 
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
-  LoginController con = Get.put(LoginController());
+  final LoginController loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +23,7 @@ class _LoginState extends State<Login> {
             padding: EdgeInsets.only(top: screenHeight * 0.02),
             child: Center(
               child: Form(
-                key: con.formKey,
+                key: loginController.formKey,
                 autovalidateMode: AutovalidateMode.always,
                 child: Column(
                   children: [
@@ -58,7 +51,7 @@ class _LoginState extends State<Login> {
                       height: 85,
                     ),
                     MyTextFiled(
-                      controller: con.usernameController,
+                      controller: loginController.usernameController,
                       hintText: 'Username',
                       obscureText: false,
                       validator: (value) => validInput(value!, 'Username'),
@@ -67,7 +60,7 @@ class _LoginState extends State<Login> {
                       height: 40,
                     ),
                     MyTextFiled(
-                      controller: con.passwordController,
+                      controller: loginController.passwordController,
                       hintText: 'Password',
                       obscureText: true,
                       validator: (value) => validInput(value!, 'Password'),
@@ -94,9 +87,11 @@ class _LoginState extends State<Login> {
                       height: 15,
                     ),
                     MyButton(
-                      key: UniqueKey(), // Updated
-                      onTap: () {
-                        con.logUserIn();
+                      key: UniqueKey(),
+                      onTap: () async {
+                      //  if (loginController.formKey.currentState!.validate()) {
+                         await loginController.login();
+                       // }
                       },
                     ),
                     const SizedBox(
