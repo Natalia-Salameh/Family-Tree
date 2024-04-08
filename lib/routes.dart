@@ -12,6 +12,7 @@ import 'package:family_tree_application/view/screens/onBoarding/on_boarding1.dar
 import 'package:family_tree_application/view/screens/onBoarding/on_boarding2.dart';
 import 'package:family_tree_application/view/screens/onBoarding/on_boarding3.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/Tree.dart';
+import 'package:family_tree_application/view/screens/onBoardingForm/add_familymember.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/diary.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/member_form.dart';
 import 'package:family_tree_application/view/screens/splash_screen.dart';
@@ -37,4 +38,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.tree, page: () => FamilyTreePage()),
   GetPage(name: AppRoute.treeForm, page: () => TreeState()),
   GetPage(name: AppRoute.diary, page: () => const Diary()),
+   GetPage(name: AppRoute.userAdd, page: () => const UserAdd(role: '',)),
 ];

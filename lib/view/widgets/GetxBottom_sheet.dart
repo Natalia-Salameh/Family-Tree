@@ -3,38 +3,50 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomBottomSheet extends StatefulWidget {
-  final List<Image> images; // List of images
+  final List<Widget> children; // Change to List<Widget> to accept any widget
 
-  CustomBottomSheet({required this.images});
+  CustomBottomSheet({required this.children});
+
+  final List<String> imageTexts = ['Parent', 'Spouse', 'Child'];
 
   @override
   _CustomBottomSheetState createState() => _CustomBottomSheetState();
 }
 
 class _CustomBottomSheetState extends State<CustomBottomSheet> {
-  int currentIndex = 0; // Current index of the selected image
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 350,
-      width: 400,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(40),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
       ),
       child: Stack(
         children: [
           Positioned.fill(
             child: GestureDetector(
-              onTap: () {
-                // Navigate to the target page
-                Get.to(
-                  UserAdd(), // Replace DetailsPage with your target page
-                );
-              },
-              child: widget.images[currentIndex], // Display the current image
-            ),
+                onTap: () {
+                  Get.to(
+                    const UserAdd(
+                      role: '',
+                    ),
+                  );
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 200,
+                      height: 200,
+                      child: widget.children[currentIndex],
+                    ),
+                    Text(widget.imageTexts[currentIndex]),
+                  ],
+                )),
           ),
           Positioned(
             left: 0,
@@ -45,21 +57,21 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back),
                   onPressed: () {
                     if (currentIndex > 0) {
                       setState(() {
-                        currentIndex--; // Decrease the currentIndex and update the state
+                        currentIndex--;
                       });
                     }
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.arrow_forward),
+                  icon: const Icon(Icons.arrow_forward),
                   onPressed: () {
-                    if (currentIndex < widget.images.length - 1) {
+                    if (currentIndex < widget.children.length - 1) {
                       setState(() {
-                        currentIndex++; // Increase the currentIndex and update the state
+                        currentIndex++;
                       });
                     }
                   },

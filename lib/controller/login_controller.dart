@@ -15,8 +15,8 @@ class LoginController extends GetxController {
   void logUserIn() async {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       // API endpoint
-      final url =
-          Uri.parse('https://ajial.azurewebsites.net/api/Account/Login');
+      final url = Uri.parse(
+          'https://ajial.azurewebsites.net/api/Account/Login/MobileApp');
       // Making POST request
       try {
         print('Making API Call to $url');
