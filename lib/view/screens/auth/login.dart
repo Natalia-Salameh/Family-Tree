@@ -5,7 +5,6 @@ import 'package:family_tree_application/view/widgets/my_button.dart';
 
 import 'package:family_tree_application/view/widgets/my_textfield.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/core/functions/validinput.dart';
 import 'package:get/get.dart';
 
 class Login extends StatelessWidget {
@@ -24,7 +23,6 @@ class Login extends StatelessWidget {
             child: Center(
               child: Form(
                 key: loginController.formKey,
-                autovalidateMode: AutovalidateMode.always,
                 child: Column(
                   children: [
                     const SizedBox(
@@ -33,13 +31,13 @@ class Login extends StatelessWidget {
                     Row(
                       children: [
                         IconButton(
-                          icon: Icon(Icons.arrow_back),
+                          icon: const Icon(Icons.arrow_back),
                           onPressed: () => Get.back(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: screenHeight * 0.13),
-                          child: Text(
+                          child: const Text(
                             "Login",
                             style: TextStyle(
                                 fontSize: 35, fontWeight: FontWeight.bold),
@@ -50,20 +48,29 @@ class Login extends StatelessWidget {
                     const SizedBox(
                       height: 85,
                     ),
-                    MyTextFiled(
+                    MyTextField(
                       controller: loginController.usernameController,
-                      hintText: 'Username',
+                      hintText: 'Email',
                       obscureText: false,
-                      validator: (value) => validInput(value!, 'Username'),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Email is required';
+                        }
+                      },
                     ),
                     const SizedBox(
-                      height: 40,
+                      height: 10,
                     ),
-                    MyTextFiled(
+                    MyTextField(
                       controller: loginController.passwordController,
                       hintText: 'Password',
                       obscureText: true,
-                      validator: (value) => validInput(value!, 'Password'),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Password is required';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(
                       height: 5,
@@ -71,7 +78,7 @@ class Login extends StatelessWidget {
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: screenHeight * 0.03),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
@@ -89,9 +96,9 @@ class Login extends StatelessWidget {
                     MyButton(
                       key: UniqueKey(),
                       onTap: () async {
-                      //  if (loginController.formKey.currentState!.validate()) {
-                         await loginController.login();
-                       // }
+                        if (loginController.formKey.currentState!.validate()) {
+                          await loginController.login();
+                        }
                       },
                     ),
                     const SizedBox(
@@ -103,13 +110,13 @@ class Login extends StatelessWidget {
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: screenHeight * 0.03),
-                            child: Divider(
+                            child: const Divider(
                               thickness: 0.6,
                               color: Color.fromARGB(255, 179, 174, 174),
                             ),
                           ),
                         ),
-                        Text(
+                        const Text(
                           ' Or Login With ',
                           style: TextStyle(color: CustomColors.background),
                         ),
@@ -117,7 +124,7 @@ class Login extends StatelessWidget {
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: screenHeight * 0.03),
-                            child: Divider(
+                            child: const Divider(
                               thickness: 0.8,
                               color: CustomColors.background,
                             ),
@@ -128,7 +135,7 @@ class Login extends StatelessWidget {
                     const SizedBox(
                       height: 15,
                     ),
-                    LogoButton()
+                    const LogoButton()
                   ],
                 ),
               ),

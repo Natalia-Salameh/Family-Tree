@@ -13,7 +13,7 @@ class TreeState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progressController = Get.find<ProgressController>();
+    final ProgressController progressController = Get.find<ProgressController>();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -67,10 +67,7 @@ class TreeState extends StatelessWidget {
                           ),
                         );
                       },
-                      // Rest of your code...
-
                       child: const CircleAvatar(
-                        // This is the circular add icon on the right bottom side of the node
                         radius: 15,
                         backgroundColor: Color.fromARGB(255, 243, 239, 239),
                         child: Icon(Icons.add,

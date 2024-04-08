@@ -5,4 +5,9 @@ class AppLink {
   static const String login = "$serverName/Account/Login/MobileApp";
 
   static const String signup = "$serverName/Account/Register";
+
+  static const String sendEmailVerification =
+      "$serverName/Account/SendEmailVerification";
+
+  static const String codeVerification = "$serverName/Account/VerifyEmail";
 }

@@ -13,7 +13,7 @@ class Diary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progressController = Get.find<ProgressController>();
+    final ProgressController progressController = Get.find<ProgressController>();
     final diaryController = Get.put(DiaryController());
     return Scaffold(
       body: SingleChildScrollView(

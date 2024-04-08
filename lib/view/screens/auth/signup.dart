@@ -21,6 +21,7 @@ class SignUp extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.only(top: screenHeight * 0.02),
             child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: registerController.formKey,
               child: Center(
                 child: Column(
@@ -32,7 +33,7 @@ class SignUp extends StatelessWidget {
                       children: [
                         IconButton(
                           icon: Icon(Icons.arrow_back),
-                          onPressed: () => Get.back(), // Go back
+                          onPressed: () => Get.back(),
                         ),
                         Expanded(
                           child: Padding(
@@ -50,35 +51,44 @@ class SignUp extends StatelessWidget {
                     const SizedBox(
                       height: 80,
                     ),
-                    MyTextFiled(
+                    MyTextField(
                       controller: registerController.usernameController,
                       hintText: 'Username',
                       obscureText: false,
                       validator: (value) => validInput(value!, 'Username'),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
-                    MyTextFiled(
+                    MyTextField(
+                      controller: registerController.emailController,
+                      hintText: 'Email',
+                      obscureText: false,
+                      validator: (value) => validInput(value!, 'Email'),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyTextField(
                       controller: registerController.passwordController,
                       hintText: 'Password',
                       obscureText: true,
                       validator: (value) => validInput(value!, 'Password'),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
-                    MyTextFiled(
+                    MyTextField(
                       controller: registerController.confirmPasswordController,
                       hintText: 'Confirm Password',
                       obscureText: true,
-                      // validator: (value) {
-                      //   if (value !=
-                      //       registerController.passwordController.text) {
-                      //     return 'Passwords do not match';
-                      //   }
-                      //   return validInput(value!, 'Password');
-                      // },
+                      validator: (value) {
+                        if (value !=
+                            registerController.passwordController.text) {
+                          return 'Passwords do not match';
+                        }
+                        return validInput(value!, 'Password');
+                      },
                     ),
                     const SizedBox(
                       height: 5,
@@ -86,10 +96,10 @@ class SignUp extends StatelessWidget {
                     SignButton(
                       key: UniqueKey(),
                       onTap: () async {
-                        // if (registerController.formKey.currentState!
-                        //     .validate()) {
-                          await registerController.signUp();
-                        // }
+                        if (registerController.formKey.currentState!
+                            .validate()) {
+                        await registerController.signUp();
+                        }
                       },
                     ),
                     const SizedBox(

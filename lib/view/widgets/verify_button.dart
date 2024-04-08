@@ -18,7 +18,7 @@ class VerifyButton extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(top: screenHeight * 0.06),
         child: ElevatedButton(
-          onPressed: () => Get.offAllNamed(AppRoute.memberForm),
+          onPressed: onTap,
           style: ElevatedButton.styleFrom(
             backgroundColor: CustomColors.primaryColor, //
             foregroundColor: Colors.white,

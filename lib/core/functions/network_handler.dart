@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkHandler {
-  static final storage = const FlutterSecureStorage();
+  static const storage = FlutterSecureStorage();
 
   static Future<http.Response> getRequest(String url,
       {bool includeToken = false}) async {
