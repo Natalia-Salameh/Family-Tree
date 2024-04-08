@@ -1,7 +1,6 @@
 import 'package:family_tree_application/controller/diary_controller.dart';
 import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/full_name.dart';
 import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
@@ -13,8 +12,9 @@ class Diary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProgressController progressController = Get.find<ProgressController>();
-    final diaryController = Get.put(DiaryController());
+    final ProgressController progressController =
+        Get.find<ProgressController>();
+    final storyController = Get.put(DiaryController());
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -40,20 +40,40 @@ class Diary extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
+                  SizedBox(
+                    height: 40,
+                    child: CustomTextForm(
+                      hintText: "Education",
+                      myController: storyController.educationController,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 40,
+                    child: CustomTextForm(
+                      hintText: "Work",
+                      myController: storyController.workController,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   CustomTextForm(
                     hintText: "Diary",
-                    maxLines: 18,
-                    myController: diaryController.diaryController.value,
+                    maxLines: 14,
+                    myController: storyController.diaryController,
                     alignLabelWithHint: true,
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   SizedBox(
                     height: 40,
                     child: Button(
-                        onPressed: () {
-                          Get.offAllNamed(AppRoute.home);
+                        onPressed: () async {
+                          await storyController.getStarted();
                         },
                         color: CustomColors.primaryColor,
                         child: const Text(

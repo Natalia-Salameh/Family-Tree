@@ -10,4 +10,7 @@ class AppLink {
       "$serverName/Account/SendEmailVerification";
 
   static const String codeVerification = "$serverName/Account/VerifyEmail";
+
+  // ========================== On Boarding Form  ========================== //
+  static const String diary = "$serverName/Profile/AddLegacy";
 }

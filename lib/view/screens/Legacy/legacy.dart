@@ -70,15 +70,15 @@ class Legacy extends StatelessWidget {
               icon: const Icon(Icons.dehaze_sharp))
         ],
       ),
-      body: const SingleChildScrollView(
+      body:  SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: Align(
               alignment: Alignment.topCenter,
               child: Column(
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(bottom: 10),
                     child: ProfilePicture(
                       name: "Natalia Salameh",
@@ -86,9 +86,21 @@ class Legacy extends StatelessWidget {
                       fontsize: 21,
                     ),
                   ),
-                  Text("Natalia Salameh"),
-                  SizedBox(height: 10),
-                  LegacyTabBar(),
+                  const Text("Natalia Salameh"),
+                  const SizedBox(height: 10),
+                  LegacyTabBar(
+                    views: [
+                      Container(
+                          alignment: Alignment.center,
+                          child: const Text('Family Tree')),
+                      Container(
+                          alignment: Alignment.center,
+                          child: const Text('diary')),
+                      Container(
+                          alignment: Alignment.center,
+                          child: const Text('information')),
+                    ],
+                  ),
                 ],
               ),
             ),

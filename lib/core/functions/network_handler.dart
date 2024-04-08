@@ -13,7 +13,8 @@ class NetworkHandler {
     };
 
     if (includeToken) {
-      headers["authorization"] = "Bearer ${await getToken('token')}";
+      String? token = await getToken();
+      headers["Authorization"] = "Bearer $token";
     }
 
     var response = await http.get(
@@ -30,7 +31,8 @@ class NetworkHandler {
       "Content-Type": "application/json",
     };
     if (includeToken) {
-      headers["authorization"] = "Bearer ${await getToken('token')}";
+      String? token = await getToken();
+      headers["Authorization"] = "Bearer $token";
     }
     var response = await http.post(
       Uri.parse(url),
@@ -44,7 +46,7 @@ class NetworkHandler {
     await storage.write(key: 'token', value: token);
   }
 
-  static Future<String?> getToken(String token) async {
+  static Future<String?> getToken() async {
     return await storage.read(key: 'token');
   }
 

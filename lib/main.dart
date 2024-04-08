@@ -8,10 +8,12 @@ import 'package:get/get.dart';
 void main() async {
   Get.put(ProgressController());
   WidgetsFlutterBinding.ensureInitialized();
-  String? token = await NetworkHandler.getToken('token');
+  String? token = await NetworkHandler.getToken();
 
   runApp(
-      MyApp(initialRoute: token == null ? AppRoute.getStarted : AppRoute.home));
+    // MyApp(initialRoute: token == null ? AppRoute.getStarted : AppRoute.home),
+    MyApp(initialRoute: AppRoute.login),
+  );
 }
 
 class MyApp extends StatelessWidget {

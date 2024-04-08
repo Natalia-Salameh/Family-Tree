@@ -19,7 +19,8 @@ class MemberForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProgressController progressController = Get.find<ProgressController>();
+    final ProgressController progressController =
+        Get.find<ProgressController>();
     return GetBuilder<MemberFormController>(
         init: MemberFormController(),
         builder: (controller) {
@@ -161,26 +162,6 @@ class MemberForm extends StatelessWidget {
                                 myController: controller.dateController,
                               ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: CustomTextForm(
-                            hintText: "Education",
-                            myController: controller.educationController,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: CustomTextForm(
-                            hintText: "Work",
-                            myController: controller.workController,
                           ),
                         ),
                         const SizedBox(
