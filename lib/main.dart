@@ -11,8 +11,7 @@ void main() async {
   String? token = await NetworkHandler.getToken();
 
   runApp(
-    // MyApp(initialRoute: token == null ? AppRoute.getStarted : AppRoute.home),
-    MyApp(initialRoute: AppRoute.login),
+    MyApp(initialRoute: token == null ? AppRoute.getStarted : AppRoute.home),
   );
 }
 
