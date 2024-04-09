@@ -33,8 +33,7 @@ class _FamilyTreePageState extends State<FamilyTreePage> {
         maxScale: 5.6,
         child: GraphView(
           graph: graph,
-          algorithm: BuchheimWalkerAlgorithm(
-              buchheimWalkerConfig, TreeEdgeRenderer(buchheimWalkerConfig)),
+          algorithm: BuchheimWalkerAlgorithm(buchheimWalkerConfig, TreeEdgeRenderer(buchheimWalkerConfig)),
           paint: Paint()
             ..strokeWidth = 1
             ..style = PaintingStyle.stroke,
@@ -48,7 +47,7 @@ class _FamilyTreePageState extends State<FamilyTreePage> {
     final personData = MockData.person;
     final names = _findNodeNames(node.key!.value, personData);
     final isChild = names.length == 1 && node.key!.value != personData['id'];
-
+    
     return _createNodeWidget(names, isChild: isChild);
   }
 
@@ -65,16 +64,14 @@ class _FamilyTreePageState extends State<FamilyTreePage> {
       names.add(personData['FirstName']);
       personData['Spouses']?.forEach((spouse) {
         names.add(spouse['Partner']['firstName']);
-        spouse['Partner']['Children']
-            ?.forEach((child) => addChildNames(child['Child']));
+        spouse['Partner']['Children']?.forEach((child) => addChildNames(child['Child']));
       });
     } else {
       personData['Spouses']?.forEach((spouse) {
         if (spouse['Partner']['id'] == nodeId) {
           names.add(spouse['Partner']['firstName']);
         }
-        spouse['Partner']['Children']
-            ?.forEach((child) => addChildNames(child['Child']));
+        spouse['Partner']['Children']?.forEach((child) => addChildNames(child['Child']));
       });
     }
 
@@ -86,18 +83,16 @@ class _FamilyTreePageState extends State<FamilyTreePage> {
     return Wrap(
       alignment: WrapAlignment.start,
       spacing: 10,
-      children: names
-          .map((name) => Padding(
-                padding: EdgeInsets.all(isChild ? 8.0 : 0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const CircleAvatar(radius: 30),
-                    Text(name),
-                  ],
-                ),
-              ))
-          .toList(),
+      children: names.map((name) => Padding(
+            padding: EdgeInsets.all(isChild ? 8.0 : 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircleAvatar(radius: 30),
+                Text(name),
+              ],
+            ),
+          )).toList(),
     );
   }
 

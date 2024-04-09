@@ -7,8 +7,6 @@ class MemberFormController extends GetxController {
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
-  final TextEditingController educationController = TextEditingController();
-  final TextEditingController workController = TextEditingController();
 
   void updateGender(Gender? gender) {
     selectedGender.value = gender;
@@ -19,8 +17,6 @@ class MemberFormController extends GetxController {
     fullNameController.dispose();
     lastNameController.dispose();
     dateController.dispose();
-    educationController.dispose();
-    workController.dispose();
     super.onClose();
   }
 }

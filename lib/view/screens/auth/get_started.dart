@@ -101,8 +101,8 @@ class _GetStartedState extends State<GetStarted> {
                   ),
                   side: BorderSide(
                       color: CustomColors.primaryColor,
-                      width: 2), // Border color and width
-                  elevation: 4, // Shadow depth
+                      width: 2),
+                  elevation: 4, 
                 ),
                 child: Text(
                   'Sign Up',

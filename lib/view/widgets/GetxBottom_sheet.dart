@@ -1,4 +1,5 @@
-import 'package:family_tree_application/view/screens/onBoardingForm/add_familymember.dart';
+
+import 'package:family_tree_application/view/screens/onBoardingForm/add_member.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

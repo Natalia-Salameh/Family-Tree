@@ -19,7 +19,8 @@ class MemberForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progressController = Get.find<ProgressController>();
+    final ProgressController progressController =
+        Get.find<ProgressController>();
     return GetBuilder<MemberFormController>(
         init: MemberFormController(),
         builder: (controller) {
@@ -45,32 +46,7 @@ class MemberForm extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(26),
-                          child: Stack(
-                            children: [
-                              const Profile(),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  child: IconButton(
-                                    icon: const Icon(Icons.camera_alt_outlined,
-                                        size: 16),
-                                    color: CustomColors.primaryColor,
-                                    onPressed: () {},
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        const Profile(),
                         Row(
                           children: [
                             Expanded(
@@ -186,26 +162,6 @@ class MemberForm extends StatelessWidget {
                                 myController: controller.dateController,
                               ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: CustomTextForm(
-                            hintText: "Education",
-                            myController: controller.educationController,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: CustomTextForm(
-                            hintText: "Work",
-                            myController: controller.workController,
                           ),
                         ),
                         const SizedBox(

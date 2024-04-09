@@ -1,5 +1,5 @@
 import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
-import 'package:family_tree_application/view/screens/bottom_nav.dart';
+import 'package:family_tree_application/view/widgets/bottom_nav.dart';
 import 'package:family_tree_application/view/screens/home/search.dart';
 import 'package:family_tree_application/view/screens/home/tree.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +39,62 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _pages = [
+      Padding(
+        padding: const EdgeInsets.all(20),
+        child: ListView.builder(
+          itemCount: MockData.people.length,
+          itemBuilder: (context, index) {
+            String personKey = 'person${index + 1}';
+            var person = MockData.people[personKey];
+            return Card(
+              color: Colors.white,
+              shadowColor: CustomColors.black,
+              elevation: 5,
+              margin: const EdgeInsets.all(7),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const SizedBox(height: 30),
+                  ListTile(
+                    leading: Image.asset(
+                      person?['image'],
+                      height: 60,
+                      width: 60,
+                      fit: BoxFit.cover,
+                    ),
+                    title: Text(
+                      person['name'],
+                      style: const TextStyle(fontSize: 24),
+                    ),
+                    subtitle:
+                        Text('${person['subject']} - ${person['location']}'),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      const SizedBox(height: 15),
+                      TextButton(
+                        child: const Text(
+                          'View Family',
+                          style: TextStyle(color: CustomColors.primaryColor),
+                        ),
+                        onPressed: () {
+                          Get.toNamed(AppRoute.tree);
+                        },
+                      ),
+                      const SizedBox(width: 15),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+      Center(child: FamilyTreePage()),
+      const Center(child: Legacy()),
+    ];
     return Scaffold(
       appBar: _buildAppBar(context),
       body: _pages[_selectedIndex],

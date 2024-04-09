@@ -8,8 +8,9 @@ import '../../widgets/logo_buttons.dart';
 import '../../widgets/my_textfield.dart';
 import '../../widgets/sign_button.dart';
 
-class SignUp extends GetView<SignUpController> {
-  SignUpController con = Get.put(SignUpController());
+class SignUp extends StatelessWidget {
+  SignUp({super.key});
+  final SignUpController registerController = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,8 @@ class SignUp extends GetView<SignUpController> {
           child: Padding(
             padding: EdgeInsets.only(top: screenHeight * 0.02),
             child: Form(
-              key: con.formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              key: registerController.formKey,
               child: Center(
                 child: Column(
                   children: [
@@ -31,7 +33,7 @@ class SignUp extends GetView<SignUpController> {
                       children: [
                         IconButton(
                           icon: Icon(Icons.arrow_back),
-                          onPressed: () => Get.back(), // Go back
+                          onPressed: () => Get.back(),
                         ),
                         Expanded(
                           child: Padding(
@@ -49,30 +51,40 @@ class SignUp extends GetView<SignUpController> {
                     const SizedBox(
                       height: 80,
                     ),
-                    MyTextFiled(
-                      controller: con.usernameController,
+                    MyTextField(
+                      controller: registerController.usernameController,
                       hintText: 'Username',
                       obscureText: false,
                       validator: (value) => validInput(value!, 'Username'),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
-                    MyTextFiled(
-                      controller: con.passwordController,
+                    MyTextField(
+                      controller: registerController.emailController,
+                      hintText: 'Email',
+                      obscureText: false,
+                      validator: (value) => validInput(value!, 'Email'),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyTextField(
+                      controller: registerController.passwordController,
                       hintText: 'Password',
                       obscureText: true,
                       validator: (value) => validInput(value!, 'Password'),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
-                    MyTextFiled(
-                      controller: con.confirmPasswordController,
+                    MyTextField(
+                      controller: registerController.confirmPasswordController,
                       hintText: 'Confirm Password',
                       obscureText: true,
                       validator: (value) {
-                        if (value != con.passwordController.text) {
+                        if (value !=
+                            registerController.passwordController.text) {
                           return 'Passwords do not match';
                         }
                         return validInput(value!, 'Password');
@@ -82,9 +94,12 @@ class SignUp extends GetView<SignUpController> {
                       height: 5,
                     ),
                     SignButton(
-                      key: UniqueKey(), // Updated
-                      onTap: () {
-                        con.signUserUp();
+                      key: UniqueKey(),
+                      onTap: () async {
+                        if (registerController.formKey.currentState!
+                            .validate()) {
+                        await registerController.signUp();
+                        }
                       },
                     ),
                     const SizedBox(

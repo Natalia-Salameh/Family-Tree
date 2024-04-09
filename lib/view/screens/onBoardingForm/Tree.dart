@@ -1,5 +1,6 @@
 import 'package:family_tree_application/core/constants/imageasset.dart';
-import 'package:family_tree_application/view/screens/onBoardingForm/add_familymember.dart';
+import 'package:family_tree_application/view/screens/Forms/relative_form.dart';
+import 'package:family_tree_application/view/screens/onBoardingForm/add_member.dart';
 import 'package:family_tree_application/view/widgets/GetxBottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
