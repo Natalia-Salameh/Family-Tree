@@ -1,12 +1,14 @@
-import 'package:family_tree_application/view/screens/Forms/relative_form.dart';
+
+import 'package:family_tree_application/view/screens/onBoardingForm/add_member.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomBottomSheet extends StatefulWidget {
-  final List<Image> images;
-  final List<String> imageTexts = ['Parent', 'Spouse', 'Child'];
+  final List<Widget> children; // Change to List<Widget> to accept any widget
 
-  CustomBottomSheet({required this.images});
+  CustomBottomSheet({required this.children});
+
+  final List<String> imageTexts = ['Parent', 'Spouse', 'Child'];
 
   @override
   _CustomBottomSheetState createState() => _CustomBottomSheetState();
@@ -30,7 +32,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
             child: GestureDetector(
                 onTap: () {
                   Get.to(
-                    const UserAdd(),
+                    const UserAdd(
+                      role: '',
+                    ),
                   );
                 },
                 child: Column(
@@ -39,7 +43,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                     Container(
                       width: 200,
                       height: 200,
-                      child: widget.images[currentIndex],
+                      child: widget.children[currentIndex],
                     ),
                     Text(widget.imageTexts[currentIndex]),
                   ],
@@ -66,7 +70,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                 IconButton(
                   icon: const Icon(Icons.arrow_forward),
                   onPressed: () {
-                    if (currentIndex < widget.images.length - 1) {
+                    if (currentIndex < widget.children.length - 1) {
                       setState(() {
                         currentIndex++;
                       });

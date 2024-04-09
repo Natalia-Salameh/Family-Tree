@@ -11,6 +11,7 @@ class UserFormController extends GetxController {
   final TextEditingController educationController = TextEditingController();
   final TextEditingController workController = TextEditingController();
 
+
   void updateGender(Gender? gender) {
     selectedGender.value = gender;
   }

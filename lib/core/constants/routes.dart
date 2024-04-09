@@ -17,4 +17,5 @@ class AppRoute {
   static const String diary = "/Diary";
   static const String onBoardingNav = "/onBoardingNav";
   static const String settings = "/settings";
+  static const String userAdd = "/UserAdd";
 }
