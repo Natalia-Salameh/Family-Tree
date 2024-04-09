@@ -1,5 +1,4 @@
 import 'package:family_tree_application/core/constants/imageasset.dart';
-import 'package:family_tree_application/view/screens/Forms/relative_form.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/add_member.dart';
 import 'package:family_tree_application/view/widgets/GetxBottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +37,7 @@ class _TreeState extends State<TreeState> {
   }
 
   void _initializeGraph() {
-    final n.Node rootNode = n.Node.Id(1); // Root node
+    final n.Node rootNode = n.Node.Id(1);
     graph.addNode(rootNode);
     nodeNames[1] = ["Antoun"];
   }
@@ -50,7 +49,7 @@ class _TreeState extends State<TreeState> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               ProgressBar(progress: progressController.progress.value),
@@ -63,13 +62,13 @@ class _TreeState extends State<TreeState> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 185),
+              const SizedBox(height: 10),
               Expanded(
                 child: InteractiveViewer(
                   transformationController: TransformationController()
                     ..value = Matrix4.diagonal3Values(_scale, _scale, 1),
                   constrained: false,
-                  boundaryMargin: EdgeInsets.all(100),
+                  boundaryMargin: const EdgeInsets.all(100),
                   minScale: 0.01,
                   maxScale: 5.6,
                   child: GraphView(
@@ -93,28 +92,60 @@ class _TreeState extends State<TreeState> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showBottomSheet(context),
-        child: Icon(Icons.add),
-        backgroundColor: CustomColors.primaryColor,
-      ),
     );
   }
 
   Widget _nodeWidget(n.Node node) {
-    // This method should be adjusted based on your node widget implementation
-    final isSelected = node.key?.value == selectedNodeId;
     final names = nodeNames[node.key?.value] ?? ["Unnamed"];
-    return GestureDetector(
-      onTap: () => setState(() => selectedNodeId = node.key?.value),
-      child: Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: isSelected ? Colors.blue : Colors.grey,
-        ),
-        child: Text(names.join(", "), textAlign: TextAlign.center),
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(children: [
+          for (var i = 0; i < names.length; i++) ...[
+            if (i != 0)
+              Container(
+                height: 2.5,
+                width: 20,
+                color: Colors.black,
+              ),
+            Column(
+              children: [
+                Stack(
+                  children: [
+                    const CircleAvatar(
+                      radius: 30,
+                    ),
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Material(
+                        shape: const CircleBorder(),
+                        clipBehavior: Clip.hardEdge,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() => selectedNodeId = node.key?.value);
+                            _showBottomSheet(context);
+                          },
+                          child: const CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 12,
+                            child: Icon(
+                              Icons.add,
+                              size: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Text(names[i]),
+              ],
+            ),
+          ]
+        ]),
+      ],
     );
   }
 
@@ -162,37 +193,18 @@ class _TreeState extends State<TreeState> {
     );
   }
 
-  // void _navigateAndAdd(String role) {
-  //   Navigator.pop(context); // Close the bottom sheet
-  //   // Navigate to your UserAdd page and pass the role
-  //   // Example: Get.toNamed(AppRoute.userAdd, arguments: {"role": role}).then((result) => handleAddNodeResult(result, role));
-  //   // Assuming your UserAdd page returns a name, let's simulate receiving the name
-  //   final name = "New Name"; // Simulate receiving name from UserAdd
-  //   handleAddNodeResult(name, role);
-  // }
   void _navigateAndAdd(String role) async {
-    Navigator.pop(context); // Close the bottom sheet
-    // Await the result from UserAdd screen
+    Navigator.pop(context);
     final result = await Get.to(() => UserAdd(role: role));
 
     if (result != null && result is Map) {
       String role = result['role'];
       String firstName = result['firstName'];
-      // Now, add the node based on the role and name returned
       addNode(role, firstName);
     }
   }
 
   void addNode(String role, String name) {
-    // Assuming "Child" results in adding a new node and "Spouse" adds a name to the existing node
-    if (role == "Child") {
-      _addChild(name);
-    } else if (role == "Spouse") {
-      _addSpouse(name);
-    }
-  }
-
-  void handleAddNodeResult(String name, String role) {
     if (role == "Child") {
       _addChild(name);
     } else if (role == "Spouse") {
