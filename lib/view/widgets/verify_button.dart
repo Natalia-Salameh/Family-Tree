@@ -1,11 +1,10 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
-
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
+
 import 'package:flutter/material.dart';
-
-
+import 'package:get/get.dart';
 
 class VerifyButton extends StatelessWidget {
   final Function()? onTap;
@@ -19,9 +18,7 @@ class VerifyButton extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(top: screenHeight * 0.06),
         child: ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).pushNamed(AppRoute.home);
-          },
+          onPressed: onTap,
           style: ElevatedButton.styleFrom(
             backgroundColor: CustomColors.primaryColor, //
             foregroundColor: Colors.white,

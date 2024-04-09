@@ -2,8 +2,10 @@
 
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
-import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../auth/get_started.dart';
 
 class OnBoarding3 extends StatelessWidget {
   const OnBoarding3({super.key});
@@ -39,11 +41,11 @@ class OnBoarding3 extends StatelessWidget {
                   )),
             ),
             Padding(
-              padding: EdgeInsets.only(top: screenHeight * 0.07),
+              padding: EdgeInsets.only(top: screenHeight * 0.03),
               child: ElevatedButton(
                 onPressed: () {
                   // sese ba3deen
-                  Navigator.of(context).pushNamed(AppRoute.getStarted);
+                  Get.offAll(GetStarted());
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: CustomColors.primaryColor, //

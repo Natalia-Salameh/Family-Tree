@@ -46,6 +46,14 @@ dependencies:
   flutter_profile_picture: ^2.0.0
   editable_image: ^2.0.0
   collection: ^1.18.0
+  get: ^4.6.6
+  flutter_svg: ^2.0.10+1
+  image_picker_widget: ^2.4.1
+  permission_handler: ^11.3.0
+  smooth_page_indicator: ^1.1.0
+  shared_preferences: ^2.2.2
+  http: ^1.2.1
+  flutter_secure_storage: ^9.0.0
 
 dev_dependencies:
   flutter_test:
@@ -68,7 +76,6 @@ flutter:
   assets:
     - assets/images/
     # Other assets can be listed here as well
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

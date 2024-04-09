@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
-import 'package:family_tree_application/core/constants/routes.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../core/constants/colors.dart';

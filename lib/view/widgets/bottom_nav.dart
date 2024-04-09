@@ -1,8 +1,6 @@
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/constants/colors.dart';
-
 class CustomFloatingBottomBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;

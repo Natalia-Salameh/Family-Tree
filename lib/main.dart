@@ -1,48 +1,31 @@
-// ignore_for_file: prefer_const_constructors
-
+import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
-import 'package:family_tree_application/view/screens/Forms/user_form.dart';
-import 'package:family_tree_application/view/screens/Legacy/legacy_edit.dart';
-import 'package:family_tree_application/view/screens/auth/get_started.dart';
-import 'package:family_tree_application/view/screens/auth/signup_verify_code.dart';
-import 'package:family_tree_application/view/screens/home/home.dart';
-import 'package:family_tree_application/view/screens/onBoardingForm/member_form.dart';
-import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
-
+import 'package:family_tree_application/core/functions/network_handler.dart';
+import 'package:family_tree_application/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import 'view/screens/splash_screen.dart';
-import 'view/screens/onBoarding/on_boarding1.dart';
-import 'view/screens/onBoarding/on_boarding2.dart';
-import 'view/screens/onBoarding/on_boarding3.dart';
-import 'view/screens/auth/login.dart';
-import 'view/screens/auth/signup.dart';
+void main() async {
+  Get.put(ProgressController());
+  WidgetsFlutterBinding.ensureInitialized();
+  String? token = await NetworkHandler.getToken();
 
-void main() {
-  runApp(const MyApp());
+  runApp(
+    // MyApp(initialRoute: token == null ? AppRoute.getStarted : AppRoute.home),
+    MyApp(initialRoute: AppRoute.login),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String initialRoute;
+  const MyApp({Key? key, required this.initialRoute}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
-        routes: {
-          AppRoute.splash: (context) => SplashScreen(),
-          AppRoute.onBoarding1: (context) => OnBoarding1(),
-          AppRoute.onBoarding2: (context) => OnBoarding2(),
-          AppRoute.onBoarding3: (context) => OnBoarding3(),
-          AppRoute.getStarted: (context) => GetStarted(),
-          AppRoute.login: (context) => Login(),
-          AppRoute.signUp: (context) => SignUp(),
-          AppRoute.verifyCode: (context) => VerifyCode(),
-          AppRoute.home: (context) => Home(),
-          AppRoute.form: (context) => MemberForm(),
-          AppRoute.editLegacy: (context) => LegacyEdit(),
-          // AppRoute.legacy: (context) => Legacy(),
-          AppRoute.userForm: (context) => UserForm(),
-        });
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: initialRoute,
+      getPages: routes,
+    );
   }
 }

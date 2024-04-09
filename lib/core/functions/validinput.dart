@@ -1,9 +1,13 @@
 String? validInput(String val, String field) {
   if (val.isEmpty) {
     return "$field can't be empty";
+  } else if (field == 'Email') {
+    if (!val.contains('@')) {
+      return 'A valid email address is required';
+    }
   } else if (field == 'Username') {
-    if (!val.endsWith('@gmail.com')) {
-      return "$field must end with @gmail.com";
+    if (val.length < 6 || val.length > 100) {
+      return 'The username must be between 6 and 100 characters long.';
     }
   } else if (field == 'Password') {
     if (val.length < 8) {
@@ -18,5 +22,6 @@ String? validInput(String val, String field) {
       return "$field must contain at least one special character";
     }
   }
+
   return null;
 }

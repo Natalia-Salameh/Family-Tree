@@ -1,3 +1,3 @@
-enum Gender {
-  female, male
-}
+enum Gender { female, male }
+
+enum LifeStatus { alive, dead }

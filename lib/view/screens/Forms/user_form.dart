@@ -1,31 +1,24 @@
+import 'dart:io';
+
+import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/enums.dart';
 import 'package:family_tree_application/mock_data.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/family_name.dart';
 import 'package:family_tree_application/view/widgets/form/full_name.dart';
 import 'package:family_tree_application/view/widgets/form/gender.dart';
+import 'package:family_tree_application/view/widgets/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_profile_picture/flutter_profile_picture.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:image_picker_widget/image_picker_widget.dart';
 
-class UserForm extends StatefulWidget {
-  const UserForm({Key? key}) : super(key: key);
+class UserForm extends StatelessWidget {
+  final UserFormController controller = Get.put(UserFormController());
 
-  @override
-  State<UserForm> createState() => _UserFormState();
-}
-
-class _UserFormState extends State<UserForm> {
-  final GlobalKey<FormState> formStateKey = GlobalKey<FormState>();
-
-  final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController educationController = TextEditingController();
-  final TextEditingController workController = TextEditingController();
-  late DateTime dateTime;
+  UserForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +32,7 @@ class _UserFormState extends State<UserForm> {
               alignment: Alignment.topCenter,
               child: Column(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.all(26),
-                    child: Stack(
-                      children: [
-                        ProfilePicture(
-                          name: "",
-                          radius: 31,
-                          fontsize: 21,
-                        ),
-                      ],
-                    ),
-                  ),
+                 const Profile(),
                   Row(
                     children: [
                       Expanded(
@@ -59,14 +41,15 @@ class _UserFormState extends State<UserForm> {
                           height: 40,
                           child: CustomTextForm(
                             hintText: "Full name",
-                            myController: fullNameController,
+                            myController: controller.fullNameController,
                           ),
                         ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: FamilyNameDropDown(
-                            textEditingController: lastNameController,
+                            textEditingController:
+                                controller.lastNameController,
                             hint: "Family name",
                             isFamilyNameSelected: true,
                             familyNames: MockData.familyName),
@@ -84,27 +67,27 @@ class _UserFormState extends State<UserForm> {
                           style: TextStyle(fontSize: 16),
                         )),
                     Expanded(
-                        flex: 1,
-                        child: RadioButton(
+                      flex: 1,
+                      child: Obx(() => RadioButton(
                             label: "Female",
                             genderValue: Gender.female,
-                            selectedGender: MockData.groupValue,
+                            selectedGender: controller.selectedGender.value,
                             onGenderSelected: (val) {
-                              setState(() {
-                                MockData.groupValue = val!;
-                              });
-                            })),
+                              controller.updateGender(Gender.female);
+                            },
+                          )),
+                    ),
                     Expanded(
-                        flex: 1,
-                        child: RadioButton(
+                      flex: 1,
+                      child: Obx(() => RadioButton(
                             label: "Male",
                             genderValue: Gender.male,
-                            selectedGender: MockData.groupValue,
+                            selectedGender: controller.selectedGender.value,
                             onGenderSelected: (val) {
-                              setState(() {
-                                MockData.groupValue = val!;
-                              });
-                            })),
+                              controller.updateGender(Gender.male);
+                            },
+                          )),
+                    ),
                   ]),
                   const SizedBox(
                     height: 10,
@@ -143,7 +126,8 @@ class _UserFormState extends State<UserForm> {
                                   onDateTimeChanged: (DateTime value) {
                                     final dateTimeText =
                                         "${value.year}-${value.month}-${value.day}";
-                                    dateController.text = dateTimeText;
+                                    controller.dateController.text =
+                                        dateTimeText;
                                   },
                                 ),
                               ),
@@ -157,7 +141,7 @@ class _UserFormState extends State<UserForm> {
                         height: 40,
                         child: CustomTextForm(
                           hintText: "Birthday",
-                          myController: dateController,
+                          myController: controller.dateController,
                         ),
                       ),
                     ),
@@ -169,7 +153,7 @@ class _UserFormState extends State<UserForm> {
                     height: 40,
                     child: CustomTextForm(
                       hintText: "Education",
-                      myController: educationController,
+                      myController: controller.educationController,
                     ),
                   ),
                   const SizedBox(
@@ -179,7 +163,7 @@ class _UserFormState extends State<UserForm> {
                     height: 40,
                     child: CustomTextForm(
                       hintText: "Work",
-                      myController: workController,
+                      myController: controller.workController,
                     ),
                   ),
                   const SizedBox(

@@ -1,30 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:family_tree_application/core/constants/routes.dart';
-import 'package:family_tree_application/view/widgets/logo_buttons.dart';
-import 'package:family_tree_application/view/widgets/sign_button.dart';
+import 'package:get/get.dart';
+
+import '../../../controller/signup_controller.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/functions/validinput.dart';
-import '../../widgets/my_frame.dart';
+import '../../widgets/logo_buttons.dart';
 import '../../widgets/my_textfield.dart';
+import '../../widgets/sign_button.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
-
-  @override
-  State<SignUp> createState() => _SignUpState();
-}
-
-class _SignUpState extends State<SignUp> {
-  final _formKey = GlobalKey<FormState>();
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
-
-  void signUserUp() {
-    if (_formKey.currentState!.validate()) {
-      Navigator.of(context).pushNamed(AppRoute.verifyCode);
-    }
-  }
+class SignUp extends StatelessWidget {
+  SignUp({super.key});
+  final SignUpController registerController = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +20,10 @@ class _SignUpState extends State<SignUp> {
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(top: screenHeight * 0.02),
-            child: Center(
-              child: Form(
-                key: _formKey,
-                autovalidateMode: AutovalidateMode.always,
+            child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              key: registerController.formKey,
+              child: Center(
                 child: Column(
                   children: [
                     const SizedBox(
@@ -47,7 +33,7 @@ class _SignUpState extends State<SignUp> {
                       children: [
                         IconButton(
                           icon: Icon(Icons.arrow_back),
-                          onPressed: () => Navigator.pop(context), // Go back
+                          onPressed: () => Get.back(),
                         ),
                         Expanded(
                           child: Padding(
@@ -65,30 +51,40 @@ class _SignUpState extends State<SignUp> {
                     const SizedBox(
                       height: 80,
                     ),
-                    MyTextFiled(
-                      controller: usernameController,
+                    MyTextField(
+                      controller: registerController.usernameController,
                       hintText: 'Username',
                       obscureText: false,
                       validator: (value) => validInput(value!, 'Username'),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
-                    MyTextFiled(
-                      controller: passwordController,
+                    MyTextField(
+                      controller: registerController.emailController,
+                      hintText: 'Email',
+                      obscureText: false,
+                      validator: (value) => validInput(value!, 'Email'),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    MyTextField(
+                      controller: registerController.passwordController,
                       hintText: 'Password',
                       obscureText: true,
                       validator: (value) => validInput(value!, 'Password'),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
-                    MyTextFiled(
-                      controller: confirmPasswordController,
+                    MyTextField(
+                      controller: registerController.confirmPasswordController,
                       hintText: 'Confirm Password',
                       obscureText: true,
                       validator: (value) {
-                        if (value != passwordController.text) {
+                        if (value !=
+                            registerController.passwordController.text) {
                           return 'Passwords do not match';
                         }
                         return validInput(value!, 'Password');
@@ -98,7 +94,13 @@ class _SignUpState extends State<SignUp> {
                       height: 5,
                     ),
                     SignButton(
-                      onTap: signUserUp,
+                      key: UniqueKey(),
+                      onTap: () async {
+                        if (registerController.formKey.currentState!
+                            .validate()) {
+                        await registerController.signUp();
+                        }
+                      },
                     ),
                     const SizedBox(
                       height: 30,

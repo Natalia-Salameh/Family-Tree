@@ -1,132 +1,117 @@
+import 'package:family_tree_application/mock_data.dart';
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
-class TreeViewPage extends StatefulWidget {
+class FamilyTreePage extends StatefulWidget {
+  const FamilyTreePage({Key? key}) : super(key: key);
+
   @override
-  _TreeViewPageState createState() => _TreeViewPageState();
+  _FamilyTreePageState createState() => _FamilyTreePageState();
 }
 
-class _TreeViewPageState extends State<TreeViewPage> {
-  double _scale = 1.0;
-  get name => null;
+class _FamilyTreePageState extends State<FamilyTreePage> {
+  final Graph graph = Graph()..isTree = true;
+  final buchheimWalkerConfig = BuchheimWalkerConfiguration()
+    ..siblingSeparation = 100
+    ..levelSeparation = 150
+    ..subtreeSeparation = 150
+    ..orientation = BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM;
+
+  @override
+  void initState() {
+    super.initState();
+    _buildGraphFromJson();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _scale *= 1.5;
-                    });
-                  },
-                  icon: Icon(Icons.add),
-                ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _scale /= 1.5;
-                    });
-                  },
-                  icon: Icon(Icons.remove),
-                ),
-              ],
-            ),
-            Expanded(
-              child: InteractiveViewer(
-                  scaleEnabled: false,
-                  transformationController: TransformationController()
-                    ..value = Matrix4.diagonal3Values(_scale, _scale, 1),
-                  constrained: false,
-                  boundaryMargin: EdgeInsets.all(100),
-                  minScale: 0.01,
-                  maxScale: 5.6,
-                  child: GraphView(
-                    graph: graph,
-                    algorithm: BuchheimWalkerAlgorithm(
-                        builder, TreeEdgeRenderer(builder)),
-                    paint: Paint()
-                      ..color = Colors.green
-                      ..strokeWidth = 1
-                      ..style = PaintingStyle.stroke,
-                    builder: (Node node) {
-                      // Create a new Node object for each node ID
-                      final nodeKey = node.key!.value as int?;
-                      final nodeObject = Node.Id(nodeKey!);
-
-                      return rectangleWidget(nodeObject);
-                    },
-                  )),
-            ),
-          ],
-        ));
-  }
-
-  //Random r = Random();
-
-  Widget rectangleWidget(Node node) {
-    return InkWell(
-      onTap: () {
-        // Create a new node with a unique ID
-        final newNode = Node.Id(graph.nodeCount() + 1);
-
-        // Add the new node as a child to the clicked node
-        graph.addEdge(node, newNode);
-
-        // Update the graph
-        setState(() {});
-      },
-      child: Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          boxShadow: [
-            BoxShadow(color: Colors.blue[100]!, spreadRadius: 1),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Node ${node.key!.value}'),
-            SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () {
-                // Create a new node with a unique ID
-                final newNode = Node.Id(graph.nodeCount() + 1);
-
-                // Add the new node as a child to the clicked node
-                graph.addEdge(node, newNode);
-
-                // Update the graph
-                setState(() {});
-              },
-              child: Text('Add child'),
-            ),
-          ],
+      body: InteractiveViewer(
+        constrained: false,
+        boundaryMargin: const EdgeInsets.all(100),
+        minScale: 0.01,
+        maxScale: 5.6,
+        child: GraphView(
+          graph: graph,
+          algorithm: BuchheimWalkerAlgorithm(buchheimWalkerConfig, TreeEdgeRenderer(buchheimWalkerConfig)),
+          paint: Paint()
+            ..strokeWidth = 1
+            ..style = PaintingStyle.stroke,
+          builder: (Node node) => _nodeWidget(node),
         ),
       ),
     );
   }
 
-  final Graph graph = Graph()..isTree = true;
-  BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
+  Widget _nodeWidget(Node node) {
+    final personData = MockData.person;
+    final names = _findNodeNames(node.key!.value, personData);
+    final isChild = names.length == 1 && node.key!.value != personData['id'];
+    
+    return _createNodeWidget(names, isChild: isChild);
+  }
 
-  @override
-  void initState() {
-    final node1 = Node.Id(1);
+  List<String> _findNodeNames(int nodeId, Map<String, dynamic> personData) {
+    List<String> names = [];
 
-    graph.addNode(node1);
+    void addChildNames(dynamic childData) {
+      if (childData['id'] == nodeId) {
+        names.add(childData['firstName']);
+      }
+    }
 
-    builder
-      ..siblingSeparation = (100)
-      ..levelSeparation = (100)
-      ..subtreeSeparation = (10)
-      ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
+    if (nodeId == personData['id']) {
+      names.add(personData['FirstName']);
+      personData['Spouses']?.forEach((spouse) {
+        names.add(spouse['Partner']['firstName']);
+        spouse['Partner']['Children']?.forEach((child) => addChildNames(child['Child']));
+      });
+    } else {
+      personData['Spouses']?.forEach((spouse) {
+        if (spouse['Partner']['id'] == nodeId) {
+          names.add(spouse['Partner']['firstName']);
+        }
+        spouse['Partner']['Children']?.forEach((child) => addChildNames(child['Child']));
+      });
+    }
+
+    if (names.isEmpty) names.add("Unknown");
+    return names;
+  }
+
+  Widget _createNodeWidget(List<String> names, {bool isChild = false}) {
+    return Wrap(
+      alignment: WrapAlignment.start,
+      spacing: 10,
+      children: names.map((name) => Padding(
+            padding: EdgeInsets.all(isChild ? 8.0 : 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircleAvatar(radius: 30),
+                Text(name),
+              ],
+            ),
+          )).toList(),
+    );
+  }
+
+  void _buildGraphFromJson() {
+    final personData = MockData.person;
+    final Node rootNode = Node.Id(personData['id']);
+    graph.addNode(rootNode);
+
+    personData['Spouses']?.forEach((spouse) {
+      final partnerData = spouse['Partner'];
+      final Node spouseNode = Node.Id(partnerData['id']);
+      graph.addNode(spouseNode);
+      graph.addEdge(rootNode, spouseNode);
+
+      partnerData['Children']?.forEach((child) {
+        final Node childNode = Node.Id(child['Child']['id']);
+        graph.addNode(childNode);
+        graph.addEdge(spouseNode, childNode);
+      });
+    });
   }
 }

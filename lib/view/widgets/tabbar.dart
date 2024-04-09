@@ -4,8 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LegacyTabBar extends StatelessWidget {
+  final List<Widget> views;
+
   const LegacyTabBar({
     Key? key,
+    required this.views,
   }) : super(key: key);
 
   @override
@@ -24,11 +27,7 @@ class LegacyTabBar extends StatelessWidget {
             Icon(CupertinoIcons.book),
             Icon(CupertinoIcons.info_circle),
           ],
-          views: [
-            Container(child: Text('Family Tree'), alignment: Alignment.center),
-            Container(child: Text('diary'), alignment: Alignment.center),
-            Container(child: Text('information'), alignment: Alignment.center),
-          ],
+          views: views,
         ),
       ),
     );

@@ -1,23 +1,35 @@
+import 'dart:io';
+
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker_widget/image_picker_widget.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 70,
-      height: 70,
-      decoration: const ShapeDecoration(
-        shape: OvalBorder(
-          side: BorderSide(width: 1, color: CustomColors.primaryColor),
-        ),
-      ),
-      child: const Icon(
-        Icons.person,
-        size: 60,
-        color: CustomColors.primaryColor,
+    return Padding(
+      padding: const EdgeInsets.all(26),
+      child: Stack(
+        children: [
+          Transform.scale(
+              scale: 0.6,
+              child: ImagePickerWidget(
+                fit: BoxFit.cover,
+                diameter: 140,
+                // initialImage: File("assets/images/profile.png"),
+                shape: ImagePickerWidgetShape.circle,
+                modalOptions: ModalOptions(
+                    cameraColor: CustomColors.primaryColor,
+                    galleryColor: CustomColors.primaryColor),
+                isEditable: true,
+                imagePickerOptions: ImagePickerOptions(imageQuality: 6),
+                onChange: (File file) {
+                  print("I changed the file to: ${file.path}");
+                },
+              )),
+        ],
       ),
     );
   }

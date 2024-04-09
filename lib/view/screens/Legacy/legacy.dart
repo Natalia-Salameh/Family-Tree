@@ -4,15 +4,11 @@ import 'package:family_tree_application/view/widgets/tabbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
+import 'package:get/get.dart';
 
-class Legacy extends StatefulWidget {
-  const Legacy({Key? key}) : super(key: key);
+class Legacy extends StatelessWidget {
+  const Legacy({super.key});
 
-  @override
-  State<Legacy> createState() => _UserFormState();
-}
-
-class _UserFormState extends State<Legacy> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +38,9 @@ class _UserFormState extends State<Legacy> {
                           ListTile(
                             leading: const Icon(Icons.settings),
                             title: const Text("Settings"),
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed(AppRoute.settings);
+                            },
                           ),
                           const Divider(
                             height: 1,
@@ -55,8 +53,7 @@ class _UserFormState extends State<Legacy> {
                             leading: const Icon(Icons.edit),
                             title: const Text("Edit legacy"),
                             onTap: () {
-                              Navigator.of(context)
-                                  .pushNamed(AppRoute.editLegacy);
+                              Get.toNamed(AppRoute.editLegacy);
                             },
                           ),
                           const Divider(
@@ -73,15 +70,15 @@ class _UserFormState extends State<Legacy> {
               icon: const Icon(Icons.dehaze_sharp))
         ],
       ),
-      body: const SingleChildScrollView(
+      body:  SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: Align(
               alignment: Alignment.topCenter,
               child: Column(
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(bottom: 10),
                     child: ProfilePicture(
                       name: "Natalia Salameh",
@@ -89,9 +86,21 @@ class _UserFormState extends State<Legacy> {
                       fontsize: 21,
                     ),
                   ),
-                  Text("Natalia Salameh"),
-                  SizedBox(height: 10),
-                  LegacyTabBar(),
+                  const Text("Natalia Salameh"),
+                  const SizedBox(height: 10),
+                  LegacyTabBar(
+                    views: [
+                      Container(
+                          alignment: Alignment.center,
+                          child: const Text('Family Tree')),
+                      Container(
+                          alignment: Alignment.center,
+                          child: const Text('diary')),
+                      Container(
+                          alignment: Alignment.center,
+                          child: const Text('information')),
+                    ],
+                  ),
                 ],
               ),
             ),
