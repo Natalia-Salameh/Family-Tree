@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +15,7 @@ class OnBoarding1 extends StatelessWidget {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.only(top: screenHeight * 0.06),
+        padding: EdgeInsets.only(top: screenHeight * 0.01),
         child: Column(
           children: [
             Padding(
@@ -53,47 +52,6 @@ class OnBoarding1 extends StatelessWidget {
                     height: 1.5,
                     letterSpacing: 0,
                   ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(bottom: screenHeight * 0.001),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      width: 80,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: CustomColors.primaryColor,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    InkWell(
-                      onTap: () {
-                        Get.to(OnBoarding2());
-                      },
-                      child: Container(
-                        width: 80,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: CustomColors.background,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Container(
-                      width: 80,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: CustomColors.background,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ),

@@ -1,15 +1,18 @@
 import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
+import 'package:family_tree_application/view/widgets/bottom_nav.dart';
 import 'package:family_tree_application/view/screens/home/search.dart';
 import 'package:family_tree_application/view/screens/home/tree.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
+
 
 import '../../../core/constants/colors.dart';
-import '../../../core/constants/imageasset.dart';
-import '../bottom_nav.dart';
+import '../../../core/constants/routes.dart';
+import '../../../mock_data.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -18,51 +21,20 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
-  // Map of people with their details
-  final Map<String, dynamic> people = {
-    'person1': {
-      'name': 'Alex Smith',
-      'subject': 'Mathematics',
-      'location': 'New York',
-      'image': AppImageAsset.father,
-    },
-    'person2': {
-      'name': 'Maria Garcia',
-      'subject': 'Biology',
-      'location': 'Los Angeles',
-      'image': AppImageAsset.child,
-    },
-    'person3': {
-      'name': 'John Doe',
-      'subject': 'History',
-      'location': 'Chicago',
-      'image': AppImageAsset.profile,
-    },
-    'person4': {
-      'name': 'Alex Smith',
-      'subject': 'Mathematics',
-      'location': 'New York',
-      'image': AppImageAsset.mother,
-    },
-    'person5': {
-      'name': 'Maria Garcia',
-      'subject': 'Biology',
-      'location': 'Los Angeles',
-      'image': AppImageAsset.child,
-    },
-    // Add more people as needed
-  };
-  bool _showLegacyPage = false;
+  final List<Widget> _pages = [
+    const PersonListView(),
+    Center(
+        child: FamilyTreePage()), // Assuming this is a properly defined widget
+    const Center(child: Legacy()), // Assuming this is a properly defined widget
+  ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      if (index == 2) {
-        _showLegacyPage = true;
-      } else {
-        _showLegacyPage = false;
-      }
-    });
+    if (index == 1) {
+      Get.toNamed(
+          AppRoute.userForm); // Make sure you have defined AppRoute.userForm
+    } else {
+      setState(() => _selectedIndex = index);
+    }
   }
 
   @override
@@ -71,15 +43,15 @@ class _HomeState extends State<Home> {
       Padding(
         padding: const EdgeInsets.all(20),
         child: ListView.builder(
-          itemCount: people.length,
+          itemCount: MockData.people.length,
           itemBuilder: (context, index) {
             String personKey = 'person${index + 1}';
-            var person = people[personKey];
+            var person = MockData.people[personKey];
             return Card(
               color: Colors.white,
               shadowColor: CustomColors.black,
               elevation: 5,
-              margin: EdgeInsets.all(7),
+              margin: const EdgeInsets.all(7),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -108,12 +80,7 @@ class _HomeState extends State<Home> {
                           style: TextStyle(color: CustomColors.primaryColor),
                         ),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TreeViewPage(),
-                            ),
-                          );
+                          Get.toNamed(AppRoute.tree);
                         },
                       ),
                       const SizedBox(width: 15),
@@ -125,55 +92,101 @@ class _HomeState extends State<Home> {
           },
         ),
       ),
-      const Center(child: Text('Add Page')),
+      Center(child: FamilyTreePage()),
       const Center(child: Legacy()),
     ];
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 232, 231, 231),
-      appBar: _showLegacyPage
-          ? null
-          : AppBar(
-              title: Text(
-                'Ajial',
-                style: GoogleFonts.lobster(
-                  textStyle: const TextStyle(
-                    color: CustomColors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 32,
-                  ),
-                ),
-              ),
-              backgroundColor: Color.fromARGB(255, 232, 231, 231),
-              actions: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.search,
-                      color: CustomColors.black,
-                      size: 30,
-                    ),
-                    onPressed: () {
-                      // Handle search button press
-
-                      showSearch(
-                        context: context,
-                        delegate: CustomSearchDelegate(),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-      body: Stack(
-        children: [
-          _pages[_selectedIndex],
-          if (_showLegacyPage) Legacy(),
-        ],
-      ),
+      appBar: _buildAppBar(context),
+      body: _pages[_selectedIndex],
       bottomNavigationBar: CustomFloatingBottomBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
+      ),
+    );
+  }
+
+  AppBar? _buildAppBar(BuildContext context) {
+    if (_selectedIndex != 0) return null; // AppBar only for the first page
+
+    return AppBar(
+      title: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          'Ajial',
+          style: GoogleFonts.lobster(
+            color: CustomColors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+          ),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      elevation: 0, // Removes the AppBar shadow for a flat design
+      actions: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: IconButton(
+            icon: Icon(Icons.search, color: CustomColors.black, size: 30),
+            onPressed: () => showSearch(
+                context: context,
+                delegate:
+                    CustomSearchDelegate()), // Ensure CustomSearchDelegate is defined
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PersonListView extends StatelessWidget {
+  const PersonListView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: ListView.builder(
+        itemCount: MockData.people.length,
+        itemBuilder: (context, index) {
+          final personKey = 'person${index + 1}';
+          final person = MockData.people[personKey];
+          return person != null
+              ? PersonCard(person: person)
+              : SizedBox.shrink();
+        },
+      ),
+    );
+  }
+}
+
+class PersonCard extends StatelessWidget {
+  final Map<String, dynamic> person;
+
+  const PersonCard({Key? key, required this.person}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.white,
+      shadowColor: CustomColors.black.withOpacity(0.5),
+      elevation: 5,
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: ListTile(
+        leading: Image.asset(person['image'],
+            height: 60, width: 60, fit: BoxFit.cover),
+        title: Text(person['name'],
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        subtitle: Text('${person['subject']} - ${person['location']}',
+            style: TextStyle(fontSize: 16)),
+        trailing: TextButton(
+          child: Text('View Family',
+              style: TextStyle(color: CustomColors.primaryColor)),
+          onPressed: () =>
+              Get.toNamed(AppRoute.tree), // Make sure AppRoute.tree is defined
+        ),
       ),
     );
   }

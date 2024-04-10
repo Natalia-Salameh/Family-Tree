@@ -1,120 +1,117 @@
+import 'package:family_tree_application/mock_data.dart';
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
-class FamilyMember {
-  final String name;
-  final Color color;
-  final Offset position;
+class FamilyTreePage extends StatefulWidget {
+  const FamilyTreePage({Key? key}) : super(key: key);
 
-  FamilyMember(this.name, this.color, this.position);
-}
-
-class TreeViewPage extends StatefulWidget {
   @override
-  _TreeViewPageState createState() => _TreeViewPageState();
+  _FamilyTreePageState createState() => _FamilyTreePageState();
 }
 
-class _TreeViewPageState extends State<TreeViewPage> {
+class _FamilyTreePageState extends State<FamilyTreePage> {
   final Graph graph = Graph()..isTree = true;
-  final BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration()
-    ..siblingSeparation = (100)
-    ..levelSeparation = (120)
-    ..subtreeSeparation = (80)
-    ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
-  final Map<String, FamilyMember> familyMembers = {
-    'Amir': FamilyMember('Amir', Colors.green, Offset(100, 100)),
-    'Sandy': FamilyMember('Sandy', Colors.yellow, Offset(200, 100)),
-    'Fida': FamilyMember('Fida', Colors.pink, Offset(300, 200)),
-    'Nour': FamilyMember('Nour', Colors.blue, Offset(400, 200)),
-    'Fadi': FamilyMember('Fadi', Colors.orange, Offset(150, 300)),
-    'Dyala': FamilyMember('Dyala', Colors.purple, Offset(350, 300)),
-    'Leen': FamilyMember('Leen', Colors.red, Offset(250, 400)),
-    'Maram': FamilyMember('Maram', Colors.teal, Offset(300, 500)),
-  };
+  final buchheimWalkerConfig = BuchheimWalkerConfiguration()
+    ..siblingSeparation = 100
+    ..levelSeparation = 150
+    ..subtreeSeparation = 150
+    ..orientation = BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM;
 
   @override
   void initState() {
     super.initState();
-
-    // Create nodes for each family member
-    familyMembers.forEach((index, member) {
-      graph.addNode(Node.Id(index));
-    });
-
-    // Connect the nodes to form the family tree
-    graph.addEdge(Node.Id(1), Node.Id(5)); // Amir -> Fadi
-    graph.addEdge(Node.Id(2), Node.Id(5)); // Sandy -> Fadi
-    graph.addEdge(Node.Id(3), Node.Id(6)); // Fida -> Dyala
-    graph.addEdge(Node.Id(4), Node.Id(6)); // Nour -> Dyala
-    graph.addEdge(Node.Id(5), Node.Id(7)); // Fadi -> Leen
-    graph.addEdge(Node.Id(6), Node.Id(7)); // Dyala -> Leen
-    graph.addEdge(Node.Id(5), Node.Id(8)); // Fadi -> Maram
-    graph.addEdge(Node.Id(6), Node.Id(8)); // Dyala -> Maram
+    _buildGraphFromJson();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Family Tree'),
-      ),
-      body: Stack(
-        children: [
-          // Draw the lines
-          CustomPaint(
-            size: Size.infinite,
-            painter: LinePainter(familyMembers),
-          ),
-          // Draw the nodes
-          ...familyMembers.entries.map((entry) {
-            return Positioned(
-              left: entry.value.position.dx,
-              top: entry.value.position.dy,
-              child: familyMemberWidget(entry.value),
-            );
-          }).toList(),
-        ],
+      body: InteractiveViewer(
+        constrained: false,
+        boundaryMargin: const EdgeInsets.all(100),
+        minScale: 0.01,
+        maxScale: 5.6,
+        child: GraphView(
+          graph: graph,
+          algorithm: BuchheimWalkerAlgorithm(buchheimWalkerConfig, TreeEdgeRenderer(buchheimWalkerConfig)),
+          paint: Paint()
+            ..strokeWidth = 1
+            ..style = PaintingStyle.stroke,
+          builder: (Node node) => _nodeWidget(node),
+        ),
       ),
     );
   }
 
-  Widget familyMemberWidget(FamilyMember member) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: member.color,
-        shape: BoxShape.circle,
-      ),
-      child: Text(
-        member.name,
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  }
-}
-
-class LinePainter extends CustomPainter {
-  final Map<String, FamilyMember> familyMembers;
-
-  LinePainter(this.familyMembers);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 2;
-
-    // Define the lines here
-    // For example, to draw a line from Amir to Fadi:
-    canvas.drawLine(
-      familyMembers['Amir']!.position,
-      familyMembers['Fadi']!.position,
-      paint,
-    );
-
-    // Draw the rest of the lines
+  Widget _nodeWidget(Node node) {
+    final personData = MockData.person;
+    final names = _findNodeNames(node.key!.value, personData);
+    final isChild = names.length == 1 && node.key!.value != personData['id'];
+    
+    return _createNodeWidget(names, isChild: isChild);
   }
 
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  List<String> _findNodeNames(int nodeId, Map<String, dynamic> personData) {
+    List<String> names = [];
+
+    void addChildNames(dynamic childData) {
+      if (childData['id'] == nodeId) {
+        names.add(childData['firstName']);
+      }
+    }
+
+    if (nodeId == personData['id']) {
+      names.add(personData['FirstName']);
+      personData['Spouses']?.forEach((spouse) {
+        names.add(spouse['Partner']['firstName']);
+        spouse['Partner']['Children']?.forEach((child) => addChildNames(child['Child']));
+      });
+    } else {
+      personData['Spouses']?.forEach((spouse) {
+        if (spouse['Partner']['id'] == nodeId) {
+          names.add(spouse['Partner']['firstName']);
+        }
+        spouse['Partner']['Children']?.forEach((child) => addChildNames(child['Child']));
+      });
+    }
+
+    if (names.isEmpty) names.add("Unknown");
+    return names;
+  }
+
+  Widget _createNodeWidget(List<String> names, {bool isChild = false}) {
+    return Wrap(
+      alignment: WrapAlignment.start,
+      spacing: 10,
+      children: names.map((name) => Padding(
+            padding: EdgeInsets.all(isChild ? 8.0 : 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircleAvatar(radius: 30),
+                Text(name),
+              ],
+            ),
+          )).toList(),
+    );
+  }
+
+  void _buildGraphFromJson() {
+    final personData = MockData.person;
+    final Node rootNode = Node.Id(personData['id']);
+    graph.addNode(rootNode);
+
+    personData['Spouses']?.forEach((spouse) {
+      final partnerData = spouse['Partner'];
+      final Node spouseNode = Node.Id(partnerData['id']);
+      graph.addNode(spouseNode);
+      graph.addEdge(rootNode, spouseNode);
+
+      partnerData['Children']?.forEach((child) {
+        final Node childNode = Node.Id(child['Child']['id']);
+        graph.addNode(childNode);
+        graph.addEdge(spouseNode, childNode);
+      });
+    });
+  }
 }
