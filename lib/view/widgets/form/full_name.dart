@@ -6,7 +6,7 @@ class CustomTextForm extends StatelessWidget {
   final TextEditingController myController;
   final int maxLines;
   final bool alignLabelWithHint;
-  // final String? Function(String?) valid;
+  final String? Function(String?)? valid;
 
   const CustomTextForm({
     Key? key,
@@ -14,13 +14,13 @@ class CustomTextForm extends StatelessWidget {
     required this.myController,
     this.maxLines = 1,
     this.alignLabelWithHint = false,
-    // required this.valid,
+    this.valid,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        //    validator: valid,
+        validator: valid,
         maxLines: maxLines,
         controller: myController,
         decoration: InputDecoration(

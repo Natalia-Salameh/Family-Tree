@@ -1,16 +1,18 @@
 import 'dart:convert';
 
 import 'package:family_tree_application/controller/progress_bar.dart';
+import 'package:family_tree_application/controller/signup_controller.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
+import 'package:family_tree_application/model/login_model.dart';
 import 'package:family_tree_application/model/verify_email_model.dart';
 import 'package:get/get.dart';
 
 class VerifyEmailController extends GetxController {
-
   String? email;
   final code = ''.obs;
+  SignUpController signUpController = Get.find();
 
   @override
   void onInit() {
@@ -32,7 +34,27 @@ class VerifyEmailController extends GetxController {
 
     var data = json.decode(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      Get.offAllNamed(AppRoute.memberForm);
+      LoginModel loginData = LoginModel(
+        userName: email!,
+        password: signUpController.passwordController.text,
+      );
+      var tokenResponse = await NetworkHandler.postRequest(
+        AppLink.login,
+        loginData.toJson(),
+      );
+
+      var tokendata = json.decode(tokenResponse.body);
+      if (tokenResponse.statusCode == 200 || tokenResponse.statusCode == 201) {
+        await NetworkHandler.storeToken(tokendata["token"]);
+        print(tokenResponse.body);
+        Get.offAllNamed(AppRoute.memberForm);
+      } else {
+        Get.defaultDialog(
+          title: "Error",
+          middleText: data['titel'],
+        );
+        print(tokenResponse.body);
+      }
     } else {
       Get.defaultDialog(
         title: "Error",

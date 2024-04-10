@@ -35,10 +35,14 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.userForm, page: () => UserForm()),
   GetPage(name: AppRoute.editLegacy, page: () => const LegacyEdit()),
   GetPage(name: AppRoute.legacy, page: () => const Legacy()),
-  GetPage(name: AppRoute.memberForm, page: () => const MemberForm()),
+  GetPage(name: AppRoute.memberForm, page: () => MemberForm()),
   GetPage(name: AppRoute.tree, page: () => const FamilyTreePage()),
   GetPage(name: AppRoute.treeForm, page: () => const TreeState()),
   GetPage(name: AppRoute.diary, page: () => const Diary()),
   GetPage(name: AppRoute.settings, page: () => const Settings()),
-   GetPage(name: AppRoute.userAdd, page: () => const UserAdd(role: '',)),
+  GetPage(
+      name: AppRoute.userAdd,
+      page: () => const UserAdd(
+            role: '',
+          )),
 ];

@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MemberForm extends StatelessWidget {
-  const MemberForm({super.key});
+  MemberForm({super.key});
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,162 +26,208 @@ class MemberForm extends StatelessWidget {
         init: MemberFormController(),
         builder: (controller) {
           return Scaffold(
-            body: SingleChildScrollView(
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 20),
-                        ProgressBar(
-                          progress: progressController.progress.value,
-                        ),
-                        const SizedBox(height: 30),
-                        const Text(
-                          "Lets get started by adding you first, fill these in",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
+            body: Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          ProgressBar(
+                            progress: progressController.progress.value,
                           ),
-                        ),
-                        const Profile(),
-                        Row(
-                          children: [
+                          const SizedBox(height: 30),
+                          const Text(
+                            "Lets get started by adding you first, fill these in",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Profile(),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: SizedBox(
+                                  child: CustomTextForm(
+                                    hintText: "First name",
+                                    myController:
+                                        controller.firstNameController,
+                                    // valid: (value) {
+                                    //   if (value!.isEmpty) {
+                                    //     return "required*";
+                                    //   }
+                                    //   return null;
+                                    // },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                flex: 1,
+                                child: SizedBox(
+                                  child: CustomTextForm(
+                                    hintText: "Second name",
+                                    myController:
+                                        controller.secondNameController,
+                                    valid: (value) {
+                                      if (value!.isEmpty) {
+                                        return "required *";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                flex: 1,
+                                child: SizedBox(
+                                  child: CustomTextForm(
+                                    hintText: "Third name",
+                                    myController:
+                                        controller.thirdNameController,
+                                    valid: (value) {
+                                      if (value!.isEmpty) {
+                                        return "required *";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: FamilyNameDropDown(
+                                    textEditingController:
+                                        controller.lastNameController,
+                                    hint: "Family name",
+                                    isFamilyNameSelected: true,
+                                    familyNames: MockData.familyName),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          Row(children: [
+                            const Expanded(
+                                flex: 0,
+                                child: Text(
+                                  "Gender: ",
+                                  style: TextStyle(fontSize: 16),
+                                )),
                             Expanded(
-                              flex: 2,
+                              flex: 1,
+                              child: Obx(() => RadioButton(
+                                    label: "Female",
+                                    genderValue: Gender.female,
+                                    selectedGender:
+                                        controller.selectedGender.value,
+                                    onGenderSelected: (val) {
+                                      controller.updateGender(Gender.female);
+                                    },
+                                  )),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Obx(() => RadioButton(
+                                    label: "Male",
+                                    genderValue: Gender.male,
+                                    selectedGender:
+                                        controller.selectedGender.value,
+                                    onGenderSelected: (val) {
+                                      controller.updateGender(Gender.male);
+                                    },
+                                  )),
+                            ),
+                          ]),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) => Container(
+                                  height: 300,
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          CupertinoButton(
+                                            child: const Text("Done",
+                                                style: TextStyle(
+                                                    color: CustomColors
+                                                        .primaryColor)),
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      Expanded(
+                                        child: CupertinoDatePicker(
+                                          mode: CupertinoDatePickerMode.date,
+                                          onDateTimeChanged: (DateTime value) {
+                                            final dateTimeText =
+                                                "${value.year}-${value.month}-${value.day}";
+                                            controller.dateController.text =
+                                                dateTimeText;
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            child: AbsorbPointer(
                               child: SizedBox(
                                 height: 40,
                                 child: CustomTextForm(
-                                  hintText: "Full name",
-                                  myController: controller.fullNameController,
+                                  hintText: "Birthday",
+                                  myController: controller.dateController,
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: FamilyNameDropDown(
-                                  textEditingController:
-                                      controller.lastNameController,
-                                  hint: "Family name",
-                                  isFamilyNameSelected: true,
-                                  familyNames: MockData.familyName),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(children: [
-                          const Expanded(
-                              flex: 0,
-                              child: Text(
-                                "Gender: ",
-                                style: TextStyle(fontSize: 16),
-                              )),
-                          Expanded(
-                            flex: 1,
-                            child: Obx(() => RadioButton(
-                                  label: "Female",
-                                  genderValue: Gender.female,
-                                  selectedGender:
-                                      controller.selectedGender.value,
-                                  onGenderSelected: (val) {
-                                    controller.updateGender(Gender.female);
-                                  },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            height: 40,
+                            child: Button(
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    progressController.updateProgress();
+                                    Get.offAllNamed(AppRoute.treeForm);
+                                  }
+                                },
+                                color: CustomColors.primaryColor,
+                                child: const Text(
+                                  "Next",
+                                  style: TextStyle(color: CustomColors.white),
                                 )),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Obx(() => RadioButton(
-                                  label: "Male",
-                                  genderValue: Gender.male,
-                                  selectedGender:
-                                      controller.selectedGender.value,
-                                  onGenderSelected: (val) {
-                                    controller.updateGender(Gender.male);
-                                  },
-                                )),
-                          ),
-                        ]),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (context) => Container(
-                                height: 300,
-                                width: double.infinity,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        CupertinoButton(
-                                          child: const Text("Done",
-                                              style: TextStyle(
-                                                  color: CustomColors
-                                                      .primaryColor)),
-                                          onPressed: () {
-                                            Get.back();
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                    Expanded(
-                                      child: CupertinoDatePicker(
-                                        mode: CupertinoDatePickerMode.date,
-                                        onDateTimeChanged: (DateTime value) {
-                                          final dateTimeText =
-                                              "${value.year}-${value.month}-${value.day}";
-                                          controller.dateController.text =
-                                              dateTimeText;
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                          child: AbsorbPointer(
-                            child: SizedBox(
-                              height: 40,
-                              child: CustomTextForm(
-                                hintText: "Birthday",
-                                myController: controller.dateController,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: Button(
-                              onPressed: () {
-                                progressController.updateProgress();
-                                Get.offAllNamed(AppRoute.treeForm);
-                              },
-                              color: CustomColors.primaryColor,
-                              child: const Text(
-                                "Next",
-                                style: TextStyle(color: CustomColors.white),
-                              )),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
