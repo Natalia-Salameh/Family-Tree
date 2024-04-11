@@ -1,9 +1,9 @@
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/tabbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
+
 import 'package:get/get.dart';
 
 class Legacy extends StatelessWidget {
@@ -70,7 +70,7 @@ class Legacy extends StatelessWidget {
               icon: const Icon(Icons.dehaze_sharp))
         ],
       ),
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(15),

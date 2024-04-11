@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:get/get.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/controller/legacy_edit_controller.dart'; // Import the controller
-import 'package:flutter_profile_picture/flutter_profile_picture.dart';
+
 
 class LegacyEdit extends StatelessWidget {
   const LegacyEdit({super.key});

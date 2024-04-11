@@ -12,7 +12,7 @@ void main() async {
 
   runApp(
     // MyApp(initialRoute: token == null ? AppRoute.getStarted : AppRoute.home),
-    MyApp(initialRoute: AppRoute.memberForm),
+    MyApp(initialRoute: AppRoute.splash),
   );
 }
 

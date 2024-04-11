@@ -1,12 +1,11 @@
+import 'package:family_tree_application/controller/signup_controller.dart';
+import 'package:family_tree_application/core/constants/colors.dart';
+import 'package:family_tree_application/core/functions/validinput.dart';
+import 'package:family_tree_application/view/widgets/logo_buttons.dart';
+import 'package:family_tree_application/view/widgets/my_textfield.dart';
+import 'package:family_tree_application/view/widgets/sign_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../controller/signup_controller.dart';
-import '../../../core/constants/colors.dart';
-import '../../../core/functions/validinput.dart';
-import '../../widgets/logo_buttons.dart';
-import '../../widgets/my_textfield.dart';
-import '../../widgets/sign_button.dart';
 
 class SignUp extends StatelessWidget {
   SignUp({super.key});
@@ -98,7 +97,7 @@ class SignUp extends StatelessWidget {
                       onTap: () async {
                         if (registerController.formKey.currentState!
                             .validate()) {
-                        await registerController.signUp();
+                          await registerController.signUp();
                         }
                       },
                     ),
