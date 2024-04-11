@@ -59,12 +59,12 @@ class MemberForm extends StatelessWidget {
                                     hintText: "First name",
                                     myController:
                                         controller.firstNameController,
-                                    // valid: (value) {
-                                    //   if (value!.isEmpty) {
-                                    //     return "required*";
-                                    //   }
-                                    //   return null;
-                                    // },
+                                    valid: (value) {
+                                      if (value!.isEmpty) {
+                                        return "required*";
+                                      }
+                                      return null;
+                                    },
                                   ),
                                 ),
                               ),
@@ -104,12 +104,14 @@ class MemberForm extends StatelessWidget {
                               ),
                               const SizedBox(width: 10),
                               Expanded(
+                                flex: 1,
                                 child: FamilyNameDropDown(
-                                    textEditingController:
-                                        controller.lastNameController,
-                                    hint: "Family name",
-                                    isFamilyNameSelected: true,
-                                    familyNames: MockData.familyName),
+                                  textEditingController:
+                                      controller.lastNameController,
+                                  hint: "Family name",
+                                  isFamilyNameSelected: true,
+                                  familyNames: MockData.familyName,
+                                ),
                               ),
                             ],
                           ),
@@ -200,7 +202,6 @@ class MemberForm extends StatelessWidget {
                             },
                             child: AbsorbPointer(
                               child: SizedBox(
-                                height: 40,
                                 child: CustomTextForm(
                                   hintText: "Birthday",
                                   myController: controller.dateController,

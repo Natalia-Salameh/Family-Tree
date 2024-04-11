@@ -48,40 +48,33 @@ class _FamilyNameDropDownState extends State<FamilyNameDropDown> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 40,
-          child: TextFormField(
-            controller: widget.textEditingController,
-            onTap: widget.isFamilyNameSelected
-                ? () {
-                    FocusScope.of(context).unfocus();
-                    onTextFieldTap();
-                  }
-                : null,
-            decoration: InputDecoration(
-                filled: false,
-                focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: CustomColors.primaryColor)),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    width: 1, 
-                    color: Colors.black, 
-                  ),
-                ),
-                contentPadding:
-                    EdgeInsets.all(10), 
-                labelText: widget.hint,
-                labelStyle: TextStyle(fontSize: 12.0)),
-            style: const TextStyle(
-              fontSize: 14.0,
-            ),
+    return TextFormField(
+      controller: widget.textEditingController,
+      onTap: widget.isFamilyNameSelected
+          ? () {
+              FocusScope.of(context).unfocus();
+              onTextFieldTap();
+            }
+          : null,
+      decoration: const InputDecoration(
+        labelStyle: TextStyle(
+          fontSize: 12,
+        ),
+        alignLabelWithHint: true,
+        labelText: "Family name",
+        hintStyle: TextStyle(
+          fontSize: 14,
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: CustomColors.primaryColor,
           ),
         ),
-      ],
+      ),
+      style: const TextStyle(
+        fontSize: 14.0,
+      ),
+      validator: (value) => value!.isEmpty ? "required *" : null,
     );
   }
 }

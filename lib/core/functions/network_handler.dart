@@ -7,7 +7,7 @@ class NetworkHandler {
   static const storage = FlutterSecureStorage();
 
   static Future<http.Response> getRequest(String url,
-      {bool includeToken = false}) async {
+      {Map<String, dynamic>? queryParams, bool includeToken = false}) async {
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
@@ -17,22 +17,30 @@ class NetworkHandler {
       headers["Authorization"] = "Bearer $token";
     }
 
+    var uri = Uri.parse(url);
+    if (queryParams != null) {
+      uri = uri.replace(queryParameters: queryParams);
+    }
+
     var response = await http.get(
-      Uri.parse(url),
+      uri,
       headers: headers,
     );
-
     return response;
   }
 
   static Future<http.Response> postRequest(String url, var data,
-      {bool includeToken = false}) async {
+      {Map<String, dynamic>? queryParams, bool includeToken = false}) async {
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
     if (includeToken) {
       String? token = await getToken();
       headers["Authorization"] = "Bearer $token";
+    }
+    var uri = Uri.parse(url);
+    if (queryParams != null) {
+      uri = uri.replace(queryParameters: queryParams);
     }
     var response = await http.post(
       Uri.parse(url),

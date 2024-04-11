@@ -1,19 +1,25 @@
+import 'package:family_tree_application/controller/search_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-// A sample data list to search from
-const List<String> _dataList = [
-  'mike',
-  'eian',
-  'marwa',
-  'john',
-  'kareen',
-  'natalia',
-  'Seleena',
-  // Add more items here
-];
-
-// Custom Search Delegate
 class CustomSearchDelegate extends SearchDelegate {
+  final SearchPersonController searchController =
+      Get.put(SearchPersonController());
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+      textTheme: const TextTheme(
+        titleLarge: TextStyle(fontSize: 16.0, color: Colors.black),
+      ),
+      inputDecorationTheme: const InputDecorationTheme(
+        border: InputBorder.none,
+        hintStyle: TextStyle(
+            fontSize: 16.0, color: Color.fromARGB(153, 148, 148, 148)),
+      ),
+    );
+  }
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -21,6 +27,7 @@ class CustomSearchDelegate extends SearchDelegate {
         icon: Icon(Icons.clear),
         onPressed: () {
           query = '';
+          showSuggestions(context);
         },
       ),
     ];
@@ -38,47 +45,41 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // Filter the list based on the query
-    final List<String> matchQuery = [];
-    for (var fruit in _dataList) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
+    return Obx(() {
+      var searchList = searchController.listSearch;
 
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
+      return ListView.builder(
+        itemCount: searchList.length,
+        itemBuilder: (context, index) {
+          var result = searchList[index];
+          return ListTile(
+            title: Text(result),
+          );
+        },
+      );
+    });
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // Show when someone searches for something
-    final List<String> matchQuery = [];
-    for (var fruit in _dataList) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
+    if (query.length >= 3) {
+      searchController.search(query);
     }
 
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var suggestion = matchQuery[index];
-        return ListTile(
-          title: Text(suggestion),
-          onTap: () {
-            query = suggestion;
-            showResults(context);
-          },
-        );
-      },
-    );
+    return Obx(() {
+      return ListView.builder(
+        itemCount: searchController.listSearch.length,
+        itemBuilder: (context, index) {
+          var suggestion = searchController.listSearch[index];
+          return ListTile(
+            title: Text(suggestion),
+            onTap: () {
+              query = suggestion;
+              showResults(context);
+            },
+          );
+        },
+      );
+    });
   }
 }

@@ -20,19 +20,25 @@ class CustomTextForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        validator: valid,
-        maxLines: maxLines,
-        controller: myController,
-        decoration: InputDecoration(
-            labelStyle: const TextStyle(fontSize: 12),
-            alignLabelWithHint: alignLabelWithHint,
-            labelText: hintText,
-            hintStyle: const TextStyle(fontSize: 14),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: CustomColors.primaryColor)),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+      cursorColor: CustomColors.primaryColor,
+      validator: valid,
+      maxLines: maxLines,
+      controller: myController,
+      decoration: InputDecoration(
+        alignLabelWithHint: true,
+        labelStyle: const TextStyle(
+          fontSize: 12,
+        ),
+        labelText: hintText,
+        hintStyle: const TextStyle(
+          fontSize: 14,
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: CustomColors.primaryColor,
+          ),
+        ),
+      ),
+    );
   }
 }

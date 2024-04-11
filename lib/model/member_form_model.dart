@@ -10,7 +10,7 @@ class MemberFormModel {
   String firstName;
   String secondName;
   String thirdName;
-  String familyId;
+  String? familyId;
   String gender;
   DateTime dateOfBirth;
   DateTime dateOfDeath;
@@ -19,7 +19,7 @@ class MemberFormModel {
     required this.firstName,
     required this.secondName,
     required this.thirdName,
-    required this.familyId,
+    this.familyId,
     required this.gender,
     required this.dateOfBirth,
     required this.dateOfDeath,
