@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 
-
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/routes.dart';
 import '../../../mock_data.dart';
@@ -126,12 +125,13 @@ class _HomeState extends State<Home> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: IconButton(
-            icon: Icon(Icons.search, color: CustomColors.black, size: 30),
-            onPressed: () => showSearch(
-                context: context,
-                delegate:
-                    CustomSearchDelegate()), // Ensure CustomSearchDelegate is defined
-          ),
+              icon: Icon(Icons.search, color: CustomColors.black, size: 30),
+              onPressed: () {
+                showSearch(
+                  delegate: CustomSearchDelegate(),
+                  context: context,
+                );
+              }),
         ),
       ],
     );

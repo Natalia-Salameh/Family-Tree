@@ -6,7 +6,7 @@ class CustomTextForm extends StatelessWidget {
   final TextEditingController myController;
   final int maxLines;
   final bool alignLabelWithHint;
-  // final String? Function(String?) valid;
+  final String? Function(String?)? valid;
 
   const CustomTextForm({
     Key? key,
@@ -14,25 +14,31 @@ class CustomTextForm extends StatelessWidget {
     required this.myController,
     this.maxLines = 1,
     this.alignLabelWithHint = false,
-    // required this.valid,
+    this.valid,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        //    validator: valid,
-        maxLines: maxLines,
-        controller: myController,
-        decoration: InputDecoration(
-            labelStyle: const TextStyle(fontSize: 12),
-            alignLabelWithHint: alignLabelWithHint,
-            labelText: hintText,
-            hintStyle: const TextStyle(fontSize: 14),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: CustomColors.primaryColor)),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))));
+      cursorColor: CustomColors.primaryColor,
+      validator: valid,
+      maxLines: maxLines,
+      controller: myController,
+      decoration: InputDecoration(
+        alignLabelWithHint: true,
+        labelStyle: const TextStyle(
+          fontSize: 12,
+        ),
+        labelText: hintText,
+        hintStyle: const TextStyle(
+          fontSize: 14,
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: CustomColors.primaryColor,
+          ),
+        ),
+      ),
+    );
   }
 }

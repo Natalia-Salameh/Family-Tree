@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/enums.dart';
@@ -11,9 +9,7 @@ import 'package:family_tree_application/view/widgets/form/gender.dart';
 import 'package:family_tree_application/view/widgets/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:image_picker_widget/image_picker_widget.dart';
 
 class UserForm extends StatelessWidget {
   final UserFormController controller = Get.put(UserFormController());
@@ -32,7 +28,7 @@ class UserForm extends StatelessWidget {
               alignment: Alignment.topCenter,
               child: Column(
                 children: [
-                 const Profile(),
+                  const Profile(),
                   Row(
                     children: [
                       Expanded(
@@ -42,6 +38,7 @@ class UserForm extends StatelessWidget {
                           child: CustomTextForm(
                             hintText: "Full name",
                             myController: controller.fullNameController,
+                            
                           ),
                         ),
                       ),

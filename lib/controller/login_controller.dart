@@ -5,7 +5,6 @@ import 'package:family_tree_application/core/constants/linkapi.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
 import 'package:family_tree_application/model/login_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
