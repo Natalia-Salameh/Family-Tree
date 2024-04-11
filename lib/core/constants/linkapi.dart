@@ -14,4 +14,6 @@ class AppLink {
   // ========================== On Boarding Form  ========================== //
   static const String addMember = "$serverName/Members";
   static const String diary = "$serverName/Profile/AddLegacy";
+  // ========================== Home  ========================== //
+  static const String search = "$serverName/Members/MobileSearch";
 }
