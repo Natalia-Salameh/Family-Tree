@@ -1,3 +1,5 @@
+import 'package:family_tree_application/Locale/locale.dart';
+
 import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
@@ -11,8 +13,8 @@ void main() async {
   String? token = await NetworkHandler.getToken();
 
   runApp(
-    MyApp(initialRoute: token == null ? AppRoute.getStarted : AppRoute.home),
-    //MyApp(initialRoute: AppRoute.home),
+    // MyApp(initialRoute: token == null ? AppRoute.getStarted : AppRoute.home),
+    MyApp(initialRoute: AppRoute.splash),
   );
 }
 
@@ -26,6 +28,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: initialRoute,
       getPages: routes,
+      locale: Get.deviceLocale,
+      translations: MyLocale(),
     );
   }
 }
