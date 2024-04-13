@@ -74,9 +74,10 @@ class _HomeState extends State<Home> {
                     children: <Widget>[
                       const SizedBox(height: 15),
                       TextButton(
-                        child: const Text(
-                          'View Family',
-                          style: TextStyle(color: CustomColors.primaryColor),
+                        child: Text(
+                          "38".tr,
+                          style:
+                              const TextStyle(color: CustomColors.primaryColor),
                         ),
                         onPressed: () {
                           Get.toNamed(AppRoute.tree);
@@ -111,7 +112,7 @@ class _HomeState extends State<Home> {
       title: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
-          'Ajial',
+          "7".tr,
           style: GoogleFonts.lobster(
             color: CustomColors.black,
             fontWeight: FontWeight.bold,

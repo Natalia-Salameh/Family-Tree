@@ -31,7 +31,7 @@ class SignUp extends StatelessWidget {
                     Row(
                       children: [
                         IconButton(
-                          icon: Icon(Icons.arrow_back),
+                          icon: const Icon(Icons.arrow_back),
                           onPressed: () => Get.back(),
                         ),
                         Expanded(
@@ -39,8 +39,8 @@ class SignUp extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: screenHeight * 0.13),
                             child: Text(
-                              "Sign Up",
-                              style: TextStyle(
+                              "9".tr,
+                              style: const TextStyle(
                                   fontSize: 30, fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -52,41 +52,41 @@ class SignUp extends StatelessWidget {
                     ),
                     MyTextField(
                       controller: registerController.usernameController,
-                      hintText: 'Username',
+                      hintText: "24".tr,
                       obscureText: false,
-                      validator: (value) => validInput(value!, 'Username'),
+                      validator: (value) => validInput(value!, "24".tr),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     MyTextField(
                       controller: registerController.emailController,
-                      hintText: 'Email',
+                      hintText: "10".tr,
                       obscureText: false,
-                      validator: (value) => validInput(value!, 'Email'),
+                      validator: (value) => validInput(value!, "10".tr),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     MyTextField(
                       controller: registerController.passwordController,
-                      hintText: 'Password',
+                      hintText: "12".tr,
                       obscureText: true,
-                      validator: (value) => validInput(value!, 'Password'),
+                      validator: (value) => validInput(value!, "12".tr),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     MyTextField(
                       controller: registerController.confirmPasswordController,
-                      hintText: 'Confirm Password',
+                      hintText: "25".tr,
                       obscureText: true,
                       validator: (value) {
                         if (value !=
                             registerController.passwordController.text) {
-                          return 'Passwords do not match';
+                          return "26".tr;
                         }
-                        return validInput(value!, 'Password');
+                        return validInput(value!, "12".tr);
                       },
                     ),
                     const SizedBox(
@@ -110,22 +110,22 @@ class SignUp extends StatelessWidget {
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: screenHeight * 0.02),
-                            child: Divider(
+                            child: const Divider(
                               thickness: 0.6,
                               color: CustomColors.background,
                             ),
                           ),
                         ),
                         Text(
-                          ' Or Sign Up With ',
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 75, 73, 73)),
+                          "27".tr,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 75, 73, 73)),
                         ),
                         Expanded(
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: screenHeight * 0.02),
-                            child: Divider(
+                            child: const Divider(
                               thickness: 0.8,
                               color: CustomColors.background,
                             ),
@@ -136,7 +136,7 @@ class SignUp extends StatelessWidget {
                     const SizedBox(
                       height: 15,
                     ),
-                    LogoButton()
+                    const LogoButton()
                   ],
                 ),
               ),

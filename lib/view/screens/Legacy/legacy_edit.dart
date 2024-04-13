@@ -4,21 +4,19 @@ import 'package:get/get.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/controller/legacy_edit_controller.dart'; // Import the controller
 
-
 class LegacyEdit extends StatelessWidget {
   const LegacyEdit({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     final controller = Get.put(LegacyEditController());
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          "Edit Legacy",
-          style: TextStyle(
+        title: Text(
+          "39".tr,
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -32,31 +30,31 @@ class LegacyEdit extends StatelessWidget {
             fontsize: 21,
           ),
           // Use the controller to provide text editing controllers for each field
-          _buildListTile("Name", controller.fullNameController.value),
+          _buildListTile("40".tr, controller.fullNameController.value),
           const Divider(
               height: 0.5,
               indent: 80,
               thickness: 1,
               color: CustomColors.lightGrey),
-          _buildListTile("Birthday", controller.dateController.value),
+          _buildListTile("34".tr, controller.dateController.value),
           const Divider(
               height: 0.5,
               indent: 80,
               thickness: 1,
               color: CustomColors.lightGrey),
-          _buildListTile("Education", controller.educationController.value),
+          _buildListTile("35".tr, controller.educationController.value),
           const Divider(
               height: 0.5,
               indent: 80,
               thickness: 1,
               color: CustomColors.lightGrey),
-          _buildListTile("Work", controller.workController.value),
+          _buildListTile("36".tr, controller.workController.value),
           const Divider(
               height: 0.5,
               indent: 80,
               thickness: 1,
               color: CustomColors.lightGrey),
-          _buildDiaryTile("Diary", controller.diaryController.value),
+          _buildDiaryTile("41".tr, controller.diaryController.value),
           const Divider(
               height: 0.5,
               indent: 80,

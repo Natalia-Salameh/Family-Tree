@@ -36,9 +36,8 @@ class UserForm extends StatelessWidget {
                         child: SizedBox(
                           height: 40,
                           child: CustomTextForm(
-                            hintText: "Full name",
+                            hintText: "28".tr,
                             myController: controller.fullNameController,
-                            
                           ),
                         ),
                       ),
@@ -47,7 +46,7 @@ class UserForm extends StatelessWidget {
                         child: FamilyNameDropDown(
                             textEditingController:
                                 controller.lastNameController,
-                            hint: "Family name",
+                            hint: "29".tr,
                             isFamilyNameSelected: true,
                             familyNames: MockData.familyName),
                       ),
@@ -57,16 +56,16 @@ class UserForm extends StatelessWidget {
                     height: 10,
                   ),
                   Row(children: [
-                    const Expanded(
+                    Expanded(
                         flex: 0,
                         child: Text(
-                          "Gender: ",
-                          style: TextStyle(fontSize: 16),
+                          "30".tr,
+                          style: const TextStyle(fontSize: 16),
                         )),
                     Expanded(
                       flex: 1,
                       child: Obx(() => RadioButton(
-                            label: "Female",
+                            label: "31".tr,
                             genderValue: Gender.female,
                             selectedGender: controller.selectedGender.value,
                             onGenderSelected: (val) {
@@ -77,7 +76,7 @@ class UserForm extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Obx(() => RadioButton(
-                            label: "Male",
+                            label: "32".tr,
                             genderValue: Gender.male,
                             selectedGender: controller.selectedGender.value,
                             onGenderSelected: (val) {
@@ -108,8 +107,8 @@ class UserForm extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   CupertinoButton(
-                                    child: const Text("Done",
-                                        style: TextStyle(
+                                    child: Text("33".tr,
+                                        style: const TextStyle(
                                             color: CustomColors.primaryColor)),
                                     onPressed: () {
                                       Navigator.of(context).pop();
@@ -137,7 +136,7 @@ class UserForm extends StatelessWidget {
                       child: SizedBox(
                         height: 40,
                         child: CustomTextForm(
-                          hintText: "Birthday",
+                          hintText: "34".tr,
                           myController: controller.dateController,
                         ),
                       ),
@@ -149,7 +148,7 @@ class UserForm extends StatelessWidget {
                   SizedBox(
                     height: 40,
                     child: CustomTextForm(
-                      hintText: "Education",
+                      hintText: "35".tr,
                       myController: controller.educationController,
                     ),
                   ),
@@ -159,7 +158,7 @@ class UserForm extends StatelessWidget {
                   SizedBox(
                     height: 40,
                     child: CustomTextForm(
-                      hintText: "Work",
+                      hintText: "36".tr,
                       myController: controller.workController,
                     ),
                   ),
@@ -185,9 +184,9 @@ class UserForm extends StatelessWidget {
                         //     });
                       },
                       color: CustomColors.primaryColor,
-                      child: const Text(
-                        "Add",
-                        style: TextStyle(color: CustomColors.white),
+                      child: Text(
+                        "37".tr,
+                        style: const TextStyle(color: CustomColors.white),
                       ),
                     ),
                   ),

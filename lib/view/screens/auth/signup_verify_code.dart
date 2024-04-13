@@ -36,10 +36,10 @@ class VerifyCode extends StatelessWidget {
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: screenHeight * 0.1),
-                    child: const Text(
-                      "Verify code",
-                      style:
-                          TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                    child: Text(
+                      "16".tr,
+                      style: const TextStyle(
+                          fontSize: 28, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
@@ -49,9 +49,10 @@ class VerifyCode extends StatelessWidget {
                   const SizedBox(
                     height: 75,
                   ),
-                  const Text(
-                    "We have sent an email to your email \n    account with a  verification code!",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  Text(
+                    "17".tr,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 50,
@@ -60,27 +61,27 @@ class VerifyCode extends StatelessWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.all(screenHeight * 0.01),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            'Enter your code',
-                            style: TextStyle(fontSize: 20.0),
+                            "18".tr,
+                            style: const TextStyle(fontSize: 20.0),
                           ),
                         ),
                       ),
                       VerificationCode(
                         textStyle: Theme.of(context)
                             .textTheme
-                            .bodyText2!
+                            .bodyMedium!
                             .copyWith(color: Theme.of(context).primaryColor),
                         keyboardType: TextInputType.number,
                         underlineColor: CustomColors.primaryColor,
                         length: 6,
                         cursorColor: CustomColors.primaryColor,
-                        clearAll: const Padding(
-                          padding: EdgeInsets.all(8.0),
+                        clearAll: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'clear all',
-                            style: TextStyle(
+                            "19".tr,
+                            style: const TextStyle(
                                 fontSize: 14.0,
                                 decoration: TextDecoration.underline,
                                 color: CustomColors.primaryColor),
@@ -92,8 +93,9 @@ class VerifyCode extends StatelessWidget {
                         },
                         onEditing: (bool value) {
                           _onEditing.value = value;
-                          if (!_onEditing.value)
+                          if (!_onEditing.value) {
                             FocusScope.of(context).unfocus();
+                          }
                         },
                         digitsOnly: true,
                       ),
@@ -101,9 +103,9 @@ class VerifyCode extends StatelessWidget {
                         padding: EdgeInsets.all(screenHeight * 0.01),
                         child: Center(
                           child: Obx(() => _onEditing.value
-                              ? const Text('Please enter full code')
+                              ? Text("20".tr)
                               : Text(
-                                  'Your code: ${verifyEmailController.code.value}')),
+                                  ' ${"23".tr} ${verifyEmailController.code.value}')),
                         ),
                       ),
                       const SizedBox(
@@ -113,13 +115,13 @@ class VerifyCode extends StatelessWidget {
                         onPressed: () {
                           sendCodeController.sendCode();
                         },
-                        child: const Text("Resend code"),
+                        child: Text("21".tr),
                       ),
                       MaterialButton(
                         onPressed: () {
                           Get.offAllNamed(AppRoute.getStarted);
                         },
-                        child: const Text("Change email"),
+                        child: Text("22".tr),
                       ),
                       VerifyButton(
                         onTap: () async {

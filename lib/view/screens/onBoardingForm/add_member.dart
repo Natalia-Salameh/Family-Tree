@@ -49,13 +49,13 @@ class _UserFormState extends State<UserAdd> {
               alignment: Alignment.topCenter,
               child: Column(
                 children: [
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   ProgressBar(
                     progress: progress,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   const Padding(
-                    padding: EdgeInsets.all(26),
+                    padding: EdgeInsets.all(10),
                     child: Profile(),
                   ),
                   Row(
@@ -63,9 +63,9 @@ class _UserFormState extends State<UserAdd> {
                       Expanded(
                         flex: 2,
                         child: SizedBox(
-                          height: 40,
+                          height: 64,
                           child: CustomTextForm(
-                            hintText: "Full name",
+                            hintText: "28".tr,
                             myController: fullNameController,
                           ),
                         ),
@@ -74,14 +74,14 @@ class _UserFormState extends State<UserAdd> {
                       Expanded(
                         child: FamilyNameDropDown(
                             textEditingController: lastNameController,
-                            hint: "Family name",
+                            hint: "29".tr,
                             isFamilyNameSelected: true,
                             familyNames: MockData.familyName),
                       ),
                     ],
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 40,
                   ),
                   const SizedBox(
                     height: 10,
@@ -110,7 +110,7 @@ class _UserFormState extends State<UserAdd> {
                     },
                     child: AbsorbPointer(
                       child: CustomTextForm(
-                        hintText: "Birthday",
+                        hintText: "34".tr,
                         myController: dateController,
                       ),
                     ),
@@ -121,7 +121,7 @@ class _UserFormState extends State<UserAdd> {
                   SizedBox(
                     height: 40,
                     child: CustomTextForm(
-                      hintText: "Material State",
+                      hintText: "47".tr,
                       myController: materialStateController,
                     ),
                   ),
@@ -131,15 +131,15 @@ class _UserFormState extends State<UserAdd> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Expanded(
+                      Expanded(
                           flex: 0,
                           child: Text(
-                            "Still Alive:",
-                            style: TextStyle(fontSize: 16),
+                            "48".tr,
+                            style: const TextStyle(fontSize: 16),
                           )),
                       Expanded(
                         child: ListTile(
-                          title: const Text('Yes'),
+                          title: Text("49".tr),
                           leading: Radio<LifeStatus>(
                             value: LifeStatus.alive,
                             groupValue: MockData.lifeStatusValue,
@@ -149,7 +149,7 @@ class _UserFormState extends State<UserAdd> {
                       ),
                       Expanded(
                         child: ListTile(
-                          title: const Text('No'),
+                          title: Text("50".tr),
                           leading: Radio<LifeStatus>(
                             value: LifeStatus.dead,
                             groupValue: MockData.lifeStatusValue,
@@ -166,7 +166,7 @@ class _UserFormState extends State<UserAdd> {
                     child: SizedBox(
                       height: 40,
                       child: CustomTextForm(
-                        hintText: "Death Date",
+                        hintText: "51".tr,
                         myController: dateController,
                       ),
                     ),
@@ -188,9 +188,9 @@ class _UserFormState extends State<UserAdd> {
                           });
                         },
                         color: CustomColors.primaryColor,
-                        child: const Text(
-                          "Add",
-                          style: TextStyle(color: CustomColors.white),
+                        child: Text(
+                          "37".tr,
+                          style: const TextStyle(color: CustomColors.white),
                         )),
                   )
                 ],

@@ -21,7 +21,7 @@ class OnBoarding1 extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: screenHeight * 0.04),
               child: Text(
-                'Welcome to Ajial',
+                "2".tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: CustomColors.primaryColor,
@@ -43,7 +43,7 @@ class OnBoarding1 extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(top: screenHeight * 0.03),
                 child: Text(
-                  'Discover Your Roots, \nHonor All Branches',
+                  "1".tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: CustomColors.black,

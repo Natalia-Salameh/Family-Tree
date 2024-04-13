@@ -14,9 +14,9 @@ class Legacy extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          "Legacy",
-          style: TextStyle(
+        title: Text(
+          "42".tr,
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -37,7 +37,7 @@ class Legacy extends StatelessWidget {
                         children: [
                           ListTile(
                             leading: const Icon(Icons.settings),
-                            title: const Text("Settings"),
+                            title: Text("43".tr),
                             onTap: () {
                               Get.toNamed(AppRoute.settings);
                             },
@@ -51,7 +51,7 @@ class Legacy extends StatelessWidget {
                           ),
                           ListTile(
                             leading: const Icon(Icons.edit),
-                            title: const Text("Edit legacy"),
+                            title: Text("39".tr),
                             onTap: () {
                               Get.toNamed(AppRoute.editLegacy);
                             },
@@ -91,14 +91,13 @@ class Legacy extends StatelessWidget {
                   LegacyTabBar(
                     views: [
                       Container(
-                          alignment: Alignment.center,
-                          child: const Text('Family Tree')),
+                          alignment: Alignment.center, child: Text("44".tr)),
                       Container(
                           alignment: Alignment.center,
-                          child: const Text('diary')),
+                          child:  Text("41".tr)),
                       Container(
                           alignment: Alignment.center,
-                          child: const Text('information')),
+                          child:  Text("45".tr)),
                     ],
                   ),
                 ],

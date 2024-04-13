@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../core/constants/colors.dart';
 
@@ -31,7 +31,7 @@ class SignButton extends StatelessWidget {
             elevation: 4, // Shadow depth
           ),
           child: Text(
-            'Register',
+            "63".tr,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

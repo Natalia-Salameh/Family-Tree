@@ -2,6 +2,7 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class FamilyNameDropDown extends StatefulWidget {
   final TextEditingController textEditingController;
@@ -26,8 +27,8 @@ class _FamilyNameDropDownState extends State<FamilyNameDropDown> {
     DropDownState(
       DropDown(
         isDismissible: true,
-        bottomSheetTitle: const Text(
-          "Family name",
+        bottomSheetTitle: Text(
+          "29".tr,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16.0,
@@ -56,16 +57,16 @@ class _FamilyNameDropDownState extends State<FamilyNameDropDown> {
               onTextFieldTap();
             }
           : null,
-      decoration: const InputDecoration(
-        labelStyle: TextStyle(
+      decoration: InputDecoration(
+        labelStyle: const TextStyle(
           fontSize: 12,
         ),
         alignLabelWithHint: true,
-        labelText: "Family name",
-        hintStyle: TextStyle(
+        labelText: "29".tr,
+        hintStyle: const TextStyle(
           fontSize: 14,
         ),
-        focusedBorder: UnderlineInputBorder(
+        focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: CustomColors.primaryColor,
           ),
@@ -74,7 +75,7 @@ class _FamilyNameDropDownState extends State<FamilyNameDropDown> {
       style: const TextStyle(
         fontSize: 14.0,
       ),
-      validator: (value) => value!.isEmpty ? "required *" : null,
+      validator: (value) => value!.isEmpty ? "52".tr : null,
     );
   }
 }

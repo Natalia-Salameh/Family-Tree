@@ -9,8 +9,13 @@ class SearchPersonController extends GetxController {
   void search(String query) async {
     listSearch.clear();
     if (query.isEmpty) {
-      print('Query is empty');
-      return; 
+      // Using GetX to display a localized message
+      Get.snackbar(
+        "65".tr, // Assuming you have a generic title for error messages
+        "query_empty".tr,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
     }
 
     var response = await NetworkHandler.getRequest(
@@ -21,11 +26,16 @@ class SearchPersonController extends GetxController {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       List<SearchModel> searchModel = searchModelFromJson(response.body);
-      listSearch.addAll(searchModel.map((model) => model.fullName)); 
-      print(listSearch);
+      listSearch.addAll(searchModel.map((model) => model.fullName));
+      print(
+          listSearch); // Consider replacing with a more user-friendly method if needed
     } else {
-      print('Failed to fetch search results: ${response.statusCode}');
+      // Localized error message using Get.snackbar
+      Get.snackbar(
+        "65".tr,
+        "search_failed".tr + ": ${response.statusCode}",
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 }
-

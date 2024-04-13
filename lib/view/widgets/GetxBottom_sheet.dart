@@ -1,4 +1,3 @@
-
 import 'package:family_tree_application/view/screens/onBoardingForm/add_member.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +7,7 @@ class CustomBottomSheet extends StatefulWidget {
 
   CustomBottomSheet({required this.children});
 
-  final List<String> imageTexts = ['Parent', 'Spouse', 'Child'];
+  final List<String> imageTexts = ["60".tr, "61".tr, "62".tr];
 
   @override
   _CustomBottomSheetState createState() => _CustomBottomSheetState();

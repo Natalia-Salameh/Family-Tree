@@ -42,25 +42,35 @@ class VerifyEmailController extends GetxController {
         AppLink.login,
         loginData.toJson(),
       );
-
       var tokendata = json.decode(tokenResponse.body);
       if (tokenResponse.statusCode == 200 || tokenResponse.statusCode == 201) {
         await NetworkHandler.storeToken(tokendata["token"]);
         print(tokenResponse.body);
         Get.offAllNamed(AppRoute.memberForm);
       } else {
-        Get.defaultDialog(
-          title: "Error",
-          middleText: data['titel'],
-        );
+        handleErrorResponse(data);
         print(tokenResponse.body);
       }
     } else {
-      Get.defaultDialog(
-        title: "Error",
-        middleText: data['titel'],
-      );
+      handleErrorResponse(data);
       print(response.body);
+    }
+  }
+
+  void handleErrorResponse(Map<String, dynamic> data) {
+    if (data['titel'] == "The verification code is incorrect.") {
+     
+      Get.defaultDialog(
+        title: "65".tr,
+        middleText: "verification_code_incorrect".tr,
+      );
+    } else {
+      // Default error handling
+      Get.defaultDialog(
+        title: "65".tr,
+        middleText: data[
+            'titel'], // Assume 'titel' is directly translatable or add more conditions if needed
+      );
     }
   }
 }
