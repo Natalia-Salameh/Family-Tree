@@ -13,14 +13,14 @@ void main() async {
   DateTime? expiration = await NetworkHandler.getExpirationDate();
 
   runApp(
-    // MyApp(
-    //   initialRoute: (expiration!.isBefore(DateTime.now()))
-    //       ? AppRoute.getStarted
-    //       : AppRoute.home,
-    // ),
     MyApp(
-      initialRoute: AppRoute.memberForm,
+      initialRoute: (expiration!.isBefore(DateTime.now()))
+          ? AppRoute.getStarted
+          : AppRoute.memberForm,
     ),
+    // MyApp(
+    //   initialRoute: AppRoute.memberForm,
+    // ),
   );
 }
 
