@@ -116,9 +116,10 @@ class Login extends StatelessWidget {
                             ),
                           ),
                         ),
-                         Text(
+                        Text(
                           "15".tr,
-                          style: const TextStyle(color: CustomColors.background),
+                          style:
+                              const TextStyle(color: CustomColors.background),
                         ),
                         Expanded(
                           child: Padding(

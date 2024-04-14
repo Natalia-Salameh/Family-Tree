@@ -19,7 +19,7 @@ void main() async {
     //       : AppRoute.home,
     // ),
     MyApp(
-      initialRoute: AppRoute.memberForm,
+      initialRoute: AppRoute.home,
     ),
   );
 }
