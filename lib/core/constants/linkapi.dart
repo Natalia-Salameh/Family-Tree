@@ -1,5 +1,6 @@
 class AppLink {
 // ========================== Auth ========================== //
+
   static const String serverName = "https://ajial.azurewebsites.net/api";
 
   static const String login = "$serverName/Account/Login/MobileApp";
@@ -12,13 +13,21 @@ class AppLink {
   static const String codeVerification = "$serverName/Account/VerifyEmail";
 
   // ========================== On Boarding Form  ========================== //
+
   static const String addMember = "$serverName/Members";
 
-  static const String connectMemberWithAccount = "$serverName/Members/AddUserToMember";
+  static const String connectMemberWithAccount =
+      "$serverName/Members/AddUserToMember";
 
   static const String familyName = "$serverName/Families/MobileSearch";
 
   static const String diary = "$serverName/Profile/AddLegacy";
+
   // ========================== Home  ========================== //
+
   static const String search = "$serverName/Members/MobileSearch";
+
+  // ========================== Profile  ========================== //
+
+  static const String profile = "$serverName/Profile/ForMyAccount";
 }

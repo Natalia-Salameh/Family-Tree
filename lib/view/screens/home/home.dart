@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
     const PersonListView(),
     Center(
         child: FamilyTreePage()), // Assuming this is a properly defined widget
-    const Center(child: Legacy()), // Assuming this is a properly defined widget
+    Center(child: Legacy()), // Assuming this is a properly defined widget
   ];
 
   void _onItemTapped(int index) {
@@ -93,7 +93,7 @@ class _HomeState extends State<Home> {
         ),
       ),
       Center(child: FamilyTreePage()),
-      const Center(child: Legacy()),
+      Center(child: Legacy()),
     ];
     return Scaffold(
       appBar: _buildAppBar(context),

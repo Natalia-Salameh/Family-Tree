@@ -16,11 +16,8 @@ void main() async {
     MyApp(
       initialRoute: (expiration!.isBefore(DateTime.now()))
           ? AppRoute.getStarted
-          : AppRoute.memberForm,
+          : AppRoute.home,
     ),
-    // MyApp(
-    //   initialRoute: AppRoute.memberForm,
-    // ),
   );
 }
 

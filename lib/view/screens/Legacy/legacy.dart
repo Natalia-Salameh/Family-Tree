@@ -1,3 +1,4 @@
+import 'package:family_tree_application/controller/legacy_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/tabbar.dart';
@@ -7,7 +8,8 @@ import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:get/get.dart';
 
 class Legacy extends StatelessWidget {
-  const Legacy({super.key});
+  Legacy({super.key});
+  final legacyController = Get.put(LegacyController());
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +88,12 @@ class Legacy extends StatelessWidget {
                       fontsize: 21,
                     ),
                   ),
-                  const Text("Natalia Salameh"),
+                  Text(
+                      "${legacyController.firstName} ${legacyController.secondName} ${legacyController.thirdName} ${legacyController.family.familyName}",
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
                   const SizedBox(height: 10),
                   LegacyTabBar(
                     views: [
@@ -94,10 +101,54 @@ class Legacy extends StatelessWidget {
                           alignment: Alignment.center, child: Text("44".tr)),
                       Container(
                           alignment: Alignment.center,
-                          child:  Text("41".tr)),
+                          child: Column(
+                            children: [
+                              ListTile(
+                                title: const Text("Education"),
+                                subtitle: Text(
+                                  legacyController.education == ""
+                                      ? "No Education added"
+                                      : legacyController.education,
+                                ),
+                              ),
+                              ListTile(
+                                title: const Text("Work"),
+                                subtitle: Text(
+                                  legacyController.work == ""
+                                      ? "No Work added"
+                                      : legacyController.work,
+                                ),
+                              ),
+                              ListTile(
+                                title: const Text("Diary"),
+                                subtitle: Text(
+                                  legacyController.legacyStory == ""
+                                      ? "No Diary added"
+                                      : legacyController.legacyStory,
+                                ),
+                              ),
+                            ],
+                          )),
                       Container(
                           alignment: Alignment.center,
-                          child:  Text("45".tr)),
+                          child: Column(
+                            children: [
+                              ListTile(
+                                title: const Text("Gender"),
+                                subtitle: Text(
+                                  legacyController.gender == ""
+                                      ? "No Gender added"
+                                      : legacyController.gender,
+                                ),
+                              ),
+                              ListTile(
+                                title: const Text("Date of Birth"),
+                                subtitle: Text(
+                                  legacyController.dateOfBirth.toString().split(' ')[0],
+                                ),
+                              ),
+                            ],
+                          )),
                     ],
                   ),
                 ],
