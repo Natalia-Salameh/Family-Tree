@@ -54,10 +54,10 @@ class _TreeState extends State<TreeState> {
             children: [
               ProgressBar(progress: progressController.progress.value),
               const SizedBox(height: 20),
-              const Text(
-                "Click on the add button to start adding your relatives!",
+              Text(
+                "59".tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
@@ -85,8 +85,8 @@ class _TreeState extends State<TreeState> {
                   Get.offAllNamed(AppRoute.diary);
                 },
                 color: CustomColors.primaryColor,
-                child: const Text("Next",
-                    style: TextStyle(color: CustomColors.white)),
+                child: Text("58".tr,
+                    style: const TextStyle(color: CustomColors.white)),
               ),
             ],
           ),

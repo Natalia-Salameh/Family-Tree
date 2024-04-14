@@ -43,10 +43,10 @@ class MemberForm extends StatelessWidget {
                             progress: progressController.progress.value,
                           ),
                           const SizedBox(height: 30),
-                          const Text(
-                            "Lets get started by adding you first, fill these in",
+                          Text(
+                            "54".tr,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                             ),
@@ -62,12 +62,12 @@ class MemberForm extends StatelessWidget {
                                 flex: 1,
                                 child: SizedBox(
                                   child: CustomTextForm(
-                                    hintText: "First name",
+                                    hintText: "55".tr,
                                     myController: memberFormController
                                         .firstNameController,
                                     valid: (value) {
                                       if (value!.isEmpty) {
-                                        return "required*";
+                                        return "52".tr;
                                       }
                                       return null;
                                     },
@@ -79,12 +79,12 @@ class MemberForm extends StatelessWidget {
                                 flex: 1,
                                 child: SizedBox(
                                   child: CustomTextForm(
-                                    hintText: "Second name",
+                                    hintText: "56".tr,
                                     myController: memberFormController
                                         .secondNameController,
                                     valid: (value) {
                                       if (value!.isEmpty) {
-                                        return "required *";
+                                        return "52".tr;
                                       }
                                       return null;
                                     },
@@ -96,12 +96,12 @@ class MemberForm extends StatelessWidget {
                                 flex: 1,
                                 child: SizedBox(
                                   child: CustomTextForm(
-                                    hintText: "Third name",
+                                    hintText: "57".tr,
                                     myController: memberFormController
                                         .thirdNameController,
                                     valid: (value) {
                                       if (value!.isEmpty) {
-                                        return "required *";
+                                        return "52".tr;
                                       }
                                       return null;
                                     },
@@ -114,7 +114,7 @@ class MemberForm extends StatelessWidget {
                                   child: FamilyNameDropDown(
                                     textEditingController:
                                         familyNameController.lastNameController,
-                                    hint: "Family Name",
+                                    hint: "29".tr,
                                     isFamilyNameSelected: true,
                                   ))
                             ],
@@ -123,16 +123,16 @@ class MemberForm extends StatelessWidget {
                             height: 40,
                           ),
                           Row(children: [
-                            const Expanded(
+                            Expanded(
                                 flex: 0,
                                 child: Text(
-                                  "Gender: ",
-                                  style: TextStyle(fontSize: 16),
+                                  "30".tr,
+                                  style: const TextStyle(fontSize: 16),
                                 )),
                             Expanded(
                               flex: 1,
                               child: Obx(() => RadioButton(
-                                    label: "Female",
+                                    label: "31".tr,
                                     genderValue: Gender.female,
                                     selectedGender: memberFormController
                                         .selectedGender.value,
@@ -145,7 +145,7 @@ class MemberForm extends StatelessWidget {
                             Expanded(
                               flex: 1,
                               child: Obx(() => RadioButton(
-                                    label: "Male",
+                                    label: "32".tr,
                                     genderValue: Gender.male,
                                     selectedGender: memberFormController
                                         .selectedGender.value,
@@ -180,8 +180,8 @@ class MemberForm extends StatelessWidget {
                                             MainAxisAlignment.end,
                                         children: [
                                           CupertinoButton(
-                                            child: const Text("Done",
-                                                style: TextStyle(
+                                            child: Text("33".tr,
+                                                style: const TextStyle(
                                                     color: CustomColors
                                                         .primaryColor)),
                                             onPressed: () {
@@ -211,7 +211,7 @@ class MemberForm extends StatelessWidget {
                             child: AbsorbPointer(
                               child: SizedBox(
                                 child: CustomTextForm(
-                                  hintText: "Birthday",
+                                  hintText: "34".tr,
                                   myController:
                                       memberFormController.birthDateController,
                                 ),
@@ -230,9 +230,10 @@ class MemberForm extends StatelessWidget {
                                   }
                                 },
                                 color: CustomColors.primaryColor,
-                                child: const Text(
-                                  "Next",
-                                  style: TextStyle(color: CustomColors.white),
+                                child: Text(
+                                  "58".tr,
+                                  style: const TextStyle(
+                                      color: CustomColors.white),
                                 )),
                           )
                         ],

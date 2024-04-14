@@ -17,7 +17,6 @@ class AppLink {
   static const String familyName = "$serverName/Families/MobileSearch";
 
   static const String diary = "$serverName/Profile/AddLegacy";
-
   // ========================== Home  ========================== //
   static const String search = "$serverName/Members/MobileSearch";
 }

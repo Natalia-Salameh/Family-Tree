@@ -2,6 +2,7 @@
 
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyButton extends StatelessWidget {
   final Function()? onTap;
@@ -29,7 +30,7 @@ class MyButton extends StatelessWidget {
             elevation: 4, // Shadow depth
           ),
           child: Text(
-            'Login',
+            "8".tr,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

@@ -29,10 +29,10 @@ class Diary extends StatelessWidget {
                     progress: progressController.progress.value,
                   ),
                   const SizedBox(height: 30),
-                  const Text(
-                    "Leave a legacy for your descendants!",
+                  Text(
+                    "53".tr,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
@@ -43,7 +43,7 @@ class Diary extends StatelessWidget {
                   SizedBox(
                     height: 40,
                     child: CustomTextForm(
-                      hintText: "Education",
+                      hintText: "35".tr,
                       myController: storyController.educationController,
                     ),
                   ),
@@ -53,7 +53,7 @@ class Diary extends StatelessWidget {
                   SizedBox(
                     height: 40,
                     child: CustomTextForm(
-                      hintText: "Work",
+                      hintText: "36".tr,
                       myController: storyController.workController,
                     ),
                   ),
@@ -61,7 +61,7 @@ class Diary extends StatelessWidget {
                     height: 10,
                   ),
                   CustomTextForm(
-                    hintText: "Diary",
+                    hintText: "41".tr,
                     maxLines: 14,
                     myController: storyController.diaryController,
                     alignLabelWithHint: true,
@@ -76,9 +76,9 @@ class Diary extends StatelessWidget {
                           await storyController.getStarted();
                         },
                         color: CustomColors.primaryColor,
-                        child: const Text(
-                          "Get started",
-                          style: TextStyle(color: CustomColors.white),
+                        child: Text(
+                          "5".tr,
+                          style: const TextStyle(color: CustomColors.white),
                         )),
                   )
                 ],

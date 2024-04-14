@@ -31,9 +31,12 @@ class _FamilyNameDropDownState extends State<FamilyNameDropDown> {
     DropDownState(
       DropDown(
         isDismissible: true,
-        bottomSheetTitle: const Text(
-          "Family Name",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+        bottomSheetTitle: Text(
+          "29".tr,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16.0,
+          ),
         ),
         data: controller.familyNames,
         selectedItems: (List<dynamic> selectedList) {
@@ -72,14 +75,14 @@ class _FamilyNameDropDownState extends State<FamilyNameDropDown> {
         decoration: InputDecoration(
           labelStyle: const TextStyle(fontSize: 12),
           alignLabelWithHint: true,
-          labelText: widget.hint,
+          labelText: "29".tr,
           hintStyle: const TextStyle(fontSize: 14),
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: CustomColors.primaryColor),
           ),
         ),
         style: const TextStyle(fontSize: 14.0),
-        validator: (value) => value!.isEmpty ? "Required *" : null,
+        validator: (value) => value!.isEmpty ? "52".tr : null,
       );
     });
   }

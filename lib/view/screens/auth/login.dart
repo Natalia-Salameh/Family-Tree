@@ -37,9 +37,9 @@ class Login extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: screenHeight * 0.13),
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(
+                          child: Text(
+                            "8".tr,
+                            style: const TextStyle(
                                 fontSize: 35, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -50,11 +50,11 @@ class Login extends StatelessWidget {
                     ),
                     MyTextField(
                       controller: loginController.usernameController,
-                      hintText: 'Email',
+                      hintText: "10".tr,
                       obscureText: false,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Email is required';
+                          return "11".tr;
                         }
                       },
                     ),
@@ -63,11 +63,11 @@ class Login extends StatelessWidget {
                     ),
                     MyTextField(
                       controller: loginController.passwordController,
-                      hintText: 'Password',
+                      hintText: "12".tr,
                       obscureText: true,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Password is required';
+                          return "13".tr;
                         }
                         return null;
                       },
@@ -78,12 +78,12 @@ class Login extends StatelessWidget {
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: screenHeight * 0.03),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'Forgot Password?',
-                            style: TextStyle(
+                            "14".tr,
+                            style: const TextStyle(
                               color: CustomColors.background,
                             ),
                           ),
@@ -116,9 +116,9 @@ class Login extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Text(
-                          ' Or Login With ',
-                          style: TextStyle(color: CustomColors.background),
+                         Text(
+                          "15".tr,
+                          style: const TextStyle(color: CustomColors.background),
                         ),
                         Expanded(
                           child: Padding(

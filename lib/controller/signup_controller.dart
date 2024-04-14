@@ -14,7 +14,6 @@ class SignUpController extends GetxController {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   GlobalKey<FormState> get formKey => _formKey;
-
   signUp() async {
     SignupModel signupData = SignupModel(
       userName: usernameController.text,
@@ -33,9 +32,24 @@ class SignUpController extends GetxController {
         'email': emailController.text,
       });
     } else {
+      // Determine the appropriate message key based on the 'titel' from the response
+      String messageKey;
+      if (data['titel'] ==
+          'The email address is already in use. Please use a different email address.') {
+        messageKey = 'email_in_use';
+      } else if (data['titel'] ==
+          'Email sent successfully. Please check your email.') {
+        messageKey = 'email_sent';
+      } else if (data['UserName']?.first ==
+          'The username must be between 6 and 100 characters long.') {
+        messageKey = 'username_length_error';
+      } else {
+        messageKey = 'unknown_error'; // Handle any unexpected messages
+      }
+
       Get.defaultDialog(
-        title: "Error",
-        middleText: data['titel'],
+        title: "65".tr, // Assuming you want to translate "Error" as well
+        middleText: messageKey.tr,
       );
       print(response.body);
     }

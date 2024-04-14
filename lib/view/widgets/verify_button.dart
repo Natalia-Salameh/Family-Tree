@@ -32,7 +32,7 @@ class VerifyButton extends StatelessWidget {
             elevation: 4, // Shadow depth
           ),
           child: Text(
-            'Verify',
+            "64".tr,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

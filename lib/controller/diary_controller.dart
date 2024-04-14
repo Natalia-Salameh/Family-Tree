@@ -34,8 +34,8 @@ class DiaryController extends GetxController {
       print(response.body);
     } else {
       Get.defaultDialog(
-        title: "Error",
-        middleText: data['titel'],
+        title: "65".tr,
+        middleText: data['invalid_login'.tr],
       );
       print(response.body);
     }

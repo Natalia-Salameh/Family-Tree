@@ -37,30 +37,34 @@ class LoginController extends GetxController {
       Get.offAllNamed(AppRoute.home);
       print(response.body);
     } else if (data['titel'] == "Your Email is Not Verified.") {
+      // consider changing the check to a constant key or handling differently
       Get.defaultDialog(
-        title: "Sorry",
-        middleText: data['titel'],
+        title: "sorry".tr,
+        middleText: "email_not_verified".tr,
         confirm: TextButton(
           onPressed: () {
             Get.toNamed(AppRoute.verifyCode, arguments: {
               'email': usernameController.text,
             });
           },
-          child: const Text("Verify Email",
-              style: TextStyle(color: CustomColors.black)),
+          child:
+              Text("66".tr, style: const TextStyle(color: CustomColors.black)),
         ),
         cancel: TextButton(
           onPressed: () {
             Get.back();
           },
           child:
-              const Text("Cancel", style: TextStyle(color: CustomColors.black)),
+              Text("67".tr, style: const TextStyle(color: CustomColors.black)),
         ),
       );
     } else {
+      String errorMessage = data["invalid_login"] ??
+          "invalid_login".tr; // Handle null with a default
       Get.defaultDialog(
-        title: "Error",
-        middleText: data['titel'],
+        title: "65".tr,
+        // Assuming you have "Error" as a translatable string for the title
+        middleText: errorMessage.tr,
       );
       print(response.body);
     }

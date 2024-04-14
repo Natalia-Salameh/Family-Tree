@@ -31,7 +31,7 @@ class _GetStartedState extends State<GetStarted> {
                   child: Padding(
                     padding: EdgeInsets.only(top: screenHeight * 0.01),
                     child: Text(
-                      'Lets Get Started With',
+                      "6".tr,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.heebo(
                         color: CustomColors.black,
@@ -47,7 +47,7 @@ class _GetStartedState extends State<GetStarted> {
                   width: 300,
                   height: 100,
                   child: Text(
-                    'Ajial',
+                    "7".tr,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.playball(
                       color: CustomColors.black,
@@ -78,7 +78,7 @@ class _GetStartedState extends State<GetStarted> {
                   elevation: 4, // Shadow depth
                 ),
                 child: Text(
-                  'Login',
+                  "8".tr,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -99,13 +99,11 @@ class _GetStartedState extends State<GetStarted> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  side: BorderSide(
-                      color: CustomColors.primaryColor,
-                      width: 2),
-                  elevation: 4, 
+                  side: BorderSide(color: CustomColors.primaryColor, width: 2),
+                  elevation: 4,
                 ),
                 child: Text(
-                  'Sign Up',
+                  "9".tr,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

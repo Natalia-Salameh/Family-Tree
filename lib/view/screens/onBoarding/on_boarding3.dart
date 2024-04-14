@@ -29,7 +29,7 @@ class OnBoarding3 extends StatelessWidget {
                   width: 430,
                   height: 81,
                   child: Text(
-                    'Every Click, A Story Unfolds',
+                    "4".tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: CustomColors.black,
@@ -60,7 +60,7 @@ class OnBoarding3 extends StatelessWidget {
                   elevation: 4, // Shadow depth
                 ),
                 child: Text(
-                  'Get Started',
+                  "5".tr,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

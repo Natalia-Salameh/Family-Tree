@@ -9,7 +9,11 @@ class SearchPersonController extends GetxController {
   search(String query) async {
     listSearch.clear();
     if (query.isEmpty) {
-      print('Query is empty');
+      Get.snackbar(
+        "65".tr,
+        "query_empty".tr,
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return;
     }
 
@@ -24,7 +28,11 @@ class SearchPersonController extends GetxController {
       listSearch.addAll(searchModel.map((model) => model.fullName));
       print(listSearch);
     } else {
-      print('Failed to fetch search results: ${response.statusCode}');
+      Get.snackbar(
+        "65".tr,
+        "search_failed".tr + ": ${response.statusCode}",
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 }
