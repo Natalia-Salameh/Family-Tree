@@ -17,7 +17,9 @@ class SendCodeController extends GetxController {
     if (email != null) {
       SendEmailModel sendEmailData = SendEmailModel(email: email!);
       var response = await NetworkHandler.postRequest(
-          AppLink.sendEmailVerification, sendEmailData.toJson());
+        AppLink.sendEmailVerification,
+        sendEmailData.toJson(),
+      );
       print(response.body);
     } else {
       print('Email is null');

@@ -56,8 +56,25 @@ class MemberFormController extends GetxController {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       print(response.body);
+      var responseData = jsonDecode(response.body);
 
-      Get.toNamed(AppRoute.treeForm);
+      var connectMember = await NetworkHandler.postParamsRequest(
+        AppLink.connectMemberWithAccount,
+        queryParams: {'memberId': responseData['id']},
+        includeToken: true,
+      );
+
+      if (connectMember.statusCode == 200 || connectMember.statusCode == 201) {
+        print(connectMember.body);
+        Get.toNamed(AppRoute.treeForm);
+      } else {
+        Get.defaultDialog(
+          title: "Error",
+          middleText:
+              "Failed to connect member with account. Status code: ${connectMember.statusCode}",
+        );
+        print(connectMember.body);
+      }
     } else {
       Get.defaultDialog(
         title: "Error",

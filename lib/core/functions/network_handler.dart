@@ -96,6 +96,19 @@ class NetworkHandler {
     return response;
   }
 
+  static Future<http.Response> postParamsRequest(String url,
+      {Map<String, dynamic>? queryParams, bool includeToken = false}) async {
+    Map<String, String> headers = {};
+    if (includeToken) {
+      String? token = await getToken();
+      headers["Authorization"] = "Bearer $token";
+    }
+
+    Uri uri = Uri.parse(url).replace(queryParameters: queryParams);
+
+    return await http.post(uri, headers: headers);
+  }
+
   static Future<void> storeToken(String token) async {
     await storage.write(key: 'token', value: token);
   }
