@@ -54,10 +54,10 @@ class _UserFormState extends State<UserAdd> {
                     progress: progress,
                   ),
                   const SizedBox(height: 20),
-                  const Padding(
-                    padding: EdgeInsets.all(26),
-                    child: Profile(),
-                  ),
+                  // const Padding(
+                  //   padding: EdgeInsets.all(26),
+                  //   child: Profile(),
+                  // ),
                   Row(
                     children: [
                       Expanded(
@@ -71,13 +71,14 @@ class _UserFormState extends State<UserAdd> {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Expanded(
-                        child: FamilyNameDropDown(
-                            textEditingController: lastNameController,
-                            hint: "Family name",
-                            isFamilyNameSelected: true,
-                            familyNames: MockData.familyName),
-                      ),
+                      // Expanded(
+                      //   child: FamilyNameDropDown(
+                      //       textEditingController: lastNameController,
+                      //       hint: "Family name",
+                      //       isFamilyNameSelected: true,
+                      //       familyNames: MockData.familyName
+                      //       ),
+                      // ),
                     ],
                   ),
                   const SizedBox(

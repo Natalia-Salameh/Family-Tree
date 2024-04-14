@@ -6,11 +6,11 @@ import 'package:get/get.dart';
 class SearchPersonController extends GetxController {
   final listSearch = <String>[].obs;
 
-  void search(String query) async {
+  search(String query) async {
     listSearch.clear();
     if (query.isEmpty) {
       print('Query is empty');
-      return; 
+      return;
     }
 
     var response = await NetworkHandler.getRequest(
@@ -21,11 +21,10 @@ class SearchPersonController extends GetxController {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       List<SearchModel> searchModel = searchModelFromJson(response.body);
-      listSearch.addAll(searchModel.map((model) => model.fullName)); 
+      listSearch.addAll(searchModel.map((model) => model.fullName));
       print(listSearch);
     } else {
       print('Failed to fetch search results: ${response.statusCode}');
     }
   }
 }
-

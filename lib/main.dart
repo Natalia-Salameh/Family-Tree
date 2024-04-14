@@ -8,11 +8,17 @@ import 'package:get/get.dart';
 void main() async {
   Get.put(ProgressController());
   WidgetsFlutterBinding.ensureInitialized();
-  String? token = await NetworkHandler.getToken();
+  DateTime? expiration = await NetworkHandler.getExpirationDate();
 
   runApp(
-    MyApp(initialRoute: token == null ? AppRoute.getStarted : AppRoute.home),
-    //MyApp(initialRoute: AppRoute.home),
+    // MyApp(
+    //   initialRoute: (expiration!.isBefore(DateTime.now()))
+    //       ? AppRoute.getStarted
+    //       : AppRoute.home,
+    // ),
+    MyApp(
+      initialRoute: AppRoute.memberForm,
+    ),
   );
 }
 

@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:image_picker_widget/image_picker_widget.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
+  final Function(File) onImagePicked;
+
+  const Profile({
+    super.key,
+    required this.onImagePicked,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,6 @@ class Profile extends StatelessWidget {
               child: ImagePickerWidget(
                 fit: BoxFit.cover,
                 diameter: 140,
-                // initialImage: File("assets/images/profile.png"),
                 shape: ImagePickerWidgetShape.circle,
                 modalOptions: ModalOptions(
                     cameraColor: CustomColors.primaryColor,
@@ -27,6 +31,7 @@ class Profile extends StatelessWidget {
                 imagePickerOptions: ImagePickerOptions(imageQuality: 6),
                 onChange: (File file) {
                   print("I changed the file to: ${file.path}");
+                  onImagePicked(file);
                 },
               )),
         ],

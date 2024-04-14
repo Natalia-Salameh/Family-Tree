@@ -10,19 +10,22 @@ class MemberFormModel {
   String firstName;
   String secondName;
   String thirdName;
-  String? familyId;
+  String familyId;
   String gender;
   DateTime dateOfBirth;
-  DateTime dateOfDeath;
+  String? photoBase64;
+
+  //DateTime? dateOfDeath;
 
   MemberFormModel({
     required this.firstName,
     required this.secondName,
     required this.thirdName,
-    this.familyId,
+    required this.familyId,
     required this.gender,
     required this.dateOfBirth,
-    required this.dateOfDeath,
+    //this.dateOfDeath,
+    this.photoBase64,
   });
 
   factory MemberFormModel.fromJson(Map<String, dynamic> json) =>
@@ -33,7 +36,8 @@ class MemberFormModel {
         familyId: json["FamilyId"],
         gender: json["Gender"],
         dateOfBirth: DateTime.parse(json["DateOfBirth"]),
-        dateOfDeath: json["DateOfDeath"],
+        photoBase64: json["photoBase64"],
+        //dateOfDeath: DateTime.parse(json["DateOfDeath"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -44,6 +48,8 @@ class MemberFormModel {
         "Gender": gender,
         "DateOfBirth":
             "${dateOfBirth.year.toString().padLeft(4, '0')}-${dateOfBirth.month.toString().padLeft(2, '0')}-${dateOfBirth.day.toString().padLeft(2, '0')}",
-        "DateOfDeath": dateOfDeath,
+        "photoBase64": photoBase64,
+        //   "DateOfDeath":
+        //        "${dateOfDeath?.year.toString().padLeft(4, '0')}-${dateOfDeath?.month.toString().padLeft(2, '0')}-${dateOfDeath?.day.toString().padLeft(2, '0')}",
       };
 }

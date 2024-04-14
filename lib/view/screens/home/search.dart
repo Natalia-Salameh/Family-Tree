@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 class CustomSearchDelegate extends SearchDelegate {
   final SearchPersonController searchController =
       Get.put(SearchPersonController());
-
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(

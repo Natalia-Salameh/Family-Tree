@@ -1,9 +1,8 @@
+import 'package:family_tree_application/controller/family_name_controller.dart';
 import 'package:family_tree_application/controller/member_form_controller.dart';
 import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/enums.dart';
-import 'package:family_tree_application/mock_data.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/family_name.dart';
 import 'package:family_tree_application/view/widgets/form/full_name.dart';
@@ -22,9 +21,12 @@ class MemberForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProgressController progressController =
         Get.find<ProgressController>();
+    final FamilyNameController familyNameController =
+        Get.put(FamilyNameController());
+
     return GetBuilder<MemberFormController>(
         init: MemberFormController(),
-        builder: (controller) {
+        builder: (memberFormController) {
           return Scaffold(
             body: Form(
               key: formKey,
@@ -49,7 +51,11 @@ class MemberForm extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const Profile(),
+                          Profile(
+                            onImagePicked: (file) {
+                              memberFormController.setImage(file);
+                            },
+                          ),
                           Row(
                             children: [
                               Expanded(
@@ -57,8 +63,8 @@ class MemberForm extends StatelessWidget {
                                 child: SizedBox(
                                   child: CustomTextForm(
                                     hintText: "First name",
-                                    myController:
-                                        controller.firstNameController,
+                                    myController: memberFormController
+                                        .firstNameController,
                                     valid: (value) {
                                       if (value!.isEmpty) {
                                         return "required*";
@@ -74,8 +80,8 @@ class MemberForm extends StatelessWidget {
                                 child: SizedBox(
                                   child: CustomTextForm(
                                     hintText: "Second name",
-                                    myController:
-                                        controller.secondNameController,
+                                    myController: memberFormController
+                                        .secondNameController,
                                     valid: (value) {
                                       if (value!.isEmpty) {
                                         return "required *";
@@ -91,8 +97,8 @@ class MemberForm extends StatelessWidget {
                                 child: SizedBox(
                                   child: CustomTextForm(
                                     hintText: "Third name",
-                                    myController:
-                                        controller.thirdNameController,
+                                    myController: memberFormController
+                                        .thirdNameController,
                                     valid: (value) {
                                       if (value!.isEmpty) {
                                         return "required *";
@@ -104,15 +110,13 @@ class MemberForm extends StatelessWidget {
                               ),
                               const SizedBox(width: 10),
                               Expanded(
-                                flex: 1,
-                                child: FamilyNameDropDown(
-                                  textEditingController:
-                                      controller.lastNameController,
-                                  hint: "Family name",
-                                  isFamilyNameSelected: true,
-                                  familyNames: MockData.familyName,
-                                ),
-                              ),
+                                  flex: 1,
+                                  child: FamilyNameDropDown(
+                                    textEditingController:
+                                        familyNameController.lastNameController,
+                                    hint: "Family Name",
+                                    isFamilyNameSelected: true,
+                                  ))
                             ],
                           ),
                           const SizedBox(
@@ -130,10 +134,11 @@ class MemberForm extends StatelessWidget {
                               child: Obx(() => RadioButton(
                                     label: "Female",
                                     genderValue: Gender.female,
-                                    selectedGender:
-                                        controller.selectedGender.value,
+                                    selectedGender: memberFormController
+                                        .selectedGender.value,
                                     onGenderSelected: (val) {
-                                      controller.updateGender(Gender.female);
+                                      memberFormController
+                                          .updateGender(Gender.female);
                                     },
                                   )),
                             ),
@@ -142,10 +147,11 @@ class MemberForm extends StatelessWidget {
                               child: Obx(() => RadioButton(
                                     label: "Male",
                                     genderValue: Gender.male,
-                                    selectedGender:
-                                        controller.selectedGender.value,
+                                    selectedGender: memberFormController
+                                        .selectedGender.value,
                                     onGenderSelected: (val) {
-                                      controller.updateGender(Gender.male);
+                                      memberFormController
+                                          .updateGender(Gender.male);
                                     },
                                   )),
                             ),
@@ -189,9 +195,11 @@ class MemberForm extends StatelessWidget {
                                           mode: CupertinoDatePickerMode.date,
                                           onDateTimeChanged: (DateTime value) {
                                             final dateTimeText =
-                                                "${value.year}-${value.month}-${value.day}";
-                                            controller.dateController.text =
-                                                dateTimeText;
+                                                "${value.year}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}";
+
+                                            memberFormController
+                                                .birthDateController
+                                                .text = dateTimeText;
                                           },
                                         ),
                                       ),
@@ -204,7 +212,8 @@ class MemberForm extends StatelessWidget {
                               child: SizedBox(
                                 child: CustomTextForm(
                                   hintText: "Birthday",
-                                  myController: controller.dateController,
+                                  myController:
+                                      memberFormController.birthDateController,
                                 ),
                               ),
                             ),
@@ -213,12 +222,11 @@ class MemberForm extends StatelessWidget {
                             height: 10,
                           ),
                           SizedBox(
-                            height: 40,
                             child: Button(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
                                     progressController.updateProgress();
-                                    Get.offAllNamed(AppRoute.treeForm);
+                                    memberFormController.addForm();
                                   }
                                 },
                                 color: CustomColors.primaryColor,

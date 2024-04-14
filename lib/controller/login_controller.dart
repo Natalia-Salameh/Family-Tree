@@ -23,9 +23,8 @@ class LoginController extends GetxController {
 
     Get.dialog(const Center(
         child: CircularProgressIndicator(
-      backgroundColor: CustomColors.white,
-      color: CustomColors.primaryColor
-    )));
+            backgroundColor: CustomColors.white,
+            color: CustomColors.primaryColor)));
 
     var response = await NetworkHandler.postRequest(
       AppLink.login,
@@ -34,6 +33,7 @@ class LoginController extends GetxController {
     var data = json.decode(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       await NetworkHandler.storeToken(data["token"]);
+      await NetworkHandler.storeExpirationDate(data["expiration"]);
       Get.offAllNamed(AppRoute.home);
       print(response.body);
     } else if (data['titel'] == "Your Email is Not Verified.") {
