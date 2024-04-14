@@ -1,14 +1,16 @@
+import 'package:family_tree_application/controller/home_page_controller.dart';
+import 'package:family_tree_application/core/constants/colors.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/mock_data.dart';
+import 'package:family_tree_application/model/home_page_model.dart';
 import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
-import 'package:family_tree_application/view/widgets/bottom_nav.dart';
 import 'package:family_tree_application/view/screens/home/search.dart';
 import 'package:family_tree_application/view/screens/home/tree.dart';
+import 'package:family_tree_application/view/widgets/bottom_nav.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import '../../../core/constants/colors.dart';
-import '../../../core/constants/routes.dart';
-import '../../../mock_data.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -19,22 +21,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
-
-  final List<Widget> _pages = [
-    const PersonListView(),
-    Center(
-        child: FamilyTreePage()), // Assuming this is a properly defined widget
-    Center(child: Legacy()), // Assuming this is a properly defined widget
-  ];
-
-  void _onItemTapped(int index) {
-    if (index == 1) {
-      Get.toNamed(
-          AppRoute.userForm); // Make sure you have defined AppRoute.userForm
-    } else {
-      setState(() => _selectedIndex = index);
-    }
-  }
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -93,11 +80,24 @@ class _HomeState extends State<Home> {
         ),
       ),
       Center(child: FamilyTreePage()),
-      Center(child: Legacy()),
+       Center(child: Legacy()),
     ];
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: _pages[_selectedIndex],
+      body: Obx(() {
+        if (homeController.isLoading.value &&
+            homeController.homePageList.isEmpty) {
+          return Center(child: CircularProgressIndicator());
+        }
+        return IndexedStack(
+          index: _selectedIndex,
+          children: [
+            PersonListView(homeController: homeController), // Update this line
+            const Center(child: Text("New Page Placeholder")),
+             Center(child: Legacy()),
+          ],
+        );
+      }),
       bottomNavigationBar: CustomFloatingBottomBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
@@ -107,61 +107,49 @@ class _HomeState extends State<Home> {
 
   AppBar? _buildAppBar(BuildContext context) {
     if (_selectedIndex != 0) return null; // AppBar only for the first page
-
     return AppBar(
-      title: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          "7".tr,
-          style: GoogleFonts.lobster(
-            color: CustomColors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
-          ),
-        ),
-      ),
+      title: Text("Ajial", style: GoogleFonts.lobster(fontSize: 30)),
       backgroundColor: Colors.white,
-      elevation: 0, // Removes the AppBar shadow for a flat design
-      actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: IconButton(
-              icon: Icon(Icons.search, color: CustomColors.black, size: 30),
-              onPressed: () {
-                showSearch(
-                  delegate: CustomSearchDelegate(),
-                  context: context,
-                );
-              }),
+      elevation: 0,
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.search, color: Colors.black, size: 30),
+          onPressed: () {
+            showSearch(context: context, delegate: CustomSearchDelegate());
+          },
         ),
       ],
     );
   }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 }
 
 class PersonListView extends StatelessWidget {
-  const PersonListView({Key? key}) : super(key: key);
+  final HomeController homeController; // Adjusted to pass HomeController
+
+  const PersonListView({Key? key, required this.homeController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: ListView.builder(
-        itemCount: MockData.people.length,
-        itemBuilder: (context, index) {
-          final personKey = 'person${index + 1}';
-          final person = MockData.people[personKey];
-          return person != null
-              ? PersonCard(person: person)
-              : SizedBox.shrink();
-        },
-      ),
+    return ListView.builder(
+      controller:
+          homeController.scrollController, // Attach the scroll controller
+      itemCount: homeController.homePageList.length,
+      itemBuilder: (context, index) {
+        return PersonCard(person: homeController.homePageList[index]);
+      },
     );
   }
 }
 
 class PersonCard extends StatelessWidget {
-  final Map<String, dynamic> person;
+  final HomePageModel person;
 
   const PersonCard({Key? key, required this.person}) : super(key: key);
 
@@ -172,21 +160,18 @@ class PersonCard extends StatelessWidget {
       shadowColor: CustomColors.black.withOpacity(0.5),
       elevation: 5,
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
       child: ListTile(
-        leading: Image.asset(person['image'],
-            height: 60, width: 60, fit: BoxFit.cover),
-        title: Text(person['name'],
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        subtitle: Text('${person['subject']} - ${person['location']}',
-            style: TextStyle(fontSize: 16)),
+        leading: person.memberPhoto != null
+            ? Image.network(person.memberPhoto,
+                height: 60, width: 60, fit: BoxFit.cover)
+            : const Icon(Icons.person, size: 60),
+        title: Text(person.fullName,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         trailing: TextButton(
-          child: Text('View Family',
+          child: const Text('View Legacy',
               style: TextStyle(color: CustomColors.primaryColor)),
           onPressed: () =>
-              Get.toNamed(AppRoute.tree), // Make sure AppRoute.tree is defined
+              Get.toNamed(AppRoute.tree, arguments: {'userId': person.id}),
         ),
       ),
     );

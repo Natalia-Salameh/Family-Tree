@@ -27,6 +27,10 @@ class AppLink {
 
   static const String search = "$serverName/Members/MobileSearch";
 
+  static const String home = "$serverName/Members/HomePageMembers";
+
+  static const String getLegacyFromId = "$serverName/Profile/FromMemberId";
+
   // ========================== Profile  ========================== //
 
   static const String profile = "$serverName/Profile/ForMyAccount";
