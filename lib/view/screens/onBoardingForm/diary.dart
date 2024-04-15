@@ -2,7 +2,7 @@ import 'package:family_tree_application/controller/diary_controller.dart';
 import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
-import 'package:family_tree_application/view/widgets/form/full_name.dart';
+import 'package:family_tree_application/view/widgets/form/bordered_text_field.dart';
 import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,7 +42,7 @@ class Diary extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 40,
-                    child: CustomTextForm(
+                    child: BorderedCustomTextForm(
                       hintText: "35".tr,
                       myController: storyController.educationController,
                     ),
@@ -52,7 +52,7 @@ class Diary extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 40,
-                    child: CustomTextForm(
+                    child: BorderedCustomTextForm(
                       hintText: "36".tr,
                       myController: storyController.workController,
                     ),
@@ -60,7 +60,7 @@ class Diary extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  CustomTextForm(
+                  BorderedCustomTextForm(
                     hintText: "41".tr,
                     maxLines: 14,
                     myController: storyController.diaryController,

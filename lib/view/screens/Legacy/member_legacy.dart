@@ -153,12 +153,7 @@ class Legacy extends StatelessWidget {
                               ListTile(
                                 title: const Text("Date of Birth"),
                                 subtitle: Text(
-                                  legacyController.dateOfBirth
-                                              .toString()
-                                              .split(' ')[0] ==
-                                          DateTime.now()
-                                              .toString()
-                                              .split(' ')[0]
+                                  legacyController.dateOfBirth == null
                                       ? "No Date of Birth added"
                                       : legacyController.dateOfBirth
                                           .toString()

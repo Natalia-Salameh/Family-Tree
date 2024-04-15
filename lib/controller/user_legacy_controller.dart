@@ -12,7 +12,7 @@ class UserLegacyController extends GetxController {
   String thirdName = '';
   Family family = Family(id: '', familyName: '');
   String gender = '';
-  DateTime dateOfBirth = DateTime.now();
+  dynamic dateOfBirth = '';
   String photoBase64 = '';
   String userId = '';
 
