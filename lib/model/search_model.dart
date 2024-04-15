@@ -7,11 +7,11 @@ String searchModelToJson(List<SearchModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class SearchModel {
-  String? id;
+  String id;
   String fullName;
 
   SearchModel({
-    this.id,
+    required this.id,
     required this.fullName,
   });
 

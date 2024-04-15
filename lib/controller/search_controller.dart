@@ -4,7 +4,11 @@ import 'package:family_tree_application/model/search_model.dart';
 import 'package:get/get.dart';
 
 class SearchPersonController extends GetxController {
-  final listSearch = <String>[].obs;
+  final listSearch = <SearchModel>[].obs;
+  @override
+  void onInit() {
+    super.onInit();
+  }
 
   search(String query) async {
     listSearch.clear();
@@ -25,8 +29,8 @@ class SearchPersonController extends GetxController {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       List<SearchModel> searchModel = searchModelFromJson(response.body);
-      listSearch.addAll(searchModel.map((model) => model.fullName));
-      print(listSearch);
+      listSearch.addAll(searchModel);
+      
     } else {
       Get.snackbar(
         "65".tr,

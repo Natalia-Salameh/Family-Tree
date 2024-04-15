@@ -1,10 +1,12 @@
 import 'package:family_tree_application/controller/search_controller.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   final SearchPersonController searchController =
       Get.put(SearchPersonController());
+
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -50,7 +52,7 @@ class CustomSearchDelegate extends SearchDelegate {
       return ListView.builder(
         itemCount: searchList.length,
         itemBuilder: (context, index) {
-          var result = searchList[index];
+          var result = searchList[index].fullName;
           return ListTile(
             title: Text(result),
           );
@@ -71,10 +73,10 @@ class CustomSearchDelegate extends SearchDelegate {
         itemBuilder: (context, index) {
           var suggestion = searchController.listSearch[index];
           return ListTile(
-            title: Text(suggestion),
+            title: Text(suggestion.fullName),
             onTap: () {
-              query = suggestion;
-              showResults(context);
+              Get.toNamed(AppRoute.userLegacy,
+                  arguments: {'id': suggestion.id});
             },
           );
         },

@@ -1,4 +1,4 @@
-import 'package:family_tree_application/controller/legacy_controller.dart';
+import 'package:family_tree_application/controller/member_legacy_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/tabbar.dart';
@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 class Legacy extends StatelessWidget {
   Legacy({super.key});
-  final legacyController = Get.put(LegacyController());
+  final legacyController = Get.put(MemberLegacyController());
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +144,16 @@ class Legacy extends StatelessWidget {
                               ListTile(
                                 title: const Text("Date of Birth"),
                                 subtitle: Text(
-                                  legacyController.dateOfBirth.toString().split(' ')[0],
+                                  legacyController.dateOfBirth
+                                              .toString()
+                                              .split(' ')[0] ==
+                                          DateTime.now()
+                                              .toString()
+                                              .split(' ')[0]
+                                      ? "No Date of Birth added"
+                                      : legacyController.dateOfBirth
+                                          .toString()
+                                          .split(' ')[0],
                                 ),
                               ),
                             ],

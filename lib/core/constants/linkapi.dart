@@ -33,5 +33,7 @@ class AppLink {
 
   // ========================== Profile  ========================== //
 
-  static const String profile = "$serverName/Profile/ForMyAccount";
+  static const String memberLegacy = "$serverName/Profile/ForMyAccount";
+
+  static const String userLegacy = "$serverName/Profile/FromMemberId";
 }

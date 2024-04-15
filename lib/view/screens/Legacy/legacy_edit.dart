@@ -29,7 +29,6 @@ class LegacyEdit extends StatelessWidget {
             radius: 31,
             fontsize: 21,
           ),
-          // Use the controller to provide text editing controllers for each field
           _buildListTile("40".tr, controller.fullNameController.value),
           const Divider(
               height: 0.5,

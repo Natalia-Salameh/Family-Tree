@@ -37,7 +37,6 @@ class LoginController extends GetxController {
       Get.offAllNamed(AppRoute.home);
       print(response.body);
     } else if (data['titel'] == "Your Email is Not Verified.") {
-      // consider changing the check to a constant key or handling differently
       Get.defaultDialog(
         title: "sorry".tr,
         middleText: "email_not_verified".tr,
@@ -59,11 +58,9 @@ class LoginController extends GetxController {
         ),
       );
     } else {
-      String errorMessage = data["invalid_login"] ??
-          "invalid_login".tr; // Handle null with a default
+      String errorMessage = data["invalid_login"] ?? "invalid_login".tr;
       Get.defaultDialog(
         title: "65".tr,
-        // Assuming you have "Error" as a translatable string for the title
         middleText: errorMessage.tr,
       );
       print(response.body);

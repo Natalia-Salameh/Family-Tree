@@ -3,7 +3,7 @@ import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/mock_data.dart';
 import 'package:family_tree_application/model/home_page_model.dart';
-import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
+import 'package:family_tree_application/view/screens/Legacy/member_legacy.dart';
 import 'package:family_tree_application/view/screens/home/search.dart';
 import 'package:family_tree_application/view/screens/home/tree.dart';
 import 'package:family_tree_application/view/widgets/bottom_nav.dart';

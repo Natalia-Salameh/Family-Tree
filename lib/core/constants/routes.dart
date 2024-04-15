@@ -18,4 +18,5 @@ class AppRoute {
   static const String onBoardingNav = "/onBoardingNav";
   static const String settings = "/settings";
   static const String userAdd = "/UserAdd";
+  static const String userLegacy = "/userLegacy";
 }

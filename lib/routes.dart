@@ -1,8 +1,9 @@
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/Forms/user_form.dart';
-import 'package:family_tree_application/view/screens/Legacy/legacy.dart';
+import 'package:family_tree_application/view/screens/Legacy/member_legacy.dart';
 import 'package:family_tree_application/view/screens/Legacy/legacy_edit.dart';
 import 'package:family_tree_application/view/screens/Legacy/settings.dart';
+import 'package:family_tree_application/view/screens/Legacy/user_legacy.dart';
 import 'package:family_tree_application/view/screens/auth/get_started.dart';
 import 'package:family_tree_application/view/screens/auth/login.dart';
 import 'package:family_tree_application/view/screens/auth/signup.dart';
@@ -40,6 +41,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.treeForm, page: () => const TreeState()),
   GetPage(name: AppRoute.diary, page: () => const Diary()),
   GetPage(name: AppRoute.settings, page: () => const Settings()),
+  GetPage(name: AppRoute.userLegacy, page: () => UserLegacy()),
   GetPage(
       name: AppRoute.userAdd,
       page: () => const UserAdd(
