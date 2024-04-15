@@ -171,7 +171,7 @@ class PersonCard extends StatelessWidget {
           child: const Text('View Legacy',
               style: TextStyle(color: CustomColors.primaryColor)),
           onPressed: () =>
-              Get.toNamed(AppRoute.tree, arguments: {'userId': person.id}),
+              Get.toNamed(AppRoute.userLegacy, arguments: {'id': person.id}),
         ),
       ),
     );
