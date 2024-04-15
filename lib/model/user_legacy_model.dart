@@ -16,7 +16,7 @@ class UserLegacyModel {
   String thirdName;
   Family family;
   String gender;
-  DateTime dateOfBirth;
+  dynamic dateOfBirth;
   dynamic dateOfDeath;
   String decision;
   int numOfReports;
@@ -52,7 +52,7 @@ class UserLegacyModel {
         thirdName: json["thirdName"],
         family: Family.fromJson(json["family"]),
         gender: json["gender"],
-        dateOfBirth: DateTime.parse(json["dateOfBirth"] ?? '1970-01-01'),
+        dateOfBirth: json["dateOfBirth"],
         dateOfDeath: json["dateOfDeath"],
         decision: json["decision"],
         numOfReports: json["numOfReports"],
@@ -70,7 +70,7 @@ class UserLegacyModel {
         "thirdName": thirdName,
         "family": family.toJson(),
         "gender": gender,
-        "dateOfBirth": dateOfBirth.toIso8601String(),
+        "dateOfBirth": dateOfBirth,
         "dateOfDeath": dateOfDeath,
         "decision": decision,
         "numOfReports": numOfReports,

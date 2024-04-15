@@ -58,7 +58,8 @@ class UserLegacy extends StatelessWidget {
                         LegacyTabBar(
                           views: [
                             Container(
-                                alignment: Alignment.center, child: Text("44".tr)),
+                                alignment: Alignment.center,
+                                child: Text("44".tr)),
                             Container(
                                 alignment: Alignment.center,
                                 child: Column(
@@ -104,16 +105,11 @@ class UserLegacy extends StatelessWidget {
                                     ListTile(
                                       title: const Text("Date of Birth"),
                                       subtitle: Text(
-                                        userLegacyController.dateOfBirth
-                                                    .toString()
-                                                    .split(' ')[0] == 
-                                                DateTime.now()
-                                                    .toString()
-                                                    .split(' ')[0]
+                                        userLegacyController.dateOfBirth == null
                                             ? "No Date of Birth added"
                                             : userLegacyController.dateOfBirth
                                                 .toString()
-                                                .split(' ')[0],
+                                                .split('T')[0],
                                       ),
                                     ),
                                   ],

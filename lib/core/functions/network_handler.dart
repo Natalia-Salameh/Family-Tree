@@ -135,5 +135,6 @@ class NetworkHandler {
 
   static Future<void> deleteToken() async {
     await storage.delete(key: 'token');
+    await storage.delete(key: 'expiration');
   }
 }
