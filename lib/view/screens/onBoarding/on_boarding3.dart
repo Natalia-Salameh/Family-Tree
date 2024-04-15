@@ -44,7 +44,6 @@ class OnBoarding3 extends StatelessWidget {
               padding: EdgeInsets.only(top: screenHeight * 0.03),
               child: ElevatedButton(
                 onPressed: () {
-                  // sese ba3deen
                   Get.offAll(GetStarted());
                 },
                 style: ElevatedButton.styleFrom(
