@@ -1,6 +1,8 @@
 import 'package:family_tree_application/controller/member_legacy_controller.dart';
+import 'package:family_tree_application/controller/update_legacy_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/view/screens/Legacy/update_legacy.dart';
 import 'package:family_tree_application/view/widgets/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
@@ -54,9 +56,16 @@ class Legacy extends StatelessWidget {
                           ListTile(
                             leading: const Icon(Icons.edit),
                             title: Text("39".tr),
-                            onTap: () {
-                              Get.toNamed(AppRoute.editLegacy);
+                           onTap: () {
+                              final memberLegacyController =
+                                  MemberLegacyController.to;
+                              final updateLegacyController =
+                                  Get.put(UpdateLegacyController());
+                              updateLegacyController
+                                  .loadInitialData(memberLegacyController);
+                              Get.to(() => EditLegacy());
                             },
+
                           ),
                           const Divider(
                             indent: 40,

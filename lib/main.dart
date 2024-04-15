@@ -11,11 +11,14 @@ void main() async {
   Get.put(ProgressController());
   WidgetsFlutterBinding.ensureInitialized();
   DateTime? expiration = await NetworkHandler.getExpirationDate();
+  String? token = await NetworkHandler.getToken();
 
   runApp(
     MyApp(
-      initialRoute: (expiration!.isBefore(DateTime.now()))
-          ? AppRoute.getStarted
+      initialRoute: (token == null ||
+              expiration == null ||
+              expiration.isBefore(DateTime.now()))
+          ? AppRoute.home
           : AppRoute.home,
     ),
   );
