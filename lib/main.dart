@@ -18,8 +18,8 @@ void main() async {
       initialRoute: (token == null ||
               expiration == null ||
               expiration.isBefore(DateTime.now()))
-          ? AppRoute.getStarted
-          : AppRoute.memberForm,
+          ? AppRoute.home
+          : AppRoute.home,
     ),
   );
 }

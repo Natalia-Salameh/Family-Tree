@@ -7,7 +7,7 @@ import 'package:drop_down_list/model/selected_list_item.dart';
 
 class FamilyNameController extends GetxController {
   final TextEditingController lastNameController = TextEditingController();
-  
+
   var familyNames = <SelectedListItem>[].obs;
 
   @override

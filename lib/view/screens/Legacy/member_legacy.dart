@@ -56,16 +56,29 @@ class Legacy extends StatelessWidget {
                           ListTile(
                             leading: const Icon(Icons.edit),
                             title: Text("39".tr),
-                           onTap: () {
-                              final memberLegacyController =
-                                  MemberLegacyController.to;
+                            onTap: () async {
+                              // This will create UpdateLegacyController only when it's needed
+                              Get.lazyPut(() => UpdateLegacyController());
+
+                              // Now we can find UpdateLegacyController without error
                               final updateLegacyController =
-                                  Get.put(UpdateLegacyController());
+                                  Get.find<UpdateLegacyController>();
+
+                              // If MemberLegacyController is already put in GetX storage,
+                              // we can retrieve it like this:
+                              final memberLegacyController =
+                                  Get.find<MemberLegacyController>();
+
+                              // Load initial data from MemberLegacyController into UpdateLegacyController
                               updateLegacyController
                                   .loadInitialData(memberLegacyController);
-                              Get.to(() => EditLegacy());
-                            },
 
+                              // Navigate to EditLegacy
+                              var result = await Get.to(() => EditLegacy());
+                              if (result == 'updateSuccessful') {
+                                memberLegacyController.LegacyInfo();
+                              }
+                            },
                           ),
                           const Divider(
                             indent: 40,

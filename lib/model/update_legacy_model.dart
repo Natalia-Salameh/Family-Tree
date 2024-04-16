@@ -4,6 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:family_tree_application/model/member_legacy_model.dart';
 
 part 'update_legacy_model.g.dart';
+
 @JsonSerializable()
 class UpdateLegacyModel {
   String education;
