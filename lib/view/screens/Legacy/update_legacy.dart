@@ -1,3 +1,4 @@
+import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:family_tree_application/controller/update_legacy_controller.dart';
@@ -5,10 +6,8 @@ import 'package:family_tree_application/controller/family_name_controller.dart';
 import 'package:intl/intl.dart'; // for date formatting
 
 class EditLegacy extends StatelessWidget {
-  final FamilyNameController familyNameController =
-      Get.put(FamilyNameController());
-  final UpdateLegacyController updateLegacyController =
-      Get.find<UpdateLegacyController>();
+  final FamilyNameController familyNameController = Get.put(FamilyNameController());
+  final UpdateLegacyController updateLegacyController = Get.find<UpdateLegacyController>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +35,8 @@ class EditLegacy extends StatelessWidget {
               _buildTextField("Work", updateLegacyController.work),
               _buildTextField("Diary", updateLegacyController.legacyStory),
               _buildTextField("Gender", updateLegacyController.gender),
-              _buildDateOfBirthInputCard(
-                  context, "Date of Birth", updateLegacyController.dateOfBirth),
-              _buildTextField(
-                  "Photo Base64", updateLegacyController.photoBase64),
+              _buildDateOfBirthInputCard(context, "Date of Birth", updateLegacyController.dateOfBirth),
+              _buildTextField("Photo Base64", updateLegacyController.photoBase64),
               ElevatedButton(
                 onPressed: updateLegacyController.updateLegacyInfo,
                 child: Text("Save Changes"),
@@ -55,7 +52,7 @@ class EditLegacy extends StatelessWidget {
     // Create a TextEditingController that is linked to the RxString
     final controller = TextEditingController(text: rxValue.value);
     controller.addListener(() {
-      rxValue.value = controller.text; // Update RxString on change
+      rxValue.value = controller.text;  // Update RxString on change
     });
 
     return Padding(
@@ -82,11 +79,14 @@ class EditLegacy extends StatelessWidget {
           : null,
       onChanged: (String? newFamilyId) {
         if (newFamilyId != null) {
-          updateLegacyController.setSelectedFamily(newFamilyId);
+          var selectedItem = familyNameController.familyNames.value.firstWhere(
+              (item) => item.value == newFamilyId,
+              orElse: () => SelectedListItem(value: '', name: ''));
+          updateLegacyController.setSelectedFamily(
+              newFamilyId, selectedItem.name);
         }
       },
-      items: familyNameController.familyNames.value
-          .map<DropdownMenuItem<String>>((item) {
+      items: familyNameController.familyNames.value.map((item) {
         return DropdownMenuItem<String>(
           value: item.value,
           child: Text(item.name),
@@ -95,8 +95,8 @@ class EditLegacy extends StatelessWidget {
     );
   }
 
-  Widget _buildDateOfBirthInputCard(
-      BuildContext context, String label, Rx<DateTime> rxValue) {
+
+  Widget _buildDateOfBirthInputCard(BuildContext context, String label, Rx<DateTime> rxValue) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: GestureDetector(
@@ -113,8 +113,7 @@ class EditLegacy extends StatelessWidget {
         },
         child: AbsorbPointer(
           child: TextField(
-            controller: TextEditingController(
-                text: DateFormat('yyyy-MM-dd').format(rxValue.value)),
+            controller: TextEditingController(text: DateFormat('yyyy-MM-dd').format(rxValue.value)),
             decoration: InputDecoration(
               labelText: label,
               border: OutlineInputBorder(),
