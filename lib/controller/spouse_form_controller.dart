@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
 import 'package:family_tree_application/model/member_form_model.dart';
 import 'package:flutter/material.dart';
@@ -65,13 +66,12 @@ class SpouseFormController extends GetxController {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
-      String person2Id = responseData['id'];
-      String partner2Id =
-          marriageFormController.partner2Id.text = responseData['id'];
-    //  print("member added $partner2Id");
-      print("spouse $person2Id");
-    //  print("member added $responseData");
-     // Get.offNamed(AppRoute.spouseMarriageStatus);
+      person2Id.text = responseData['id'];
+
+      marriageFormController.partner2Id.text = responseData['id'];
+      //  print("member added $partner2Id");
+      //  print("member added $responseData");
+      Get.offNamed(AppRoute.spouseMarriageStatus);
     } else {
       Get.defaultDialog(
         title: "Error",

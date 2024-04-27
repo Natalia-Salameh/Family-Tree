@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/imageasset.dart';
-import 'on_boarding2.dart';
 
 class OnBoarding1 extends StatelessWidget {
   const OnBoarding1({super.key});

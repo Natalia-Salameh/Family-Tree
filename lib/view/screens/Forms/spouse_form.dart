@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SpouseForm extends StatelessWidget {
-  final String role;
-  SpouseForm({super.key, required this.role});
+  //final String role;
+  SpouseForm({super.key});
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -309,12 +309,6 @@ class SpouseForm extends StatelessWidget {
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               spouseFormController.addForm();
-                              String firstName =
-                                  spouseFormController.firstNameController.text;
-                              Get.back(result: {
-                                'role': role,
-                                'firstName': firstName,
-                              });
                             }
                           },
                           color: CustomColors.primaryColor,

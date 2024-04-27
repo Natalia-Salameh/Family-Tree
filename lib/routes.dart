@@ -47,5 +47,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.userLegacy, page: () => UserLegacy()),
   GetPage(
       name: AppRoute.spouseMarriageStatus, page: () => SpouseMarriageStatus()),
-  GetPage(name: AppRoute.spouseForm, page: () => SpouseForm(role: '',)),
+  GetPage(name: AppRoute.spouseForm, page: () => SpouseForm()),
 ];
