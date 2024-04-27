@@ -43,7 +43,7 @@ class UserLegacy extends StatelessWidget {
                         const Padding(
                           padding: EdgeInsets.only(bottom: 10),
                           child: ProfilePicture(
-                            name: "Natalia Salameh",
+                            name: "",
                             radius: 31,
                             fontsize: 21,
                           ),

@@ -1,6 +1,7 @@
 import 'package:family_tree_application/Locale/locale.dart';
 
 import 'package:family_tree_application/controller/progress_bar.dart';
+import 'package:family_tree_application/controller/signup_controller.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
 import 'package:family_tree_application/routes.dart';
@@ -12,13 +13,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DateTime? expiration = await NetworkHandler.getExpirationDate();
   String? token = await NetworkHandler.getToken();
-
+  Get.put(SignUpController());
   runApp(
     MyApp(
       initialRoute: (token == null ||
               expiration == null ||
               expiration.isBefore(DateTime.now()))
-          ? AppRoute.home
+          ? AppRoute.getStarted
           : AppRoute.home,
     ),
   );

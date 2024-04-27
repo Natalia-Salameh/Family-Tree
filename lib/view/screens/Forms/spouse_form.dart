@@ -1,29 +1,26 @@
 import 'package:family_tree_application/controller/family_name_controller.dart';
-import 'package:family_tree_application/controller/member_form_controller.dart';
-import 'package:family_tree_application/controller/progress_bar.dart';
+import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/enums.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/family_name.dart';
 import 'package:family_tree_application/view/widgets/form/full_name.dart';
 import 'package:family_tree_application/view/widgets/form/gender.dart';
-import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
 import 'package:family_tree_application/view/widgets/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MemberForm extends StatelessWidget {
-  MemberForm({super.key});
+class SpouseForm extends StatelessWidget {
+  final String role;
+  SpouseForm({super.key, required this.role});
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final ProgressController progressController =
-        Get.find<ProgressController>();
     final FamilyNameController familyNameController =
         Get.put(FamilyNameController());
-    MemberFormController memberFormController = Get.put(MemberFormController());
+    SpouseFormController spouseFormController = Get.put(SpouseFormController());
 
     return Scaffold(
       body: Form(
@@ -36,24 +33,14 @@ class MemberForm extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 child: Column(
                   children: [
+                    //--------- Profile Image -----------
                     const SizedBox(height: 20),
-                    ProgressBar(
-                      progress: progressController.progress.value,
-                    ),
-                    const SizedBox(height: 30),
-                    Text(
-                      "54".tr,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                     Profile(
                       onImagePicked: (file) {
-                        memberFormController.setImage(file);
+                        spouseFormController.setImage(file);
                       },
                     ),
+                    //--------- Full Name -----------
                     Row(
                       children: [
                         Expanded(
@@ -62,7 +49,7 @@ class MemberForm extends StatelessWidget {
                             child: CustomTextForm(
                               hintText: "55".tr,
                               myController:
-                                  memberFormController.firstNameController,
+                                  spouseFormController.firstNameController,
                               valid: (value) {
                                 if (value!.isEmpty) {
                                   return "52".tr;
@@ -79,7 +66,7 @@ class MemberForm extends StatelessWidget {
                             child: CustomTextForm(
                               hintText: "56".tr,
                               myController:
-                                  memberFormController.secondNameController,
+                                  spouseFormController.secondNameController,
                               valid: (value) {
                                 if (value!.isEmpty) {
                                   return "52".tr;
@@ -96,7 +83,7 @@ class MemberForm extends StatelessWidget {
                             child: CustomTextForm(
                               hintText: "57".tr,
                               myController:
-                                  memberFormController.thirdNameController,
+                                  spouseFormController.thirdNameController,
                               valid: (value) {
                                 if (value!.isEmpty) {
                                   return "52".tr;
@@ -120,6 +107,7 @@ class MemberForm extends StatelessWidget {
                     const SizedBox(
                       height: 40,
                     ),
+                    //--------- Gender -----------
                     Row(children: [
                       Expanded(
                           flex: 0,
@@ -133,9 +121,9 @@ class MemberForm extends StatelessWidget {
                               label: "31".tr,
                               genderValue: Gender.female,
                               selectedGender:
-                                  memberFormController.selectedGender.value,
+                                  spouseFormController.selectedGender.value,
                               onGenderSelected: (val) {
-                                memberFormController
+                                spouseFormController
                                     .updateGender(Gender.female);
                               },
                             )),
@@ -146,9 +134,9 @@ class MemberForm extends StatelessWidget {
                               label: "32".tr,
                               genderValue: Gender.male,
                               selectedGender:
-                                  memberFormController.selectedGender.value,
+                                  spouseFormController.selectedGender.value,
                               onGenderSelected: (val) {
-                                memberFormController.updateGender(Gender.male);
+                                spouseFormController.updateGender(Gender.male);
                               },
                             )),
                       ),
@@ -156,6 +144,7 @@ class MemberForm extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
+                    //--------- Birth Date -----------
                     GestureDetector(
                       onTap: () {
                         showModalBottomSheet(
@@ -191,8 +180,7 @@ class MemberForm extends StatelessWidget {
                                     onDateTimeChanged: (DateTime value) {
                                       final dateTimeText =
                                           "${value.year}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}";
-
-                                      memberFormController.birthDateController
+                                      spouseFormController.birthDateController
                                           .text = dateTimeText;
                                     },
                                   ),
@@ -207,11 +195,112 @@ class MemberForm extends StatelessWidget {
                           child: CustomTextForm(
                             hintText: "34".tr,
                             myController:
-                                memberFormController.birthDateController,
+                                spouseFormController.birthDateController,
                           ),
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    //--------- Life Status -----------
+                    Row(children: [
+                      Expanded(
+                          flex: 0,
+                          child: Text(
+                            "Life Status".tr,
+                            style: const TextStyle(fontSize: 16),
+                          )),
+                      Expanded(
+                        flex: 1,
+                        child: Obx(() => RadioButton(
+                              label: "Alive".tr,
+                              genderValue: LifeStatus.alive,
+                              selectedGender:
+                                  spouseFormController.lifeStatus.value,
+                              onGenderSelected: (val) {
+                                spouseFormController
+                                    .updateLifeStatus(LifeStatus.alive);
+                              },
+                            )),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Obx(() => RadioButton(
+                              label: "Dead".tr,
+                              genderValue: LifeStatus.dead,
+                              selectedGender:
+                                  spouseFormController.lifeStatus.value,
+                              onGenderSelected: (val) {
+                                spouseFormController
+                                    .updateLifeStatus(LifeStatus.dead);
+                              },
+                            )),
+                      ),
+                    ]),
+                    //--------- Death Date -----------
+                    Obx(() => Visibility(
+                          visible: spouseFormController.lifeStatus.value ==
+                              LifeStatus.dead,
+                          child: GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) => Container(
+                                  height: 300,
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          CupertinoButton(
+                                            child: Text("Death Date".tr,
+                                                style: const TextStyle(
+                                                    color: CustomColors
+                                                        .primaryColor)),
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      Expanded(
+                                        child: CupertinoDatePicker(
+                                          mode: CupertinoDatePickerMode.date,
+                                          onDateTimeChanged: (DateTime value) {
+                                            final dateTimeText =
+                                                "${value.year}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}";
+                                            spouseFormController
+                                                .deathDateController
+                                                .text = dateTimeText;
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            child: AbsorbPointer(
+                              child: SizedBox(
+                                child: CustomTextForm(
+                                  hintText: "Death Date".tr,
+                                  myController:
+                                      spouseFormController.deathDateController,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )),
                     const SizedBox(
                       height: 10,
                     ),
@@ -219,13 +308,18 @@ class MemberForm extends StatelessWidget {
                       child: Button(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              progressController.updateProgress();
-                              memberFormController.addForm();
+                              spouseFormController.addForm();
+                              String firstName =
+                                  spouseFormController.firstNameController.text;
+                              Get.back(result: {
+                                'role': role,
+                                'firstName': firstName,
+                              });
                             }
                           },
                           color: CustomColors.primaryColor,
                           child: Text(
-                            "58".tr,
+                            "Next".tr,
                             style: const TextStyle(color: CustomColors.white),
                           )),
                     )

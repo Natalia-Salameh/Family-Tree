@@ -41,4 +41,10 @@ class AppLink {
 
   static const String updateMemberImage =
       "$serverName/Members/UpdateImageForMyAccount";
+
+  // ========================== Tree  ========================== //
+
+  static const String addMarriageForm = "$serverName/Relations/AddMarriage";
+
+  static const String addChild = "$serverName/Relations/AddChild";
 }

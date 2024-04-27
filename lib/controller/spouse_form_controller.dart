@@ -9,10 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:family_tree_application/enums.dart';
 
-class UserFormController extends GetxController {
+class SpouseFormController extends GetxController {
   final MarriageFormController marriageFormController =
       Get.put(MarriageFormController());
-
   final selectedGender = Rx<Gender?>(null);
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController secondNameController = TextEditingController();
@@ -23,7 +22,7 @@ class UserFormController extends GetxController {
   final Rx<File?> selectedFile = Rx<File?>(null);
   final TextEditingController idController = TextEditingController();
   final lifeStatus = Rx<LifeStatus?>(null);
-  final TextEditingController person1Id = TextEditingController();
+  final TextEditingController person2Id = TextEditingController();
 
   void setImage(File file) {
     selectedFile.value = file;
@@ -39,7 +38,7 @@ class UserFormController extends GetxController {
 
   String? photoBase64;
 
-  addForm(String route) async {
+  addForm() async {
     List<File> files = [];
     if (selectedFile.value != null) {
       files.add(selectedFile.value!);
@@ -66,13 +65,13 @@ class UserFormController extends GetxController {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
-      String person1Id = responseData['id'];
-      String partner1Id =
-          marriageFormController.partner1Id.text = responseData['id'];
-          print("root $person1Id");
-      // print("member added $partner1Id");
-      // print("member added $responseData");
-      Get.toNamed(route);
+      String person2Id = responseData['id'];
+      String partner2Id =
+          marriageFormController.partner2Id.text = responseData['id'];
+    //  print("member added $partner2Id");
+      print("spouse $person2Id");
+    //  print("member added $responseData");
+     // Get.offNamed(AppRoute.spouseMarriageStatus);
     } else {
       Get.defaultDialog(
         title: "Error",
