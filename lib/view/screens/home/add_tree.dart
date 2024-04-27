@@ -147,26 +147,47 @@ class _TreeState extends State<AddTree> {
       ],
     );
   }
+void _addSpouse(String name) {
+    if (selectedNodeId == null)
+      return; // Ensure there is a selected node to connect the spouse to.
 
-  // void _addSpouse(String name) {
-  //   if (selectedNodeId == null) return;
-  //   final currentNames = nodeNames[selectedNodeId];
-  //   if (currentNames != null) {
-  //     currentNames.add(name);
-  //   } else {
-  //     nodeNames[selectedNodeId!] = [name];
-  //   }
-  //   setState(() {});
-  // }
+    final String newSpouseId = spouseFormController
+        .person2Id.text; // Get the unique spouse ID from the controller.
 
-  void _addSpouse(name) {
-    if (selectedNodeId == null) return;
-    final newSpouseId = spouseFormController.person2Id.text;
-    final spouseNode = n.Node.Id(newSpouseId);
-    graph.addNode(spouseNode);
-    graph.addEdge(graph.getNodeUsingId(selectedNodeId!), spouseNode);
+    // Check if the spouse node already exists; if not, add it.
+    if (graph.getNodeUsingId(newSpouseId) == null) {
+      final n.Node spouseNode =
+          n.Node.Id(newSpouseId); // Create the spouse node with the new ID.
+      graph.addNode(spouseNode); // Add the spouse node to the graph.
+      graph.addEdge(graph.getNodeUsingId(selectedNodeId!),
+          spouseNode); // Connect the selected node with the new spouse node.
+
+      // Ensure the node names are updated.
+      nodeNames[newSpouseId] = [
+        name
+      ]; // Associate the spouse's name with the new ID.
+    } else {
+      // If the spouse node already exists, add the name to the existing names list.
+      if (nodeNames.containsKey(newSpouseId)) {
+        nodeNames[newSpouseId]!.add(name);
+      } else {
+        nodeNames[newSpouseId] = [name];
+      }
+    }
+
+    // Update the UI state to reflect changes in the graph.
     setState(() {});
   }
+
+
+  // void _addSpouse(name) {
+  //   if (selectedNodeId == null) return;
+  //   final newSpouseId = spouseFormController.person2Id.text;
+  //   final spouseNode = n.Node.Id(newSpouseId);
+  //   graph.addNode(spouseNode);
+  //   graph.addEdge(graph.getNodeUsingId(selectedNodeId!), spouseNode);
+  //   setState(() {});
+  // }
 
   //   void _addChild(String name) {
   //   if (selectedNodeId == null) return;
