@@ -35,7 +35,7 @@ class VerifyCode extends StatelessWidget {
                 children: [
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: screenHeight * 0.1),
+                        EdgeInsets.symmetric(horizontal: screenHeight * 0.15),
                     child: Text(
                       "16".tr,
                       style: const TextStyle(
@@ -49,10 +49,13 @@ class VerifyCode extends StatelessWidget {
                   const SizedBox(
                     height: 75,
                   ),
-                  Text(
-                    "17".tr,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Text(
+                      "17".tr,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(
                     height: 50,
@@ -109,7 +112,7 @@ class VerifyCode extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 50,
+                        height: 5,
                       ),
                       MaterialButton(
                         onPressed: () {

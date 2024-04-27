@@ -39,7 +39,7 @@ class _TreeState extends State<TreeState> {
   void _initializeGraph() {
     final n.Node rootNode = n.Node.Id(1);
     graph.addNode(rootNode);
-    nodeNames[1] = ["Antoun"];
+    nodeNames[1] = ["سيلينا"];
   }
 
   @override

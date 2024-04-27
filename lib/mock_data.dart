@@ -3,10 +3,9 @@ import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/enums.dart';
 
 class MockData {
-   static List<String> treeData = []; 
+  static List<String> treeData = [];
   static LifeStatus lifeStatusValue = LifeStatus.alive;
 
-  
   static final List<SelectedListItem> familyName = [
     SelectedListItem(
       name: 'سلامة',
@@ -124,4 +123,6 @@ class MockData {
       }
     ],
   };
+
+  static findNodeNames(value) {}
 }

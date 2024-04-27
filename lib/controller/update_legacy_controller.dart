@@ -18,7 +18,7 @@ class UpdateLegacyController extends GetxController {
 
   var gender = ''.obs;
   var dateOfBirth = DateTime.now().obs;
-  var photoBase64 = ''.obs;
+  //var photoBase64 = ''.obs;
   // Reintroduced for managing family selection
 
   void setSelectedFamily(String id, String familyName) {
@@ -42,7 +42,7 @@ class UpdateLegacyController extends GetxController {
         data.family.id; // Use the family id from the MemberLegacyController
     gender.value = data.gender;
     dateOfBirth.value = data.dateOfBirth;
-    photoBase64.value = data.photoBase64;
+   // photoBase64.value = data.photoBase64;
   }
 
   void updateLegacyInfo() async {
@@ -57,7 +57,7 @@ class UpdateLegacyController extends GetxController {
       'familyName': family.value.familyName,
       'gender': gender.value,
       'dateOfBirth': dateOfBirth.value.toIso8601String(),
-      'photoBase64': photoBase64.value,
+      //'photoBase64': photoBase64.value,
     };
 
     print(

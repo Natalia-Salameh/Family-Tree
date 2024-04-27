@@ -68,7 +68,7 @@ class _GetStartedState extends State<GetStarted> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: CustomColors.primaryColor, //
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 143, vertical: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 143, vertical: 20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -95,7 +95,7 @@ class _GetStartedState extends State<GetStarted> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: CustomColors.primaryColor, //
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 136, vertical: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 136, vertical: 19),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

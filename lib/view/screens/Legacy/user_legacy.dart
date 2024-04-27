@@ -65,7 +65,7 @@ class UserLegacy extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     ListTile(
-                                      title: const Text("Education"),
+                                      title: Text("35".tr),
                                       subtitle: Text(
                                         userLegacyController.education == ""
                                             ? "No Education added"
@@ -73,7 +73,7 @@ class UserLegacy extends StatelessWidget {
                                       ),
                                     ),
                                     ListTile(
-                                      title: const Text("Work"),
+                                      title: Text("36".tr),
                                       subtitle: Text(
                                         userLegacyController.work == ""
                                             ? "No Work added"
@@ -81,7 +81,7 @@ class UserLegacy extends StatelessWidget {
                                       ),
                                     ),
                                     ListTile(
-                                      title: const Text("Diary"),
+                                      title: Text("41".tr),
                                       subtitle: Text(
                                         userLegacyController.legacyStory == ""
                                             ? "No Diary added"
@@ -95,7 +95,7 @@ class UserLegacy extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     ListTile(
-                                      title: const Text("Gender"),
+                                      title: Text("30".tr),
                                       subtitle: Text(
                                         userLegacyController.gender == ""
                                             ? "No Gender added"
@@ -103,7 +103,7 @@ class UserLegacy extends StatelessWidget {
                                       ),
                                     ),
                                     ListTile(
-                                      title: const Text("Date of Birth"),
+                                      title: Text("DateofBirth".tr),
                                       subtitle: Text(
                                         userLegacyController.dateOfBirth == null
                                             ? "No Date of Birth added"

@@ -86,6 +86,10 @@ class MyLocale implements Translations {
           'username_length_error':
               'يجب أن يكون طول اسم المستخدم بين 6 و 100 حرف.',
           'verification_code_incorrect': 'رمز التحقق غير صحيح.',
+          "DateofBirth": 'تاريخ الولادة',
+          "No Gender added": "لم يتم اضافة الجنس",
+          "No Work added": 'لم يتم اضافة العمل',
+          "No Diary added": 'لم يتم اضافة المذكرة'
         },
         "en": {
           "1": "Discover Your Roots, \nHonor All Branches",
@@ -169,6 +173,10 @@ class MyLocale implements Translations {
           'username_length_error':
               'The username must be between 6 and 100 characters long.',
           'verification_code_incorrect': 'The verification code is incorrect.',
+          "DateofBirth": 'Date of Birth',
+          "No Gender added": 'No Gender added',
+          "No Work added": "No Work added",
+          "No Diary added": "No Diary added",
         }
       };
 }

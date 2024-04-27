@@ -1,6 +1,7 @@
 import 'package:family_tree_application/Locale/locale.dart';
 
 import 'package:family_tree_application/controller/progress_bar.dart';
+import 'package:family_tree_application/controller/signup_controller.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
 import 'package:family_tree_application/routes.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 
 void main() async {
   Get.put(ProgressController());
+  Get.put(SignUpController());
   WidgetsFlutterBinding.ensureInitialized();
   DateTime? expiration = await NetworkHandler.getExpirationDate();
   String? token = await NetworkHandler.getToken();

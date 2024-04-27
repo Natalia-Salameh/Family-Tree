@@ -3,6 +3,7 @@ import 'package:family_tree_application/controller/update_legacy_controller.dart
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/Legacy/update_legacy.dart';
+import 'package:family_tree_application/view/screens/home/tree.dart';
 import 'package:family_tree_application/view/widgets/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
@@ -120,13 +121,13 @@ class Legacy extends StatelessWidget {
                   LegacyTabBar(
                     views: [
                       Container(
-                          alignment: Alignment.center, child: Text("44".tr)),
+                          alignment: Alignment.center, child: FamilyTreePage()),
                       Container(
                           alignment: Alignment.center,
                           child: Column(
                             children: [
                               ListTile(
-                                title: const Text("Education"),
+                                title: Text("35".tr),
                                 subtitle: Text(
                                   legacyController.education == ""
                                       ? "No Education added"
@@ -134,18 +135,18 @@ class Legacy extends StatelessWidget {
                                 ),
                               ),
                               ListTile(
-                                title: const Text("Work"),
+                                title: Text("36".tr),
                                 subtitle: Text(
                                   legacyController.work == ""
-                                      ? "No Work added"
+                                      ? "No Work added".tr
                                       : legacyController.work,
                                 ),
                               ),
                               ListTile(
-                                title: const Text("Diary"),
+                                title: Text("41".tr),
                                 subtitle: Text(
                                   legacyController.legacyStory == ""
-                                      ? "No Diary added"
+                                      ? "No Diary added".tr
                                       : legacyController.legacyStory,
                                 ),
                               ),
@@ -156,15 +157,15 @@ class Legacy extends StatelessWidget {
                           child: Column(
                             children: [
                               ListTile(
-                                title: const Text("Gender"),
+                                title: Text("30".tr),
                                 subtitle: Text(
                                   legacyController.gender == ""
-                                      ? "No Gender added"
+                                      ? "No Gender added".tr
                                       : legacyController.gender,
                                 ),
                               ),
                               ListTile(
-                                title: const Text("Date of Birth"),
+                                title: Text("DateofBirth".tr),
                                 subtitle: Text(
                                   legacyController.dateOfBirth == null
                                       ? "No Date of Birth added"

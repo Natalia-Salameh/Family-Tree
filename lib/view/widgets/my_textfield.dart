@@ -1,4 +1,3 @@
-
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +31,7 @@ class _MyTextFieldState extends State<MyTextField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
       child: TextFormField(
         controller: widget.controller,
         obscureText: _isObscure,
