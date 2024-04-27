@@ -19,4 +19,6 @@ class AppRoute {
   static const String settings = "/settings";
   static const String userAdd = "/UserAdd";
   static const String userLegacy = "/userLegacy";
+  static const String spouseMarriageStatus = "/spouseMarriageStatus";
+  static const String spouseForm = "/spouseForm";
 }

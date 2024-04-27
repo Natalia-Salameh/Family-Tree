@@ -12,10 +12,9 @@ class MemberFormModel {
   String thirdName;
   String familyId;
   String gender;
-  DateTime dateOfBirth;
+  DateTime? dateOfBirth;
+ // DateTime? dateOfDeath;
   String? photoBase64;
-
-  //DateTime? dateOfDeath;
 
   MemberFormModel({
     required this.firstName,
@@ -23,8 +22,8 @@ class MemberFormModel {
     required this.thirdName,
     required this.familyId,
     required this.gender,
-    required this.dateOfBirth,
-    //this.dateOfDeath,
+    this.dateOfBirth,
+  //  this.dateOfDeath,
     this.photoBase64,
   });
 
@@ -35,9 +34,9 @@ class MemberFormModel {
         thirdName: json["ThirdName"],
         familyId: json["FamilyId"],
         gender: json["Gender"],
-        dateOfBirth: DateTime.parse(json["DateOfBirth"]),
-        photoBase64: json["photoBase64"],
-        //dateOfDeath: DateTime.parse(json["DateOfDeath"]),
+        dateOfBirth: json["DateOfBirth"] == null ? null : DateTime.parse(json["DateOfBirth"]),
+     //   dateOfDeath: json["DateOfDeath"] == null ? null : DateTime.parse(json["DateOfDeath"]),
+        photoBase64: json["PhotoBase64"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,10 +45,8 @@ class MemberFormModel {
         "ThirdName": thirdName,
         "FamilyId": familyId,
         "Gender": gender,
-        "DateOfBirth":
-            "${dateOfBirth.year.toString().padLeft(4, '0')}-${dateOfBirth.month.toString().padLeft(2, '0')}-${dateOfBirth.day.toString().padLeft(2, '0')}",
-        "photoBase64": photoBase64,
-        //   "DateOfDeath":
-        //        "${dateOfDeath?.year.toString().padLeft(4, '0')}-${dateOfDeath?.month.toString().padLeft(2, '0')}-${dateOfDeath?.day.toString().padLeft(2, '0')}",
+        "DateOfBirth": dateOfBirth == null ? null : "${dateOfBirth!.year.toString().padLeft(4, '0')}-${dateOfBirth!.month.toString().padLeft(2, '0')}-${dateOfBirth!.day.toString().padLeft(2, '0')}",
+     //   "DateOfDeath": dateOfDeath == null ? null : "${dateOfDeath!.year.toString().padLeft(4, '0')}-${dateOfDeath!.month.toString().padLeft(2, '0')}-${dateOfDeath!.day.toString().padLeft(2, '0')}",
+        "PhotoBase64": photoBase64,
       };
 }

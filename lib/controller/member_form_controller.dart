@@ -11,13 +11,16 @@ import 'package:family_tree_application/enums.dart';
 
 class MemberFormController extends GetxController {
   final selectedGender = Rx<Gender?>(null);
+  final selectedMarriage = Rx<MarriageStatus?>(null);
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController secondNameController = TextEditingController();
   final TextEditingController thirdNameController = TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
+  final TextEditingController deathDateController = TextEditingController();
+
   final Rx<File?> selectedFile = Rx<File?>(null);
   final TextEditingController idController = TextEditingController();
-
+  final lifeStatus = Rx<LifeStatus?>(null);
   void setImage(File file) {
     selectedFile.value = file;
   }
@@ -26,7 +29,14 @@ class MemberFormController extends GetxController {
     selectedGender.value = gender;
   }
 
-  List<File> files = [];
+  void updateMarriage(MarriageStatus? marriage) {
+    selectedMarriage.value = marriage;
+  }
+
+  void updateLifeStatus(LifeStatus? life) {
+    lifeStatus.value = life;
+  }
+
   String? photoBase64;
 
   addForm() async {
@@ -44,10 +54,11 @@ class MemberFormController extends GetxController {
       familyId: idController.text,
       gender: selectedGender.value.toString().split('.').last,
       dateOfBirth: DateTime.parse(birthDateController.text),
+      // dateOfDeath: DateTime.parse(deathDateController.text),
       photoBase64: photoBase64,
     );
 
-    print(memberForm.toJson());
+    print("member added $memberForm.toJson()");
     var response = await NetworkHandler.postFormRequest(
       AppLink.addMember,
       memberForm.toJson(),
@@ -55,9 +66,8 @@ class MemberFormController extends GetxController {
       includeToken: true,
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print(response.body);
       var responseData = jsonDecode(response.body);
-
+      print("member added $responseData   done");
       var connectMember = await NetworkHandler.postParamsRequest(
         AppLink.connectMemberWithAccount,
         queryParams: {'memberId': responseData['id']},

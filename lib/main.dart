@@ -14,13 +14,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DateTime? expiration = await NetworkHandler.getExpirationDate();
   String? token = await NetworkHandler.getToken();
-
+  Get.put(SignUpController());
   runApp(
     MyApp(
       initialRoute: (token == null ||
               expiration == null ||
               expiration.isBefore(DateTime.now()))
-          ? AppRoute.home
+          ? AppRoute.getStarted
           : AppRoute.home,
     ),
   );
