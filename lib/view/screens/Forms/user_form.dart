@@ -262,7 +262,7 @@ class UserForm extends StatelessWidget {
                                             MainAxisAlignment.end,
                                         children: [
                                           CupertinoButton(
-                                            child: Text("Death Date".tr,
+                                            child: Text("Done".tr,
                                                 style: const TextStyle(
                                                     color: CustomColors
                                                         .primaryColor)),

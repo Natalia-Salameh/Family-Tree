@@ -1,5 +1,4 @@
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
-import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/view/widgets/GetxBottom_sheet.dart';
@@ -25,8 +24,6 @@ class _TreeState extends State<AddTree> {
   Map<String, List<String>> nodeNames = {};
   String? selectedNodeId;
   final UserFormController userFormController = Get.put(UserFormController());
-  final SpouseFormController spouseFormController =
-      Get.put(SpouseFormController());
   final MarriageFormController marriageFormController =
       Get.put(MarriageFormController());
 
@@ -77,10 +74,10 @@ class _TreeState extends State<AddTree> {
               ),
               Button(
                 onPressed: () {
-                  Get.offAllNamed(AppRoute.diary);
+                  Get.offAllNamed(AppRoute.home);
                 },
                 color: CustomColors.primaryColor,
-                child: Text("58".tr,
+                child: Text("Add".tr,
                     style: const TextStyle(color: CustomColors.white)),
               ),
             ],
@@ -92,75 +89,69 @@ class _TreeState extends State<AddTree> {
 
   Widget _nodeWidget(n.Node node) {
     final names = nodeNames[node.key?.value] ?? ["Unnamed"];
-    print(node.key?.value);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(children: [
-          for (var i = 0; i < names.length; i++) ...[
-            Column(
-              children: [
-                Stack(
-                  children: [
-                    const CircleAvatar(
-                      radius: 30,
-                    ),
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: Material(
-                        shape: const CircleBorder(),
-                        clipBehavior: Clip.hardEdge,
-                        child: InkWell(
-                          onTap: () {
-                            setState(() => selectedNodeId = node.key?.value);
-                            _showBottomSheet(context);
-                          },
-                          child: const CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 12,
-                            child: Icon(
-                              Icons.add,
-                              size: 20,
-                              color: Colors.black,
-                            ),
+          Column(
+            children: [
+              Stack(
+                children: [
+                  const CircleAvatar(
+                    radius: 30,
+                  ),
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Material(
+                      shape: const CircleBorder(),
+                      clipBehavior: Clip.hardEdge,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() => selectedNodeId = node.key?.value);
+                          print("selected node id :$selectedNodeId");
+                          _showBottomSheet(context);
+                        },
+                        child: const CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 12,
+                          child: Icon(
+                            Icons.add,
+                            size: 20,
+                            color: Colors.black,
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
-                Text(names[i]),
-              ],
-            ),
-          ]
+                  ),
+                ],
+              ),
+              Text(names.first),
+            ],
+          ),
         ]),
       ],
     );
   }
+
   void _addSpouse(String name, String newSpouseId) {
-    builder
-      ..siblingSeparation = 50
-      ..levelSeparation = 150
-      ..subtreeSeparation = 100
-      ..orientation = BuchheimWalkerConfiguration.ORIENTATION_LEFT_RIGHT;
     if (selectedNodeId == null) return;
     final spouseNode = n.Node.Id(newSpouseId);
     graph.addNode(spouseNode);
-    graph.addEdge(graph.getNodeUsingId(selectedNodeId!), spouseNode);
+    graph.addEdge(spouseNode, graph.getNodeUsingId(selectedNodeId!),
+        paint: Paint()..color = Colors.red);
     nodeNames[newSpouseId] = [name];
     setState(() {});
   }
 
-  //   void _addChild(String name) {
-  //   if (selectedNodeId == null) return;
-  //   final newChildId = graph.nodeCount() + 1;
-  //   final childNode = n.Node.Id(newChildId);
-  //   graph.addNode(childNode);
-  //   graph.addEdge(graph.getNodeUsingId(selectedNodeId!), childNode);
-  //   nodeNames[newChildId] = [name];
-  //   setState(() {});
-  // }
+  void _addChild(String name, String newChildId) {
+    if (selectedNodeId == null) return;
+    final childNode = n.Node.Id(newChildId);
+    graph.addNode(childNode);
+    graph.addEdge(graph.getNodeUsingId(selectedNodeId!), childNode);
+    nodeNames[newChildId] = [name];
+    setState(() {});
+  }
 
   // void _addParent(String name) {
   //   if (selectedNodeId == null) return;
@@ -184,16 +175,23 @@ class _TreeState extends State<AddTree> {
           ),
           GestureDetector(
             onTap: () async {
-              await Get.toNamed(AppRoute.spouseForm);
-              final firstName = spouseFormController.firstNameController.text;
-              final newSpouseId = spouseFormController.person2Id.text;
+              userFormController.clearForm();
+              await Get.toNamed(AppRoute.userForm, arguments: "spouse");
+              final firstName = userFormController.firstNameController.text;
+              final newSpouseId = userFormController.person2Id.text;
               _addSpouse(firstName, newSpouseId);
+              //userFormController.clearForm();
             },
             child: Image.asset(AppImageAsset.couple, height: 50),
           ),
           GestureDetector(
-            onTap: () {
-              Get.offNamed(AppRoute.userForm);
+            onTap: () async {
+              userFormController.clearForm();
+              await Get.toNamed(AppRoute.userForm, arguments: "child");
+              final firstName = userFormController.firstNameController.text;
+              final newChildId = userFormController.person1Id.text;
+              _addChild(firstName, newChildId);
+              //userFormController.clearForm();
             },
             child: Image.asset(AppImageAsset.child),
           ),
