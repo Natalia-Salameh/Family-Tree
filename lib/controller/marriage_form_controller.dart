@@ -27,8 +27,8 @@ class MarriageFormController extends GetxController {
       marriageStatus: marriageStatus.value.toString().split('.').last,
       dateOfMarriage: DateTime.parse(dateOfMarriage.text),
     );
-    print("Sending Partner1Id: '${partner1Id.text}'");
-    print("Sending Partner2Id: '${partner2Id.text}'");
+    print("Sending Partner1Id: ${partner1Id.text}");
+    print("Sending Partner2Id: ${partner2Id.text}");
     var response = await NetworkHandler.postRequest(
       AppLink.addMarriageForm,
       addMarriageModel.toJson(),
@@ -39,7 +39,8 @@ class MarriageFormController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       marriageId.text = responseData['marriageRelationid'];
       print("Sending marriage id: '${responseData['marriageRelationid']}'");
-      Get.toNamed(AppRoute.tree);
+      Get.back();
+      Get.back();
     } else {
       Get.defaultDialog(
         title: "Error",

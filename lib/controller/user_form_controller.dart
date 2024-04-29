@@ -66,10 +66,8 @@ class UserFormController extends GetxController {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
-      String person1Id = responseData['id'];
-      String partner1Id =
-          marriageFormController.partner1Id.text = responseData['id'];
-          print("root $person1Id");
+      person1Id.text = responseData['id'];
+      marriageFormController.partner1Id.text = responseData['id'];
       // print("member added $partner1Id");
       // print("member added $responseData");
       Get.toNamed(route);

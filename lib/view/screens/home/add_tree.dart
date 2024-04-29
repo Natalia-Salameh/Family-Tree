@@ -1,3 +1,5 @@
+
+
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
@@ -12,6 +14,7 @@ import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/controller/progress_bar.dart';
+import 'package:graphview/GraphView.dart';
 
 class AddTree extends StatefulWidget {
   const AddTree({Key? key}) : super(key: key);
@@ -147,38 +150,42 @@ class _TreeState extends State<AddTree> {
       ],
     );
   }
-void _addSpouse(String name) {
-    if (selectedNodeId == null)
-      return; // Ensure there is a selected node to connect the spouse to.
 
-    final String newSpouseId = spouseFormController
-        .person2Id.text; // Get the unique spouse ID from the controller.
+  void _addSpouse(String name) {
+    if (selectedNodeId == null) return; // Check if there is a selected node.
 
-    // Check if the spouse node already exists; if not, add it.
-    if (graph.getNodeUsingId(newSpouseId) == null) {
-      final n.Node spouseNode =
+    final String newSpouseId = spouseFormController.person2Id.text
+        .trim(); // Ensure ID is trimmed of any whitespace.
+    n.Node? currentNode = getNodeUsingIdSafe(graph, selectedNodeId!);
+    n.Node? spouseNode = getNodeUsingIdSafe(graph, newSpouseId);
+
+    if (currentNode == null) {
+      print('Selected node not found in the graph.');
+      return;
+    }
+
+    if (spouseNode == null) {
+      spouseNode =
           n.Node.Id(newSpouseId); // Create the spouse node with the new ID.
       graph.addNode(spouseNode); // Add the spouse node to the graph.
-      graph.addEdge(graph.getNodeUsingId(selectedNodeId!),
+      graph.addEdge(currentNode,
           spouseNode); // Connect the selected node with the new spouse node.
-
-      // Ensure the node names are updated.
       nodeNames[newSpouseId] = [
         name
-      ]; // Associate the spouse's name with the new ID.
+      ]; // Initialize the list with the spouse's name.
     } else {
-      // If the spouse node already exists, add the name to the existing names list.
-      if (nodeNames.containsKey(newSpouseId)) {
-        nodeNames[newSpouseId]!.add(name);
+      // If the spouse node already exists, update the name if it's not already included.
+      List<String>? namesList = nodeNames[newSpouseId];
+      if (namesList != null && !namesList.contains(name)) {
+        namesList.add(name);
       } else {
-        nodeNames[newSpouseId] = [name];
+        print(
+            'Spouse already exists with the same name or uninitialized names list.');
       }
     }
 
-    // Update the UI state to reflect changes in the graph.
-    setState(() {});
+    setState(() {}); // Update the UI state to reflect changes in the graph.
   }
-
 
   // void _addSpouse(name) {
   //   if (selectedNodeId == null) return;
@@ -255,5 +262,13 @@ void _addSpouse(String name) {
     } else if (role == "Parent") {
       // _addParent(name);
     }
+  }
+}
+
+n.Node? getNodeUsingIdSafe(Graph graph, String newSpouseId) {
+  try {
+    return graph.nodes.firstWhere((node) => node == newSpouseId);
+  } catch (e) {
+    return null; // Return null safely if no node is found
   }
 }

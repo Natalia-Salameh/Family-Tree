@@ -306,9 +306,9 @@ class SpouseForm extends StatelessWidget {
                     ),
                     SizedBox(
                       child: Button(
-                          onPressed: () {
+                          onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              spouseFormController.addForm();
+                             await spouseFormController.addForm();
                               String firstName =
                                   spouseFormController.firstNameController.text;
                               Get.back(result: {

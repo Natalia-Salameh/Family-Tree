@@ -65,13 +65,13 @@ class SpouseFormController extends GetxController {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
-      String person2Id = responseData['id'];
-      String partner2Id =
-          marriageFormController.partner2Id.text = responseData['id'];
-    //  print("member added $partner2Id");
+      String spouseId = responseData['id'];
+      person2Id.text = spouseId;
+      marriageFormController.partner2Id.text = spouseId;
+      //  print("member added $partner2Id");
       print("spouse $person2Id");
-    //  print("member added $responseData");
-     // Get.offNamed(AppRoute.spouseMarriageStatus);
+      //  print("member added $responseData");
+      // Get.offNamed(AppRoute.spouseMarriageStatus);
     } else {
       Get.defaultDialog(
         title: "Error",
@@ -81,3 +81,7 @@ class SpouseFormController extends GetxController {
     }
   }
 }
+
+//  String spouseId = responseData['id'];
+//       person2Id.text = spouseId;
+//       marriageFormController.partner2Id.text = spouseId;
