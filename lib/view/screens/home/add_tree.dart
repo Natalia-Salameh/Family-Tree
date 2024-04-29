@@ -1,10 +1,8 @@
 
 
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
-import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
-import 'package:family_tree_application/view/screens/Forms/spouse_form.dart';
 import 'package:family_tree_application/view/widgets/GetxBottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,8 +11,6 @@ import 'package:graphview/GraphView.dart' as n;
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
-import 'package:family_tree_application/controller/progress_bar.dart';
-import 'package:graphview/GraphView.dart';
 
 class AddTree extends StatefulWidget {
   const AddTree({Key? key}) : super(key: key);
@@ -30,8 +26,6 @@ class _TreeState extends State<AddTree> {
   Map<String, List<String>> nodeNames = {};
   String? selectedNodeId;
   final UserFormController userFormController = Get.put(UserFormController());
-  final SpouseFormController spouseFormController =
-      Get.put(SpouseFormController());
   final MarriageFormController marriageFormController =
       Get.put(MarriageFormController());
 
@@ -48,6 +42,7 @@ class _TreeState extends State<AddTree> {
 
   void _initializeGraph() {
     final n.Node rootNode = n.Node.Id(userFormController.person1Id.text);
+    print(userFormController.person1Id.text);
     graph.addNode(rootNode);
     nodeNames[userFormController.person1Id.text] = [
       userFormController.firstNameController.text
@@ -56,8 +51,6 @@ class _TreeState extends State<AddTree> {
 
   @override
   Widget build(BuildContext context) {
-    final progressController = Get.find<ProgressController>();
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -83,11 +76,10 @@ class _TreeState extends State<AddTree> {
               ),
               Button(
                 onPressed: () {
-                  progressController.updateProgress();
-                  Get.offAllNamed(AppRoute.diary);
+                  Get.offAllNamed(AppRoute.home);
                 },
                 color: CustomColors.primaryColor,
-                child: Text("58".tr,
+                child: Text("Add".tr,
                     style: const TextStyle(color: CustomColors.white)),
               ),
             ],
@@ -103,108 +95,65 @@ class _TreeState extends State<AddTree> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(children: [
-          for (var i = 0; i < names.length; i++) ...[
-            if (i != 0)
-              Container(
-                height: 2.5,
-                width: 20,
-                color: Colors.black,
-              ),
-            Column(
-              children: [
-                Stack(
-                  children: [
-                    const CircleAvatar(
-                      radius: 30,
-                    ),
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: Material(
-                        shape: const CircleBorder(),
-                        clipBehavior: Clip.hardEdge,
-                        child: InkWell(
-                          onTap: () {
-                            setState(() => selectedNodeId = node.key?.value);
-                            _showBottomSheet(context);
-                          },
-                          child: const CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 12,
-                            child: Icon(
-                              Icons.add,
-                              size: 20,
-                              color: Colors.black,
-                            ),
+          Column(
+            children: [
+              Stack(
+                children: [
+                  const CircleAvatar(
+                    radius: 30,
+                  ),
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Material(
+                      shape: const CircleBorder(),
+                      clipBehavior: Clip.hardEdge,
+                      child: InkWell(
+                        onTap: () {
+                          setState(() => selectedNodeId = node.key?.value);
+                          print("selected node id :$selectedNodeId");
+                          _showBottomSheet(context);
+                        },
+                        child: const CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 12,
+                          child: Icon(
+                            Icons.add,
+                            size: 20,
+                            color: Colors.black,
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
-                Text(names[i]),
-              ],
-            ),
-          ]
+                  ),
+                ],
+              ),
+              Text(names.first),
+            ],
+          ),
         ]),
       ],
     );
   }
 
-  void _addSpouse(String name) {
-    if (selectedNodeId == null) return; // Check if there is a selected node.
-
-    final String newSpouseId = spouseFormController.person2Id.text
-        .trim(); // Ensure ID is trimmed of any whitespace.
-    n.Node? currentNode = getNodeUsingIdSafe(graph, selectedNodeId!);
-    n.Node? spouseNode = getNodeUsingIdSafe(graph, newSpouseId);
-
-    if (currentNode == null) {
-      print('Selected node not found in the graph.');
-      return;
-    }
-
-    if (spouseNode == null) {
-      spouseNode =
-          n.Node.Id(newSpouseId); // Create the spouse node with the new ID.
-      graph.addNode(spouseNode); // Add the spouse node to the graph.
-      graph.addEdge(currentNode,
-          spouseNode); // Connect the selected node with the new spouse node.
-      nodeNames[newSpouseId] = [
-        name
-      ]; // Initialize the list with the spouse's name.
-    } else {
-      // If the spouse node already exists, update the name if it's not already included.
-      List<String>? namesList = nodeNames[newSpouseId];
-      if (namesList != null && !namesList.contains(name)) {
-        namesList.add(name);
-      } else {
-        print(
-            'Spouse already exists with the same name or uninitialized names list.');
-      }
-    }
-
-    setState(() {}); // Update the UI state to reflect changes in the graph.
+  void _addSpouse(String name, String newSpouseId) {
+    if (selectedNodeId == null) return;
+    final spouseNode = n.Node.Id(newSpouseId);
+    graph.addNode(spouseNode);
+    graph.addEdge(spouseNode, graph.getNodeUsingId(selectedNodeId!),
+        paint: Paint()..color = Colors.red);
+    nodeNames[newSpouseId] = [name];
+    setState(() {});
   }
 
-  // void _addSpouse(name) {
-  //   if (selectedNodeId == null) return;
-  //   final newSpouseId = spouseFormController.person2Id.text;
-  //   final spouseNode = n.Node.Id(newSpouseId);
-  //   graph.addNode(spouseNode);
-  //   graph.addEdge(graph.getNodeUsingId(selectedNodeId!), spouseNode);
-  //   setState(() {});
-  // }
-
-  //   void _addChild(String name) {
-  //   if (selectedNodeId == null) return;
-  //   final newChildId = graph.nodeCount() + 1;
-  //   final childNode = n.Node.Id(newChildId);
-  //   graph.addNode(childNode);
-  //   graph.addEdge(graph.getNodeUsingId(selectedNodeId!), childNode);
-  //   nodeNames[newChildId] = [name];
-  //   setState(() {});
-  // }
+  void _addChild(String name, String newChildId) {
+    if (selectedNodeId == null) return;
+    final childNode = n.Node.Id(newChildId);
+    graph.addNode(childNode);
+    graph.addEdge(graph.getNodeUsingId(selectedNodeId!), childNode);
+    nodeNames[newChildId] = [name];
+    setState(() {});
+  }
 
   // void _addParent(String name) {
   //   if (selectedNodeId == null) return;
@@ -221,15 +170,31 @@ class _TreeState extends State<AddTree> {
       CustomBottomSheet(
         children: [
           GestureDetector(
-            onTap: () => _navigateAndAdd('Parent'),
+            onTap: () {
+              Get.offNamed(AppRoute.userForm);
+            },
             child: Image.asset(AppImageAsset.mother),
           ),
           GestureDetector(
-            onTap: () => _navigateAndAdd('Spouse'),
+            onTap: () async {
+              userFormController.clearForm();
+              await Get.toNamed(AppRoute.userForm, arguments: "spouse");
+              final firstName = userFormController.firstNameController.text;
+              final newSpouseId = userFormController.person2Id.text;
+              _addSpouse(firstName, newSpouseId);
+              //userFormController.clearForm();
+            },
             child: Image.asset(AppImageAsset.couple, height: 50),
           ),
           GestureDetector(
-            onTap: () => _navigateAndAdd('Child'),
+            onTap: () async {
+              userFormController.clearForm();
+              await Get.toNamed(AppRoute.userForm, arguments: "child");
+              final firstName = userFormController.firstNameController.text;
+              final newChildId = userFormController.person1Id.text;
+              _addChild(firstName, newChildId);
+              //userFormController.clearForm();
+            },
             child: Image.asset(AppImageAsset.child),
           ),
         ],
@@ -237,38 +202,5 @@ class _TreeState extends State<AddTree> {
       isScrollControlled: true,
       enableDrag: true,
     );
-  }
-
-  void _navigateAndAdd(String role) async {
-    Navigator.pop(context);
-    final result = await Get.to(() => SpouseForm(role: role));
-
-    print('Result from SpouseForm: $result');
-
-    if (result != null && result is Map) {
-      String role = result['role'];
-      String firstName = result['firstName'];
-      print('Role: $role, firstName: $firstName');
-      addNode(role, firstName);
-    }
-  }
-
-  void addNode(String role, String name) {
-    print('addNode called with role: $role, name: $name');
-    if (role == "Spouse") {
-      _addSpouse(name);
-    } else if (role == "Child") {
-      // _addChild(name);
-    } else if (role == "Parent") {
-      // _addParent(name);
-    }
-  }
-}
-
-n.Node? getNodeUsingIdSafe(Graph graph, String newSpouseId) {
-  try {
-    return graph.nodes.firstWhere((node) => node == newSpouseId);
-  } catch (e) {
-    return null; // Return null safely if no node is found
   }
 }
