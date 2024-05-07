@@ -159,6 +159,16 @@ class _TreeState extends State<TreeState> {
     setState(() {});
   }
 
+  void _addParent(String name) {
+    if (selectedNodeId == null) return;
+    final newChildId = graph.nodeCount() + 1;
+    final childNode = n.Node.Id(newChildId);
+    graph.addNode(childNode);
+    graph.addEdge(childNode, graph.getNodeUsingId(selectedNodeId!));
+    nodeNames[newChildId] = [name];
+    setState(() {});
+  }
+
   void _addSpouse(String name) {
     if (selectedNodeId == null) return;
     final currentNames = nodeNames[selectedNodeId];
@@ -209,6 +219,8 @@ class _TreeState extends State<TreeState> {
       _addChild(name);
     } else if (role == "Spouse") {
       _addSpouse(name);
+    } else if (role == "Parent") {
+      _addParent(name);
     }
   }
 }

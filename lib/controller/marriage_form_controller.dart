@@ -41,8 +41,13 @@ class MarriageFormController extends GetxController {
     var responseData = jsonDecode(response.body);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      marriageId.text = responseData['marriageRelationid'];
+      //marriageId.text = responseData['marriageRelationid'];
+      print("marriage: $responseData");
       childController.marriageId.text = responseData['marriageRelationid'];
+      // if (Get.arguments == "child" || Get.arguments == "parent") {
+       
+      // }
+
       Get.back();
       Get.back();
       Get.back();

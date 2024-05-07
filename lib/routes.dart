@@ -1,5 +1,6 @@
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/Forms/marriage_form.dart';
+import 'package:family_tree_application/view/screens/Forms/spouse_form.dart';
 import 'package:family_tree_application/view/screens/Forms/user_form.dart';
 import 'package:family_tree_application/view/screens/Legacy/member_legacy.dart';
 
@@ -16,7 +17,6 @@ import 'package:family_tree_application/view/screens/onBoarding/on_boarding1.dar
 import 'package:family_tree_application/view/screens/onBoarding/on_boarding2.dart';
 import 'package:family_tree_application/view/screens/onBoarding/on_boarding3.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/Tree.dart';
-import 'package:family_tree_application/view/screens/onBoardingForm/add_member.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/diary.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/member_form.dart';
 import 'package:family_tree_application/view/screens/splash_screen.dart';
@@ -44,6 +44,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.diary, page: () => const Diary()),
   GetPage(name: AppRoute.settings, page: () => const Settings()),
   GetPage(name: AppRoute.userLegacy, page: () => UserLegacy()),
+  GetPage(name: AppRoute.spouseForm, page: () => SpouseForm()),
   GetPage(
       name: AppRoute.spouseMarriageStatus, page: () => SpouseMarriageStatus()),
 ];

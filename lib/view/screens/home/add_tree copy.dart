@@ -1,3 +1,4 @@
+
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
@@ -22,32 +23,35 @@ class _TreeState extends State<AddTree> {
   final Graph graph = Graph();
 
   BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
-  double _scale = 1.0;
   Map<String, List<String>> nodeNames = {};
+  List<n.Node> nodes = [];
   String? selectedNodeId;
+  Map<String, bool> isSpouseMap = {};
+
   final UserFormController userFormController = Get.put(UserFormController());
   final MarriageFormController marriageFormController =
       Get.put(MarriageFormController());
+  late bool isSpouse;
 
   @override
   void initState() {
     super.initState();
     builder
-      ..siblingSeparation = 100
-      ..levelSeparation = 150
-      ..subtreeSeparation = 100
+      ..siblingSeparation = 50
+      ..levelSeparation = 50
+      ..subtreeSeparation = 50
       ..orientation = BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM;
     _initializeGraph();
   }
 
   void _initializeGraph() {
-    final ExtendedNode extendedNode =
-        ExtendedNode.DualId(userFormController.person1Id.text);
+    final n.Node rootNode = n.Node.Id(userFormController.person1Id.text);
     print(userFormController.person1Id.text);
-    graph.addNode(extendedNode);
+    graph.addNode(rootNode);
     nodeNames[userFormController.person1Id.text] = [
-      userFormController.firstNameController.text
+      "${userFormController.firstNameController.text} ${userFormController.lastNameController.text}"
     ];
+    nodes.add(rootNode);
   }
 
   @override
@@ -62,7 +66,7 @@ class _TreeState extends State<AddTree> {
               Expanded(
                 child: InteractiveViewer(
                   transformationController: TransformationController()
-                    ..value = Matrix4.diagonal3Values(_scale, _scale, 1),
+                    ..value = Matrix4.diagonal3Values(1, 1, 1),
                   constrained: false,
                   boundaryMargin: const EdgeInsets.all(100),
                   minScale: 0.01,
@@ -92,127 +96,71 @@ class _TreeState extends State<AddTree> {
 
   Widget _nodeWidget(n.Node node) {
     final names = nodeNames[node.key?.value] ?? ["Unnamed"];
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(children: [
-            for (var i = 0; i < names.length; i++) ...[
-              if (i != 0)
-                Container(
-                  height: 2.5,
-                  width: 20,
-                  color: Colors.black,
-                ),
-              Column(
-                children: [
-                  Stack(
-                    children: [
-                      const CircleAvatar(
-                        radius: 30,
-                      ),
-                      Positioned(
-                        right: 0,
-                        bottom: 0,
-                        child: Material(
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-                          child: InkWell(
-                            onTap: () {
-                              if (node is ExtendedNode) {
-                                var primaryId = node.key?.value;
-                                var secondaryId = node.secondaryKey?.value;
-                                print(
-                                    "Primary ID: $primaryId, Secondary ID: $secondaryId");
-                                List<Widget> actions = [];
-
-                                if (secondaryId == null) {
-                                  setState(() => selectedNodeId = primaryId);
-                                  _showBottomSheet(context);
-                                } else {
-                                  String? name1 = nodeNames[primaryId]?.first;
-                                  String? name2 = nodeNames[secondaryId]?.first;
-                                  actions.add(
-                                    TextButton(
-                                      onPressed: () {
-                                        Get.back();
-                                        setState(
-                                            () => selectedNodeId = primaryId);
-                                        print(selectedNodeId);
-                                        _showBottomSheet(context);
-                                      },
-                                      child: Text(
-                                        // "Primary: ${primaryId ?? "ID unavailable"}",
-                                        name1 ?? "Unnamed",
-                                      ),
-                                    ),
-                                  );
-
-                                  if (secondaryId != null) {
-                                    actions.add(
-                                      TextButton(
-                                        onPressed: () {
-                                          Get.back();
-                                          setState(() =>
-                                              selectedNodeId = secondaryId);
-                                          print(selectedNodeId);
-                                          _showBottomSheet(context);
-                                        },
-                                        child: Text(
-                                          // "Spouse: $secondaryId",
-                                          name2 ?? "Unnamed",
-                                        ),
-                                      ),
-                                    );
-                                  }
-
-                                  Get.defaultDialog(
-                                      title: "Select",
-                                      middleText: "Choose a person to add to:",
-                                      actions: actions);
-                                }
-                              }
-                            },
-                            child: const CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 12,
-                              child: Icon(
-                                Icons.add,
-                                size: 20,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+    isSpouse = isSpouseMap[node.key?.value] ?? false;
+    final nodeWidget = Column(
+      children: [
+        Stack(
+          children: [
+            const CircleAvatar(
+              radius: 30,
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Material(
+                shape: const CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                child: InkWell(
+                  onTap: () {
+                    setState(() => selectedNodeId = node.key?.value);
+                    _showBottomSheet(context);
+                  },
+                  child: const CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 12,
+                    child: Icon(
+                      Icons.add,
+                      size: 20,
+                      color: Colors.black,
+                    ),
                   ),
-                  Text(names[i]),
-                ],
+                ),
               ),
-            ]
-          ]),
-        ],
-      ),
+            ),
+          ],
+        ),
+        Text(names.first),
+      ],
     );
+    // if (spouse == true) {
+    return Container(
+      //color: isSpouse ? Colors.cyan : Colors.transparent,
+      decoration: isSpouse
+          ? BoxDecoration(
+              border: Border.all(
+                color: Colors.black,
+                width: 1,
+              ),
+            )
+          : null,
+      child: nodeWidget,
+    );
+    // }
+    //  else {
+    //   return nodeWidget;
+    // }
   }
 
-  void _addSpouse(String name, String spouseId) {
+  void _addSpouse(String name, String newSpouseId) {
     if (selectedNodeId == null) return;
-
-    ExtendedNode? node = graph.getNodeUsingId(selectedNodeId) as ExtendedNode?;
-
-    if (node != null) {
-      node.setSecondaryId(spouseId);
-      print(spouseId);
-      final names = nodeNames[selectedNodeId];
-      if (names != null) {
-        names.add(name);
-      } else {
-        nodeNames[selectedNodeId!] = [name];
-      }
-      nodeNames[spouseId] = [name];
-    }
+    final newSpouseId = userFormController.person1Id.text;
+    final spouseNode = n.Node.Id(newSpouseId);
+    graph.addNode(spouseNode);
+    graph.addEdge(graph.getNodeUsingId(selectedNodeId!), spouseNode,
+        paint: Paint()..color = Colors.transparent);
+    nodeNames[newSpouseId] = [name];
+    isSpouseMap[newSpouseId] = true;
+    nodes.add(spouseNode);
     setState(() {});
   }
 
@@ -223,6 +171,7 @@ class _TreeState extends State<AddTree> {
     graph.addNode(childNode);
     graph.addEdge(graph.getNodeUsingId(selectedNodeId!), childNode);
     nodeNames[newChildId] = [name];
+    isSpouseMap[newChildId] = false;
     setState(() {});
   }
 

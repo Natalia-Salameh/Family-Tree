@@ -1,4 +1,5 @@
 import 'package:family_tree_application/controller/user_legacy_controller.dart';
+import 'package:family_tree_application/view/screens/Legacy/tree.dart';
 import 'package:family_tree_application/view/widgets/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
@@ -59,7 +60,7 @@ class UserLegacy extends StatelessWidget {
                           views: [
                             Container(
                                 alignment: Alignment.center,
-                                child: Text("44".tr)),
+                                child: FamilyTreePage()) ,
                             Container(
                                 alignment: Alignment.center,
                                 child: Column(

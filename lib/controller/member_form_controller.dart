@@ -58,16 +58,18 @@ class MemberFormController extends GetxController {
       photoBase64: photoBase64,
     );
 
-    print("member added $memberForm.toJson()");
     var response = await NetworkHandler.postFormRequest(
       AppLink.addMember,
       memberForm.toJson(),
       files: files,
       includeToken: true,
     );
+
+    print("member added $response['id']");
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
-      print("member added $responseData   done");
+      print("member added $responseData['id']  done");
       var connectMember = await NetworkHandler.postParamsRequest(
         AppLink.connectMemberWithAccount,
         queryParams: {'memberId': responseData['id']},
