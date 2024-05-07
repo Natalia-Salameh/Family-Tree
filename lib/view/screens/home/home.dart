@@ -95,7 +95,7 @@ class PersonCard extends StatelessWidget {
   final ChildSpouseController childSpouseController =
       Get.put(ChildSpouseController());
 
-  PersonCard({Key? key, required this.person}) : super(key: key);
+   PersonCard({Key? key, required this.person}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

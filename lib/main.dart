@@ -17,11 +17,12 @@ void main() async {
   Get.put(SignUpController());
   runApp(
     MyApp(
-        initialRoute: (token == null ||
-                expiration == null ||
-                expiration.isBefore(DateTime.now()))
-            ? AppRoute.getStarted
-            : AppRoute.home),
+      initialRoute: (token == null ||
+              expiration == null ||
+              expiration.isBefore(DateTime.now()))
+          ? AppRoute.getStarted
+          : AppRoute.home
+    ),
   );
 }
 
