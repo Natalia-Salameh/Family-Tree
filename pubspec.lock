@@ -321,6 +321,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  flame:
+    dependency: transitive
+    description:
+      name: flame
+      sha256: da1812e2f17a8ffd5d43ea6a83137794e7f482bcf50419bc9847b8efdb39f791
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.17.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -334,6 +342,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  flutter_graph_view:
+    dependency: "direct main"
+    description:
+      name: flutter_graph_view
+      sha256: "6b49aeec7eb174cfe0d6c624fa6b91f32fc81b6a4d981b62869cc38030300f63"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -464,6 +480,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
+  graph_display:
+    dependency: "direct main"
+    description:
+      name: graph_display
+      sha256: "08d4ac3ca84d89896bc03aaaed08ae02b703da02ca150a5abb554e123176dabe"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
+  graph_layout:
+    dependency: "direct main"
+    description:
+      name: graph_layout
+      sha256: "9a2657f0792f7b550dec62fbefae3f3605b6cd7d1db38bc932546ea4894a2854"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
   graphs:
     dependency: transitive
     description:
@@ -752,6 +784,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  ordered_set:
+    dependency: transitive
+    description:
+      name: ordered_set
+      sha256: "1bfaaaee0419e43ecc9eaebd410eb4bd5039657b72011de75ff3e2915c9aac60"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.3"
   package_config:
     dependency: transitive
     description:
@@ -936,6 +976,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.1"
   quote_buffer:
     dependency: transitive
     description:

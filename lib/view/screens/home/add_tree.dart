@@ -1,5 +1,3 @@
-
-
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
@@ -28,6 +26,8 @@ class _TreeState extends State<AddTree> {
   final UserFormController userFormController = Get.put(UserFormController());
   final MarriageFormController marriageFormController =
       Get.put(MarriageFormController());
+  Map<String, String> spouses = {};
+  bool useAutomaticLayout = true;
 
   @override
   void initState() {
@@ -42,11 +42,11 @@ class _TreeState extends State<AddTree> {
 
   void _initializeGraph() {
     final n.Node rootNode = n.Node.Id(userFormController.person1Id.text);
-    print(userFormController.person1Id.text);
     graph.addNode(rootNode);
     nodeNames[userFormController.person1Id.text] = [
       userFormController.firstNameController.text
     ];
+    setState(() {}); // Ensures the graph updates after initialization.
   }
 
   @override
@@ -70,7 +70,11 @@ class _TreeState extends State<AddTree> {
                     graph: graph,
                     algorithm: BuchheimWalkerAlgorithm(
                         builder, TreeEdgeRenderer(builder)),
-                    builder: (node) => _nodeWidget(node),
+                    builder: (n.Node node) => _nodeWidget(node),
+                    paint: (Paint()
+                      ..color = Colors.black
+                      ..strokeWidth = 1.0
+                      ..style = PaintingStyle.stroke),
                   ),
                 ),
               ),
@@ -91,79 +95,77 @@ class _TreeState extends State<AddTree> {
 
   Widget _nodeWidget(n.Node node) {
     final names = nodeNames[node.key?.value] ?? ["Unnamed"];
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(children: [
-          Column(
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedNodeId = node.key?.value;
+          _showBottomSheet(context);
+        });
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
             children: [
-              Stack(
+              Column(
                 children: [
-                  const CircleAvatar(
-                    radius: 30,
-                  ),
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Material(
-                      shape: const CircleBorder(),
-                      clipBehavior: Clip.hardEdge,
-                      child: InkWell(
-                        onTap: () {
-                          setState(() => selectedNodeId = node.key?.value);
-                          print("selected node id :$selectedNodeId");
-                          _showBottomSheet(context);
-                        },
-                        child: const CircleAvatar(
+                  Stack(
+                    children: [
+                      CircleAvatar(radius: 30),
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: CircleAvatar(
                           backgroundColor: Colors.white,
                           radius: 12,
-                          child: Icon(
-                            Icons.add,
-                            size: 20,
-                            color: Colors.black,
-                          ),
+                          child: Icon(Icons.add, size: 20, color: Colors.black),
                         ),
                       ),
-                    ),
+                    ],
                   ),
+                  Text(names.first),
                 ],
               ),
-              Text(names.first),
             ],
           ),
-        ]),
-      ],
+        ],
+      ),
     );
   }
 
   void _addSpouse(String name, String newSpouseId) {
     if (selectedNodeId == null) return;
-    final spouseNode = n.Node.Id(newSpouseId);
+
+    final n.Node spouseNode = n.Node.Id((graph.nodeCount() + 1).toString());
     graph.addNode(spouseNode);
-    graph.addEdge(spouseNode, graph.getNodeUsingId(selectedNodeId!),
-        paint: Paint()..color = Colors.red);
-    nodeNames[newSpouseId] = [name];
-    setState(() {});
+    graph.addEdge(graph.getNodeUsingId(selectedNodeId!), spouseNode,
+        paint: Paint()
+          ..color = Colors.red
+          ..strokeWidth = 3);
+
+    nodeNames[spouseNode.key?.value] = [name];
+    spouses[selectedNodeId!] = spouseNode.key?.value;
+
+    n.Node? selectedNode = graph.getNodeUsingId(selectedNodeId);
+    if (selectedNode != null) {
+      double x = selectedNode.position.dx;
+      double y = selectedNode.position.dy;
+      spouseNode.position = Offset(x + 150, y); // Adjust as needed
+    }
+
+    useAutomaticLayout = false;
+    setState(() {}); // Force the graph to update and redraw
   }
 
   void _addChild(String name, String newChildId) {
     if (selectedNodeId == null) return;
-    final childNode = n.Node.Id(newChildId);
+    final n.Node childNode = n.Node.Id((graph.nodeCount() + 1).toString());
     graph.addNode(childNode);
     graph.addEdge(graph.getNodeUsingId(selectedNodeId!), childNode);
-    nodeNames[newChildId] = [name];
-    setState(() {});
+    nodeNames[childNode.key?.value] = [name];
+    useAutomaticLayout = true;
+    setState(() {}); // Update the state to reflect changes in the graph
   }
-
-  // void _addParent(String name) {
-  //   if (selectedNodeId == null) return;
-  //   final newParentId = graph.nodeCount() + 1;
-  //   final parentNode = n.Node.Id(newParentId);
-  //   graph.addNode(parentNode);
-  //   graph.addEdge(parentNode, graph.getNodeUsingId(selectedNodeId!));
-  //   nodeNames[newParentId] = [name];
-  //   setState(() {});
-  // }
 
   void _showBottomSheet(BuildContext context) {
     Get.bottomSheet(
@@ -182,7 +184,6 @@ class _TreeState extends State<AddTree> {
               final firstName = userFormController.firstNameController.text;
               final newSpouseId = userFormController.person2Id.text;
               _addSpouse(firstName, newSpouseId);
-              //userFormController.clearForm();
             },
             child: Image.asset(AppImageAsset.couple, height: 50),
           ),
@@ -193,7 +194,6 @@ class _TreeState extends State<AddTree> {
               final firstName = userFormController.firstNameController.text;
               final newChildId = userFormController.person1Id.text;
               _addChild(firstName, newChildId);
-              //userFormController.clearForm();
             },
             child: Image.asset(AppImageAsset.child),
           ),
@@ -202,5 +202,34 @@ class _TreeState extends State<AddTree> {
       isScrollControlled: true,
       enableDrag: true,
     );
+  }
+}
+
+class NoOpLayoutAlgorithm extends Algorithm {
+  @override
+  Size run(Graph? graph, double width, double height) {
+    // Since this algorithm is supposed to do nothing, it returns zero size.
+    // However, you should return a reasonable default size if necessary.
+    return Size.zero;
+  }
+
+  @override
+  void init(Graph? graph) {
+    // TODO: implement init
+  }
+
+  @override
+  void setDimensions(double width, double height) {
+    // TODO: implement setDimensions
+  }
+
+  @override
+  void setFocusedNode(n.Node node) {
+    // TODO: implement setFocusedNode
+  }
+
+  @override
+  void step(Graph? graph) {
+    // TODO: implement step
   }
 }

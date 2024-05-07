@@ -10,6 +10,8 @@ import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 
 import 'package:get/get.dart';
 
+import '../home/getSpouse_child_tree.dart';
+
 class Legacy extends StatelessWidget {
   Legacy({super.key});
   final legacyController = Get.put(MemberLegacyController());
@@ -121,7 +123,7 @@ class Legacy extends StatelessWidget {
                   LegacyTabBar(
                     views: [
                       Container(
-                          alignment: Alignment.center, child: FamilyTreePage()),
+                          alignment: Alignment.center, child: FamilyTreeView()),
                       Container(
                           alignment: Alignment.center,
                           child: Column(

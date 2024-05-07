@@ -22,6 +22,7 @@ import 'package:family_tree_application/view/screens/onBoardingForm/member_form.
 import 'package:family_tree_application/view/screens/splash_screen.dart';
 import 'package:get/get.dart';
 
+import 'view/screens/home/getSpouse_child_tree.dart';
 import 'view/screens/onBoarding/onBoardingNav.dart';
 
 List<GetPage<dynamic>>? routes = [
@@ -44,6 +45,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.diary, page: () => const Diary()),
   GetPage(name: AppRoute.settings, page: () => const Settings()),
   GetPage(name: AppRoute.userLegacy, page: () => UserLegacy()),
+  GetPage(name: AppRoute.spouseChildTreView, page: () => FamilyTreeView()),
   GetPage(
       name: AppRoute.spouseMarriageStatus, page: () => SpouseMarriageStatus()),
 ];
