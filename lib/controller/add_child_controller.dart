@@ -1,3 +1,4 @@
+import 'dart:convert';
 
 import 'package:family_tree_application/core/constants/linkapi.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
@@ -11,7 +12,6 @@ class ChildController extends GetxController {
   final TextEditingController marriageId = TextEditingController();
   //final TextEditingController parentChildRelationId = TextEditingController();
 
-
   addChild() async {
     AddChildModel addChildModel = AddChildModel(
       childId: childId.text,
@@ -23,10 +23,11 @@ class ChildController extends GetxController {
       addChildModel.toJson(),
       includeToken: true,
     );
-    //var responseData = jsonDecode(response.body);
+    var responseData = jsonDecode(response.body);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       //parentChildRelationId.text = responseData['parentChildRelationid'];
+      print("child: $responseData");
     } else {
       Get.defaultDialog(
         title: "Error",

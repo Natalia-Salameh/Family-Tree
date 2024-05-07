@@ -1,6 +1,6 @@
-import 'package:family_tree_application/controller/add_child_controller.dart';
 import 'package:family_tree_application/controller/family_name_controller.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
+import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
@@ -14,8 +14,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UserForm extends StatelessWidget {
-  UserForm({super.key});
+class SpouseForm extends StatelessWidget {
+  SpouseForm({super.key});
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -23,9 +23,9 @@ class UserForm extends StatelessWidget {
     final FamilyNameController familyNameController =
         Get.put(FamilyNameController());
     UserFormController userFormController = Get.put(UserFormController());
-    final ChildController childController = Get.put(ChildController());
-    final MarriageFormController marriageFormController =
+    MarriageFormController marriageFormController =
         Get.put(MarriageFormController());
+    SpouseFormController spouseFormController = Get.put(SpouseFormController());
 
     return Scaffold(
       body: Form(
@@ -312,12 +312,12 @@ class UserForm extends StatelessWidget {
                       child: Button(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              userFormController.addForm();
+                              spouseFormController.addSpouse();
                             }
                           },
                           color: CustomColors.primaryColor,
                           child: Text(
-                            "Add".tr,
+                            "Next".tr,
                             style: const TextStyle(color: CustomColors.white),
                           )),
                     )

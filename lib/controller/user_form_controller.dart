@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:family_tree_application/controller/add_child_controller.dart';
+import 'package:family_tree_application/controller/get_child_and_spouse_container.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
@@ -66,7 +67,7 @@ class UserFormController extends GetxController {
     selectedFile.value = null;
   }
 
-  addForm(String route) async {
+  addForm() async {
     List<File> files = [];
     if (selectedFile.value != null) {
       files.add(selectedFile.value!);
@@ -98,14 +99,19 @@ class UserFormController extends GetxController {
       marriageFormController.partner1Id.text = responseData['id'];
       marriageFormController.partner2Id.text = responseData['id'];
       childController.childId.text = responseData['id'];
+
+      print("user: $responseData");
       if (Get.arguments == "child") {
+        childController.addChild();
         Get.back();
         Get.back();
       } else if (Get.arguments == "spouse") {
         marriageFormController.clearForm();
         Get.toNamed(AppRoute.spouseMarriageStatus);
+      } else if (Get.arguments == "parent") {
+        Get.toNamed(AppRoute.spouseForm);
       } else {
-        Get.toNamed(route);
+        Get.toNamed(AppRoute.tree);
       }
     } else {
       Get.defaultDialog(
