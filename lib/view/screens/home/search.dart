@@ -1,9 +1,12 @@
+import 'package:family_tree_application/controller/get_child_and_spouse_container.dart';
 import 'package:family_tree_application/controller/search_controller.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
+  final ChildSpouseController childSpouseController =
+      Get.put(ChildSpouseController());
   final SearchPersonController searchController =
       Get.put(SearchPersonController());
 
@@ -48,7 +51,6 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     return Obx(() {
       var searchList = searchController.listSearch;
-
       return ListView.builder(
         itemCount: searchList.length,
         itemBuilder: (context, index) {
@@ -72,9 +74,11 @@ class CustomSearchDelegate extends SearchDelegate {
         itemCount: searchController.listSearch.length,
         itemBuilder: (context, index) {
           var suggestion = searchController.listSearch[index];
+          print("$index + ${suggestion.id}");
           return ListTile(
             title: Text(suggestion.fullName),
             onTap: () {
+              childSpouseController.personIdController.text = suggestion.id;
               Get.toNamed(AppRoute.userLegacy,
                   arguments: {'id': suggestion.id});
             },

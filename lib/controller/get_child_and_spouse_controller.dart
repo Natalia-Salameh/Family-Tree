@@ -14,7 +14,7 @@ class ChildSpouseController extends GetxController {
   }
 
   fetchSpouseAndChildren() async {
-    print(personIdController.text);
+    //print(personIdController.text);
     var response = await NetworkHandler.getRequest(
       AppLink.getChildSpouse,
       includeToken: true,
@@ -24,7 +24,6 @@ class ChildSpouseController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       List<GetSpouseAndChildrenModel> getSpouseChildModel =
           getSpouseAndChildrenModelFromJson(response.body);
-
 
       // GetSpouseAndChildrenModel childSpouseInfoModel = GetSpouseAndChildrenModel(marriageId: '', spouse: null, marriageStatus: '', children: []);
       //  education = childSpouseInfoModel.;
