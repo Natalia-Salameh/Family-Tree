@@ -1,4 +1,4 @@
-import 'package:family_tree_application/controller/get_child_and_spouse_container.dart';
+import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/controller/user_legacy_controller.dart';

@@ -1,4 +1,4 @@
-import 'package:family_tree_application/controller/get_child_and_spouse_container.dart';
+import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
 import 'package:family_tree_application/controller/home_page_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
@@ -95,7 +95,7 @@ class PersonCard extends StatelessWidget {
   final ChildSpouseController childSpouseController =
       Get.put(ChildSpouseController());
 
-   PersonCard({Key? key, required this.person}) : super(key: key);
+  PersonCard({Key? key, required this.person}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -115,8 +115,8 @@ class PersonCard extends StatelessWidget {
             child: const Text('View Legacy',
                 style: TextStyle(color: CustomColors.primaryColor)),
             onPressed: () {
-              Get.toNamed(AppRoute.userLegacy, arguments: {'id': person.id});
               childSpouseController.personIdController.text = person.id;
+              Get.toNamed(AppRoute.userLegacy, arguments: {'id': person.id});
             }),
       ),
     );
