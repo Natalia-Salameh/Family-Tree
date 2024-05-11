@@ -44,13 +44,18 @@ class MarriageFormController extends GetxController {
       //marriageId.text = responseData['marriageRelationid'];
       print("marriage: $responseData");
       childController.marriageId.text = responseData['marriageRelationid'];
-      // if (Get.arguments == "child" || Get.arguments == "parent") {
-       
-      // }
-
-      Get.back();
-      Get.back();
-      Get.back();
+      print(Get.arguments);
+      if (Get.arguments == "spouseForm") {
+        childController.addChild();
+        Get.back();
+        Get.back();
+        Get.back();
+        // Get.back();
+      } else {
+        Get.back();
+        Get.back();
+        Get.back();
+      }
     } else {
       Get.defaultDialog(
         title: "Error",

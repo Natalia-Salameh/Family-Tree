@@ -1,5 +1,6 @@
 import 'package:family_tree_application/controller/family_name_controller.dart';
 import 'package:family_tree_application/controller/member_form_controller.dart';
+import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:drop_down_list/drop_down_list.dart';
@@ -27,6 +28,7 @@ class _FamilyNameDropDownState extends State<FamilyNameDropDown> {
   final FamilyNameController controller = Get.find<FamilyNameController>();
   MemberFormController memberFormController = Get.put(MemberFormController());
   UserFormController userFormController = Get.put(UserFormController());
+  SpouseFormController spouseFormController = Get.put(SpouseFormController());
 
   void onTextFieldTap() {
     DropDownState(
@@ -50,6 +52,7 @@ class _FamilyNameDropDownState extends State<FamilyNameDropDown> {
             print("Selected ID: $selectedNameID");
             memberFormController.idController.text = selectedNameID!;
             userFormController.idController.text = selectedNameID;
+            spouseFormController.idController.text = selectedNameID;
           }
         },
         enableMultipleSelection: false,

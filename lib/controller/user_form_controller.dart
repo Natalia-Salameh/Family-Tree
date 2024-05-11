@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:family_tree_application/controller/add_child_controller.dart';
-import 'package:family_tree_application/controller/get_child_and_spouse_container.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
@@ -28,6 +27,8 @@ class UserFormController extends GetxController {
   final lifeStatus = Rx<LifeStatus?>(null);
   final TextEditingController person1Id = TextEditingController();
   final TextEditingController person2Id = TextEditingController();
+  var family = '';
+  var gender = '';
 
   void setImage(File file) {
     selectedFile.value = file;
@@ -99,16 +100,20 @@ class UserFormController extends GetxController {
       marriageFormController.partner1Id.text = responseData['id'];
       marriageFormController.partner2Id.text = responseData['id'];
       childController.childId.text = responseData['id'];
+      family = responseData['family']['familyName'];
+      gender = responseData['gender'];
+      print('family: $family');
 
       print("user: $responseData");
       if (Get.arguments == "child") {
         childController.addChild();
         Get.back();
-        Get.back();
-      } else if (Get.arguments == "spouse") {
+      } 
+      else if (Get.arguments == "spouse") {
         marriageFormController.clearForm();
         Get.toNamed(AppRoute.spouseMarriageStatus);
-      } else if (Get.arguments == "parent") {
+      } 
+      else if (Get.arguments == "parent") {
         Get.toNamed(AppRoute.spouseForm);
       } else {
         Get.toNamed(AppRoute.tree);

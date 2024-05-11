@@ -1,9 +1,6 @@
-import 'package:family_tree_application/controller/add_child_controller.dart';
 import 'package:family_tree_application/controller/family_name_controller.dart';
-import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/enums.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/family_name.dart';
@@ -23,11 +20,20 @@ class UserForm extends StatelessWidget {
     final FamilyNameController familyNameController =
         Get.put(FamilyNameController());
     UserFormController userFormController = Get.put(UserFormController());
-    final ChildController childController = Get.put(ChildController());
-    final MarriageFormController marriageFormController =
-        Get.put(MarriageFormController());
 
     return Scaffold(
+      appBar: AppBar(
+        title: Get.arguments == "parent" ? Text("Add first person".tr) : null,
+        centerTitle: true,
+        leading: Get.arguments == null
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Get.back(result: false);
+                },
+              ),
+      ),
       body: Form(
         key: formKey,
         child: SingleChildScrollView(
@@ -316,10 +322,17 @@ class UserForm extends StatelessWidget {
                             }
                           },
                           color: CustomColors.primaryColor,
-                          child: Text(
-                            "Add".tr,
-                            style: const TextStyle(color: CustomColors.white),
-                          )),
+                          child: Get.arguments == "parent"
+                              ? Text(
+                                  "Next".tr,
+                                  style: const TextStyle(
+                                      color: CustomColors.white),
+                                )
+                              : Text(
+                                  "Add".tr,
+                                  style: const TextStyle(
+                                      color: CustomColors.white),
+                                )),
                     )
                   ],
                 ),

@@ -22,12 +22,17 @@ class SpouseForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final FamilyNameController familyNameController =
         Get.put(FamilyNameController());
-    UserFormController userFormController = Get.put(UserFormController());
+    //UserFormController userFormController = Get.put(UserFormController());
     MarriageFormController marriageFormController =
         Get.put(MarriageFormController());
     SpouseFormController spouseFormController = Get.put(SpouseFormController());
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Add Spouse".tr),
+        centerTitle: true,
+        automaticallyImplyLeading: false
+      ),
       body: Form(
         key: formKey,
         child: SingleChildScrollView(
@@ -42,7 +47,7 @@ class SpouseForm extends StatelessWidget {
                     const SizedBox(height: 20),
                     Profile(
                       onImagePicked: (file) {
-                        userFormController.setImage(file);
+                        spouseFormController.setImage(file);
                       },
                     ),
                     //--------- Full Name -----------
@@ -54,7 +59,7 @@ class SpouseForm extends StatelessWidget {
                             child: CustomTextForm(
                               hintText: "55".tr,
                               myController:
-                                  userFormController.firstNameController,
+                                  spouseFormController.firstNameController,
                               valid: (value) {
                                 if (value!.isEmpty) {
                                   return "52".tr;
@@ -71,7 +76,7 @@ class SpouseForm extends StatelessWidget {
                             child: CustomTextForm(
                               hintText: "56".tr,
                               myController:
-                                  userFormController.secondNameController,
+                                  spouseFormController.secondNameController,
                               valid: (value) {
                                 if (value!.isEmpty) {
                                   return "52".tr;
@@ -88,7 +93,7 @@ class SpouseForm extends StatelessWidget {
                             child: CustomTextForm(
                               hintText: "57".tr,
                               myController:
-                                  userFormController.thirdNameController,
+                                  spouseFormController.thirdNameController,
                               valid: (value) {
                                 if (value!.isEmpty) {
                                   return "52".tr;
@@ -126,9 +131,9 @@ class SpouseForm extends StatelessWidget {
                               label: "31".tr,
                               genderValue: Gender.female,
                               selectedGender:
-                                  userFormController.selectedGender.value,
+                                  spouseFormController.selectedGender.value,
                               onGenderSelected: (val) {
-                                userFormController.updateGender(Gender.female);
+                                spouseFormController.updateGender(Gender.female);
                               },
                             )),
                       ),
@@ -138,9 +143,9 @@ class SpouseForm extends StatelessWidget {
                               label: "32".tr,
                               genderValue: Gender.male,
                               selectedGender:
-                                  userFormController.selectedGender.value,
+                                  spouseFormController.selectedGender.value,
                               onGenderSelected: (val) {
-                                userFormController.updateGender(Gender.male);
+                                spouseFormController.updateGender(Gender.male);
                               },
                             )),
                       ),
@@ -184,7 +189,7 @@ class SpouseForm extends StatelessWidget {
                                     onDateTimeChanged: (DateTime value) {
                                       final dateTimeText =
                                           "${value.year}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}";
-                                      userFormController.birthDateController
+                                      spouseFormController.birthDateController
                                           .text = dateTimeText;
                                     },
                                   ),
@@ -199,7 +204,7 @@ class SpouseForm extends StatelessWidget {
                           child: CustomTextForm(
                             hintText: "34".tr,
                             myController:
-                                userFormController.birthDateController,
+                                spouseFormController.birthDateController,
                           ),
                         ),
                       ),
@@ -221,9 +226,9 @@ class SpouseForm extends StatelessWidget {
                               label: "Alive".tr,
                               genderValue: LifeStatus.alive,
                               selectedGender:
-                                  userFormController.lifeStatus.value,
+                                  spouseFormController.lifeStatus.value,
                               onGenderSelected: (val) {
-                                userFormController
+                                spouseFormController
                                     .updateLifeStatus(LifeStatus.alive);
                               },
                             )),
@@ -234,9 +239,9 @@ class SpouseForm extends StatelessWidget {
                               label: "Dead".tr,
                               genderValue: LifeStatus.dead,
                               selectedGender:
-                                  userFormController.lifeStatus.value,
+                                  spouseFormController.lifeStatus.value,
                               onGenderSelected: (val) {
-                                userFormController
+                                spouseFormController
                                     .updateLifeStatus(LifeStatus.dead);
                               },
                             )),
@@ -244,7 +249,7 @@ class SpouseForm extends StatelessWidget {
                     ]),
                     //--------- Death Date -----------
                     Obx(() => Visibility(
-                          visible: userFormController.lifeStatus.value ==
+                          visible: spouseFormController.lifeStatus.value ==
                               LifeStatus.dead,
                           child: GestureDetector(
                             onTap: () {
@@ -283,7 +288,7 @@ class SpouseForm extends StatelessWidget {
                                           onDateTimeChanged: (DateTime value) {
                                             final dateTimeText =
                                                 "${value.year}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}";
-                                            userFormController
+                                            spouseFormController
                                                 .deathDateController
                                                 .text = dateTimeText;
                                           },
@@ -299,7 +304,7 @@ class SpouseForm extends StatelessWidget {
                                 child: CustomTextForm(
                                   hintText: "Death Date".tr,
                                   myController:
-                                      userFormController.deathDateController,
+                                      spouseFormController.deathDateController,
                                 ),
                               ),
                             ),

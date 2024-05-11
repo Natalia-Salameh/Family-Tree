@@ -25,8 +25,10 @@ class SpouseFormController extends GetxController {
   final Rx<File?> selectedFile = Rx<File?>(null);
   final TextEditingController idController = TextEditingController();
   final lifeStatus = Rx<LifeStatus?>(null);
-  final TextEditingController person1Id = TextEditingController();
+  //final TextEditingController person1Id = TextEditingController();
   final TextEditingController person2Id = TextEditingController();
+  var family = '';
+  var gender = '';
 
   void setImage(File file) {
     selectedFile.value = file;
@@ -93,14 +95,16 @@ class SpouseFormController extends GetxController {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
-      person1Id.text = responseData['id'];
+      //person1Id.text = responseData['id'];
       person2Id.text = responseData['id'];
       marriageFormController.partner1Id.text = responseData['id'];
       marriageFormController.partner2Id.text = responseData['id'];
       childController.childId.text = responseData['id'];
+      family = responseData['family']['familyName'];
+      gender = responseData['gender'];
       print("user: $responseData");
       marriageFormController.clearForm();
-      Get.toNamed(AppRoute.spouseMarriageStatus);
+      Get.toNamed(AppRoute.spouseMarriageStatus, arguments: "spouseForm");
     } else {
       Get.defaultDialog(
         title: "Error",

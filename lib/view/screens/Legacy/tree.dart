@@ -53,7 +53,7 @@ class _TreeState extends State<FamilyTreePage> {
 
   void _initializeGraph() {
     final ExtendedNode extendedNode =
-        ExtendedNode.DualId(childSpouseController.personIdController.text);
+        ExtendedNode.dualId(childSpouseController.personIdController.text);
     print(childSpouseController.personIdController.text);
     graph.addNode(extendedNode);
     nodeNames[childSpouseController.personIdController.text] = [
@@ -219,7 +219,7 @@ class _TreeState extends State<FamilyTreePage> {
 
   void _addChild(String name, String newChildId) {
     if (selectedNodeId == null) return;
-    final ExtendedNode childNode = ExtendedNode.DualId(newChildId);
+    final ExtendedNode childNode = ExtendedNode.dualId(newChildId);
     graph.addNode(childNode);
     graph.addEdge(graph.getNodeUsingId(selectedNodeId!), childNode);
     nodeNames[newChildId] = [name];
