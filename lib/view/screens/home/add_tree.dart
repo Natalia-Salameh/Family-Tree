@@ -124,16 +124,17 @@ class _TreeState extends State<AddTree> {
                         setState(() => selectedNodeId = node.key?.value);
                         userFormController.clearForm();
 
-                        final result = await Get.toNamed(AppRoute.userForm,
+                        // final result =
+                        await Get.toNamed(AppRoute.userForm,
                             arguments: "child");
 
-                        if (result == true) {
-                          final firstName =
-                              "${userFormController.firstNameController.text} ${userFormController.family}";
-                          final newChildId = userFormController.person1Id.text;
+                        // if (result == true) {
+                        final firstName =
+                            "${userFormController.firstNameController.text} ${userFormController.family}";
+                        final newChildId = userFormController.person1Id.text;
 
-                          _addChild(firstName, newChildId);
-                        }
+                        _addChild(firstName, newChildId);
+                        // }
                       },
                       child: const CircleAvatar(
                         backgroundColor: Colors.white,
@@ -287,28 +288,28 @@ class _TreeState extends State<AddTree> {
           GestureDetector(
             onTap: () async {
               userFormController.clearForm();
-              final result =
-                  await Get.offNamed(AppRoute.userForm, arguments: "parent");
-              if (result == true) {
-                final person1FirstName =
-                    "${userFormController.firstNameController.text} ${userFormController.family}";
-                final newParent1Id = userFormController.person1Id.text;
-                _addParent(person1FirstName, newParent1Id);
-              }
+              // final result =
+              await Get.offNamed(AppRoute.userForm, arguments: "parent");
+              // if (result == true) {
+              final person1FirstName =
+                  "${userFormController.firstNameController.text} ${userFormController.family}";
+              final newParent1Id = userFormController.person1Id.text;
+              _addParent(person1FirstName, newParent1Id);
+              // }
             },
             child: Image.asset(AppImageAsset.mother),
           ),
           GestureDetector(
             onTap: () async {
               userFormController.clearForm();
-              final result =
-                  await Get.toNamed(AppRoute.userForm, arguments: "spouse");
-              if (result == true) {
-                final firstName =
-                    "${userFormController.firstNameController.text} ${userFormController.family}";
-                final newSpouseId = userFormController.person2Id.text;
-                _addSpouse(firstName, newSpouseId);
-              }
+              // final result =
+              await Get.toNamed(AppRoute.userForm, arguments: "spouse");
+              // if (result == true) {
+              final firstName =
+                  "${userFormController.firstNameController.text} ${userFormController.family}";
+              final newSpouseId = userFormController.person2Id.text;
+              _addSpouse(firstName, newSpouseId);
+              // }
             },
             child: Image.asset(AppImageAsset.couple, height: 50),
           ),

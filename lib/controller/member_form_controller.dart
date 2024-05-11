@@ -17,6 +17,9 @@ class MemberFormController extends GetxController {
   final TextEditingController thirdNameController = TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
   final TextEditingController deathDateController = TextEditingController();
+  final TextEditingController memberId = TextEditingController();
+  var family = '';
+  var gender = '';
 
   final Rx<File?> selectedFile = Rx<File?>(null);
   final TextEditingController idController = TextEditingController();
@@ -70,6 +73,9 @@ class MemberFormController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
       print("member added $responseData['id']  done");
+      memberId.text = responseData['id'];
+      family = responseData['family']['familyName'];
+      gender = responseData['gender'];
       var connectMember = await NetworkHandler.postParamsRequest(
         AppLink.connectMemberWithAccount,
         queryParams: {'memberId': responseData['id']},

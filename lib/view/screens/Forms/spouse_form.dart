@@ -22,9 +22,6 @@ class SpouseForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final FamilyNameController familyNameController =
         Get.put(FamilyNameController());
-    //UserFormController userFormController = Get.put(UserFormController());
-    MarriageFormController marriageFormController =
-        Get.put(MarriageFormController());
     SpouseFormController spouseFormController = Get.put(SpouseFormController());
 
     return Scaffold(

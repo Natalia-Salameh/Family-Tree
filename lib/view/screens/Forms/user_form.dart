@@ -30,7 +30,7 @@ class UserForm extends StatelessWidget {
             : IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  Get.back(result: false);
+                  Get.back(result: true);
                 },
               ),
       ),

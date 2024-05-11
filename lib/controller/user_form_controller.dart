@@ -108,12 +108,10 @@ class UserFormController extends GetxController {
       if (Get.arguments == "child") {
         childController.addChild();
         Get.back();
-      } 
-      else if (Get.arguments == "spouse") {
+      } else if (Get.arguments == "spouse") {
         marriageFormController.clearForm();
         Get.toNamed(AppRoute.spouseMarriageStatus);
-      } 
-      else if (Get.arguments == "parent") {
+      } else if (Get.arguments == "parent") {
         Get.toNamed(AppRoute.spouseForm);
       } else {
         Get.toNamed(AppRoute.tree);
