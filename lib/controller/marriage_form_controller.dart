@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:family_tree_application/controller/add_child_controller.dart';
+import 'package:family_tree_application/controller/add_parent_controller%20copy.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
 import 'package:family_tree_application/enums.dart';
@@ -16,6 +17,7 @@ class MarriageFormController extends GetxController {
   final marriageStatus = Rx<MarriageStatus?>(null);
   final TextEditingController dateOfMarriage = TextEditingController();
   final TextEditingController marriageId = TextEditingController();
+  final ParentController parentController = Get.put(ParentController());
 
   void clearForm() {
     marriageStatus.value = null;
@@ -27,6 +29,7 @@ class MarriageFormController extends GetxController {
   }
 
   addMarriage() async {
+    print("partner1: ${partner1Id.text}, partner2: ${partner2Id.text}");
     AddMarriageModel addMarriageModel = AddMarriageModel(
       partner1Id: partner1Id.text,
       partner2Id: partner2Id.text,
@@ -42,11 +45,17 @@ class MarriageFormController extends GetxController {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       //marriageId.text = responseData['marriageRelationid'];
+
       print("marriage: $responseData");
+
       childController.marriageId.text = responseData['marriageRelationid'];
+
+      parentController.marriageId.text = responseData['marriageRelationid'];
+
       print(Get.arguments);
+
       if (Get.arguments == "spouseForm") {
-        childController.addChild();
+        parentController.addParent();
         Get.back();
         Get.back();
         Get.back();

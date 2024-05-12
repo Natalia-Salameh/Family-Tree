@@ -97,14 +97,23 @@ class SpouseFormController extends GetxController {
       var responseData = jsonDecode(response.body);
       //person1Id.text = responseData['id'];
       person2Id.text = responseData['id'];
-      marriageFormController.partner1Id.text = responseData['id'];
+
       marriageFormController.partner2Id.text = responseData['id'];
-      childController.childId.text = responseData['id'];
+
+      if (Get.arguments == "child") {
+        childController.childId.text = responseData['id'];
+      }
+
       family = responseData['family']['familyName'];
       gender = responseData['gender'];
       print("user: $responseData");
       marriageFormController.clearForm();
-      Get.toNamed(AppRoute.spouseMarriageStatus, arguments: "spouseForm");
+
+      if (Get.arguments == "spouse") {
+        Get.toNamed(AppRoute.spouseMarriageStatus);
+      } else {
+        Get.toNamed(AppRoute.spouseMarriageStatus, arguments: "spouseForm");
+      }
     } else {
       Get.defaultDialog(
         title: "Error",

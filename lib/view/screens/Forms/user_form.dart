@@ -1,4 +1,5 @@
 import 'package:family_tree_application/controller/family_name_controller.dart';
+import 'package:family_tree_application/controller/search_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/enums.dart';
@@ -20,6 +21,8 @@ class UserForm extends StatelessWidget {
     final FamilyNameController familyNameController =
         Get.put(FamilyNameController());
     UserFormController userFormController = Get.put(UserFormController());
+    SearchPersonController searchPersonController =
+        Get.put(SearchPersonController());
 
     return Scaffold(
       appBar: AppBar(
@@ -114,6 +117,15 @@ class UserForm extends StatelessWidget {
                               isFamilyNameSelected: true,
                             ))
                       ],
+                    ),
+                    // searchPersonController.search(
+                    //     "${userFormController.firstNameController.text} ${userFormController.secondNameController.text} ${userFormController.thirdNameController.text} ${familyNameController.lastNameController.text}"),
+                    // searchPersonController.fullNameResult.value ==
+                    //         "${userFormController.firstNameController.text} ${userFormController.secondNameController.text} ${userFormController.thirdNameController.text}"
+                    //     ? Text("This name already exists")
+                    //     : Text(""),
+                    const SizedBox(
+                      height: 40,
                     ),
                     const SizedBox(
                       height: 40,

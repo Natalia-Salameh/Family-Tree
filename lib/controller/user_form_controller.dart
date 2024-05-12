@@ -26,7 +26,6 @@ class UserFormController extends GetxController {
   final TextEditingController idController = TextEditingController();
   final lifeStatus = Rx<LifeStatus?>(null);
   final TextEditingController person1Id = TextEditingController();
-  final TextEditingController person2Id = TextEditingController();
   var family = '';
   var gender = '';
 
@@ -96,10 +95,15 @@ class UserFormController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
       person1Id.text = responseData['id'];
-      person2Id.text = responseData['id'];
+
+      print("person1Id: ${person1Id.text}");
+
       marriageFormController.partner1Id.text = responseData['id'];
-      marriageFormController.partner2Id.text = responseData['id'];
-      childController.childId.text = responseData['id'];
+
+      if (Get.arguments == "child") {
+        childController.childId.text = responseData['id'];
+      }
+
       family = responseData['family']['familyName'];
       gender = responseData['gender'];
       print('family: $family');
@@ -108,10 +112,14 @@ class UserFormController extends GetxController {
       if (Get.arguments == "child") {
         childController.addChild();
         Get.back();
-      } else if (Get.arguments == "spouse") {
-        marriageFormController.clearForm();
-        Get.toNamed(AppRoute.spouseMarriageStatus);
-      } else if (Get.arguments == "parent") {
+      }
+
+      // else if (Get.arguments == "spouse") {
+      //   marriageFormController.clearForm();
+      //   Get.toNamed(AppRoute.spouseMarriageStatus);
+      // }
+
+      else if (Get.arguments == "parent") {
         Get.toNamed(AppRoute.spouseForm);
       } else {
         Get.toNamed(AppRoute.tree);

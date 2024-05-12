@@ -1,3 +1,5 @@
+import 'package:family_tree_application/controller/add_child_controller.dart';
+import 'package:family_tree_application/controller/add_parent_controller%20copy.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
@@ -32,6 +34,8 @@ class _TreeState extends State<AddTree> {
   String? initialNodeId;
   final SpouseFormController spouseFormController =
       Get.put(SpouseFormController());
+  final ChildController childController = Get.put(ChildController());
+  final ParentController parentController = Get.put(ParentController());
 
   @override
   void initState() {
@@ -121,8 +125,11 @@ class _TreeState extends State<AddTree> {
                     clipBehavior: Clip.hardEdge,
                     child: InkWell(
                       onTap: () async {
+                        print(selectedNodeId);
                         setState(() => selectedNodeId = node.key?.value);
-                        userFormController.clearForm();
+                        print(selectedNodeId);
+
+                        // userFormController.clearForm();
 
                         // final result =
                         await Get.toNamed(AppRoute.userForm,
@@ -183,8 +190,9 @@ class _TreeState extends State<AddTree> {
                             var secondaryId = node.secondaryKey?.value;
                             print(
                                 "Primary ID: $primaryId, Secondary ID: $secondaryId");
-
-                            setState(() => selectedNodeId = primaryId);
+                            print(selectedNodeId);
+                            setState(() => selectedNodeId = node.key?.value);
+                            print(selectedNodeId);
                             _showBottomSheet(context);
                           },
                           child: node.secondaryKey?.value == null ||
@@ -228,8 +236,8 @@ class _TreeState extends State<AddTree> {
     ExtendedNode? node = graph.getNodeUsingId(selectedNodeId) as ExtendedNode;
 
     node.setSecondaryId(spouseId);
-    print(userFormController.gender);
-    node.setSecondaryGender(userFormController.gender);
+    print(spouseFormController.gender);
+    node.setSecondaryGender(spouseFormController.gender);
     print(spouseId);
     final names = nodeNames[selectedNodeId];
     if (names != null) {
@@ -259,8 +267,7 @@ class _TreeState extends State<AddTree> {
     graph.addEdge(extendedNode, graph.getNodeUsingId(selectedNodeId!));
 
     extendedNode.setPrimaryGender(userFormController.gender);
-    String firstAndLastName = name;
-    nodeNames[newParent1Id] = [firstAndLastName];
+    nodeNames[newParent1Id] = [name];
 
     final firstName =
         "${spouseFormController.firstNameController.text} ${spouseFormController.family}";
@@ -269,14 +276,12 @@ class _TreeState extends State<AddTree> {
     ExtendedNode? node = graph.getNodeUsingId(newParent1Id) as ExtendedNode;
 
     node.setSecondaryId(newParent2Id);
-    print(userFormController.gender);
+
     node.setSecondaryGender(spouseFormController.gender);
-    print(newParent2Id);
+
     final names = nodeNames[newParent1Id];
-    print(names);
-    print(firstName);
+
     names!.add(firstName);
-    //nodeNames[newParent1Id] = [firstName];
 
     setState(() {});
   }
@@ -289,6 +294,7 @@ class _TreeState extends State<AddTree> {
             onTap: () async {
               userFormController.clearForm();
               // final result =
+              parentController.childId.text = selectedNodeId!;
               await Get.offNamed(AppRoute.userForm, arguments: "parent");
               // if (result == true) {
               final person1FirstName =
@@ -301,13 +307,13 @@ class _TreeState extends State<AddTree> {
           ),
           GestureDetector(
             onTap: () async {
-              userFormController.clearForm();
+              spouseFormController.clearForm();
               // final result =
-              await Get.toNamed(AppRoute.userForm, arguments: "spouse");
+              await Get.toNamed(AppRoute.spouseForm, arguments: "spouse");
               // if (result == true) {
               final firstName =
-                  "${userFormController.firstNameController.text} ${userFormController.family}";
-              final newSpouseId = userFormController.person2Id.text;
+                  "${spouseFormController.firstNameController.text} ${spouseFormController.family}";
+              final newSpouseId = spouseFormController.person2Id.text;
               _addSpouse(firstName, newSpouseId);
               // }
             },

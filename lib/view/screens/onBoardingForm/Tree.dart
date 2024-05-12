@@ -310,7 +310,7 @@ class _TreeState extends State<TreeState> {
               // if (result == true) {
               final firstName =
                   "${userFormController.firstNameController.text} ${userFormController.family}";
-              final newSpouseId = userFormController.person2Id.text;
+              final newSpouseId = userFormController.person1Id.text;
               _addSpouse(firstName, newSpouseId);
               // }
             },

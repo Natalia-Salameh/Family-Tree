@@ -255,7 +255,7 @@ class _TreeState extends State<FamilyTreePage> {
               userFormController.clearForm();
               await Get.toNamed(AppRoute.userForm, arguments: "spouse");
               final firstName = userFormController.firstNameController.text;
-              final newSpouseId = userFormController.person2Id.text;
+              final newSpouseId = userFormController.person1Id.text;
               _addSpouse(firstName, newSpouseId);
             },
             child: Image.asset(AppImageAsset.couple, height: 50),

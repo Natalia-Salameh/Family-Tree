@@ -7,16 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class ChildController extends GetxController {
+class ParentController extends GetxController {
   final TextEditingController childId = TextEditingController();
   final TextEditingController marriageId = TextEditingController();
   //final TextEditingController parentChildRelationId = TextEditingController();
 
-  addChild() async {
+  addParent() async {
     AddChildModel addChildModel = AddChildModel(
       childId: childId.text,
       marriageId: marriageId.text,
     );
+
+    print("childd childController.childId.text ${childId.text} ,marriage ${marriageId.text}");
 
     var response = await NetworkHandler.postRequest(
       AppLink.addChild,
