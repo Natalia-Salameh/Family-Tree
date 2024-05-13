@@ -27,7 +27,7 @@ class DiaryController extends GetxController {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       Get.offAllNamed(AppRoute.home);
-      print(response.body);
+
     } else {
       Get.defaultDialog(
         title: "65".tr,

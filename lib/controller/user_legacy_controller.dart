@@ -42,7 +42,6 @@ class UserLegacyController extends GetxController {
       gender = legacyInfoModel.gender;
       dateOfBirth = legacyInfoModel.dateOfBirth;
 
-      print(response.body);
     } else {
       print('Failed to fetch family names: ${response.statusCode}');
       print('Error details: ${response.body}');

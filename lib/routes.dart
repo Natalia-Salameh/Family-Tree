@@ -1,4 +1,5 @@
 import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/view/screens/Forms/child_form.dart';
 import 'package:family_tree_application/view/screens/Forms/marriage_form.dart';
 import 'package:family_tree_application/view/screens/Forms/spouse_form.dart';
 import 'package:family_tree_application/view/screens/Forms/user_form.dart';
@@ -45,6 +46,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.settings, page: () => const Settings()),
   GetPage(name: AppRoute.userLegacy, page: () => UserLegacy()),
   GetPage(name: AppRoute.spouseForm, page: () => SpouseForm()),
+  GetPage(name: AppRoute.childForm, page: () => ChildForm()),
   GetPage(
       name: AppRoute.spouseMarriageStatus, page: () => SpouseMarriageStatus()),
 ];

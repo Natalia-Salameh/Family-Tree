@@ -26,6 +26,7 @@ class UserFormController extends GetxController {
   final TextEditingController idController = TextEditingController();
   final lifeStatus = Rx<LifeStatus?>(null);
   final TextEditingController person1Id = TextEditingController();
+
   var family = '';
   var gender = '';
 
@@ -94,32 +95,18 @@ class UserFormController extends GetxController {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
+
+      //assign id to person1Id to use in graph node root/child
       person1Id.text = responseData['id'];
 
-      print("person1Id: ${person1Id.text}");
+      marriageFormController.selectedNodeIdPerson1.text = responseData['id'];
 
-      marriageFormController.partner1Id.text = responseData['id'];
-
-      if (Get.arguments == "child") {
-        childController.childId.text = responseData['id'];
-      }
+      print("created person one id ${person1Id.text}");
 
       family = responseData['family']['familyName'];
       gender = responseData['gender'];
-      print('family: $family');
 
-      print("user: $responseData");
-      if (Get.arguments == "child") {
-        childController.addChild();
-        Get.back();
-      }
-
-      // else if (Get.arguments == "spouse") {
-      //   marriageFormController.clearForm();
-      //   Get.toNamed(AppRoute.spouseMarriageStatus);
-      // }
-
-      else if (Get.arguments == "parent") {
+      if (Get.arguments == "parent") {
         Get.toNamed(AppRoute.spouseForm);
       } else {
         Get.toNamed(AppRoute.tree);

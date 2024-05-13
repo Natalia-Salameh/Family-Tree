@@ -10,7 +10,6 @@ import 'package:get/get.dart';
 class ParentController extends GetxController {
   final TextEditingController childId = TextEditingController();
   final TextEditingController marriageId = TextEditingController();
-  //final TextEditingController parentChildRelationId = TextEditingController();
 
   addParent() async {
     AddChildModel addChildModel = AddChildModel(
@@ -18,18 +17,13 @@ class ParentController extends GetxController {
       marriageId: marriageId.text,
     );
 
-    print("childd childController.childId.text ${childId.text} ,marriage ${marriageId.text}");
-
     var response = await NetworkHandler.postRequest(
       AppLink.addChild,
       addChildModel.toJson(),
       includeToken: true,
     );
-    var responseData = jsonDecode(response.body);
-    print("child id ${childId.text} marriage id ${marriageId.text}");
+    
     if (response.statusCode == 200 || response.statusCode == 201) {
-      //parentChildRelationId.text = responseData['parentChildRelationid'];
-      print("child: $responseData");
     } else {
       Get.defaultDialog(
         title: "Error",

@@ -1,5 +1,6 @@
 import 'package:family_tree_application/controller/add_child_controller.dart';
 import 'package:family_tree_application/controller/add_parent_controller%20copy.dart';
+import 'package:family_tree_application/controller/child_form_controller.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
@@ -36,6 +37,8 @@ class _TreeState extends State<AddTree> {
       Get.put(SpouseFormController());
   final ChildController childController = Get.put(ChildController());
   final ParentController parentController = Get.put(ParentController());
+  final ChildFormController childFormController =
+      Get.put(ChildFormController());
 
   @override
   void initState() {
@@ -52,13 +55,12 @@ class _TreeState extends State<AddTree> {
     final ExtendedNode extendedNode = ExtendedNode.dualId(
         userFormController.person1Id.text, userFormController.gender);
     final primaryId = userFormController.person1Id.text;
-    print(userFormController.person1Id.text);
+
     graph.addNode(extendedNode);
     extendedNode.setPrimaryGender(userFormController.gender);
     String firstAndLastName =
         "${userFormController.firstNameController.text} ${userFormController.family}";
-    nodeNames[userFormController.person1Id.text] = [firstAndLastName];
-    print(firstAndLastName);
+    nodeNames[primaryId] = [firstAndLastName];
     initialNodeId = primaryId;
   }
 
@@ -104,7 +106,6 @@ class _TreeState extends State<AddTree> {
 
   Widget _nodeWidget(n.Node node) {
     final names = nodeNames[node.key?.value] ?? ["Unnamed"];
-    print(names);
     bool isInitialPrimaryNode = node.key?.value == initialNodeId;
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -125,20 +126,31 @@ class _TreeState extends State<AddTree> {
                     clipBehavior: Clip.hardEdge,
                     child: InkWell(
                       onTap: () async {
-                        print(selectedNodeId);
-                        setState(() => selectedNodeId = node.key?.value);
-                        print(selectedNodeId);
+                        var marriageIdSelectedNode =
+                            (node as ExtendedNode).marriageKey?.value;
 
-                        // userFormController.clearForm();
+                        childController.marriageId.text =
+                            marriageIdSelectedNode!;
+
+                        parentController.marriageId.text =
+                            marriageIdSelectedNode!;
+
+                        setState(() => selectedNodeId = node.key?.value);
+
+                        print(
+                            "selected node when adding child ${selectedNodeId}");
+                        childFormController.clearForm();
 
                         // final result =
-                        await Get.toNamed(AppRoute.userForm,
-                            arguments: "child");
+                        await Get.toNamed(
+                          AppRoute.childForm,
+                          // arguments: "child"
+                        );
 
                         // if (result == true) {
                         final firstName =
-                            "${userFormController.firstNameController.text} ${userFormController.family}";
-                        final newChildId = userFormController.person1Id.text;
+                            "${childFormController.firstNameController.text} ${childFormController.family}";
+                        final newChildId = childFormController.person1Id.text;
 
                         _addChild(firstName, newChildId);
                         // }
@@ -186,13 +198,9 @@ class _TreeState extends State<AddTree> {
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           onTap: () {
-                            var primaryId = node.key?.value;
-                            var secondaryId = node.secondaryKey?.value;
-                            print(
-                                "Primary ID: $primaryId, Secondary ID: $secondaryId");
-                            print(selectedNodeId);
                             setState(() => selectedNodeId = node.key?.value);
-                            print(selectedNodeId);
+                            print(
+                                "selected node when adding child ${selectedNodeId}");
                             _showBottomSheet(context);
                           },
                           child: node.secondaryKey?.value == null ||
@@ -230,22 +238,16 @@ class _TreeState extends State<AddTree> {
     );
   }
 
-  void _addSpouse(String name, String spouseId) {
+  void _addSpouse(String name, String spouseId, String marriageId) {
     if (selectedNodeId == null) return;
-
     ExtendedNode? node = graph.getNodeUsingId(selectedNodeId) as ExtendedNode;
 
     node.setSecondaryId(spouseId);
-    print(spouseFormController.gender);
+    node.setMarriageId(marriageId);
     node.setSecondaryGender(spouseFormController.gender);
-    print(spouseId);
     final names = nodeNames[selectedNodeId];
-    if (names != null) {
-      names.add(name);
-    } else {
-      nodeNames[selectedNodeId!] = [name];
-    }
-    nodeNames[spouseId] = [name];
+
+    names!.add(name);
 
     setState(() {});
   }
@@ -253,14 +255,14 @@ class _TreeState extends State<AddTree> {
   void _addChild(String name, String newChildId) {
     if (selectedNodeId == null) return;
     final ExtendedNode childNode =
-        ExtendedNode.dualId(newChildId, userFormController.gender);
+        ExtendedNode.dualId(newChildId, childFormController.gender);
     graph.addNode(childNode);
     graph.addEdge(graph.getNodeUsingId(selectedNodeId!), childNode);
     nodeNames[newChildId] = [name];
     setState(() {});
   }
 
-  void _addParent(String name, String newParent1Id) async {
+  void _addParent(String name, String newParent1Id, String marriageId) async {
     final ExtendedNode extendedNode =
         ExtendedNode.dualId(newParent1Id, userFormController.gender);
     graph.addNode(extendedNode);
@@ -276,6 +278,8 @@ class _TreeState extends State<AddTree> {
     ExtendedNode? node = graph.getNodeUsingId(newParent1Id) as ExtendedNode;
 
     node.setSecondaryId(newParent2Id);
+
+    node.setMarriageId(marriageId);
 
     node.setSecondaryGender(spouseFormController.gender);
 
@@ -293,14 +297,16 @@ class _TreeState extends State<AddTree> {
           GestureDetector(
             onTap: () async {
               userFormController.clearForm();
-              // final result =
+
               parentController.childId.text = selectedNodeId!;
+              
               await Get.offNamed(AppRoute.userForm, arguments: "parent");
               // if (result == true) {
               final person1FirstName =
                   "${userFormController.firstNameController.text} ${userFormController.family}";
               final newParent1Id = userFormController.person1Id.text;
-              _addParent(person1FirstName, newParent1Id);
+              final newMarriageId = parentController.marriageId.text;
+              _addParent(person1FirstName, newParent1Id, newMarriageId);
               // }
             },
             child: Image.asset(AppImageAsset.mother),
@@ -309,27 +315,19 @@ class _TreeState extends State<AddTree> {
             onTap: () async {
               spouseFormController.clearForm();
               // final result =
+              marriageFormController.selectedNodeIdPerson1.text =
+                  selectedNodeId!;
               await Get.toNamed(AppRoute.spouseForm, arguments: "spouse");
               // if (result == true) {
               final firstName =
                   "${spouseFormController.firstNameController.text} ${spouseFormController.family}";
               final newSpouseId = spouseFormController.person2Id.text;
-              _addSpouse(firstName, newSpouseId);
+              final newMarriageId = marriageFormController.marriageIda.text;
+              _addSpouse(firstName, newSpouseId, newMarriageId);
               // }
             },
             child: Image.asset(AppImageAsset.couple, height: 50),
           ),
-          // GestureDetector(
-          //   onTap: () async {
-          //     userFormController.clearForm();
-          //     await Get.toNamed(AppRoute.userForm, arguments: "child");
-          //     final firstName =
-          //         "${userFormController.firstNameController.text} ${userFormController.family}";
-          //     final newChildId = userFormController.person1Id.text;
-          //     _addChild(firstName, newChildId);
-          //   },
-          //   child: Image.asset(AppImageAsset.child),
-          // ),
         ],
       ),
       isScrollControlled: true,

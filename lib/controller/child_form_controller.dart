@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:family_tree_application/enums.dart';
 
-class SpouseFormController extends GetxController {
+class ChildFormController extends GetxController {
   final MarriageFormController marriageFormController =
       Get.put(MarriageFormController());
   final ChildController childController = Get.put(ChildController());
@@ -25,7 +25,7 @@ class SpouseFormController extends GetxController {
   final Rx<File?> selectedFile = Rx<File?>(null);
   final TextEditingController idController = TextEditingController();
   final lifeStatus = Rx<LifeStatus?>(null);
-  final TextEditingController person2Id = TextEditingController();
+  final TextEditingController person1Id = TextEditingController();
   var family = '';
   var gender = '';
 
@@ -67,7 +67,7 @@ class SpouseFormController extends GetxController {
     selectedFile.value = null;
   }
 
-  addSpouse() async {
+  addForm() async {
     List<File> files = [];
     if (selectedFile.value != null) {
       files.add(selectedFile.value!);
@@ -92,27 +92,22 @@ class SpouseFormController extends GetxController {
       files: files,
       includeToken: true,
     );
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
 
-      //assign id to person2Id to use in graph node spouse
-      person2Id.text = responseData['id'];
+      //assign id to person1 to use in graph node child
+      person1Id.text = responseData['id'];
+      print("child id ${person1Id.text}");
 
-      print("created person two id ${person2Id.text}");
-
-      //assign id to partner2Id to use in marriage form
-      marriageFormController.partner2Id.text = responseData['id'];
+      //assign id to child to create parent child relation
+      childController.childId.text = person1Id.text;
 
       family = responseData['family']['familyName'];
       gender = responseData['gender'];
 
-      marriageFormController.clearForm();
-
-      if (Get.arguments == "spouse") {
-        Get.toNamed(AppRoute.spouseMarriageStatus);
-      } else {
-        Get.toNamed(AppRoute.spouseMarriageStatus, arguments: "spouseForm");
-      }
+      childController.addChild();
+      Get.back();
     } else {
       Get.defaultDialog(
         title: "Error",

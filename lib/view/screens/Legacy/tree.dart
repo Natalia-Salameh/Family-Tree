@@ -54,7 +54,6 @@ class _TreeState extends State<FamilyTreePage> {
   void _initializeGraph() {
     final ExtendedNode extendedNode =
         ExtendedNode.dualId(childSpouseController.personIdController.text);
-    print(childSpouseController.personIdController.text);
     graph.addNode(extendedNode);
     nodeNames[childSpouseController.personIdController.text] = [
       "${userLegacyController.firstName} ${userLegacyController.family.familyName}"
