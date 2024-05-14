@@ -7,13 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class ChildController extends GetxController {
+class ParentController extends GetxController {
   final TextEditingController childId = TextEditingController();
   final TextEditingController marriageId = TextEditingController();
 
-  addChild() async {
-    print(
-        "child id to create parent child relation ${childId.text} | marriage id ${marriageId.text}");
+  addParent() async {
     AddChildModel addChildModel = AddChildModel(
       childId: childId.text,
       marriageId: marriageId.text,
@@ -24,7 +22,7 @@ class ChildController extends GetxController {
       addChildModel.toJson(),
       includeToken: true,
     );
-
+    
     if (response.statusCode == 200 || response.statusCode == 201) {
     } else {
       Get.defaultDialog(

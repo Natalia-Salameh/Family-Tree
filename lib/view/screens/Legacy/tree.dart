@@ -68,7 +68,7 @@ class _TreeState extends State<FamilyTreePage> {
     final String rootPersonId = childSpouseController.personIdController.text;
     final String rootPersonName =
         "${userLegacyController.firstName} ${userLegacyController.family.familyName}";
-    final ExtendedNode rootNode = ExtendedNode.DualId(rootPersonId);
+    final ExtendedNode rootNode = ExtendedNode.dualId(rootPersonId);
     graph.addNode(rootNode);
     nodeNames[rootPersonId] = [rootPersonName + " (Root)"];
     print("Root node added: Name = $rootPersonName, ID = $rootPersonId");
@@ -91,7 +91,7 @@ class _TreeState extends State<FamilyTreePage> {
 
       // Add children and connect them to this node
       for (var child in familyData.children) {
-        final childNode = ExtendedNode.DualId(child.memberId);
+        final childNode = ExtendedNode.dualId(child.memberId);
         graph.addNode(childNode);
         graph.addEdge(node, childNode); // Connect each child to the node
         nodeNames[child.memberId] = ["${child.firstName} ${child.familyName}"];
@@ -288,7 +288,7 @@ class _TreeState extends State<FamilyTreePage> {
 
   void _addChild(String name, String newChildId) {
     if (selectedNodeId == null) return;
-    final ExtendedNode childNode = ExtendedNode.DualId(newChildId);
+    final ExtendedNode childNode = ExtendedNode.dualId(newChildId);
     graph.addNode(childNode);
     graph.addEdge(graph.getNodeUsingId(selectedNodeId!), childNode);
     nodeNames[newChildId] = [name];
@@ -324,7 +324,7 @@ class _TreeState extends State<FamilyTreePage> {
               userFormController.clearForm();
               await Get.toNamed(AppRoute.userForm, arguments: "spouse");
               final firstName = userFormController.firstNameController.text;
-              final newSpouseId = userFormController.person2Id.text;
+              final newSpouseId = userFormController.person1Id.text;
               _addSpouse(firstName, newSpouseId);
             },
             child: Image.asset(AppImageAsset.couple, height: 50),

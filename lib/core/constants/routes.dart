@@ -21,5 +21,6 @@ class AppRoute {
   static const String userLegacy = "/userLegacy";
   static const String spouseMarriageStatus = "/spouseMarriageStatus";
   static const String spouseForm = "/spouseForm";
+  static const String childForm = "/childForm";
   static const String spouseChildTreView = "/spouseChildTreView";
 }

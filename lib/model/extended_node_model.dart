@@ -3,12 +3,22 @@ import 'package:graphview/GraphView.dart';
 
 class ExtendedNode extends Node {
   ValueKey? secondaryId;
-  String? label; // Add this line to store the label
+  ValueKey? marriageId;
+  String? primaryGender;
+  String? secondaryGender;
+  dynamic primaryId;
 
-  ExtendedNode.DualId(dynamic primaryId, {dynamic secondaryId, this.label})
+  ExtendedNode.dualId(dynamic primaryId,
+      [this.primaryGender,
+      dynamic secondaryId,
+      this.secondaryGender,
+      this.marriageId])
       : super.Id(primaryId) {
     if (secondaryId != null) {
       this.secondaryId = ValueKey(secondaryId);
+    }
+    if (marriageId != null) {
+      marriageId = ValueKey(marriageId);
     }
   }
 
@@ -16,5 +26,23 @@ class ExtendedNode extends Node {
     secondaryId = ValueKey(id);
   }
 
+  void setMarriageId(dynamic id) {
+    marriageId = ValueKey(id);
+  }
+
   ValueKey? get secondaryKey => secondaryId;
+
+  ValueKey? get marriageKey => marriageId;
+
+  String? get getPrimaryGender => primaryGender;
+
+  String? get getSecondaryGender => secondaryGender;
+
+  void setPrimaryGender(String? value) {
+    primaryGender = value;
+  }
+
+  void setSecondaryGender(String? value) {
+    secondaryGender = value;
+  }
 }

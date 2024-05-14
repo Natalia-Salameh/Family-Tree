@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:family_tree_application/controller/add_child_controller.dart';
+import 'package:family_tree_application/controller/add_parent_controller%20copy.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
 import 'package:family_tree_application/enums.dart';
@@ -15,7 +16,11 @@ class MarriageFormController extends GetxController {
   final TextEditingController partner2Id = TextEditingController();
   final marriageStatus = Rx<MarriageStatus?>(null);
   final TextEditingController dateOfMarriage = TextEditingController();
-  final TextEditingController marriageId = TextEditingController();
+  final TextEditingController marriageIda = TextEditingController();
+    final TextEditingController marriageId = TextEditingController();
+
+  final ParentController parentController = Get.put(ParentController());
+  final TextEditingController selectedNodeIdPerson1 = TextEditingController();
 
   void clearForm() {
     marriageStatus.value = null;
@@ -27,8 +32,11 @@ class MarriageFormController extends GetxController {
   }
 
   addMarriage() async {
+    print(
+        "partner one id ${partner1Id.text} | partner two id ${partner2Id.text}");
+
     AddMarriageModel addMarriageModel = AddMarriageModel(
-      partner1Id: partner1Id.text,
+      partner1Id: selectedNodeIdPerson1.text,
       partner2Id: partner2Id.text,
       marriageStatus: marriageStatus.value.toString().split('.').last,
       dateOfMarriage: DateTime.parse(dateOfMarriage.text),
@@ -40,17 +48,21 @@ class MarriageFormController extends GetxController {
     );
     var responseData = jsonDecode(response.body);
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      //marriageId.text = responseData['marriageRelationid'];
-      print("marriage: $responseData");
-      childController.marriageId.text = responseData['marriageRelationid'];
-      // if (Get.arguments == "child" || Get.arguments == "parent") {
-       
-      // }
+    parentController.marriageId.text = responseData['marriageRelationid'];
 
-      Get.back();
-      Get.back();
-      Get.back();
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      marriageIda.text = responseData['marriageRelationid'];
+
+      if (Get.arguments == "spouseForm") {
+        parentController.addParent();
+        Get.back();
+        Get.back();
+        Get.back();
+      } else {
+        Get.back();
+        Get.back();
+        Get.back();
+      }
     } else {
       Get.defaultDialog(
         title: "Error",

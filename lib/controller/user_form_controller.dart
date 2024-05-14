@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:family_tree_application/controller/add_child_controller.dart';
-import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
@@ -27,7 +26,9 @@ class UserFormController extends GetxController {
   final TextEditingController idController = TextEditingController();
   final lifeStatus = Rx<LifeStatus?>(null);
   final TextEditingController person1Id = TextEditingController();
-  final TextEditingController person2Id = TextEditingController();
+
+  var family = '';
+  var gender = '';
 
   void setImage(File file) {
     selectedFile.value = file;
@@ -94,21 +95,18 @@ class UserFormController extends GetxController {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
-      person1Id.text = responseData['id'];
-      person2Id.text = responseData['id'];
-      marriageFormController.partner1Id.text = responseData['id'];
-      marriageFormController.partner2Id.text = responseData['id'];
-      childController.childId.text = responseData['id'];
 
-      print("user: $responseData");
-      if (Get.arguments == "child") {
-        childController.addChild();
-        Get.back();
-        Get.back();
-      } else if (Get.arguments == "spouse") {
-        marriageFormController.clearForm();
-        Get.toNamed(AppRoute.spouseMarriageStatus);
-      } else if (Get.arguments == "parent") {
+      //assign id to person1Id to use in graph node root/child
+      person1Id.text = responseData['id'];
+
+      marriageFormController.selectedNodeIdPerson1.text = responseData['id'];
+
+      print("created person one id ${person1Id.text}");
+
+      family = responseData['family']['familyName'];
+      gender = responseData['gender'];
+
+      if (Get.arguments == "parent") {
         Get.toNamed(AppRoute.spouseForm);
       } else {
         Get.toNamed(AppRoute.tree);

@@ -1,3 +1,4 @@
+import 'package:family_tree_application/controller/add_child_controller.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/enums.dart';
@@ -11,6 +12,7 @@ import 'package:get/get.dart';
 class SpouseMarriageStatus extends StatelessWidget {
   SpouseMarriageStatus({super.key});
   final formKey = GlobalKey<FormState>();
+  final ChildController childController = Get.put(ChildController());
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class SpouseMarriageStatus extends StatelessWidget {
         init: MarriageFormController(),
         builder: (marriageFormController) {
           return Scaffold(
-            appBar: AppBar(),
+            // appBar: AppBar(),
             body: Form(
               key: formKey,
               child: SingleChildScrollView(

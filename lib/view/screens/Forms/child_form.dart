@@ -1,9 +1,9 @@
+import 'package:family_tree_application/controller/add_child_controller.dart';
+import 'package:family_tree_application/controller/child_form_controller.dart';
 import 'package:family_tree_application/controller/family_name_controller.dart';
-import 'package:family_tree_application/controller/marriage_form_controller.dart';
-import 'package:family_tree_application/controller/spouse_form_controller.dart';
+import 'package:family_tree_application/controller/search_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/enums.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/family_name.dart';
@@ -14,21 +14,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SpouseForm extends StatelessWidget {
-  SpouseForm({super.key});
+class ChildForm extends StatelessWidget {
+  ChildForm({super.key});
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final FamilyNameController familyNameController =
         Get.put(FamilyNameController());
-    SpouseFormController spouseFormController = Get.put(SpouseFormController());
+    //UserFormController userFormController = Get.put(UserFormController());
+    final ChildFormController childFormController =
+        Get.put(ChildFormController());
+    final ChildController childController = Get.put(ChildController());
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Spouse".tr),
+        title: Text("Add Child"),
         centerTitle: true,
-        automaticallyImplyLeading: false
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.back(result: true);
+          },
+        ),
       ),
       body: Form(
         key: formKey,
@@ -44,7 +52,7 @@ class SpouseForm extends StatelessWidget {
                     const SizedBox(height: 20),
                     Profile(
                       onImagePicked: (file) {
-                        spouseFormController.setImage(file);
+                        childFormController.setImage(file);
                       },
                     ),
                     //--------- Full Name -----------
@@ -56,7 +64,7 @@ class SpouseForm extends StatelessWidget {
                             child: CustomTextForm(
                               hintText: "55".tr,
                               myController:
-                                  spouseFormController.firstNameController,
+                                  childFormController.firstNameController,
                               valid: (value) {
                                 if (value!.isEmpty) {
                                   return "52".tr;
@@ -73,7 +81,7 @@ class SpouseForm extends StatelessWidget {
                             child: CustomTextForm(
                               hintText: "56".tr,
                               myController:
-                                  spouseFormController.secondNameController,
+                                  childFormController.secondNameController,
                               valid: (value) {
                                 if (value!.isEmpty) {
                                   return "52".tr;
@@ -90,7 +98,7 @@ class SpouseForm extends StatelessWidget {
                             child: CustomTextForm(
                               hintText: "57".tr,
                               myController:
-                                  spouseFormController.thirdNameController,
+                                  childFormController.thirdNameController,
                               valid: (value) {
                                 if (value!.isEmpty) {
                                   return "52".tr;
@@ -111,6 +119,12 @@ class SpouseForm extends StatelessWidget {
                             ))
                       ],
                     ),
+                    // searchPersonController.search(
+                    //     "${userFormController.firstNameController.text} ${userFormController.secondNameController.text} ${userFormController.thirdNameController.text} ${familyNameController.lastNameController.text}"),
+                    // searchPersonController.fullNameResult.value ==
+                    //         "${userFormController.firstNameController.text} ${userFormController.secondNameController.text} ${userFormController.thirdNameController.text}"
+                    //     ? Text("This name already exists")
+                    //     : Text(""),
                     const SizedBox(
                       height: 40,
                     ),
@@ -128,9 +142,9 @@ class SpouseForm extends StatelessWidget {
                               label: "31".tr,
                               genderValue: Gender.female,
                               selectedGender:
-                                  spouseFormController.selectedGender.value,
+                                  childFormController.selectedGender.value,
                               onGenderSelected: (val) {
-                                spouseFormController.updateGender(Gender.female);
+                                childFormController.updateGender(Gender.female);
                               },
                             )),
                       ),
@@ -140,9 +154,9 @@ class SpouseForm extends StatelessWidget {
                               label: "32".tr,
                               genderValue: Gender.male,
                               selectedGender:
-                                  spouseFormController.selectedGender.value,
+                                  childFormController.selectedGender.value,
                               onGenderSelected: (val) {
-                                spouseFormController.updateGender(Gender.male);
+                                childFormController.updateGender(Gender.male);
                               },
                             )),
                       ),
@@ -186,7 +200,7 @@ class SpouseForm extends StatelessWidget {
                                     onDateTimeChanged: (DateTime value) {
                                       final dateTimeText =
                                           "${value.year}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}";
-                                      spouseFormController.birthDateController
+                                      childFormController.birthDateController
                                           .text = dateTimeText;
                                     },
                                   ),
@@ -201,7 +215,7 @@ class SpouseForm extends StatelessWidget {
                           child: CustomTextForm(
                             hintText: "34".tr,
                             myController:
-                                spouseFormController.birthDateController,
+                                childFormController.birthDateController,
                           ),
                         ),
                       ),
@@ -223,9 +237,9 @@ class SpouseForm extends StatelessWidget {
                               label: "Alive".tr,
                               genderValue: LifeStatus.alive,
                               selectedGender:
-                                  spouseFormController.lifeStatus.value,
+                                  childFormController.lifeStatus.value,
                               onGenderSelected: (val) {
-                                spouseFormController
+                                childFormController
                                     .updateLifeStatus(LifeStatus.alive);
                               },
                             )),
@@ -236,9 +250,9 @@ class SpouseForm extends StatelessWidget {
                               label: "Dead".tr,
                               genderValue: LifeStatus.dead,
                               selectedGender:
-                                  spouseFormController.lifeStatus.value,
+                                  childFormController.lifeStatus.value,
                               onGenderSelected: (val) {
-                                spouseFormController
+                                childFormController
                                     .updateLifeStatus(LifeStatus.dead);
                               },
                             )),
@@ -246,7 +260,7 @@ class SpouseForm extends StatelessWidget {
                     ]),
                     //--------- Death Date -----------
                     Obx(() => Visibility(
-                          visible: spouseFormController.lifeStatus.value ==
+                          visible: childFormController.lifeStatus.value ==
                               LifeStatus.dead,
                           child: GestureDetector(
                             onTap: () {
@@ -285,7 +299,7 @@ class SpouseForm extends StatelessWidget {
                                           onDateTimeChanged: (DateTime value) {
                                             final dateTimeText =
                                                 "${value.year}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}";
-                                            spouseFormController
+                                            childFormController
                                                 .deathDateController
                                                 .text = dateTimeText;
                                           },
@@ -301,7 +315,7 @@ class SpouseForm extends StatelessWidget {
                                 child: CustomTextForm(
                                   hintText: "Death Date".tr,
                                   myController:
-                                      spouseFormController.deathDateController,
+                                      childFormController.deathDateController,
                                 ),
                               ),
                             ),
@@ -314,14 +328,21 @@ class SpouseForm extends StatelessWidget {
                       child: Button(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              spouseFormController.addSpouse();
+                              childFormController.addForm();
                             }
                           },
                           color: CustomColors.primaryColor,
-                          child: Text(
-                            "Next".tr,
-                            style: const TextStyle(color: CustomColors.white),
-                          )),
+                          child: Get.arguments == "parent"
+                              ? Text(
+                                  "Next".tr,
+                                  style: const TextStyle(
+                                      color: CustomColors.white),
+                                )
+                              : Text(
+                                  "Add".tr,
+                                  style: const TextStyle(
+                                      color: CustomColors.white),
+                                )),
                     )
                   ],
                 ),

@@ -17,6 +17,9 @@ class MemberFormController extends GetxController {
   final TextEditingController thirdNameController = TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
   final TextEditingController deathDateController = TextEditingController();
+  final TextEditingController memberId = TextEditingController();
+  var family = '';
+  var gender = '';
 
   final Rx<File?> selectedFile = Rx<File?>(null);
   final TextEditingController idController = TextEditingController();
@@ -65,11 +68,13 @@ class MemberFormController extends GetxController {
       includeToken: true,
     );
 
-    print("member added $response['id']");
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
-      print("member added $responseData['id']  done");
+     
+      memberId.text = responseData['id'];
+      family = responseData['family']['familyName'];
+      gender = responseData['gender'];
       var connectMember = await NetworkHandler.postParamsRequest(
         AppLink.connectMemberWithAccount,
         queryParams: {'memberId': responseData['id']},
@@ -77,7 +82,7 @@ class MemberFormController extends GetxController {
       );
 
       if (connectMember.statusCode == 200 || connectMember.statusCode == 201) {
-        print(connectMember.body);
+        
         Get.toNamed(AppRoute.treeForm);
       } else {
         Get.defaultDialog(
@@ -85,7 +90,7 @@ class MemberFormController extends GetxController {
           middleText:
               "Failed to connect member with account. Status code: ${connectMember.statusCode}",
         );
-        print(connectMember.body);
+
       }
     } else {
       Get.defaultDialog(
