@@ -13,6 +13,10 @@ import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 
+import '../../../core/constants/linkapi.dart';
+import '../../../core/functions/network_handler.dart';
+import '../../../model/get_child_and_spouse_model.dart';
+
 class FamilyTreePage extends StatefulWidget {
   const FamilyTreePage({Key? key}) : super(key: key);
 
@@ -21,7 +25,7 @@ class FamilyTreePage extends StatefulWidget {
 }
 
 class _TreeState extends State<FamilyTreePage> {
-  final Graph graph = Graph();
+  Graph graph = Graph();
 
   BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
   Map<String, List<String>> nodeNames = {};
@@ -38,28 +42,89 @@ class _TreeState extends State<FamilyTreePage> {
   late bool isSpouse;
   final UserLegacyController userLegacyController =
       Get.put(UserLegacyController());
+  bool isLoading = true; // Add a loading state
 
   @override
   void initState() {
-    childSpouseController.fetchSpouseAndChildren();
     super.initState();
-    builder
-      ..siblingSeparation = 50
-      ..levelSeparation = 50
-      ..subtreeSeparation = 50
-      ..orientation = BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM;
-    _initializeGraph();
+    childSpouseController.fetchSpouseAndChildren().then((_) {
+      _initializeGraph();
+      setState(() => isLoading =
+          false); // Set loading to false after initializing the graph
+    });
+  }
+
+  void _clearGraph() {
+    List<n.Node> nodes = List.from(graph.nodes);
+    for (var node in nodes) {
+      graph.removeNode(node);
+    }
   }
 
   void _initializeGraph() {
-    final ExtendedNode extendedNode =
-        ExtendedNode.DualId(childSpouseController.personIdController.text);
-    print(childSpouseController.personIdController.text);
-    graph.addNode(extendedNode);
-    nodeNames[childSpouseController.personIdController.text] = [
-      "${userLegacyController.firstName} ${userLegacyController.family.familyName}"
-    ];
+    graph = Graph(); // Clear the graph to start fresh
+
+    // Initialize the root node using the person's memberId
+    final String rootPersonId = childSpouseController.personIdController.text;
+    final String rootPersonName =
+        "${userLegacyController.firstName} ${userLegacyController.family.familyName}";
+    final ExtendedNode rootNode = ExtendedNode.DualId(rootPersonId);
+    graph.addNode(rootNode);
+    nodeNames[rootPersonId] = [rootPersonName + " (Root)"];
+    print("Root node added: Name = $rootPersonName, ID = $rootPersonId");
+
+    // Expand the graph starting from the root node
+    _expandNode(rootNode);
   }
+
+// Recursive function to expand nodes
+  void _expandNode(ExtendedNode node) async {
+    var familyDataList =
+        await childSpouseController.fetchSpouseAndChildrenById(node.key!.value);
+
+    for (var familyData in familyDataList) {
+      // Process spouse
+      final spouseName =
+          "${familyData.spouse.firstName} ${familyData.spouse.familyName}";
+      nodeNames[node.key!.value]!.add(spouseName + " (Spouse)");
+      print("Spouse added to the same node: $spouseName");
+
+      // Add children and connect them to this node
+      for (var child in familyData.children) {
+        final childNode = ExtendedNode.DualId(child.memberId);
+        graph.addNode(childNode);
+        graph.addEdge(node, childNode); // Connect each child to the node
+        nodeNames[child.memberId] = ["${child.firstName} ${child.familyName}"];
+        print("Child added and connected to node: ${child.firstName}");
+
+        // Recursive call to expand the child node
+        _expandNode(childNode);
+      }
+    }
+
+    // Refresh the UI with the new graph
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  // Future<List<GetSpouseAndChildrenModel>> fetchChildSpouse(
+  //     String memberId) async {
+  //   var response = await NetworkHandler.getRequest(
+  //     AppLink.getChildSpouse, // Adjust endpoint if necessary
+  //     includeToken: true,
+  //     queryParams: {'memberId': memberId},
+  //   );
+
+  //   if (response.statusCode == 200 || response.statusCode == 201) {
+  //     return getSpouseAndChildrenModelFromJson(response.body);
+  //   } else {
+  //     print(
+  //         'Failed to fetch data for memberId $memberId: ${response.statusCode}');
+  //     print('Error details: ${response.body}');
+  //     return [];
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -71,20 +136,24 @@ class _TreeState extends State<FamilyTreePage> {
             children: [
               const SizedBox(height: 10),
               Expanded(
-                child: InteractiveViewer(
-                  transformationController: TransformationController()
-                    ..value = Matrix4.diagonal3Values(_scale, _scale, 1),
-                  constrained: false,
-                  boundaryMargin: const EdgeInsets.all(100),
-                  minScale: 0.01,
-                  maxScale: 5.6,
-                  child: GraphView(
-                    graph: graph,
-                    algorithm: BuchheimWalkerAlgorithm(
-                        builder, TreeEdgeRenderer(builder)),
-                    builder: (node) => _nodeWidget(node),
-                  ),
-                ),
+                child: isLoading
+                    ? Center(
+                        child:
+                            CircularProgressIndicator()) // Show loading indicator while data is loading
+                    : InteractiveViewer(
+                        transformationController: TransformationController()
+                          ..value = Matrix4.diagonal3Values(_scale, _scale, 1),
+                        constrained: false,
+                        boundaryMargin: const EdgeInsets.all(100),
+                        minScale: 0.01,
+                        maxScale: 5.6,
+                        child: GraphView(
+                          graph: graph,
+                          algorithm: BuchheimWalkerAlgorithm(
+                              builder, TreeEdgeRenderer(builder)),
+                          builder: (node) => _nodeWidget(node),
+                        ),
+                      ),
               )
             ],
           ),

@@ -18,7 +18,7 @@ class OnBoarding1 extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(top: screenHeight * 0.04),
+              padding: EdgeInsets.only(top: screenHeight * 0.02),
               child: Text(
                 "2".tr,
                 textAlign: TextAlign.center,
@@ -31,7 +31,7 @@ class OnBoarding1 extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: screenHeight * 0.04),
+              padding: EdgeInsets.only(top: screenHeight * 0.03),
               child: Image.asset(
                 AppImageAsset.onBoardingImageOne,
                 height: 300,
@@ -40,7 +40,7 @@ class OnBoarding1 extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(top: screenHeight * 0.03),
+                padding: EdgeInsets.only(top: screenHeight * 0.02),
                 child: Text(
                   "1".tr,
                   textAlign: TextAlign.center,

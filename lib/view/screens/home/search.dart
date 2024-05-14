@@ -1,4 +1,5 @@
-import 'package:family_tree_application/controller/get_child_and_spouse_container.dart';
+import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
+
 import 'package:family_tree_application/controller/search_controller.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';

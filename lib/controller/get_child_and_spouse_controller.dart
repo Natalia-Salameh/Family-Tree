@@ -7,7 +7,9 @@ import 'package:get/get.dart';
 class ChildSpouseController extends GetxController {
   final TextEditingController personIdController = TextEditingController();
   String education = '';
-
+  List<GetSpouseAndChildrenModel> get getSpouseChildModel => _spouseChildModel;
+  List<GetSpouseAndChildrenModel> _spouseChildModel = [];
+  RxList<GetSpouseAndChildrenModel> spouseChildren = RxList();
   @override
   void onInit() {
     super.onInit();
@@ -22,9 +24,12 @@ class ChildSpouseController extends GetxController {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      List<GetSpouseAndChildrenModel> getSpouseChildModel =
-          getSpouseAndChildrenModelFromJson(response.body);
-
+      spouseChildren
+          .assignAll(getSpouseAndChildrenModelFromJson(response.body));
+      // List<GetSpouseAndChildrenModel> getSpouseChildModel =
+      //     getSpouseAndChildrenModelFromJson(response.body);
+      // _spouseChildModel = getSpouseAndChildrenModelFromJson(response.body);
+      update();
       // GetSpouseAndChildrenModel childSpouseInfoModel = GetSpouseAndChildrenModel(marriageId: '', spouse: null, marriageStatus: '', children: []);
       //  education = childSpouseInfoModel.;
 
@@ -32,6 +37,24 @@ class ChildSpouseController extends GetxController {
     } else {
       print('Failed to fetch family names: ${response.statusCode}');
       print('Error details: ${response.body}');
+    }
+  }
+
+  Future<List<GetSpouseAndChildrenModel>> fetchSpouseAndChildrenById(
+      String memberId) async {
+    var response = await NetworkHandler.getRequest(
+      AppLink.getChildSpouse, // Adjust endpoint if necessary
+      includeToken: true,
+      queryParams: {'memberId': memberId},
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return getSpouseAndChildrenModelFromJson(response.body);
+    } else {
+      print(
+          'Failed to fetch data for memberId $memberId: ${response.statusCode}');
+      print('Error details: ${response.body}');
+      return [];
     }
   }
 }

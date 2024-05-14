@@ -37,7 +37,7 @@ class SignUp extends StatelessWidget {
                         Expanded(
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: screenHeight * 0.13),
+                                horizontal: screenHeight * 0.11),
                             child: Text(
                               "9".tr,
                               style: const TextStyle(
@@ -48,7 +48,7 @@ class SignUp extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(
-                      height: 80,
+                      height: 50,
                     ),
                     MyTextField(
                       controller: registerController.usernameController,
