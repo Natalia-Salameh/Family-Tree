@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:family_tree_application/controller/member_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
 import 'package:family_tree_application/model/login_model.dart';
+import 'package:family_tree_application/model/member_legacy_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +14,8 @@ class LoginController extends GetxController {
   final _formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-
+  final MemberFormController memberFormController =
+      Get.put(MemberFormController());
   GlobalKey<FormState> get formKey => _formKey;
 
   login() async {
@@ -34,8 +37,22 @@ class LoginController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       await NetworkHandler.storeToken(data["token"]);
       await NetworkHandler.storeExpirationDate(data["expiration"]);
-      Get.offAllNamed(AppRoute.home);
       print(response.body);
+
+      //-------------------------------------------
+      var legacyResponse = await NetworkHandler.getRequest(
+        AppLink.memberLegacy,
+        includeToken: true,
+      );
+      var profileData = json.decode(legacyResponse.body);
+      if (profileData['titel'] == "member doesn't exist") {
+        Get.offAllNamed(AppRoute.memberForm);
+      } else if (profileData['titel'] == "This User doesn't have a Legacy") {
+        Get.offAllNamed(AppRoute.diary);
+      } else {
+        Get.offAllNamed(AppRoute.home);
+      }
+      //-------------------------------------------
     } else if (data['titel'] == "Your Email is Not Verified.") {
       Get.defaultDialog(
         title: "sorry".tr,

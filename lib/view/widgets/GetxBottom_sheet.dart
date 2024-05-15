@@ -1,4 +1,3 @@
-import 'package:family_tree_application/view/screens/onBoardingForm/add_member.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,11 +29,11 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
           Positioned.fill(
             child: GestureDetector(
                 onTap: () {
-                  Get.to(
-                    const UserAdd(
-                      role: '',
-                    ),
-                  );
+                  // Get.to(
+                  //   const UserAdd(
+                  //     role: '',
+                  //   ),
+                  // );
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

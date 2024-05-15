@@ -14,7 +14,6 @@ import 'package:family_tree_application/enums.dart';
 class UserFormController extends GetxController {
   final MarriageFormController marriageFormController =
       Get.put(MarriageFormController());
-  final ChildController childController = Get.put(ChildController());
   final selectedGender = Rx<Gender?>(null);
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController secondNameController = TextEditingController();

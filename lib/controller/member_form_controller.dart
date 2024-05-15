@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
@@ -17,7 +18,11 @@ class MemberFormController extends GetxController {
   final TextEditingController thirdNameController = TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
   final TextEditingController deathDateController = TextEditingController();
-  final TextEditingController memberId = TextEditingController();
+ // final TextEditingController memberId = TextEditingController();
+  final TextEditingController person1Id = TextEditingController();
+  final MarriageFormController marriageFormController =
+      Get.put(MarriageFormController());
+
   var family = '';
   var gender = '';
 
@@ -68,13 +73,12 @@ class MemberFormController extends GetxController {
       includeToken: true,
     );
 
-
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
-     
-      memberId.text = responseData['id'];
+   //   memberId.text = responseData['id'];
       family = responseData['family']['familyName'];
       gender = responseData['gender'];
+
       var connectMember = await NetworkHandler.postParamsRequest(
         AppLink.connectMemberWithAccount,
         queryParams: {'memberId': responseData['id']},
@@ -82,15 +86,21 @@ class MemberFormController extends GetxController {
       );
 
       if (connectMember.statusCode == 200 || connectMember.statusCode == 201) {
-        
-        Get.toNamed(AppRoute.treeForm);
+        person1Id.text = responseData['id'];
+
+        marriageFormController.selectedNodeIdPerson1.text = responseData['id'];
+        if (Get.arguments == "parent") {
+          Get.toNamed(AppRoute.spouseForm);
+        } else {
+          Get.toNamed(AppRoute.tree);
+        }
       } else {
         Get.defaultDialog(
           title: "Error",
           middleText:
-              "Failed to connect member with account. Status code: ${connectMember.statusCode}",
+              "user is already connected to a member. Status code: ${connectMember.statusCode}",
         );
-
+        print(connectMember.body);
       }
     } else {
       Get.defaultDialog(

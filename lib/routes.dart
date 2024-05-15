@@ -17,7 +17,7 @@ import 'package:family_tree_application/view/screens/home/add_tree.dart';
 import 'package:family_tree_application/view/screens/onBoarding/on_boarding1.dart';
 import 'package:family_tree_application/view/screens/onBoarding/on_boarding2.dart';
 import 'package:family_tree_application/view/screens/onBoarding/on_boarding3.dart';
-import 'package:family_tree_application/view/screens/onBoardingForm/Tree.dart';
+import 'package:family_tree_application/view/screens/onBoardingForm/member_tree.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/diary.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/member_form.dart';
 import 'package:family_tree_application/view/screens/splash_screen.dart';

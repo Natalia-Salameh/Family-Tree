@@ -74,11 +74,9 @@ class CustomSearchDelegate extends SearchDelegate {
         itemCount: searchController.listSearch.length,
         itemBuilder: (context, index) {
           var suggestion = searchController.listSearch[index];
-          print("$index + ${suggestion.id}");
           return ListTile(
             title: Text(suggestion.fullName),
             onTap: () {
-              childSpouseController.personIdController.text = suggestion.id;
               Get.toNamed(AppRoute.userLegacy,
                   arguments: {'id': suggestion.id});
             },

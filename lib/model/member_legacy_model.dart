@@ -3,9 +3,10 @@ import 'dart:convert';
 LegacyModel accountInfoModelFromJson(String str) =>
     LegacyModel.fromJson(json.decode(str));
 
-String accountInfoModelToJson(LegacyModel data) => json.encode(data.toJson());
+String userLegacyModelToJson(LegacyModel data) => json.encode(data.toJson());
 
 class LegacyModel {
+  String memberId;
   bool userHasAccount;
   String education;
   String work;
@@ -15,7 +16,7 @@ class LegacyModel {
   String thirdName;
   Family family;
   String gender;
-  DateTime dateOfBirth;
+  dynamic dateOfBirth;
   dynamic dateOfDeath;
   String decision;
   int numOfReports;
@@ -23,6 +24,7 @@ class LegacyModel {
   dynamic photoBase64;
 
   LegacyModel({
+    required this.memberId,
     required this.userHasAccount,
     required this.education,
     required this.work,
@@ -41,6 +43,7 @@ class LegacyModel {
   });
 
   factory LegacyModel.fromJson(Map<String, dynamic> json) => LegacyModel(
+        memberId: json["memberId"],
         userHasAccount: json["userHasAccount"],
         education: json["education"],
         work: json["work"],
@@ -50,7 +53,7 @@ class LegacyModel {
         thirdName: json["thirdName"],
         family: Family.fromJson(json["family"]),
         gender: json["gender"],
-        dateOfBirth: DateTime.parse(json["dateOfBirth"]),
+        dateOfBirth: json["dateOfBirth"],
         dateOfDeath: json["dateOfDeath"],
         decision: json["decision"],
         numOfReports: json["numOfReports"],
@@ -59,6 +62,7 @@ class LegacyModel {
       );
 
   Map<String, dynamic> toJson() => {
+        "memberId": memberId,
         "userHasAccount": userHasAccount,
         "education": education,
         "work": work,
@@ -68,7 +72,7 @@ class LegacyModel {
         "thirdName": thirdName,
         "family": family.toJson(),
         "gender": gender,
-        "dateOfBirth": dateOfBirth.toIso8601String(),
+        "dateOfBirth": dateOfBirth,
         "dateOfDeath": dateOfDeath,
         "decision": decision,
         "numOfReports": numOfReports,

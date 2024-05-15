@@ -2,8 +2,8 @@ import 'package:family_tree_application/controller/member_legacy_controller.dart
 import 'package:family_tree_application/controller/update_legacy_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/view/screens/Legacy/member_tree.dart';
 import 'package:family_tree_application/view/screens/Legacy/update_legacy.dart';
-import 'package:family_tree_application/view/screens/Legacy/tree.dart';
 import 'package:family_tree_application/view/widgets/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
@@ -77,7 +77,7 @@ class Legacy extends StatelessWidget {
                               // Navigate to EditLegacy
                               var result = await Get.to(() => EditLegacy());
                               if (result == 'updateSuccessful') {
-                                memberLegacyController.LegacyInfo();
+                                memberLegacyController.legacyInfo();
                               }
                             },
                           ),
@@ -121,7 +121,8 @@ class Legacy extends StatelessWidget {
                   LegacyTabBar(
                     views: [
                       Container(
-                          alignment: Alignment.center, child: Text("tree")),
+                          alignment: Alignment.center,
+                          child: const MemberFamilyTreePage()),
                       Container(
                           alignment: Alignment.center,
                           child: Column(
