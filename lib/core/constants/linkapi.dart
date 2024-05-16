@@ -29,8 +29,6 @@ class AppLink {
 
   static const String home = "$serverName/Members/HomePageMembers";
 
-  static const String getLegacyFromId = "$serverName/Profile/FromMemberId";
-
   // ========================== Profile  ========================== //
 
   static const String userLegacy = "$serverName/Profile/FromMemberId";

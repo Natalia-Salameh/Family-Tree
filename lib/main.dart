@@ -20,8 +20,8 @@ void main() async {
         initialRoute: (token == null ||
                 expiration == null ||
                 expiration.isBefore(DateTime.now()))
-            ? AppRoute.splash
-            : AppRoute.splash),
+            ? AppRoute.getStarted
+            : AppRoute.home),
   );
 }
 

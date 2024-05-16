@@ -7,6 +7,7 @@ String userLegacyModelToJson(UserLegacyModel data) =>
     json.encode(data.toJson());
 
 class UserLegacyModel {
+  String memberId;
   bool userHasAccount;
   String education;
   String work;
@@ -24,6 +25,7 @@ class UserLegacyModel {
   dynamic photoBase64;
 
   UserLegacyModel({
+    required this.memberId,
     required this.userHasAccount,
     required this.education,
     required this.work,
@@ -43,6 +45,7 @@ class UserLegacyModel {
 
   factory UserLegacyModel.fromJson(Map<String, dynamic> json) =>
       UserLegacyModel(
+        memberId: json["memberId"],
         userHasAccount: json["userHasAccount"],
         education: json["education"],
         work: json["work"],
@@ -61,6 +64,7 @@ class UserLegacyModel {
       );
 
   Map<String, dynamic> toJson() => {
+        "memberId": memberId,
         "userHasAccount": userHasAccount,
         "education": education,
         "work": work,
