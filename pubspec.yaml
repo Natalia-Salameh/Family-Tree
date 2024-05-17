@@ -62,6 +62,7 @@ dependencies:
   graph_layout: ^0.1.1
   graph_display: ^0.1.1
   connectivity_plus: ^2.0.2
+  google_sign_in: ^6.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
