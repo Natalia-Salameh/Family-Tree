@@ -22,7 +22,7 @@ class VerifyButton extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: CustomColors.primaryColor, //
             foregroundColor: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 150, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 120, vertical: 17),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
