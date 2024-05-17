@@ -8,16 +8,16 @@ class MemberLegacyController extends GetxController {
   final ChildSpouseController childSpouseController =
       Get.put(ChildSpouseController());
   static MemberLegacyController get to => Get.find();
-  String education = '';
-  String work = '';
-  String legacyStory = '';
-  String firstName = '';
-  String secondName = '';
-  String thirdName = '';
-  Family family = Family(id: '', familyName: '');
-  String gender = '';
-  dynamic dateOfBirth = '';
-  String photoBase64 = '';
+  var education = ''.obs;
+  var work = ''.obs;
+  var legacyStory = ''.obs;
+  var firstName = ''.obs;
+  var secondName = ''.obs;
+  var thirdName = ''.obs;
+  var family = Family(id: '', familyName: '').obs;
+  var gender = ''.obs;
+  var dateOfBirth = ''.obs;
+  var photoBase64 = ''.obs;
 
   @override
   void onInit() {
@@ -32,15 +32,15 @@ class MemberLegacyController extends GetxController {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       LegacyModel legacyInfoModel = accountInfoModelFromJson(response.body);
-      education = legacyInfoModel.education;
-      work = legacyInfoModel.work;
-      legacyStory = legacyInfoModel.legacyStory;
-      firstName = legacyInfoModel.firstName;
-      secondName = legacyInfoModel.secondName;
-      thirdName = legacyInfoModel.thirdName;
-      family = legacyInfoModel.family;
-      gender = legacyInfoModel.gender;
-      dateOfBirth = legacyInfoModel.dateOfBirth;
+      education.value = legacyInfoModel.education;
+      work.value = legacyInfoModel.work;
+      legacyStory.value = legacyInfoModel.legacyStory;
+      firstName.value = legacyInfoModel.firstName;
+      secondName.value = legacyInfoModel.secondName;
+      thirdName.value = legacyInfoModel.thirdName;
+      family.value = legacyInfoModel.family;
+      gender.value = legacyInfoModel.gender;
+      dateOfBirth.value = legacyInfoModel.dateOfBirth;
       childSpouseController.personIdController.text = legacyInfoModel.memberId;
     } else {
       print('Failed to fetch family names: ${response.statusCode}');

@@ -11,7 +11,6 @@ import 'package:graphview/GraphView.dart';
 import 'package:graphview/GraphView.dart' as n;
 import 'package:family_tree_application/core/constants/routes.dart';
 
-
 class MemberFamilyTreePage extends StatefulWidget {
   const MemberFamilyTreePage({Key? key}) : super(key: key);
 
@@ -69,7 +68,7 @@ class _TreeState extends State<MemberFamilyTreePage> {
     // Initialize the root node using the person's memberId
     final String rootPersonId = childSpouseController.personIdController.text;
     final String rootPersonName =
-        "${memberLegacyController.firstName} ${memberLegacyController.family.familyName}";
+        "${memberLegacyController.firstName} ${memberLegacyController.family.value.familyName}";
     final ExtendedNode rootNode = ExtendedNode.dualId(rootPersonId);
     graph.addNode(rootNode);
     nodeNames[rootPersonId] = [rootPersonName + " (Root)"];

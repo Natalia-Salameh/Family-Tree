@@ -29,58 +29,69 @@ class LoginController extends GetxController {
             backgroundColor: CustomColors.white,
             color: CustomColors.primaryColor)));
 
-    var response = await NetworkHandler.postRequest(
-      AppLink.login,
-      loginData.toJson(),
-    );
-    var data = json.decode(response.body);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      await NetworkHandler.storeToken(data["token"]);
-      await NetworkHandler.storeExpirationDate(data["expiration"]);
-      print(response.body);
+    try {
+      var response = await NetworkHandler.postRequest(
+        AppLink.login,
+        loginData.toJson(),
+      );
 
-      //-------------------------------------------
-      var legacyResponse = await NetworkHandler.getRequest(
-        AppLink.memberLegacy,
-        includeToken: true,
-      );
-      var profileData = json.decode(legacyResponse.body);
-      if (profileData['titel'] == "member doesn't exist") {
-        Get.offAllNamed(AppRoute.memberForm);
-      } else if (profileData['titel'] == "This User doesn't have a Legacy") {
-        Get.offAllNamed(AppRoute.diary);
+      var data = json.decode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        await NetworkHandler.storeToken(data["token"]);
+        await NetworkHandler.storeExpirationDate(data["expiration"]);
+        print(response.body);
+
+        var legacyResponse = await NetworkHandler.getRequest(
+          AppLink.memberLegacy,
+          includeToken: true,
+        );
+        var profileData = json.decode(legacyResponse.body);
+
+        if (profileData['titel'] == "member doesn't exist") {
+          Get.offAllNamed(AppRoute.memberForm);
+        } else if (profileData['titel'] == "This User doesn't have a Legacy") {
+          Get.offAllNamed(AppRoute.diary);
+        } else {
+          Get.offAllNamed(AppRoute.home);
+        }
+      } else if (data['titel'] == "Your Email is Not Verified.") {
+        Get.defaultDialog(
+          title: "sorry".tr,
+          middleText: "email_not_verified".tr,
+          confirm: TextButton(
+            onPressed: () {
+              Get.toNamed(AppRoute.verifyCode, arguments: {
+                'email': usernameController.text,
+              });
+            },
+            child: Text("66".tr,
+                style: const TextStyle(color: CustomColors.black)),
+          ),
+          cancel: TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: Text("67".tr,
+                style: const TextStyle(color: CustomColors.black)),
+          ),
+        );
       } else {
-        Get.offAllNamed(AppRoute.home);
+        String errorMessage = data["invalid_login"] ?? "invalid_login".tr;
+        Get.defaultDialog(
+          title: "65".tr,
+          middleText: errorMessage.tr,
+        );
+        print(response.body);
       }
-      //-------------------------------------------
-    } else if (data['titel'] == "Your Email is Not Verified.") {
+    } catch (e) {
       Get.defaultDialog(
-        title: "sorry".tr,
-        middleText: "email_not_verified".tr,
-        confirm: TextButton(
-          onPressed: () {
-            Get.toNamed(AppRoute.verifyCode, arguments: {
-              'email': usernameController.text,
-            });
-          },
-          child:
-              Text("66".tr, style: const TextStyle(color: CustomColors.black)),
-        ),
-        cancel: TextButton(
-          onPressed: () {
-            Get.back();
-          },
-          child:
-              Text("67".tr, style: const TextStyle(color: CustomColors.black)),
-        ),
+        title: "Error",
+        middleText: "An error occurred. Please try again later.",
       );
-    } else {
-      String errorMessage = data["invalid_login"] ?? "invalid_login".tr;
-      Get.defaultDialog(
-        title: "65".tr,
-        middleText: errorMessage.tr,
-      );
-      print(response.body);
+      print('Error: $e');
+    } finally {
+      Get.back(); // Close the loading dialog
     }
   }
 

@@ -6,7 +6,6 @@ import 'package:family_tree_application/model/update_legacy_model.dart';
 import 'package:get/get.dart';
 
 class UpdateLegacyController extends GetxController {
-  // Assuming your Family class is structured like this
   var family = Family(id: '', familyName: '').obs;
   var selectedFamilyId = ''.obs;
   var education = ''.obs;
@@ -15,11 +14,8 @@ class UpdateLegacyController extends GetxController {
   var firstName = ''.obs;
   var secondName = ''.obs;
   var thirdName = ''.obs;
-
   var gender = ''.obs;
   var dateOfBirth = DateTime.now().obs;
-  //var photoBase64 = ''.obs;
-  // Reintroduced for managing family selection
 
   void setSelectedFamily(String id, String familyName) {
     selectedFamilyId.value = id;
@@ -30,19 +26,22 @@ class UpdateLegacyController extends GetxController {
   }
 
   void loadInitialData(MemberLegacyController data) {
-    education.value = data.education;
-    work.value = data.work;
-    legacyStory.value = data.legacyStory;
-    firstName.value = data.firstName;
-    secondName.value = data.secondName;
-    thirdName.value = data.thirdName;
-    // Ensure to set both the family object and the selectedFamilyId
-    family.value = data.family; // Assuming `data.family` is a Family object
-    selectedFamilyId.value =
-        data.family.id; // Use the family id from the MemberLegacyController
-    gender.value = data.gender;
-    dateOfBirth.value = data.dateOfBirth;
-   // photoBase64.value = data.photoBase64;
+    education.value = data.education.value;
+    work.value = data.work.value;
+    legacyStory.value = data.legacyStory.value;
+    firstName.value = data.firstName.value;
+    secondName.value = data.secondName.value;
+    thirdName.value = data.thirdName.value;
+    family.value = data.family.value;
+    selectedFamilyId.value = data.family.value.id;
+    gender.value = data.gender.value;
+
+    // Ensure dateOfBirth is parsed as DateTime
+    if (data.dateOfBirth.value is String) {
+      dateOfBirth.value = DateTime.parse(data.dateOfBirth.value as String);
+    } else {
+      dateOfBirth.value = data.dateOfBirth.value as DateTime;
+    }
   }
 
   void updateLegacyInfo() async {
@@ -57,11 +56,7 @@ class UpdateLegacyController extends GetxController {
       'familyName': family.value.familyName,
       'gender': gender.value,
       'dateOfBirth': dateOfBirth.value.toIso8601String(),
-      //'photoBase64': photoBase64.value,
     };
-
-    print(
-        "Sending payload: $payload"); // Ensure you log the correct payload structure
 
     var response = await NetworkHandler.postRequest(
       AppLink.updateMemberLegacy,
@@ -70,8 +65,7 @@ class UpdateLegacyController extends GetxController {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print(response.statusCode);
-      Get.back(); // Optionally return to previous page
+      Get.back(result: 'updateSuccessful');
       Get.snackbar('Success', 'Update completed successfully!');
     } else {
       Get.snackbar('Error', 'Failed to update: ${response.body}');

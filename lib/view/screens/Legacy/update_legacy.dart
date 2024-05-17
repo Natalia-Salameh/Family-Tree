@@ -24,27 +24,37 @@ class EditLegacy extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         child: Obx(() {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _buildDropdown(),
               SizedBox(height: 20),
+              _buildSectionHeader('Personal Information'),
+              _buildDropdown(),
               _buildTextField("First Name", updateLegacyController.firstName),
               _buildTextField("Second Name", updateLegacyController.secondName),
               _buildTextField("Third Name", updateLegacyController.thirdName),
+              SizedBox(height: 20),
+              _buildSectionHeader('Professional Information'),
               _buildTextField("Education", updateLegacyController.education),
               _buildTextField("Work", updateLegacyController.work),
+              SizedBox(height: 20),
+              _buildSectionHeader('Personal Story'),
               _buildTextField("Diary", updateLegacyController.legacyStory),
               _buildTextField("Gender", updateLegacyController.gender),
               _buildDateOfBirthInputCard(
                   context, "Date of Birth", updateLegacyController.dateOfBirth),
-              //_buildTextField(
-              //   "Photo Base64", updateLegacyController.photoBase64),
-              ElevatedButton(
-                onPressed: updateLegacyController.updateLegacyInfo,
-                child: Text("Save Changes"),
-              ),
+              SizedBox(height: 20),
+              // Center(
+              //   child: ElevatedButton(
+              //     onPressed: updateLegacyController.updateLegacyInfo,
+              //     child: Text("Save Changes"),
+              //     style: ElevatedButton.styleFrom(
+              //       padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+              //       textStyle: TextStyle(fontSize: 16),
+              //     ),
+              //   ),),
             ],
           );
         }),
@@ -52,22 +62,30 @@ class EditLegacy extends StatelessWidget {
     );
   }
 
+  Widget _buildSectionHeader(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Text(
+        title,
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
   Widget _buildTextField(String label, RxString rxValue) {
-    // Create a TextEditingController that is linked to the RxString
     final controller = TextEditingController(text: rxValue.value);
     controller.addListener(() {
-      rxValue.value = controller.text; // Update RxString on change
+      rxValue.value = controller.text;
     });
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
           border: OutlineInputBorder(),
         ),
-        // onChanged is not needed because we're using a listener on the controller
       ),
     );
   }
@@ -102,7 +120,7 @@ class EditLegacy extends StatelessWidget {
   Widget _buildDateOfBirthInputCard(
       BuildContext context, String label, Rx<DateTime> rxValue) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: GestureDetector(
         onTap: () async {
           DateTime? pickedDate = await showDatePicker(

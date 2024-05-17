@@ -61,7 +61,7 @@ dependencies:
   flutter_graph_view: ^1.0.4
   graph_layout: ^0.1.1
   graph_display: ^0.1.1
-
+  connectivity_plus: ^2.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

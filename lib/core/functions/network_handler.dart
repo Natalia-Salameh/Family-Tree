@@ -4,12 +4,25 @@ import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class NetworkHandler {
   static const storage = FlutterSecureStorage();
 
+  static Future<bool> _checkInternetConnection() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return false;
+    }
+    return true;
+  }
+
   static Future<http.Response> getRequest(String url,
       {Map<String, dynamic>? queryParams, bool includeToken = false}) async {
+    if (!await _checkInternetConnection()) {
+      throw Exception('No internet connection');
+    }
+
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
@@ -24,11 +37,12 @@ class NetworkHandler {
       uri = uri.replace(queryParameters: queryParams);
     }
 
-    var response = await http.get(
-      uri,
-      headers: headers,
-    );
-    return response;
+    try {
+      var response = await http.get(uri, headers: headers);
+      return response;
+    } catch (e) {
+      throw Exception('Failed to load data');
+    }
   }
 
   static Future<http.Response> postFormRequest(
@@ -36,6 +50,10 @@ class NetworkHandler {
       {Map<String, dynamic>? queryParams,
       bool includeToken = false,
       List<File>? files}) async {
+    if (!await _checkInternetConnection()) {
+      throw Exception('No internet connection');
+    }
+
     Map<String, String> headers = {};
 
     if (includeToken) {
@@ -59,24 +77,26 @@ class NetworkHandler {
         var stream = http.ByteStream(file.openRead());
         var length = await file.length();
 
-        if (file.path == data['photoBase64']) {
-          var multipartFile = http.MultipartFile('photo', stream, length,
-              filename: 'photo.jpg');
-          request.files.add(multipartFile);
-        } else {
-          var multipartFile = http.MultipartFile('file', stream, length,
-              filename: basename(file.path));
-          request.files.add(multipartFile);
-        }
+        var multipartFile = http.MultipartFile('file', stream, length,
+            filename: basename(file.path));
+        request.files.add(multipartFile);
       }
     }
 
-    var streamedResponse = await request.send();
-    return await http.Response.fromStream(streamedResponse);
+    try {
+      var streamedResponse = await request.send();
+      return await http.Response.fromStream(streamedResponse);
+    } catch (e) {
+      throw Exception('Failed to upload data');
+    }
   }
 
   static Future<http.Response> postRequest(String url, var data,
       {Map<String, dynamic>? queryParams, bool includeToken = false}) async {
+    if (!await _checkInternetConnection()) {
+      throw Exception('No internet connection');
+    }
+
     Map<String, String> headers = {
       "Content-Type": "application/json",
     };
@@ -88,16 +108,25 @@ class NetworkHandler {
     if (queryParams != null) {
       uri = uri.replace(queryParameters: queryParams);
     }
-    var response = await http.post(
-      Uri.parse(url),
-      body: json.encode(data),
-      headers: headers,
-    );
-    return response;
+
+    try {
+      var response = await http.post(
+        uri,
+        body: json.encode(data),
+        headers: headers,
+      );
+      return response;
+    } catch (e) {
+      throw Exception('Failed to send data');
+    }
   }
 
   static Future<http.Response> postParamsRequest(String url,
       {Map<String, dynamic>? queryParams, bool includeToken = false}) async {
+    if (!await _checkInternetConnection()) {
+      throw Exception('No internet connection');
+    }
+
     Map<String, String> headers = {};
     if (includeToken) {
       String? token = await getToken();
@@ -106,7 +135,11 @@ class NetworkHandler {
 
     Uri uri = Uri.parse(url).replace(queryParameters: queryParams);
 
-    return await http.post(uri, headers: headers);
+    try {
+      return await http.post(uri, headers: headers);
+    } catch (e) {
+      throw Exception('Failed to send data');
+    }
   }
 
   static Future<void> storeToken(String token) async {

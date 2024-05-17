@@ -101,86 +101,88 @@ class Legacy extends StatelessWidget {
             padding: const EdgeInsets.all(15),
             child: Align(
               alignment: Alignment.topCenter,
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: ProfilePicture(
-                      name: "Natalia Salameh",
-                      radius: 31,
-                      fontsize: 21,
+              child: Obx(() {
+                return Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: ProfilePicture(
+                        name: "Natalia Salameh",
+                        radius: 31,
+                        fontsize: 21,
+                      ),
                     ),
-                  ),
-                  Text(
-                      "${legacyController.firstName} ${legacyController.secondName} ${legacyController.thirdName} ${legacyController.family.familyName}",
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  const SizedBox(height: 10),
-                  LegacyTabBar(
-                    views: [
-                      Container(
-                          alignment: Alignment.center,
-                          child: const MemberFamilyTreePage()),
-                      Container(
-                          alignment: Alignment.center,
-                          child: Column(
-                            children: [
-                              ListTile(
-                                title: Text("35".tr),
-                                subtitle: Text(
-                                  legacyController.education == ""
-                                      ? "No Education added"
-                                      : legacyController.education,
+                    Text(
+                        "${legacyController.firstName.value} ${legacyController.secondName.value} ${legacyController.thirdName.value} ${legacyController.family.value.familyName}",
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    const SizedBox(height: 10),
+                    LegacyTabBar(
+                      views: [
+                        Container(
+                            alignment: Alignment.center,
+                            child: const MemberFamilyTreePage()),
+                        Container(
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text("35".tr),
+                                  subtitle: Text(
+                                    legacyController.education.value.isEmpty
+                                        ? "No Education added"
+                                        : legacyController.education.value,
+                                  ),
                                 ),
-                              ),
-                              ListTile(
-                                title: Text("36".tr),
-                                subtitle: Text(
-                                  legacyController.work == ""
-                                      ? "No Work added".tr
-                                      : legacyController.work,
+                                ListTile(
+                                  title: Text("36".tr),
+                                  subtitle: Text(
+                                    legacyController.work.value.isEmpty
+                                        ? "No Work added".tr
+                                        : legacyController.work.value,
+                                  ),
                                 ),
-                              ),
-                              ListTile(
-                                title: Text("41".tr),
-                                subtitle: Text(
-                                  legacyController.legacyStory == ""
-                                      ? "No Diary added".tr
-                                      : legacyController.legacyStory,
+                                ListTile(
+                                  title: Text("41".tr),
+                                  subtitle: Text(
+                                    legacyController.legacyStory.value.isEmpty
+                                        ? "No Diary added".tr
+                                        : legacyController.legacyStory.value,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )),
-                      Container(
-                          alignment: Alignment.center,
-                          child: Column(
-                            children: [
-                              ListTile(
-                                title: Text("30".tr),
-                                subtitle: Text(
-                                  legacyController.gender == ""
-                                      ? "No Gender added".tr
-                                      : legacyController.gender,
+                              ],
+                            )),
+                        Container(
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text("30".tr),
+                                  subtitle: Text(
+                                    legacyController.gender.value.isEmpty
+                                        ? "No Gender added".tr
+                                        : legacyController.gender.value,
+                                  ),
                                 ),
-                              ),
-                              ListTile(
-                                title: Text("DateofBirth".tr),
-                                subtitle: Text(
-                                  legacyController.dateOfBirth == null
-                                      ? "No Date of Birth added"
-                                      : legacyController.dateOfBirth
-                                          .toString()
-                                          .split(' ')[0],
+                                ListTile(
+                                  title: Text("DateofBirth".tr),
+                                  subtitle: Text(
+                                    legacyController.dateOfBirth.value == null
+                                        ? "No Date of Birth added"
+                                        : legacyController.dateOfBirth.value
+                                            .toString()
+                                            .split(' ')[0],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
-                ],
-              ),
+                              ],
+                            )),
+                      ],
+                    ),
+                  ],
+                );
+              }),
             ),
           ),
         ),
