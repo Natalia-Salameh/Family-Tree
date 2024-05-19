@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
         return IndexedStack(
           index: _selectedIndex,
           children: [
-            PersonListView(homeController: homeController), // Update this line
+            PersonListView(homeController: homeController),
             Center(child: UserForm()),
             Center(child: Legacy()),
           ],

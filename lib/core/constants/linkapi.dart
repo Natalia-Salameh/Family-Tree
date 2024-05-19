@@ -46,5 +46,14 @@ class AppLink {
 
   static const String addChild = "$serverName/Relations/AddChild";
 
-  static const String getChildSpouse = "$serverName/Relations/SpousesChildrenForTree";
+  static const String getChildSpouse =
+      "$serverName/Relations/SpousesChildrenForTree";
+
+  // ========================== Vote ========================== //
+
+  static const String addUpdateVote = "$serverName/Vote/UpdateAdd";
+
+  static const String getVote = "$serverName/Vote";
+
+  static const String deleteVote = "$serverName/Vote/Delete";
 }

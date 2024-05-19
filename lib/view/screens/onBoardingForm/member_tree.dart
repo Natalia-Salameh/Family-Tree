@@ -94,7 +94,7 @@ class _TreeState extends State<TreeState> {
               ),
               Button(
                 onPressed: () {
-                  Get.offAllNamed(AppRoute.home);
+                  Get.offAllNamed(AppRoute.diary);
                 },
                 color: CustomColors.primaryColor,
                 child: Text("Add".tr,

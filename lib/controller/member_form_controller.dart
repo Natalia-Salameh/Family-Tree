@@ -18,7 +18,7 @@ class MemberFormController extends GetxController {
   final TextEditingController thirdNameController = TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
   final TextEditingController deathDateController = TextEditingController();
- // final TextEditingController memberId = TextEditingController();
+  // final TextEditingController memberId = TextEditingController();
   final TextEditingController person1Id = TextEditingController();
   final MarriageFormController marriageFormController =
       Get.put(MarriageFormController());
@@ -75,7 +75,7 @@ class MemberFormController extends GetxController {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
-   //   memberId.text = responseData['id'];
+      //   memberId.text = responseData['id'];
       family = responseData['family']['familyName'];
       gender = responseData['gender'];
 
@@ -92,7 +92,7 @@ class MemberFormController extends GetxController {
         if (Get.arguments == "parent") {
           Get.toNamed(AppRoute.spouseForm);
         } else {
-          Get.toNamed(AppRoute.tree);
+          Get.toNamed(AppRoute.treeForm);
         }
       } else {
         Get.defaultDialog(

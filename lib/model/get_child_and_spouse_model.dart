@@ -45,6 +45,7 @@ class Spouse {
   String familyName;
   String decision;
   dynamic memberPhoto;
+  String gender;
 
   Spouse({
     required this.memberId,
@@ -54,6 +55,7 @@ class Spouse {
     required this.familyName,
     required this.decision,
     required this.memberPhoto,
+    required this.gender,
   });
 
   factory Spouse.fromJson(Map<String, dynamic> json) => Spouse(
@@ -64,6 +66,7 @@ class Spouse {
         familyName: json["familyName"],
         decision: json["decision"],
         memberPhoto: json["memberPhoto"],
+        gender: json["gender"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -74,5 +77,6 @@ class Spouse {
         "familyName": familyName,
         "decision": decision,
         "memberPhoto": memberPhoto,
+        "gender": gender,
       };
 }

@@ -47,7 +47,7 @@ class ChildSpouseController extends GetxController {
       includeToken: true,
       queryParams: {'memberId': memberId},
     );
-
+    print(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       return getSpouseAndChildrenModelFromJson(response.body);
     } else {
