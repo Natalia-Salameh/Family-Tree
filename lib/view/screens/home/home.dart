@@ -105,9 +105,15 @@ class PersonCard extends StatelessWidget {
       elevation: 5,
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: ListTile(
-        leading: person.memberPhoto != null
-            ? Image.network(person.memberPhoto,
-                height: 60, width: 60, fit: BoxFit.cover)
+        leading: person.photoBytes != null
+            ? ClipOval(
+                child: Image.memory(
+                  person.photoBytes!,
+                  height: 60,
+                  width: 60,
+                  fit: BoxFit.cover,
+                ),
+              )
             : const Icon(Icons.person, size: 60),
         title: Text(person.fullName,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
