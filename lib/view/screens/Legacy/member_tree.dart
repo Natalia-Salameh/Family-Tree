@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:family_tree_application/controller/add_child_controller.dart';
 import 'package:family_tree_application/controller/add_parent_controller%20copy.dart';
 import 'package:family_tree_application/controller/child_form_controller.dart';
@@ -72,7 +74,7 @@ class _TreeState extends State<MemberFamilyTreePage> {
     }
   }
 
-  void _initializeGraph() {
+  void _initializeGraph() async {
     graph = Graph(); // Clear the graph to start fresh
 
     // Initialize the root node using the person's memberId
@@ -80,12 +82,18 @@ class _TreeState extends State<MemberFamilyTreePage> {
     final String rootPersonName =
         "${memberLegacyController.firstName} ${memberLegacyController.family.value.familyName}";
     final ExtendedNode rootNode = ExtendedNode.dualId(rootPersonId);
+
+    // Fetch and set root node image
+    if (memberLegacyController.imageBytes != null) {
+      rootNode.setPrimaryImage(memberLegacyController.imageBytes);
+    }
     graph.addNode(rootNode);
     rootNode.setPrimaryGender(memberLegacyController.gender.value);
 
     nodeNames[rootPersonId] = [rootPersonName + " (Root)"];
     print("Root node added: Name = $rootPersonName, ID = $rootPersonId");
     initialNodeId = rootPersonId;
+
     // Expand the graph starting from the root node
     _expandNode(rootNode);
   }
@@ -97,6 +105,12 @@ class _TreeState extends State<MemberFamilyTreePage> {
     selectedNodeId = node.key!.value;
 
     for (var familyData in familyDataList) {
+      // Set spouse image if available
+      if (familyData.spouse.memberPhoto != null &&
+          familyData.spouse.memberPhoto.isNotEmpty) {
+        node.setSecondaryImage(base64Decode(familyData.spouse.memberPhoto));
+      }
+
       ExtendedNode? nodee =
           graph.getNodeUsingId(selectedNodeId) as ExtendedNode;
       node.setSecondaryId(nodee);
@@ -116,6 +130,12 @@ class _TreeState extends State<MemberFamilyTreePage> {
         nodeNames[child.memberId] = ["${child.firstName} ${child.familyName}"];
         print("Child added and connected to node: ${child.firstName}");
         childNode.setPrimaryGender(child.gender);
+
+        // Fetch and set child photo
+        if (child.memberPhoto != null && child.memberPhoto.isNotEmpty) {
+          childNode.setPrimaryImage(base64Decode(child.memberPhoto));
+        }
+
         _expandNode(childNode);
       }
     }
@@ -164,6 +184,8 @@ class _TreeState extends State<MemberFamilyTreePage> {
   Widget _nodeWidget(n.Node node) {
     final names = nodeNames[node.key?.value] ?? ["Unnamed"];
     bool isInitialPrimaryNode = node.key?.value == initialNodeId;
+    final extendedNode = node as ExtendedNode; // Cast node to ExtendedNode
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -182,41 +204,12 @@ class _TreeState extends State<MemberFamilyTreePage> {
                     shape: const CircleBorder(),
                     clipBehavior: Clip.hardEdge,
                     child: InkWell(
-                      onTap: () async {
-                        var marriageIdSelectedNode =
-                            (node as ExtendedNode).marriageKey?.value;
-
-                        childController.marriageId.text =
-                            marriageIdSelectedNode!;
-
-                        parentController.marriageId.text =
-                            marriageIdSelectedNode!;
-
-                        setState(() => selectedNodeId = node.key?.value);
-
-                        print(
-                            "selected node when adding child ${selectedNodeId}");
-                        childFormController.clearForm();
-
-                        // final result =
-                        await Get.toNamed(
-                          AppRoute.childForm,
-                          // arguments: "child"
-                        );
-
-                        // if (result == true) {
-                        final firstName =
-                            "${childFormController.firstNameController.text} ${childFormController.family}";
-                        final newChildId = childFormController.person1Id.text;
-
-                        _addChild(firstName, newChildId);
-                        // }
-                      },
+                      onTap: () async {},
                       child: const CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 12,
                         child: Icon(
-                          Icons.add,
+                          Icons.more_vert,
                           size: 20,
                           color: Colors.black,
                         ),
@@ -232,17 +225,22 @@ class _TreeState extends State<MemberFamilyTreePage> {
                   children: [
                     CircleAvatar(
                       radius: 30,
-                      backgroundImage:
-                          (node as ExtendedNode).getPrimaryGender == "Female"
+                      backgroundImage: extendedNode.primaryImage != null
+                          ? MemoryImage(extendedNode.primaryImage!)
+                              as ImageProvider
+                          : (extendedNode.getPrimaryGender == "Female"
                               ? const AssetImage(AppImageAsset.mother)
-                              : const AssetImage(AppImageAsset.father),
+                              : const AssetImage(AppImageAsset.father)),
                     ),
                     if (i != 0) ...[
                       CircleAvatar(
                         radius: 30,
-                        backgroundImage: (node).getSecondaryGender == "Female"
-                            ? const AssetImage(AppImageAsset.mother)
-                            : const AssetImage(AppImageAsset.father),
+                        backgroundImage: extendedNode.secondaryImage != null
+                            ? MemoryImage(extendedNode.secondaryImage!)
+                                as ImageProvider
+                            : (extendedNode.getSecondaryGender == "Female"
+                                ? const AssetImage(AppImageAsset.mother)
+                                : const AssetImage(AppImageAsset.father)),
                       ),
                     ],
                     Positioned(
@@ -253,12 +251,13 @@ class _TreeState extends State<MemberFamilyTreePage> {
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           onTap: () {
-                            setState(() => selectedNodeId = node.key?.value);
+                            setState(
+                                () => selectedNodeId = extendedNode.key?.value);
                             print(
                                 "selected node when adding child ${selectedNodeId}");
                             _showBottomSheet(context);
                           },
-                          child: node.secondaryKey?.value == null ||
+                          child: extendedNode.secondaryKey?.value == null ||
                                   isInitialPrimaryNode && i == 0
                               ? const CircleAvatar(
                                   backgroundColor: Colors.white,

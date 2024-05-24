@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:family_tree_application/controller/add_child_controller.dart';
 import 'package:family_tree_application/controller/add_parent_controller%20copy.dart';
 import 'package:family_tree_application/controller/child_form_controller.dart';
@@ -64,12 +66,17 @@ class _TreeState extends State<FamilyTreePage> {
     }
   }
 
-  void _initializeGraph() {
+  void _initializeGraph() async {
     graph = Graph();
     final String rootPersonId = childSpouseController.personIdController.text;
     final String rootPersonName =
         "${userLegacyController.firstName} ${userLegacyController.family.familyName}";
     final ExtendedNode rootNode = ExtendedNode.dualId(rootPersonId);
+
+    // Fetch and set root node image
+    if (userLegacyController.imageBytes != null) {
+      rootNode.setPrimaryImage(userLegacyController.imageBytes);
+    }
     graph.addNode(rootNode);
     rootNode.setPrimaryGender(userLegacyController.gender);
 
@@ -85,6 +92,12 @@ class _TreeState extends State<FamilyTreePage> {
     selectedNodeId = node.key!.value;
 
     for (var familyData in familyDataList) {
+      // Set spouse image if available
+      if (familyData.spouse.memberPhoto != null &&
+          familyData.spouse.memberPhoto.isNotEmpty) {
+        node.setSecondaryImage(base64Decode(familyData.spouse.memberPhoto));
+      }
+
       ExtendedNode? nodee =
           graph.getNodeUsingId(selectedNodeId) as ExtendedNode;
       node.setSecondaryId(nodee);
@@ -104,6 +117,12 @@ class _TreeState extends State<FamilyTreePage> {
         nodeNames[child.memberId] = ["${child.firstName} ${child.familyName}"];
         print("Child added and connected to node: ${child.firstName}");
         childNode.setPrimaryGender(child.gender);
+
+        // Fetch and set child photo
+        if (child.memberPhoto != null && child.memberPhoto.isNotEmpty) {
+          childNode.setPrimaryImage(base64Decode(child.memberPhoto));
+        }
+
         _expandNode(childNode);
       }
     }
@@ -150,6 +169,8 @@ class _TreeState extends State<FamilyTreePage> {
   Widget _nodeWidget(n.Node node) {
     final names = nodeNames[node.key?.value] ?? ["Unnamed"];
     bool isInitialPrimaryNode = node.key?.value == initialNodeId;
+    final extendedNode = node as ExtendedNode; // Cast node to ExtendedNode
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -189,17 +210,22 @@ class _TreeState extends State<FamilyTreePage> {
                   children: [
                     CircleAvatar(
                       radius: 30,
-                      backgroundImage:
-                          (node as ExtendedNode).getPrimaryGender == "Female"
+                      backgroundImage: extendedNode.primaryImage != null
+                          ? MemoryImage(extendedNode.primaryImage!)
+                              as ImageProvider
+                          : (extendedNode.getPrimaryGender == "Female"
                               ? const AssetImage(AppImageAsset.mother)
-                              : const AssetImage(AppImageAsset.father),
+                              : const AssetImage(AppImageAsset.father)),
                     ),
                     if (i != 0) ...[
                       CircleAvatar(
                         radius: 30,
-                        backgroundImage: (node).getSecondaryGender == "Female"
-                            ? const AssetImage(AppImageAsset.mother)
-                            : const AssetImage(AppImageAsset.father),
+                        backgroundImage: extendedNode.secondaryImage != null
+                            ? MemoryImage(extendedNode.secondaryImage!)
+                                as ImageProvider
+                            : (extendedNode.getSecondaryGender == "Female"
+                                ? const AssetImage(AppImageAsset.mother)
+                                : const AssetImage(AppImageAsset.father)),
                       ),
                     ],
                     Positioned(
@@ -210,12 +236,13 @@ class _TreeState extends State<FamilyTreePage> {
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           onTap: () {
-                            setState(() => selectedNodeId = node.key?.value);
+                            setState(
+                                () => selectedNodeId = extendedNode.key?.value);
                             print(
                                 "selected node when adding child ${selectedNodeId}");
                             //  _showBottomSheet(context);
                           },
-                          child: node.secondaryKey?.value == null ||
+                          child: extendedNode.secondaryKey?.value == null ||
                                   isInitialPrimaryNode && i == 0
                               ? const CircleAvatar(
                                   backgroundColor: Colors.white,
