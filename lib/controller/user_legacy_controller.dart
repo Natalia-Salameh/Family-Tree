@@ -23,10 +23,13 @@ class UserLegacyController extends GetxController {
   void onInit() {
     super.onInit();
     userId = Get.arguments['id'];
+    print("User ID received in UserLegacyPage: $userId");
+
     legacyInfo();
   }
 
   legacyInfo() async {
+    print(userId);
     var response = await NetworkHandler.getRequest(
       AppLink.userLegacy,
       includeToken: true,

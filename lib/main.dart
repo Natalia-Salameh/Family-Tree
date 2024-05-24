@@ -7,8 +7,11 @@ import 'package:family_tree_application/core/functions/network_handler.dart';
 import 'package:family_tree_application/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 void main() async {
+  await GetStorage.init();
+
   Get.put(ProgressController());
   Get.put(SignUpController());
   WidgetsFlutterBinding.ensureInitialized();

@@ -60,7 +60,7 @@ class UserLegacy extends StatelessWidget {
                           views: [
                             Container(
                                 alignment: Alignment.center,
-                                child: const FamilyTreePage()) ,
+                                child: const FamilyTreePage()),
                             Container(
                                 alignment: Alignment.center,
                                 child: Column(

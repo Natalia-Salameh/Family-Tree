@@ -63,6 +63,7 @@ dependencies:
   graph_display: ^0.1.1
   connectivity_plus: ^2.0.2
   google_sign_in: ^6.2.1
+  get_storage:
 dev_dependencies:
   flutter_test:
     sdk: flutter

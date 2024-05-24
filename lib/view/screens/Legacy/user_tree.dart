@@ -1,13 +1,20 @@
+import 'dart:ui';
+
 import 'package:family_tree_application/controller/add_child_controller.dart';
 import 'package:family_tree_application/controller/add_parent_controller%20copy.dart';
+import 'package:family_tree_application/controller/add_update_vote_controller.dart';
 import 'package:family_tree_application/controller/child_form_controller.dart';
+import 'package:family_tree_application/controller/delete_vote_controller.dart';
 import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
+import 'package:family_tree_application/controller/get_vote_controller.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/controller/user_legacy_controller.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/model/extended_node_model.dart';
+import 'package:family_tree_application/services.dart';
+import 'package:family_tree_application/view/screens/Legacy/user_legacy.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphview/GraphView.dart';
@@ -47,6 +54,10 @@ class _TreeState extends State<FamilyTreePage> {
   final ChildFormController childFormController =
       Get.put(ChildFormController());
   String? initialNodeId;
+  final AddVoteController addVoteController = Get.put(AddVoteController());
+  final GetVoteController getVoteController = Get.put(GetVoteController());
+  final DeleteVoteController deleteVoteController =
+      Get.put(DeleteVoteController());
 
   @override
   void initState() {
@@ -173,7 +184,7 @@ class _TreeState extends State<FamilyTreePage> {
                         backgroundColor: Colors.white,
                         radius: 12,
                         child: Icon(
-                          Icons.more_vert,
+                          Icons.add,
                           size: 20,
                           color: Colors.black,
                         ),
@@ -203,32 +214,133 @@ class _TreeState extends State<FamilyTreePage> {
                       ),
                     ],
                     Positioned(
-                      right: 0,
-                      bottom: 0,
+                      right: -10,
+                      bottom: -10,
                       child: Material(
-                        shape: const CircleBorder(),
-                        clipBehavior: Clip.hardEdge,
-                        child: InkWell(
-                          onTap: () {
-                            setState(() => selectedNodeId = node.key?.value);
-                            print(
-                                "selected node when adding child ${selectedNodeId}");
-                            //  _showBottomSheet(context);
-                          },
-                          child: node.secondaryKey?.value == null ||
-                                  isInitialPrimaryNode && i == 0
-                              ? const CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 12,
-                                  child: Icon(
-                                    Icons.more_vert,
-                                    size: 20,
-                                    color: Colors.black,
+                          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: PopupMenuButton(
+                            onSelected: (value) {
+                              setState(() => selectedNodeId = node.key?.value);
+                              print(
+                                  "Selected node ID: ${node.key?.value} $selectedNodeId");
+                              if (value == "View Legacy") {
+                                Get.offAll(
+                                  () => UserLegacy(),
+                                  arguments: {'id': selectedNodeId},
+                                );
+                              } else if (value == "Confirm") {
+                                addVoteController.memberIdController.text =
+                                    selectedNodeId!;
+                                addVoteController.voteController.text =
+                                    "Confirm";
+                                addVoteController.reasonController.text =
+                                    "No_Reason";
+
+                                if (approvalService
+                                        .approvalMap[selectedNodeId!] ==
+                                    "Confirm") {
+                                  deleteVoteController.voteId =
+                                      getVoteController.id;
+                                  deleteVoteController.deleteVote();
+                                  approvalService.saveApproval(
+                                      selectedNodeId!, "");
+                                } else {
+                                  addVoteController.addVote();
+
+                                  approvalService.saveApproval(
+                                      selectedNodeId!, "Confirm");
+                                }
+
+                                print(
+                                    "Approve action for node ID ${node.key?.value}");
+                              } else if (value == "Report") {
+                                addVoteController.memberIdController.text =
+                                    selectedNodeId!;
+                                addVoteController.voteController.text =
+                                    "Report";
+                                addVoteController.reasonController.text =
+                                    "No_Reason";
+                                if (approvalService
+                                        .approvalMap[selectedNodeId!] ==
+                                    "Report") {
+                                  deleteVoteController.voteId =
+                                      getVoteController.id;
+                                  deleteVoteController.deleteVote();
+                                  approvalService.saveApproval(
+                                      selectedNodeId!, "");
+                                } else {
+                                  addVoteController.addVote();
+
+                                  approvalService.saveApproval(
+                                      selectedNodeId!, "Report");
+                                }
+
+                                print(
+                                    "Report action for node ID ${node.key?.value}");
+                              } else if (value == "add") {
+                                print(
+                                    "Add family member action for node ID ${node.key?.value}");
+                              }
+                            },
+                            itemBuilder: (context) {
+                              final isApproved = approvalService
+                                      .approvalMap[node.key?.value] ==
+                                  "Confirm";
+
+                              final isReported = approvalService
+                                      .approvalMap[node.key?.value] ==
+                                  "Report";
+
+                              return [
+                                const PopupMenuItem(
+                                  value: "View Legacy",
+                                  child: Text("View Legacy"),
+                                ),
+                                PopupMenuItem(
+                                  value: "Confirm",
+                                  child: Container(
+                                    color: isApproved
+                                        ? Color.fromARGB(255, 58, 125, 60)
+                                        : Colors.white,
+                                    child: Text(
+                                      "Approve",
+                                      style: TextStyle(
+                                          color: isApproved
+                                              ? Colors.white
+                                              : Colors.black),
+                                    ),
                                   ),
-                                )
-                              : Container(),
-                        ),
-                      ),
+                                ),
+                                PopupMenuItem(
+                                  value: "Report",
+                                  child: Container(
+                                    color: isReported
+                                        ? Color.fromARGB(255, 239, 27, 27)
+                                        : Colors.white,
+                                    child: Text(
+                                      "Report",
+                                      style: TextStyle(
+                                          color: isReported
+                                              ? Colors.white
+                                              : Colors.black),
+                                    ),
+                                  ),
+                                ),
+                                const PopupMenuItem(
+                                  value: "add",
+                                  child: Text("Add Family Member"),
+                                ),
+                              ];
+                            },
+                            icon: const CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 12,
+                              child: Icon(Icons.more_vert,
+                                  size: 20, color: Colors.black),
+                            ),
+                          )),
                     )
                   ],
                 ),
