@@ -41,14 +41,20 @@ class UserLegacy extends StatelessWidget {
                     alignment: Alignment.topCenter,
                     child: Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: ProfilePicture(
-                            name: "",
-                            radius: 31,
-                            fontsize: 21,
+                        if (userLegacyController.imageBytes != null)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: CircleAvatar(
+                              radius: 50, // Adjust the size as needed
+                              backgroundImage:
+                                  MemoryImage(userLegacyController.imageBytes!),
+                            ),
+                          )
+                        else
+                          CircleAvatar(
+                            radius: 40,
+                            child: Icon(Icons.person, size: 60), // Default icon
                           ),
-                        ),
                         Text(
                             "${userLegacyController.firstName} ${userLegacyController.secondName} ${userLegacyController.thirdName} ${userLegacyController.family.familyName}",
                             style: const TextStyle(

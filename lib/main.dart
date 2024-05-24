@@ -23,7 +23,7 @@ void main() async {
         initialRoute: (token == null ||
                 expiration == null ||
                 expiration.isBefore(DateTime.now()))
-            ? AppRoute.getStarted
+            ? AppRoute.home
             : AppRoute.home),
   );
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 List<HomePageModel> homePageModelFromJson(String str) =>
     List<HomePageModel>.from(
@@ -11,13 +12,15 @@ class HomePageModel {
   String id;
   String fullName;
   Gender gender;
-  dynamic memberPhoto;
+  String? memberPhoto;
+  Uint8List? photoBytes;
 
   HomePageModel({
     required this.id,
     required this.fullName,
     required this.gender,
-    required this.memberPhoto,
+    this.memberPhoto,
+    this.photoBytes,
   });
 
   factory HomePageModel.fromJson(Map<String, dynamic> json) => HomePageModel(
@@ -25,6 +28,9 @@ class HomePageModel {
         fullName: json["fullName"],
         gender: genderValues.map[json["gender"]]!,
         memberPhoto: json["memberPhoto"],
+        photoBytes: json["memberPhoto"] != null
+            ? base64Decode(json["memberPhoto"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {

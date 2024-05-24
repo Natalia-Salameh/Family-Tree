@@ -50,11 +50,14 @@ class ChildForm extends StatelessWidget {
                   children: [
                     //--------- Profile Image -----------
                     const SizedBox(height: 20),
-                    Profile(
-                      onImagePicked: (file) {
-                        childFormController.setImage(file);
-                      },
-                    ),
+                   Obx(() => Profile(
+                          onImagePicked: (file) {
+                            childFormController.setImage(
+                                file); // This will store the file in the controller
+                          },
+                          imageFile: childFormController.selectedFile
+                              .value, // Ensure this is displayed correctly
+                        )),
                     //--------- Full Name -----------
                     Row(
                       children: [

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:family_tree_application/controller/member_legacy_controller.dart';
 import 'package:family_tree_application/controller/update_legacy_controller.dart';
+import 'package:family_tree_application/controller/update_profile_image_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/Legacy/member_tree.dart';
@@ -9,11 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Legacy extends StatelessWidget {
   Legacy({super.key});
   final legacyController = Get.put(MemberLegacyController());
-
+  final updateController = Get.put(UpdateMemberLegacyProfile());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,14 +108,38 @@ class Legacy extends StatelessWidget {
               child: Obx(() {
                 return Column(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: ProfilePicture(
-                        name: "Natalia Salameh",
-                        radius: 31,
-                        fontsize: 21,
-                      ),
+                    Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        if (legacyController.imageBytes != null)
+                          CircleAvatar(
+                            radius:
+                                60, // Slightly increased size for visual enhancement
+                            backgroundImage:
+                                MemoryImage(legacyController.imageBytes!),
+                          )
+                        else
+                          const CircleAvatar(
+                            radius: 60,
+                            child: Icon(Icons.person,
+                                size: 70), // Adjusted size for consistency
+                          ),
+                        Container(
+                          height: 35,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[
+                                200], // Light background color for the icon
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.edit_sharp,
+                                color: Colors.blue),
+                            onPressed: () => _selectAndUploadImage(context),
+                          ),
+                        ),
+                      ],
                     ),
+                    SizedBox(height: 10),
                     Text(
                         "${legacyController.firstName.value} ${legacyController.secondName.value} ${legacyController.thirdName.value} ${legacyController.family.value.familyName}",
                         style: const TextStyle(
@@ -188,5 +216,56 @@ class Legacy extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _selectAndUploadImage(BuildContext context) async {
+    final picker = ImagePicker();
+    XFile? pickedFile;
+
+    // Show choice dialog to the user
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Choose option'),
+          content: Text(
+              'Would you like to take a photo or choose from your gallery?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Camera'),
+              onPressed: () async {
+                Navigator.pop(context);
+                pickedFile = await picker.pickImage(source: ImageSource.camera);
+                _processPickedFile(pickedFile);
+              },
+            ),
+            TextButton(
+              child: Text('Gallery'),
+              onPressed: () async {
+                Navigator.pop(context);
+                pickedFile =
+                    await picker.pickImage(source: ImageSource.gallery);
+                _processPickedFile(pickedFile);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _processPickedFile(XFile? pickedFile) async {
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      updateController.setImage(imageFile);
+      await updateController.updateImage(legacyController.family.value.id);
+      // Reload the legacy info after updating the image
+      legacyController.legacyInfo();
+    } else {
+      // Handle the user not selecting an image
+      Get.snackbar(
+          'No Image Selected', 'You have not selected any image to upload.',
+          snackPosition: SnackPosition.BOTTOM);
+    }
   }
 }

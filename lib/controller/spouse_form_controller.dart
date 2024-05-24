@@ -32,6 +32,7 @@ class SpouseFormController extends GetxController {
 
   void setImage(File file) {
     selectedFile.value = file;
+    print('Image file selected: ${file.path}');
   }
 
   void updateGender(Gender? gender) {
@@ -72,8 +73,6 @@ class SpouseFormController extends GetxController {
     List<File> files = [];
     if (selectedFile.value != null) {
       files.add(selectedFile.value!);
-      List<int> imageBytes = selectedFile.value!.readAsBytesSync();
-      photoBase64 = base64Encode(imageBytes);
     }
 
     MemberFormModel memberForm = MemberFormModel(
@@ -84,15 +83,11 @@ class SpouseFormController extends GetxController {
       gender: selectedGender.value.toString().split('.').last,
       dateOfBirth: DateTime.parse(birthDateController.text),
       //   dateOfDeath: DateTime.parse(deathDateController.text),
-      photoBase64: photoBase64,
     );
 
     var response = await NetworkHandler.postFormRequest(
-      AppLink.addMember,
-      memberForm.toJson(),
-      files: files,
-      includeToken: true,
-    );
+        AppLink.addMember, memberForm.toJson(),
+        includeToken: true, imageFile: selectedFile.value);
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
 

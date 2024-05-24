@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
 import 'package:family_tree_application/model/member_legacy_model.dart';
 import 'package:get/get.dart';
@@ -18,7 +21,7 @@ class MemberLegacyController extends GetxController {
   var gender = ''.obs;
   var dateOfBirth = ''.obs;
   var photoBase64 = ''.obs;
-
+  Uint8List? imageBytes;
   @override
   void onInit() {
     super.onInit();
@@ -42,6 +45,10 @@ class MemberLegacyController extends GetxController {
       gender.value = legacyInfoModel.gender;
       dateOfBirth.value = legacyInfoModel.dateOfBirth;
       childSpouseController.personIdController.text = legacyInfoModel.memberId;
+      if (legacyInfoModel.photoBase64 != null &&
+          legacyInfoModel.photoBase64.isNotEmpty) {
+        imageBytes = base64Decode(legacyInfoModel.photoBase64);
+      }
     } else {
       print('Failed to fetch family names: ${response.statusCode}');
       print('Error details: ${response.body}');

@@ -1,16 +1,15 @@
-import 'package:family_tree_application/controller/family_name_controller.dart';
-import 'package:family_tree_application/controller/search_controller.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
-import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/enums.dart';
+import 'package:family_tree_application/controller/family_name_controller.dart';
+import 'package:family_tree_application/view/widgets/profile.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 import 'package:family_tree_application/view/widgets/form/family_name.dart';
 import 'package:family_tree_application/view/widgets/form/full_name.dart';
 import 'package:family_tree_application/view/widgets/form/gender.dart';
-import 'package:family_tree_application/view/widgets/profile.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:family_tree_application/enums.dart';
+import 'package:family_tree_application/core/constants/colors.dart';
 
 class UserForm extends StatelessWidget {
   UserForm({super.key});
@@ -21,8 +20,6 @@ class UserForm extends StatelessWidget {
     final FamilyNameController familyNameController =
         Get.put(FamilyNameController());
     UserFormController userFormController = Get.put(UserFormController());
-    SearchPersonController searchPersonController =
-        Get.put(SearchPersonController());
 
     return Scaffold(
       appBar: AppBar(
@@ -49,11 +46,14 @@ class UserForm extends StatelessWidget {
                   children: [
                     //--------- Profile Image -----------
                     const SizedBox(height: 20),
-                    Profile(
-                      onImagePicked: (file) {
-                        userFormController.setImage(file);
-                      },
-                    ),
+                    Obx(() => Profile(
+                          onImagePicked: (file) {
+                            userFormController.setImage(
+                                file); // This will store the file in the controller
+                          },
+                          imageFile: userFormController.selectedFile
+                              .value, // Ensure this is displayed correctly
+                        )),
                     //--------- Full Name -----------
                     Row(
                       children: [
@@ -109,63 +109,55 @@ class UserForm extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Expanded(
-                            flex: 1,
-                            child: FamilyNameDropDown(
-                              textEditingController:
-                                  familyNameController.lastNameController,
-                              hint: "29".tr,
-                              isFamilyNameSelected: true,
-                            ))
+                          flex: 1,
+                          child: FamilyNameDropDown(
+                            textEditingController:
+                                familyNameController.lastNameController,
+                            hint: "29".tr,
+                            isFamilyNameSelected: true,
+                          ),
+                        ),
                       ],
                     ),
-                    // searchPersonController.search(
-                    //     "${userFormController.firstNameController.text} ${userFormController.secondNameController.text} ${userFormController.thirdNameController.text} ${familyNameController.lastNameController.text}"),
-                    // searchPersonController.fullNameResult.value ==
-                    //         "${userFormController.firstNameController.text} ${userFormController.secondNameController.text} ${userFormController.thirdNameController.text}"
-                    //     ? Text("This name already exists")
-                    //     : Text(""),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
+                    const SizedBox(height: 40),
                     //--------- Gender -----------
-                    Row(children: [
-                      Expanded(
+                    Row(
+                      children: [
+                        Expanded(
                           flex: 0,
                           child: Text(
                             "30".tr,
                             style: const TextStyle(fontSize: 16),
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "31".tr,
-                              genderValue: Gender.female,
-                              selectedGender:
-                                  userFormController.selectedGender.value,
-                              onGenderSelected: (val) {
-                                userFormController.updateGender(Gender.female);
-                              },
-                            )),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "32".tr,
-                              genderValue: Gender.male,
-                              selectedGender:
-                                  userFormController.selectedGender.value,
-                              onGenderSelected: (val) {
-                                userFormController.updateGender(Gender.male);
-                              },
-                            )),
-                      ),
-                    ]),
-                    const SizedBox(
-                      height: 10,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Obx(() => RadioButton(
+                                label: "31".tr,
+                                genderValue: Gender.female,
+                                selectedGender:
+                                    userFormController.selectedGender.value,
+                                onGenderSelected: (val) {
+                                  userFormController
+                                      .updateGender(Gender.female);
+                                },
+                              )),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Obx(() => RadioButton(
+                                label: "32".tr,
+                                genderValue: Gender.male,
+                                selectedGender:
+                                    userFormController.selectedGender.value,
+                                onGenderSelected: (val) {
+                                  userFormController.updateGender(Gender.male);
+                                },
+                              )),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 10),
                     //--------- Birth Date -----------
                     GestureDetector(
                       onTap: () {
@@ -222,44 +214,45 @@ class UserForm extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     //--------- Life Status -----------
-                    Row(children: [
-                      Expanded(
+                    Row(
+                      children: [
+                        Expanded(
                           flex: 0,
                           child: Text(
                             "Life Status".tr,
                             style: const TextStyle(fontSize: 16),
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "Alive".tr,
-                              genderValue: LifeStatus.alive,
-                              selectedGender:
-                                  userFormController.lifeStatus.value,
-                              onGenderSelected: (val) {
-                                userFormController
-                                    .updateLifeStatus(LifeStatus.alive);
-                              },
-                            )),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "Dead".tr,
-                              genderValue: LifeStatus.dead,
-                              selectedGender:
-                                  userFormController.lifeStatus.value,
-                              onGenderSelected: (val) {
-                                userFormController
-                                    .updateLifeStatus(LifeStatus.dead);
-                              },
-                            )),
-                      ),
-                    ]),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Obx(() => RadioButton(
+                                label: "Alive".tr,
+                                genderValue: LifeStatus.alive,
+                                selectedGender:
+                                    userFormController.lifeStatus.value,
+                                onGenderSelected: (val) {
+                                  userFormController
+                                      .updateLifeStatus(LifeStatus.alive);
+                                },
+                              )),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Obx(() => RadioButton(
+                                label: "Dead".tr,
+                                genderValue: LifeStatus.dead,
+                                selectedGender:
+                                    userFormController.lifeStatus.value,
+                                onGenderSelected: (val) {
+                                  userFormController
+                                      .updateLifeStatus(LifeStatus.dead);
+                                },
+                              )),
+                        ),
+                      ],
+                    ),
                     //--------- Death Date -----------
                     Obx(() => Visibility(
                           visible: userFormController.lifeStatus.value ==
@@ -323,9 +316,7 @@ class UserForm extends StatelessWidget {
                             ),
                           ),
                         )),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     SizedBox(
                       child: Button(
                           onPressed: () {
@@ -345,7 +336,7 @@ class UserForm extends StatelessWidget {
                                   style: const TextStyle(
                                       color: CustomColors.white),
                                 )),
-                    )
+                    ),
                   ],
                 ),
               ),
