@@ -10,7 +10,7 @@
 
     <application
         android:label="family_tree_application"
-        android:name="${applicationName}"
+        android:name="${Ajial}"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true"> <!-- Add this line if targeting API level 29 or
         higher -->

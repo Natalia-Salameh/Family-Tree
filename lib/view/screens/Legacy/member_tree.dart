@@ -2,20 +2,23 @@ import 'dart:convert';
 
 import 'package:family_tree_application/controller/add_child_controller.dart';
 import 'package:family_tree_application/controller/add_parent_controller%20copy.dart';
+import 'package:family_tree_application/controller/add_update_vote_controller.dart';
 import 'package:family_tree_application/controller/child_form_controller.dart';
+import 'package:family_tree_application/controller/delete_vote_controller.dart';
 import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
+import 'package:family_tree_application/controller/get_vote_controller.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/controller/member_legacy_controller.dart';
 import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/model/extended_node_model.dart';
-import 'package:family_tree_application/view/widgets/GetxBottom_sheet.dart';
+import 'package:family_tree_application/services.dart';
+import 'package:family_tree_application/view/screens/Legacy/user_legacy.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:graphview/GraphView.dart' as n;
-import 'package:family_tree_application/core/constants/routes.dart';
 
 class MemberFamilyTreePage extends StatefulWidget {
   const MemberFamilyTreePage({Key? key}) : super(key: key);
@@ -48,7 +51,11 @@ class _TreeState extends State<MemberFamilyTreePage> {
   final ParentController parentController = Get.put(ParentController());
   final ChildFormController childFormController =
       Get.put(ChildFormController());
-  bool isLoading = true; // Add a loading state
+  bool isLoading = true; 
+  final AddVoteController addVoteController = Get.put(AddVoteController());
+  final GetVoteController getVoteController = Get.put(GetVoteController());
+  final DeleteVoteController deleteVoteController =
+      Get.put(DeleteVoteController());
 
   @override
   void initState() {
@@ -209,7 +216,7 @@ class _TreeState extends State<MemberFamilyTreePage> {
                         backgroundColor: Colors.white,
                         radius: 12,
                         child: Icon(
-                          Icons.more_vert,
+                          Icons.add,
                           size: 20,
                           color: Colors.black,
                         ),
@@ -244,33 +251,133 @@ class _TreeState extends State<MemberFamilyTreePage> {
                       ),
                     ],
                     Positioned(
-                      right: 0,
-                      bottom: 0,
+                      right: -10,
+                      bottom: -10,
                       child: Material(
-                        shape: const CircleBorder(),
-                        clipBehavior: Clip.hardEdge,
-                        child: InkWell(
-                          onTap: () {
-                            setState(
-                                () => selectedNodeId = extendedNode.key?.value);
-                            print(
-                                "selected node when adding child ${selectedNodeId}");
-                            _showBottomSheet(context);
-                          },
-                          child: extendedNode.secondaryKey?.value == null ||
-                                  isInitialPrimaryNode && i == 0
-                              ? const CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 12,
-                                  child: Icon(
-                                    Icons.add,
-                                    size: 20,
-                                    color: Colors.black,
+                          color: Colors.transparent,
+                          shape: const CircleBorder(),
+                          clipBehavior: Clip.hardEdge,
+                          child: PopupMenuButton(
+                            onSelected: (value) {
+                              setState(() => selectedNodeId = node.key?.value);
+                              print(
+                                  "Selected node ID: ${node.key?.value} $selectedNodeId");
+                              if (value == "View Legacy") {
+                                Get.offAll(
+                                  () => UserLegacy(),
+                                  arguments: {'id': selectedNodeId},
+                                );
+                              } else if (value == "Confirm") {
+                                addVoteController.memberIdController.text =
+                                    selectedNodeId!;
+                                addVoteController.voteController.text =
+                                    "Confirm";
+                                addVoteController.reasonController.text =
+                                    "No_Reason";
+
+                                if (approvalService
+                                        .approvalMap[selectedNodeId!] ==
+                                    "Confirm") {
+                                  deleteVoteController.voteId =
+                                      getVoteController.id;
+                                  deleteVoteController.deleteVote();
+                                  approvalService.saveApproval(
+                                      selectedNodeId!, "");
+                                } else {
+                                  addVoteController.addVote();
+
+                                  approvalService.saveApproval(
+                                      selectedNodeId!, "Confirm");
+                                }
+
+                                print(
+                                    "Approve action for node ID ${node.key?.value}");
+                              } else if (value == "Report") {
+                                addVoteController.memberIdController.text =
+                                    selectedNodeId!;
+                                addVoteController.voteController.text =
+                                    "Report";
+                                addVoteController.reasonController.text =
+                                    "No_Reason";
+                                if (approvalService
+                                        .approvalMap[selectedNodeId!] ==
+                                    "Report") {
+                                  deleteVoteController.voteId =
+                                      getVoteController.id;
+                                  deleteVoteController.deleteVote();
+                                  approvalService.saveApproval(
+                                      selectedNodeId!, "");
+                                } else {
+                                  addVoteController.addVote();
+
+                                  approvalService.saveApproval(
+                                      selectedNodeId!, "Report");
+                                }
+
+                                print(
+                                    "Report action for node ID ${node.key?.value}");
+                              } else if (value == "add") {
+                                print(
+                                    "Add family member action for node ID ${node.key?.value}");
+                              }
+                            },
+                            itemBuilder: (context) {
+                              final isApproved = approvalService
+                                      .approvalMap[node.key?.value] ==
+                                  "Confirm";
+
+                              final isReported = approvalService
+                                      .approvalMap[node.key?.value] ==
+                                  "Report";
+
+                              return [
+                                const PopupMenuItem(
+                                  value: "View Legacy",
+                                  child: Text("View Legacy"),
+                                ),
+                                PopupMenuItem(
+                                  value: "Confirm",
+                                  child: Container(
+                                    color: isApproved
+                                        ? Color.fromARGB(255, 58, 125, 60)
+                                        : Colors.white,
+                                    child: Text(
+                                      "Approve",
+                                      style: TextStyle(
+                                          color: isApproved
+                                              ? Colors.white
+                                              : Colors.black),
+                                    ),
                                   ),
-                                )
-                              : Container(),
-                        ),
-                      ),
+                                ),
+                                PopupMenuItem(
+                                  value: "Report",
+                                  child: Container(
+                                    color: isReported
+                                        ? Color.fromARGB(255, 239, 27, 27)
+                                        : Colors.white,
+                                    child: Text(
+                                      "Report",
+                                      style: TextStyle(
+                                          color: isReported
+                                              ? Colors.white
+                                              : Colors.black),
+                                    ),
+                                  ),
+                                ),
+                                const PopupMenuItem(
+                                  value: "add",
+                                  child: Text("Add Family Member"),
+                                ),
+                              ];
+                            },
+                            icon: const CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 12,
+                              child: Icon(Icons.more_vert,
+                                  size: 20, color: Colors.black),
+                            ),
+                          )),
                     )
                   ],
                 ),
@@ -289,103 +396,6 @@ class _TreeState extends State<MemberFamilyTreePage> {
           ]
         ]),
       ],
-    );
-  }
-
-  void _addSpouse(String name, String spouseId, String marriageId) {
-    if (selectedNodeId == null) return;
-    ExtendedNode? node = graph.getNodeUsingId(selectedNodeId) as ExtendedNode;
-
-    node.setSecondaryId(spouseId);
-    node.setMarriageId(marriageId);
-    node.setSecondaryGender(spouseFormController.gender);
-    final names = nodeNames[selectedNodeId];
-
-    names!.add(name);
-
-    setState(() {});
-  }
-
-  void _addChild(String name, String newChildId) {
-    if (selectedNodeId == null) return;
-    final ExtendedNode childNode =
-        ExtendedNode.dualId(newChildId, childFormController.gender);
-    graph.addNode(childNode);
-    graph.addEdge(graph.getNodeUsingId(selectedNodeId!), childNode);
-    nodeNames[newChildId] = [name];
-    setState(() {});
-  }
-
-  void _addParent(String name, String newParent1Id, String marriageId) async {
-    final ExtendedNode extendedNode =
-        ExtendedNode.dualId(newParent1Id, userFormController.gender);
-    graph.addNode(extendedNode);
-    graph.addEdge(extendedNode, graph.getNodeUsingId(selectedNodeId!));
-
-    extendedNode.setPrimaryGender(userFormController.gender);
-    nodeNames[newParent1Id] = [name];
-
-    final firstName =
-        "${spouseFormController.firstNameController.text} ${spouseFormController.family}";
-    final newParent2Id = spouseFormController.person2Id.text;
-
-    ExtendedNode? node = graph.getNodeUsingId(newParent1Id) as ExtendedNode;
-
-    node.setSecondaryId(newParent2Id);
-
-    node.setMarriageId(marriageId);
-
-    node.setSecondaryGender(spouseFormController.gender);
-
-    final names = nodeNames[newParent1Id];
-
-    names!.add(firstName);
-
-    setState(() {});
-  }
-
-  void _showBottomSheet(BuildContext context) {
-    Get.bottomSheet(
-      CustomBottomSheet(
-        children: [
-          GestureDetector(
-            onTap: () async {
-              userFormController.clearForm();
-
-              parentController.childId.text = selectedNodeId!;
-
-              await Get.offNamed(AppRoute.userForm, arguments: "parent");
-              // if (result == true) {
-              final person1FirstName =
-                  "${userFormController.firstNameController.text} ${userFormController.family}";
-              final newParent1Id = userFormController.person1Id.text;
-              final newMarriageId = parentController.marriageId.text;
-              _addParent(person1FirstName, newParent1Id, newMarriageId);
-              // }
-            },
-            child: Image.asset(AppImageAsset.mother),
-          ),
-          GestureDetector(
-            onTap: () async {
-              spouseFormController.clearForm();
-              // final result =
-              marriageFormController.selectedNodeIdPerson1.text =
-                  selectedNodeId!;
-              await Get.toNamed(AppRoute.spouseForm, arguments: "spouse");
-              // if (result == true) {
-              final firstName =
-                  "${spouseFormController.firstNameController.text} ${spouseFormController.family}";
-              final newSpouseId = spouseFormController.person2Id.text;
-              final newMarriageId = marriageFormController.marriageIda.text;
-              _addSpouse(firstName, newSpouseId, newMarriageId);
-              // }
-            },
-            child: Image.asset(AppImageAsset.couple, height: 50),
-          ),
-        ],
-      ),
-      isScrollControlled: true,
-      enableDrag: true,
     );
   }
 }
