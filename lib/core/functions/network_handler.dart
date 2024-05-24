@@ -46,10 +46,8 @@ class NetworkHandler {
   }
 
   static Future<http.Response> postFormRequest(
-      String url, Map<String, dynamic> data,
-      {Map<String, dynamic>? queryParams,
-      bool includeToken = false,
-      List<File>? files}) async {
+       String url, Map<String, dynamic> data,
+      {bool includeToken = false, File? imageFile}) async {
     if (!await _checkInternetConnection()) {
       throw Exception('No internet connection');
     }
@@ -62,35 +60,29 @@ class NetworkHandler {
     }
 
     var uri = Uri.parse(url);
-    if (queryParams != null) {
-      uri = uri.replace(queryParameters: queryParams);
-    }
-
     var request = http.MultipartRequest('POST', uri)..headers.addAll(headers);
 
     data.forEach((key, value) {
       request.fields[key] = value.toString();
     });
 
-    if (files != null) {
-      for (var file in files) {
-        var stream = http.ByteStream(file.openRead());
-        var length = await file.length();
-
-        var multipartFile = http.MultipartFile('file', stream, length,
-            filename: basename(file.path));
-        request.files.add(multipartFile);
-      }
+   if (imageFile != null) {
+      var stream = http.ByteStream(imageFile.openRead());
+      stream.cast();
+      var length = await imageFile.length();
+      var multipartFile = http.MultipartFile('MemberPhoto', stream, length,
+          filename: basename(imageFile.path));
+      request.files.add(multipartFile);
     }
 
     try {
       var streamedResponse = await request.send();
       return await http.Response.fromStream(streamedResponse);
     } catch (e) {
-      throw Exception('Failed to upload data');
+      throw Exception('Failed to upload data: $e');
     }
   }
-
+  
   static Future<http.Response> postRequest(String url, var data,
       {Map<String, dynamic>? queryParams, bool includeToken = false}) async {
     if (!await _checkInternetConnection()) {

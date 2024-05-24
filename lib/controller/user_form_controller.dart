@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:family_tree_application/controller/add_child_controller.dart';
-import 'package:family_tree_application/controller/marriage_form_controller.dart';
-import 'package:family_tree_application/core/constants/linkapi.dart';
-import 'package:family_tree_application/core/constants/routes.dart';
-import 'package:family_tree_application/core/functions/network_handler.dart';
-import 'package:family_tree_application/model/member_form_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:family_tree_application/core/constants/linkapi.dart';
+import 'package:family_tree_application/core/functions/network_handler.dart';
+import 'package:family_tree_application/model/member_form_model.dart';
 import 'package:family_tree_application/enums.dart';
+import 'package:family_tree_application/controller/marriage_form_controller.dart';
+import '../core/constants/routes.dart';
 
 class UserFormController extends GetxController {
   final MarriageFormController marriageFormController =
@@ -31,6 +29,7 @@ class UserFormController extends GetxController {
 
   void setImage(File file) {
     selectedFile.value = file;
+    print('Image file selected: ${file.path}');
   }
 
   void updateGender(Gender? gender) {
@@ -40,8 +39,6 @@ class UserFormController extends GetxController {
   void updateLifeStatus(LifeStatus? life) {
     lifeStatus.value = life;
   }
-
-  String? photoBase64;
 
   @override
   void onInit() {
@@ -67,12 +64,10 @@ class UserFormController extends GetxController {
     selectedFile.value = null;
   }
 
-  addForm() async {
+  void addForm() async {
     List<File> files = [];
     if (selectedFile.value != null) {
       files.add(selectedFile.value!);
-      List<int> imageBytes = selectedFile.value!.readAsBytesSync();
-      photoBase64 = base64Encode(imageBytes);
     }
 
     MemberFormModel memberForm = MemberFormModel(
@@ -82,25 +77,23 @@ class UserFormController extends GetxController {
       familyId: idController.text,
       gender: selectedGender.value.toString().split('.').last,
       dateOfBirth: DateTime.parse(birthDateController.text),
-      //   dateOfDeath: DateTime.parse(deathDateController.text),
-      photoBase64: photoBase64,
     );
 
+    print('MemberFormModel JSON: ${jsonEncode(memberForm.toJson())}');
+
     var response = await NetworkHandler.postFormRequest(
-      AppLink.addMember,
-      memberForm.toJson(),
-      files: files,
-      includeToken: true,
-    );
+        AppLink.addMember, memberForm.toJson(),
+        includeToken: true, imageFile: selectedFile.value);
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
 
-      //assign id to person1Id to use in graph node root/child
       person1Id.text = responseData['id'];
-
       marriageFormController.selectedNodeIdPerson1.text = responseData['id'];
 
-      print("created person one id ${person1Id.text}");
+      print("Created person one id ${person1Id.text}");
 
       family = responseData['family']['familyName'];
       gender = responseData['gender'];

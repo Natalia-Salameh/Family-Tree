@@ -26,10 +26,9 @@ class SpouseForm extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Spouse".tr),
-        centerTitle: true,
-        automaticallyImplyLeading: false
-      ),
+          title: Text("Add Spouse".tr),
+          centerTitle: true,
+          automaticallyImplyLeading: false),
       body: Form(
         key: formKey,
         child: SingleChildScrollView(
@@ -42,11 +41,14 @@ class SpouseForm extends StatelessWidget {
                   children: [
                     //--------- Profile Image -----------
                     const SizedBox(height: 20),
-                    Profile(
-                      onImagePicked: (file) {
-                        spouseFormController.setImage(file);
-                      },
-                    ),
+                    Obx(() => Profile(
+                          onImagePicked: (file) {
+                            spouseFormController.setImage(
+                                file); // This will store the file in the controller
+                          },
+                          imageFile: spouseFormController.selectedFile
+                              .value, // Ensure this is displayed correctly
+                        )),
                     //--------- Full Name -----------
                     Row(
                       children: [
@@ -130,7 +132,8 @@ class SpouseForm extends StatelessWidget {
                               selectedGender:
                                   spouseFormController.selectedGender.value,
                               onGenderSelected: (val) {
-                                spouseFormController.updateGender(Gender.female);
+                                spouseFormController
+                                    .updateGender(Gender.female);
                               },
                             )),
                       ),

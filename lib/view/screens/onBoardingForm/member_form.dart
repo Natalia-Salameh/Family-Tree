@@ -51,8 +51,11 @@ class MemberForm extends StatelessWidget {
                     ),
                     Profile(
                       onImagePicked: (file) {
-                        memberFormController.setImage(file);
+                        memberFormController.setImage(
+                            file); // This will store the file in the controller
                       },
+                      imageFile: memberFormController.selectedFile
+                          .value, // Ensure this is displayed correctly
                     ),
                     Row(
                       children: [

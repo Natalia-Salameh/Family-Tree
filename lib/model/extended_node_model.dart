@@ -1,3 +1,4 @@
+import 'dart:typed_data'; // Import for Uint8List
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 
@@ -6,12 +7,16 @@ class ExtendedNode extends Node {
   ValueKey? marriageId;
   String? primaryGender;
   String? secondaryGender;
+  Uint8List? primaryImage; // Add image properties
+  Uint8List? secondaryImage; // Add image properties
   dynamic primaryId;
 
   ExtendedNode.dualId(dynamic primaryId,
       [this.primaryGender,
+      this.primaryImage, // Include primary image in constructor
       dynamic secondaryId,
       this.secondaryGender,
+      this.secondaryImage, // Include secondary image in constructor
       this.marriageId])
       : super.Id(primaryId) {
     if (secondaryId != null) {
@@ -44,5 +49,13 @@ class ExtendedNode extends Node {
 
   void setSecondaryGender(String? value) {
     secondaryGender = value;
+  }
+
+  void setPrimaryImage(Uint8List? image) {
+    primaryImage = image;
+  }
+
+  void setSecondaryImage(Uint8List? image) {
+    secondaryImage = image;
   }
 }

@@ -87,11 +87,8 @@ class ChildFormController extends GetxController {
     );
 
     var response = await NetworkHandler.postFormRequest(
-      AppLink.addMember,
-      memberForm.toJson(),
-      files: files,
-      includeToken: true,
-    );
+        AppLink.addMember, memberForm.toJson(),
+        includeToken: true, imageFile: selectedFile.value);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       var responseData = jsonDecode(response.body);
