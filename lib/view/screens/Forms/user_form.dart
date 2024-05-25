@@ -45,7 +45,7 @@ class UserForm extends StatelessWidget {
                 child: Column(
                   children: [
                     //--------- Profile Image -----------
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 5),
                     Obx(() => Profile(
                           onImagePicked: (file) {
                             userFormController.setImage(
