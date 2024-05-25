@@ -34,7 +34,7 @@ class Profile extends StatelessWidget {
                         galleryColor: CustomColors.primaryColor,
                       ),
                       isEditable: true,
-                      imagePickerOptions: ImagePickerOptions(imageQuality: 6),
+                      imagePickerOptions: ImagePickerOptions(imageQuality: 10),
                       onChange: (File file) {
                         print("I changed the file to: ${file.path}");
                         onImagePicked(file);

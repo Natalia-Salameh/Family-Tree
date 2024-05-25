@@ -98,6 +98,9 @@ class SignUp extends StatelessWidget {
                         if (registerController.formKey.currentState!
                             .validate()) {
                           await registerController.signUp();
+                          // Navigate to the Home page and pass a flag
+                          Get.offNamed('/home',
+                              arguments: {'fromSignup': true});
                         }
                       },
                     ),

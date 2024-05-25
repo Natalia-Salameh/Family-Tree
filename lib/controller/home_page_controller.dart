@@ -10,12 +10,13 @@ class HomeController extends GetxController {
   RxList<HomePageModel> homePageList = <HomePageModel>[].obs;
   Set<String> memberIDs = {}; // Set to track unique member IDs
   int currentPage = 0;
-  ScrollController scrollController =
-      ScrollController(); // Controller for managing scroll events
+  late ScrollController scrollController;
+  // Controller for managing scroll events
 
   @override
   void onInit() {
     super.onInit();
+    scrollController = ScrollController();
     fetchHomePageMembers();
     setupScrollController();
   }
