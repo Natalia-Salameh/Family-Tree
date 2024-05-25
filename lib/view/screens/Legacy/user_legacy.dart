@@ -74,9 +74,9 @@ class UserLegacy extends StatelessWidget {
                                     ListTile(
                                       title: Text("35".tr),
                                       subtitle: Text(
-                                        userLegacyController.education == ""
-                                            ? "No Education added"
-                                            : userLegacyController.education,
+                                        userLegacyController.location == ""
+                                            ? "No Location added"
+                                            : userLegacyController.location,
                                       ),
                                     ),
                                     ListTile(

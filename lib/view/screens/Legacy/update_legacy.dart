@@ -37,7 +37,7 @@ class EditLegacy extends StatelessWidget {
               _buildTextField("Third Name", updateLegacyController.thirdName),
               SizedBox(height: 20),
               _buildSectionHeader('Professional Information'),
-              _buildTextField("Education", updateLegacyController.education),
+              _buildTextField("Location", updateLegacyController.location),
               _buildTextField("Work", updateLegacyController.work),
               SizedBox(height: 20),
               _buildSectionHeader('Personal Story'),

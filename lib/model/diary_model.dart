@@ -6,24 +6,24 @@ DiaryModel diaryModelFromJson(String str) =>
 String diaryModelToJson(DiaryModel data) => json.encode(data.toJson());
 
 class DiaryModel {
-  String education;
+  String location;
   String work;
   String legacyStory;
 
   DiaryModel({
-    required this.education,
+    required this.location,
     required this.work,
     required this.legacyStory,
   });
 
   factory DiaryModel.fromJson(Map<String, dynamic> json) => DiaryModel(
-        education: json["Education"],
+        location: json["Location"],
         work: json["Work"],
         legacyStory: json["LegacyStory"],
       );
 
   Map<String, dynamic> toJson() => {
-        "Education": education,
+        "Location": location,
         "Work": work,
         "LegacyStory": legacyStory,
       };

@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DiaryController extends GetxController {
-  final TextEditingController educationController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
   final TextEditingController workController = TextEditingController();
   final TextEditingController diaryController = TextEditingController();
 
   getStarted() async {
     DiaryModel diaryData = DiaryModel(
-      education: educationController.text,
+      location: locationController.text,
       work: workController.text,
       legacyStory: diaryController.text,
     );

@@ -9,7 +9,7 @@ String userLegacyModelToJson(UserLegacyModel data) =>
 class UserLegacyModel {
   String memberId;
   bool userHasAccount;
-  String education;
+  String location;
   String work;
   String legacyStory;
   String firstName;
@@ -27,7 +27,7 @@ class UserLegacyModel {
   UserLegacyModel({
     required this.memberId,
     required this.userHasAccount,
-    required this.education,
+    required this.location,
     required this.work,
     required this.legacyStory,
     required this.firstName,
@@ -47,7 +47,7 @@ class UserLegacyModel {
       UserLegacyModel(
         memberId: json["memberId"],
         userHasAccount: json["userHasAccount"],
-        education: json["education"],
+        location: json["location"],
         work: json["work"],
         legacyStory: json["legacyStory"],
         firstName: json["firstName"],
@@ -66,7 +66,7 @@ class UserLegacyModel {
   Map<String, dynamic> toJson() => {
         "memberId": memberId,
         "userHasAccount": userHasAccount,
-        "education": education,
+        "location": location,
         "work": work,
         "legacyStory": legacyStory,
         "firstName": firstName,

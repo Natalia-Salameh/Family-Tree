@@ -11,7 +11,7 @@ class MemberLegacyController extends GetxController {
   final ChildSpouseController childSpouseController =
       Get.put(ChildSpouseController());
   static MemberLegacyController get to => Get.find();
-  var education = ''.obs;
+  var location = ''.obs;
   var work = ''.obs;
   var legacyStory = ''.obs;
   var firstName = ''.obs;
@@ -35,7 +35,7 @@ class MemberLegacyController extends GetxController {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       LegacyModel legacyInfoModel = accountInfoModelFromJson(response.body);
-      education.value = legacyInfoModel.education;
+      location.value = legacyInfoModel.location;
       work.value = legacyInfoModel.work;
       legacyStory.value = legacyInfoModel.legacyStory;
       firstName.value = legacyInfoModel.firstName;

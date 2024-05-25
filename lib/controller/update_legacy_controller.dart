@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 class UpdateLegacyController extends GetxController {
   var family = Family(id: '', familyName: '').obs;
   var selectedFamilyId = ''.obs;
-  var education = ''.obs;
+  var location = ''.obs;
   var work = ''.obs;
   var legacyStory = ''.obs;
   var firstName = ''.obs;
@@ -26,7 +26,7 @@ class UpdateLegacyController extends GetxController {
   }
 
   void loadInitialData(MemberLegacyController data) {
-    education.value = data.education.value;
+    location.value = data.location.value;
     work.value = data.work.value;
     legacyStory.value = data.legacyStory.value;
     firstName.value = data.firstName.value;
@@ -46,7 +46,7 @@ class UpdateLegacyController extends GetxController {
 
   void updateLegacyInfo() async {
     var payload = {
-      'education': education.value,
+      'location': location.value,
       'work': work.value,
       'legacyStory': legacyStory.value,
       'firstName': firstName.value,

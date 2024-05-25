@@ -5,10 +5,10 @@ class ApprovalService extends GetxService {
   final GetStorage storage = GetStorage();
   final String approvalKey = 'approvalMap';
 
-  Map<String, String> get approvalMap => storage.read(approvalKey);
+  Map<String, dynamic> get approvalMap => storage.read(approvalKey);
 
   void saveApproval(String nodeId, String status) {
-    Map<String, String> currentMap = approvalMap;
+    Map<String, dynamic> currentMap = approvalMap;
     currentMap[nodeId] = status;
     storage.write(approvalKey, currentMap);
   }

@@ -158,9 +158,9 @@ class Legacy extends StatelessWidget {
                                 ListTile(
                                   title: Text("35".tr),
                                   subtitle: Text(
-                                    legacyController.education.value.isEmpty
-                                        ? "No Education added"
-                                        : legacyController.education.value,
+                                    legacyController.location.value.isEmpty
+                                        ? "No Location added"
+                                        : legacyController.location.value,
                                   ),
                                 ),
                                 ListTile(

@@ -44,7 +44,7 @@ class Diary extends StatelessWidget {
                     height: 40,
                     child: BorderedCustomTextForm(
                       hintText: "35".tr,
-                      myController: storyController.educationController,
+                      myController: storyController.locationController,
                     ),
                   ),
                   const SizedBox(

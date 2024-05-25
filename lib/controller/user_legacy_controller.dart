@@ -10,7 +10,7 @@ import 'package:family_tree_application/core/constants/linkapi.dart';
 class UserLegacyController extends GetxController {
   final ChildSpouseController childSpouseController =
       Get.put(ChildSpouseController());
-  String education = '';
+  String location = '';
   String work = '';
   String legacyStory = '';
   String firstName = '';
@@ -41,7 +41,7 @@ class UserLegacyController extends GetxController {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       UserLegacyModel legacyInfoModel = userLegacyModelFromJson(response.body);
-      education = legacyInfoModel.education;
+      location = legacyInfoModel.location;
       work = legacyInfoModel.work;
       legacyStory = legacyInfoModel.legacyStory;
       firstName = legacyInfoModel.firstName;

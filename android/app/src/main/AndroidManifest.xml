@@ -1,8 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- For Android 10 (API level 29) or higher, use the attribute
     android:requestLegacyExternalStorage="true" in your application tag to enable legacy storage
     model -->
@@ -10,7 +8,7 @@
 
     <application
         android:label="family_tree_application"
-        android:name="${Ajial}"
+        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true"> <!-- Add this line if targeting API level 29 or
         higher -->
