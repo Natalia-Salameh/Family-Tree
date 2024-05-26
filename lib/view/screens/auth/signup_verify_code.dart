@@ -18,6 +18,9 @@ class VerifyCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = Get.arguments;
+    final bool fromSignup = args != null && args['fromSignup'] == true;
+
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -110,7 +113,12 @@ class VerifyCode extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 40),
                   child: VerifyButton(
                     onTap: () async {
-                      await verifyEmailController.verifyEmail();
+                      bool isVerified =
+                          await verifyEmailController.verifyEmail();
+                      if (isVerified) {
+                        Get.offNamed('/home',
+                            arguments: {'fromSignup': fromSignup});
+                      }
                     },
                   ),
                 ),

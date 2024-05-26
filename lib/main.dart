@@ -1,4 +1,5 @@
 import 'package:family_tree_application/Locale/locale.dart';
+import 'package:family_tree_application/controller/home_page_controller.dart';
 
 import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/controller/signup_controller.dart';
@@ -11,7 +12,7 @@ import 'package:get_storage/get_storage.dart';
 
 void main() async {
   await GetStorage.init();
-
+  Get.put(HomeController(), permanent: true); 
   Get.put(ProgressController());
   Get.put(SignUpController());
   WidgetsFlutterBinding.ensureInitialized();

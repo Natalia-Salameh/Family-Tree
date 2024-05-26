@@ -30,6 +30,7 @@ class SignUpController extends GetxController {
       print(response.body);
       Get.toNamed(AppRoute.verifyCode, arguments: {
         'email': emailController.text,
+        'fromSignup': true,
       });
     } else {
       // Determine the appropriate message key based on the 'titel' from the response
