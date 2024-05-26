@@ -22,6 +22,7 @@ class MemberLegacyController extends GetxController {
   var dateOfBirth = ''.obs;
   var photoBase64 = ''.obs;
   Uint8List? imageBytes;
+  var decision = ''.obs;
   @override
   void onInit() {
     super.onInit();
@@ -45,6 +46,7 @@ class MemberLegacyController extends GetxController {
       gender.value = legacyInfoModel.gender;
       dateOfBirth.value = legacyInfoModel.dateOfBirth;
       childSpouseController.personIdController.text = legacyInfoModel.memberId;
+      decision.value = legacyInfoModel.decision;
       if (legacyInfoModel.photoBase64 != null &&
           legacyInfoModel.photoBase64.isNotEmpty) {
         imageBytes = base64Decode(legacyInfoModel.photoBase64);

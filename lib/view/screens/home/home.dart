@@ -91,11 +91,6 @@ class _HomeState extends State<Home> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image.asset(
-              AppImageAsset.logo,
-              height: 40,
-            ),
-            SizedBox(width: 10),
             Text(
               "Ajial",
               style: GoogleFonts.lobster(
@@ -197,7 +192,7 @@ class PersonCard extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(Icons.arrow_forward_ios,
-                  color: CustomColors.primaryColor),
+                  color: CustomColors.black),
               onPressed: () {
                 Get.toNamed(AppRoute.userLegacy, arguments: {'id': person.id});
               },

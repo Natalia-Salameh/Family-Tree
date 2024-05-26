@@ -7,23 +7,29 @@ class ExtendedNode extends Node {
   ValueKey? marriageId;
   String? primaryGender;
   String? secondaryGender;
-  Uint8List? primaryImage; // Add image properties
-  Uint8List? secondaryImage; // Add image properties
-  dynamic primaryId;
+  Uint8List? primaryImage;
+  Uint8List? secondaryImage;
+  ValueKey primaryId; // Changed to ValueKey
+  String? primaryState;
+  String? secondaryState;
 
-  ExtendedNode.dualId(dynamic primaryId,
-      [this.primaryGender,
-      this.primaryImage, // Include primary image in constructor
-      dynamic secondaryId,
-      this.secondaryGender,
-      this.secondaryImage, // Include secondary image in constructor
-      this.marriageId])
-      : super.Id(primaryId) {
+  ExtendedNode.dualId(
+    dynamic primaryId, [
+    this.primaryGender,
+    this.primaryImage,
+    dynamic secondaryId,
+    this.secondaryGender,
+    this.secondaryImage,
+    dynamic marriageId, 
+    this.primaryState,
+    this.secondaryState,
+  ])  : primaryId = ValueKey(primaryId), 
+        super.Id(primaryId) {
     if (secondaryId != null) {
       this.secondaryId = ValueKey(secondaryId);
     }
     if (marriageId != null) {
-      marriageId = ValueKey(marriageId);
+      this.marriageId = ValueKey(marriageId);
     }
   }
 
@@ -37,11 +43,17 @@ class ExtendedNode extends Node {
 
   ValueKey? get secondaryKey => secondaryId;
 
+  ValueKey get primaryKey => primaryId; 
+
   ValueKey? get marriageKey => marriageId;
 
   String? get getPrimaryGender => primaryGender;
 
   String? get getSecondaryGender => secondaryGender;
+
+  String? get getPrimaryState => primaryState;
+
+  String? get getSecondaryState => secondaryState;
 
   void setPrimaryGender(String? value) {
     primaryGender = value;
@@ -57,5 +69,13 @@ class ExtendedNode extends Node {
 
   void setSecondaryImage(Uint8List? image) {
     secondaryImage = image;
+  }
+
+  void setPrimaryState(String? state) {
+    primaryState = state;
+  }
+
+  void setSecondaryState(String? state) {
+    secondaryState = state;
   }
 }

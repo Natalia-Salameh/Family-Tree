@@ -7,6 +7,7 @@ import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/Legacy/member_tree.dart';
 import 'package:family_tree_application/view/screens/Legacy/update_legacy.dart';
+import 'package:family_tree_application/view/widgets/bottom_nav.dart';
 import 'package:family_tree_application/view/widgets/tabbar.dart';
 import 'package:flutter/material.dart';
 

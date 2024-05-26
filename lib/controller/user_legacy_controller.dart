@@ -11,6 +11,7 @@ class UserLegacyController extends GetxController {
   final ChildSpouseController childSpouseController =
       Get.put(ChildSpouseController());
   String location = '';
+  String decision = '';
   String work = '';
   String legacyStory = '';
   String firstName = '';
@@ -22,10 +23,11 @@ class UserLegacyController extends GetxController {
   String photoBase64 = '';
   String userId = '';
   Uint8List? imageBytes;
+
   @override
   void onInit() {
     super.onInit();
-    userId = Get.arguments['id'];
+    userId = Get.arguments?['id'] ?? Get.parameters['id'] ?? '';
     print("User ID received in UserLegacyPage: $userId");
 
     legacyInfo();
@@ -50,6 +52,7 @@ class UserLegacyController extends GetxController {
       family = legacyInfoModel.family;
       gender = legacyInfoModel.gender;
       dateOfBirth = legacyInfoModel.dateOfBirth;
+      decision = legacyInfoModel.decision;
       childSpouseController.personIdController.text = legacyInfoModel.memberId;
       if (legacyInfoModel.photoBase64 != null &&
           legacyInfoModel.photoBase64.isNotEmpty) {

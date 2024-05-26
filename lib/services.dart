@@ -1,3 +1,5 @@
+import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/view/screens/Legacy/user_legacy.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -23,3 +25,6 @@ class ApprovalService extends GetxService {
 }
 
 final ApprovalService approvalService = Get.put(ApprovalService());
+
+
+

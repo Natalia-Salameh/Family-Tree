@@ -1,8 +1,10 @@
 import 'package:family_tree_application/controller/user_legacy_controller.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/services.dart';
 import 'package:family_tree_application/view/screens/Legacy/user_tree.dart';
+import 'package:family_tree_application/view/widgets/bottom_nav.dart';
 import 'package:family_tree_application/view/widgets/tabbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 
 import 'package:get/get.dart';
 
@@ -24,6 +26,12 @@ class UserLegacy extends StatelessWidget {
         } else {
           return Scaffold(
             appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Get.offAllNamed(AppRoute.home);
+                },
+              ),
               centerTitle: true,
               title: Text(
                 "42".tr,
@@ -128,6 +136,18 @@ class UserLegacy extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+            bottomNavigationBar: CustomFloatingBottomBar(
+              selectedIndex: 0,
+              onItemTapped: (index) {
+                if (index == 0) {
+                  Get.offNamed(AppRoute.home);
+                } else if (index == 1) {
+                  Get.toNamed(AppRoute.userForm);
+                } else if (index == 2) {
+                  Get.offNamed(AppRoute.legacy);
+                }
+              },
             ),
           );
         }
