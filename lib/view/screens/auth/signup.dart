@@ -98,6 +98,7 @@ class SignUp extends StatelessWidget {
                         if (registerController.formKey.currentState!
                             .validate()) {
                           await registerController.signUp();
+                          
                         }
                       },
                     ),

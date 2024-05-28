@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:family_tree_application/controller/add_child_controller.dart';
 import 'package:family_tree_application/controller/add_parent_controller%20copy.dart';
 import 'package:family_tree_application/controller/add_update_vote_controller.dart';
@@ -13,10 +14,12 @@ import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/controller/user_legacy_controller.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/model/extended_node_model.dart';
 import 'package:family_tree_application/services.dart';
 import 'package:family_tree_application/view/screens/Legacy/user_legacy.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:graphview/GraphView.dart' as n;
@@ -69,13 +72,6 @@ class _TreeState extends State<FamilyTreePage> {
     });
   }
 
-  void _clearGraph() {
-    List<n.Node> nodes = List.from(graph.nodes);
-    for (var node in nodes) {
-      graph.removeNode(node);
-    }
-  }
-
   void _initializeGraph() async {
     graph = Graph();
     final String rootPersonId = childSpouseController.personIdController.text;
@@ -83,13 +79,13 @@ class _TreeState extends State<FamilyTreePage> {
         "${userLegacyController.firstName} ${userLegacyController.family.familyName}";
     final ExtendedNode rootNode = ExtendedNode.dualId(rootPersonId);
 
-    // Fetch and set root node image
     if (userLegacyController.imageBytes != null) {
       rootNode.setPrimaryImage(userLegacyController.imageBytes);
     }
     graph.addNode(rootNode);
     rootNode.setPrimaryGender(userLegacyController.gender);
-
+    rootNode.setPrimaryState(userLegacyController.decision);
+    initialNodeId = rootPersonId;
     nodeNames[rootPersonId] = [rootPersonName + " (Root)"];
     print("Root node added: Name = $rootPersonName, ID = $rootPersonId");
 
@@ -99,25 +95,25 @@ class _TreeState extends State<FamilyTreePage> {
   void _expandNode(ExtendedNode node) async {
     var familyDataList =
         await childSpouseController.fetchSpouseAndChildrenById(node.key!.value);
-    selectedNodeId = node.key!.value;
 
     for (var familyData in familyDataList) {
-      // Set spouse image if available
       if (familyData.spouse.memberPhoto != null &&
           familyData.spouse.memberPhoto.isNotEmpty) {
         node.setSecondaryImage(base64Decode(familyData.spouse.memberPhoto));
       }
 
-      ExtendedNode? nodee =
-          graph.getNodeUsingId(selectedNodeId) as ExtendedNode;
-      node.setSecondaryId(nodee);
-      node.setMarriageId(familyData.marriageId);
+      final ExtendedNode spouseNode =
+          graph.getNodeUsingId(node.key!.value) as ExtendedNode;
+      spouseNode.setSecondaryId(familyData.spouse.memberId);
+      spouseNode.setMarriageId(familyData.marriageId);
+      print(spouseNode);
 
       final spouseName =
           "${familyData.spouse.firstName} ${familyData.spouse.familyName}";
       nodeNames[node.key!.value]!.add(spouseName + " (Spouse)");
-      node.setSecondaryGender(familyData.spouse.gender);
-
+      spouseNode.setSecondaryGender(familyData.spouse.gender);
+      spouseNode.setSecondaryState(familyData.spouse.decision);
+      print(familyData.spouse.decision);
       print("Spouse added to the same node: $spouseName");
 
       for (var child in familyData.children) {
@@ -127,8 +123,8 @@ class _TreeState extends State<FamilyTreePage> {
         nodeNames[child.memberId] = ["${child.firstName} ${child.familyName}"];
         print("Child added and connected to node: ${child.firstName}");
         childNode.setPrimaryGender(child.gender);
+        childNode.setPrimaryState(child.decision);
 
-        // Fetch and set child photo
         if (child.memberPhoto != null && child.memberPhoto.isNotEmpty) {
           childNode.setPrimaryImage(base64Decode(child.memberPhoto));
         }
@@ -178,9 +174,7 @@ class _TreeState extends State<FamilyTreePage> {
 
   Widget _nodeWidget(n.Node node) {
     final names = nodeNames[node.key?.value] ?? ["Unnamed"];
-    bool isInitialPrimaryNode = node.key?.value == initialNodeId;
-    final extendedNode = node as ExtendedNode; // Cast node to ExtendedNode
-
+    final extendedNode = node as ExtendedNode;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -195,22 +189,6 @@ class _TreeState extends State<FamilyTreePage> {
                     width: 60,
                     color: Colors.black,
                   ),
-                  Material(
-                    shape: const CircleBorder(),
-                    clipBehavior: Clip.hardEdge,
-                    child: InkWell(
-                      onTap: () async {},
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 12,
-                        child: Icon(
-                          Icons.add,
-                          size: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ],
@@ -218,44 +196,103 @@ class _TreeState extends State<FamilyTreePage> {
               children: [
                 Stack(
                   children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundImage: extendedNode.primaryImage != null
-                          ? MemoryImage(extendedNode.primaryImage!)
-                              as ImageProvider
-                          : (extendedNode.getPrimaryGender == "Female"
-                              ? const AssetImage(AppImageAsset.mother)
-                              : const AssetImage(AppImageAsset.father)),
-                    ),
-                    if (i != 0) ...[
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: extendedNode.secondaryImage != null
-                            ? MemoryImage(extendedNode.secondaryImage!)
-                                as ImageProvider
-                            : (extendedNode.getSecondaryGender == "Female"
-                                ? const AssetImage(AppImageAsset.mother)
-                                : const AssetImage(AppImageAsset.father)),
+                    if (initialNodeId != node.key?.value || i != 0)
+                      GestureDetector(
+                        onTap: () {
+                          if (i == 0) {
+                            setState(() => selectedNodeId = node.key?.value);
+                          } else {
+                            setState(() =>
+                                selectedNodeId = node.secondaryKey?.value);
+                          }
+                          print("Selected node ID: ${selectedNodeId}");
+                          Get.offAllNamed(
+                            AppRoute.userLegacy,
+                            arguments: {'id': selectedNodeId},
+                          );
+                        },
+                        child: DottedBorder(
+                          borderType: BorderType.Circle,
+                          color: i == 0
+                              ? (extendedNode.getPrimaryState == "No_Decision"
+                                  ? Color.fromARGB(255, 126, 133, 126)
+                                  : Colors.transparent)
+                              : (extendedNode.getSecondaryState == "No_Decision"
+                                  ? Color.fromARGB(255, 126, 133, 126)
+                                  : Colors.transparent),
+                          strokeWidth: 1,
+                          dashPattern: [5, 5],
+                          child: CircleAvatar(
+                            radius: 30,
+                            backgroundImage: i == 0
+                                ? (extendedNode.primaryImage != null
+                                    ? MemoryImage(extendedNode.primaryImage!)
+                                        as ImageProvider<Object>?
+                                    : (extendedNode.getPrimaryGender == "Female"
+                                        ? const AssetImage(AppImageAsset.mother)
+                                            as ImageProvider<Object>?
+                                        : const AssetImage(AppImageAsset.father)
+                                            as ImageProvider<Object>?))
+                                : (extendedNode.secondaryImage != null
+                                    ? MemoryImage(extendedNode.secondaryImage!)
+                                        as ImageProvider<Object>?
+                                    : (extendedNode.getSecondaryGender ==
+                                            "Female"
+                                        ? const AssetImage(AppImageAsset.mother)
+                                            as ImageProvider<Object>?
+                                        : const AssetImage(AppImageAsset.father)
+                                            as ImageProvider<Object>?)),
+                          ),
+                        ),
+                      )
+                    else
+                      DottedBorder(
+                        borderType: BorderType.Circle,
+                        color: i == 0
+                            ? (extendedNode.getPrimaryState == "No_Decision"
+                                ? Color.fromARGB(255, 126, 133, 126)
+                                : Colors.transparent)
+                            : (extendedNode.getSecondaryState == "No_Decision"
+                                ? Color.fromARGB(255, 126, 133, 126)
+                                : Colors.transparent),
+                        strokeWidth: 1,
+                        dashPattern: [5, 5],
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: i == 0
+                              ? (extendedNode.primaryImage != null
+                                  ? MemoryImage(extendedNode.primaryImage!)
+                                      as ImageProvider<Object>?
+                                  : (extendedNode.getPrimaryGender == "Female"
+                                      ? const AssetImage(AppImageAsset.mother)
+                                          as ImageProvider<Object>?
+                                      : const AssetImage(AppImageAsset.father)
+                                          as ImageProvider<Object>?))
+                              : (extendedNode.secondaryImage != null
+                                  ? MemoryImage(extendedNode.secondaryImage!)
+                                      as ImageProvider<Object>?
+                                  : (extendedNode.getSecondaryGender == "Female"
+                                      ? const AssetImage(AppImageAsset.mother)
+                                          as ImageProvider<Object>?
+                                      : const AssetImage(AppImageAsset.father)
+                                          as ImageProvider<Object>?)),
+                        ),
                       ),
-                    ],
-                    Positioned(
-                      right: -10,
-                      bottom: -10,
-                      child: Material(
+                    if (i == 0 && initialNodeId == node.key?.value) ...[
+                      Positioned(
+                        right: -10,
+                        bottom: -10,
+                        child: Material(
                           color: Colors.transparent,
                           shape: const CircleBorder(),
                           clipBehavior: Clip.hardEdge,
                           child: PopupMenuButton(
+                            color: Colors.white,
                             onSelected: (value) {
                               setState(() => selectedNodeId = node.key?.value);
                               print(
                                   "Selected node ID: ${node.key?.value} $selectedNodeId");
-                              if (value == "View Legacy") {
-                                Get.offAll(
-                                  () => UserLegacy(),
-                                  arguments: {'id': selectedNodeId},
-                                );
-                              } else if (value == "Confirm") {
+                              if (value == "Confirm") {
                                 addVoteController.memberIdController.text =
                                     selectedNodeId!;
                                 addVoteController.voteController.text =
@@ -273,13 +310,9 @@ class _TreeState extends State<FamilyTreePage> {
                                       selectedNodeId!, "");
                                 } else {
                                   addVoteController.addVote();
-
                                   approvalService.saveApproval(
                                       selectedNodeId!, "Confirm");
                                 }
-
-                                print(
-                                    "Approve action for node ID ${node.key?.value}");
                               } else if (value == "Report") {
                                 addVoteController.memberIdController.text =
                                     selectedNodeId!;
@@ -297,13 +330,9 @@ class _TreeState extends State<FamilyTreePage> {
                                       selectedNodeId!, "");
                                 } else {
                                   addVoteController.addVote();
-
                                   approvalService.saveApproval(
                                       selectedNodeId!, "Report");
                                 }
-
-                                print(
-                                    "Report action for node ID ${node.key?.value}");
                               } else if (value == "add") {
                                 print(
                                     "Add family member action for node ID ${node.key?.value}");
@@ -319,18 +348,17 @@ class _TreeState extends State<FamilyTreePage> {
                                   "Report";
 
                               return [
-                                const PopupMenuItem(
-                                  value: "View Legacy",
-                                  child: Text("View Legacy"),
-                                ),
                                 PopupMenuItem(
                                   value: "Confirm",
                                   child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    width: 200,
                                     color: isApproved
                                         ? Color.fromARGB(255, 58, 125, 60)
-                                        : Colors.white,
+                                        : Colors.transparent,
                                     child: Text(
-                                      "Approve",
+                                      isApproved ? "Approved" : "Approve",
                                       style: TextStyle(
                                           color: isApproved
                                               ? Colors.white
@@ -341,11 +369,14 @@ class _TreeState extends State<FamilyTreePage> {
                                 PopupMenuItem(
                                   value: "Report",
                                   child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    width: 200,
                                     color: isReported
                                         ? Color.fromARGB(255, 239, 27, 27)
-                                        : Colors.white,
+                                        : Colors.transparent,
                                     child: Text(
-                                      "Report",
+                                      isReported ? "Reported" : "Report",
                                       style: TextStyle(
                                           color: isReported
                                               ? Colors.white
@@ -353,9 +384,14 @@ class _TreeState extends State<FamilyTreePage> {
                                     ),
                                   ),
                                 ),
-                                const PopupMenuItem(
+                                PopupMenuItem(
                                   value: "add",
-                                  child: Text("Add Family Member"),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    width: 200,
+                                    child: Text("Add Family Member"),
+                                  ),
                                 ),
                               ];
                             },
@@ -365,8 +401,10 @@ class _TreeState extends State<FamilyTreePage> {
                               child: Icon(Icons.more_vert,
                                   size: 20, color: Colors.black),
                             ),
-                          )),
-                    )
+                          ),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
                 RichText(
@@ -380,8 +418,8 @@ class _TreeState extends State<FamilyTreePage> {
                           fontWeight: FontWeight.bold, color: Colors.black)),
                 ])),
               ],
-            ),
-          ]
+            )
+          ],
         ]),
       ],
     );

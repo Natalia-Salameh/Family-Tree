@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 
 class ChildSpouseController extends GetxController {
   final TextEditingController personIdController = TextEditingController();
-  String location = '';
   List<GetSpouseAndChildrenModel> get getSpouseChildModel => _spouseChildModel;
   List<GetSpouseAndChildrenModel> _spouseChildModel = [];
   RxList<GetSpouseAndChildrenModel> spouseChildren = RxList();
