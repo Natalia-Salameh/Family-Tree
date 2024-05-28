@@ -23,4 +23,6 @@ class AppRoute {
   static const String spouseForm = "/spouseForm";
   static const String childForm = "/childForm";
   static const String spouseChildTreView = "/spouseChildTreView";
+
+  static const String TutorialScreen = "/TutorialScreen";
 }
