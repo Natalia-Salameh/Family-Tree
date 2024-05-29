@@ -15,6 +15,7 @@ import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/model/extended_node_model.dart';
 import 'package:family_tree_application/services.dart';
+import 'package:family_tree_application/view/widgets/GetxBottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphview/GraphView.dart';
@@ -365,7 +366,7 @@ class _TreeState extends State<FamilyTreePage> {
         _handleReportAction();
         break;
       case "add":
-        print("Add family member action for node ID ${node.key?.value}");
+        _showBottomSheet(context, node);
         break;
     }
   }
@@ -398,5 +399,149 @@ class _TreeState extends State<FamilyTreePage> {
       addVoteController.addVote();
       approvalService.saveApproval(selectedNodeId!, "Report");
     }
+  }
+
+  void _addSpouse(String name, String spouseId, String marriageId) {
+    if (selectedNodeId == null) return;
+    ExtendedNode? node = graph.getNodeUsingId(selectedNodeId) as ExtendedNode;
+
+    node.setSecondaryId(spouseId);
+    node.setMarriageId(marriageId);
+    node.setSecondaryGender(spouseFormController.gender);
+    final names = nodeNames[selectedNodeId];
+
+    names!.add(name);
+
+    node.setSecondaryState('No_Decision');
+
+    setState(() {});
+  }
+
+  void _addChild(String name, String newChildId) {
+    if (selectedNodeId == null) return;
+    final ExtendedNode childNode =
+        ExtendedNode.dualId(newChildId, childFormController.gender);
+    graph.addNode(childNode);
+    graph.addEdge(graph.getNodeUsingId(selectedNodeId!), childNode);
+    nodeNames[newChildId] = [name];
+    childNode.setSecondaryState('No_Decision');
+
+    setState(() {});
+  }
+
+  void _addParent(String name, String newParent1Id, String marriageId) async {
+    final ExtendedNode extendedNode =
+        ExtendedNode.dualId(newParent1Id, userFormController.gender);
+    graph.addNode(extendedNode);
+    graph.addEdge(extendedNode, graph.getNodeUsingId(selectedNodeId!));
+
+    extendedNode.setPrimaryGender(userFormController.gender);
+    extendedNode.setPrimaryState('No_Decision');
+    nodeNames[newParent1Id] = [name];
+
+    final firstName =
+        "${spouseFormController.firstNameController.text} ${spouseFormController.family}";
+    final newParent2Id = spouseFormController.person2Id.text;
+
+    ExtendedNode? node = graph.getNodeUsingId(newParent1Id) as ExtendedNode;
+
+    node.setSecondaryId(newParent2Id);
+
+    node.setSecondaryState('No_Decision');
+
+    node.setMarriageId(marriageId);
+
+    node.setSecondaryGender(spouseFormController.gender);
+
+    final names = nodeNames[newParent1Id];
+
+    names!.add(firstName);
+
+    setState(() {});
+  }
+
+  void _showBottomSheet(BuildContext context, n.Node node) {
+    bool hasParents =
+        graph.getInEdges(graph.getNodeUsingId(selectedNodeId!)).isNotEmpty;
+    bool hasSpouse = (node as ExtendedNode).secondaryKey != null;
+
+    List<Widget> options = [];
+    List<String> optionTexts = [];
+
+    if (!hasParents) {
+      options.add(GestureDetector(
+        onTap: () async {
+          userFormController.clearForm();
+          parentController.childId.text = selectedNodeId!;
+
+          final result =
+              await Get.offNamed(AppRoute.userForm, arguments: "parent");
+          if (result == "true") {
+            final person1FirstName =
+                "${userFormController.firstNameController.text} ${userFormController.family}";
+            final newParent1Id = userFormController.person1Id.text;
+            final newMarriageId = parentController.marriageId.text;
+            _addParent(person1FirstName, newParent1Id, newMarriageId);
+          }
+        },
+        child: Image.asset(AppImageAsset.mother),
+      ));
+      optionTexts.add("Add Parents".tr);
+    }
+
+    options.add(GestureDetector(
+      onTap: () async {
+        spouseFormController.clearForm();
+        marriageFormController.selectedNodeIdPerson1.text = selectedNodeId!;
+        final result =
+            await Get.toNamed(AppRoute.spouseForm, arguments: "spouse");
+        if (result == 'true') {
+          final firstName =
+              "${spouseFormController.firstNameController.text} ${spouseFormController.family}";
+          final newSpouseId = spouseFormController.person2Id.text;
+          final newMarriageId = marriageFormController.marriageIda.text;
+          _addSpouse(firstName, newSpouseId, newMarriageId);
+        }
+      },
+      child: Image.asset(AppImageAsset.couple, height: 50),
+    ));
+    optionTexts.add("Add Spouse".tr);
+
+    if (hasSpouse) {
+      options.add(GestureDetector(
+        onTap: () async {
+          var marriageIdSelectedNode =
+              (node as ExtendedNode).marriageKey?.value;
+
+          childController.marriageId.text = marriageIdSelectedNode!;
+
+          parentController.marriageId.text = marriageIdSelectedNode!;
+
+          print("selected node when adding child ${selectedNodeId}");
+          childFormController.clearForm();
+
+          final result = await Get.toNamed(AppRoute.childForm);
+
+          if (result == "true") {
+            final firstName =
+                "${childFormController.firstNameController.text} ${childFormController.family}";
+            final newChildId = childFormController.person1Id.text;
+
+            _addChild(firstName, newChildId);
+          }
+        },
+        child: Image.asset(AppImageAsset.child, height: 50),
+      ));
+      optionTexts.add("Add Child".tr);
+    }
+
+    Get.bottomSheet(
+      CustomBottomSheet(
+        children: options,
+        imageTexts: optionTexts,
+      ),
+      isScrollControlled: true,
+      enableDrag: true,
+    );
   }
 }
