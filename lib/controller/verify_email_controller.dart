@@ -45,7 +45,7 @@ class VerifyEmailController extends GetxController {
       var tokendata = json.decode(tokenResponse.body);
       if (tokenResponse.statusCode == 200 || tokenResponse.statusCode == 201) {
         await NetworkHandler.storeToken(tokendata["token"]);
-        await NetworkHandler.storeExpirationDate(data["expiration"]);
+        await NetworkHandler.storeExpirationDate(tokendata["expiration"]);
         print(tokenResponse.body);
         Get.offAllNamed(AppRoute.memberForm);
       } else {

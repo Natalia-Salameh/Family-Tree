@@ -91,7 +91,8 @@ class _TreeState extends State<AddTree> {
               ),
               Button(
                 onPressed: () {
-                  Get.offAllNamed(AppRoute.home);
+                  Get.offAllNamed(AppRoute.userLegacy,
+                      arguments: {'id': initialNodeId});
                 },
                 color: CustomColors.primaryColor,
                 child: Text("Add".tr,
@@ -111,6 +112,7 @@ class _TreeState extends State<AddTree> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(children: [
+          if (names.length > 1) ...[const SizedBox(width: 120)],
           for (var i = 0; i < names.length; i++) ...[
             if (i != 0) ...[
               Stack(
@@ -299,7 +301,7 @@ class _TreeState extends State<AddTree> {
               userFormController.clearForm();
 
               parentController.childId.text = selectedNodeId!;
-              
+
               await Get.offNamed(AppRoute.userForm, arguments: "parent");
               // if (result == true) {
               final person1FirstName =

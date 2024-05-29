@@ -7,7 +7,6 @@ import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/Legacy/member_tree.dart';
 import 'package:family_tree_application/view/screens/Legacy/update_legacy.dart';
-import 'package:family_tree_application/view/widgets/bottom_nav.dart';
 import 'package:family_tree_application/view/widgets/tabbar.dart';
 import 'package:flutter/material.dart';
 
@@ -127,13 +126,12 @@ class Legacy extends StatelessWidget {
                         Container(
                           height: 35,
                           decoration: BoxDecoration(
-                            color: Colors.grey[
-                                200], // Light background color for the icon
+                            color: Color.fromARGB(255, 243, 243, 243),
                             shape: BoxShape.circle,
                           ),
                           child: IconButton(
                             icon: const Icon(Icons.edit_sharp,
-                                color: Colors.blue),
+                                color: Color.fromARGB(255, 0, 0, 0)),
                             onPressed: () => _selectAndUploadImage(context),
                           ),
                         ),
@@ -201,7 +199,7 @@ class Legacy extends StatelessWidget {
                                         ? "No Date of Birth added"
                                         : legacyController.dateOfBirth.value
                                             .toString()
-                                            .split(' ')[0],
+                                            .split('T')[0],
                                   ),
                                 ),
                               ],

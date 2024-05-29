@@ -179,17 +179,13 @@ class _TreeState extends State<FamilyTreePage> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(children: [
+          if (names.length > 1) ...[const SizedBox(width: 120)],
           for (var i = 0; i < names.length; i++) ...[
             if (i != 0) ...[
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    height: 2.5,
-                    width: 60,
-                    color: Colors.black,
-                  ),
-                ],
+              Container(
+                height: 2.5,
+                width: 60,
+                color: Colors.black,
               ),
             ],
             Column(

@@ -195,6 +195,7 @@ class _TreeState extends State<MemberFamilyTreePage> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(children: [
+          if (names.length > 1) ...[const SizedBox(width: 120)],
           for (var i = 0; i < names.length; i++) ...[
             if (i != 0) ...[
               Stack(

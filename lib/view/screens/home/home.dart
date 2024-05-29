@@ -183,7 +183,9 @@ class PersonCard extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    person.fullName,
+                    person.gender.toString() == "Gender.FEMALE"
+                        ? "Female"
+                        : "Male",
                     style: TextStyle(
                         fontSize: 14, color: Color.fromARGB(255, 95, 92, 92)),
                   ),
@@ -191,8 +193,7 @@ class PersonCard extends StatelessWidget {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.arrow_forward_ios,
-                  color: CustomColors.black),
+              icon: Icon(Icons.arrow_forward_ios, color: CustomColors.black),
               onPressed: () {
                 Get.toNamed(AppRoute.userLegacy, arguments: {'id': person.id});
               },
