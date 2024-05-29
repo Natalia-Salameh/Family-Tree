@@ -445,7 +445,7 @@ class _TreeState extends State<MemberFamilyTreePage> {
     graph.addNode(childNode);
     graph.addEdge(graph.getNodeUsingId(selectedNodeId!), childNode);
     nodeNames[newChildId] = [name];
-    childNode.setSecondaryState('No_Decision');
+    childNode.setPrimaryState('No_Decision');
 
     setState(() {});
   }
