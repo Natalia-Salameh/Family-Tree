@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../classes/showPopOut.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -27,34 +29,15 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkSignupFlag();
-    });
-  }
-
-  void _checkSignupFlag() {
-    final args = Get.arguments;
-    if (args != null && args['fromSignup'] == true) {
       _showPopup(context);
-    }
+    });
   }
 
   void _showPopup(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Welcome to Ajial!"),
-          content: Text(
-              "You can press the arrow next to a user to view their legacy and family tree."),
-          actions: <Widget>[
-            TextButton(
-              child: Text("Got it"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
+        return PopupContent();
       },
     );
   }
@@ -71,7 +54,13 @@ class _HomeState extends State<Home> {
         return IndexedStack(
           index: _selectedIndex,
           children: [
-            PersonListView(homeController: homeController),
+            Column(
+              children: [
+                _buildGreeting(),
+                _buildFeaturedFamily(),
+                Expanded(child: PersonListView(homeController: homeController)),
+              ],
+            ),
             UserForm(),
             Legacy(),
           ],
@@ -117,6 +106,84 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget _buildGreeting() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          "Welcome back, [User's Name]!",
+          style: GoogleFonts.lobster(
+            fontSize: 24,
+            color: CustomColors.primaryColor,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeaturedFamily() {
+    // Sample data for featured family
+    List<String> featuredFamily = [
+      "Family 1",
+      "Family 2",
+      "Family 3",
+    ];
+    List<FeaturedFamily> featuredFamilies = [
+      FeaturedFamily(
+        familyName: "Al-Basha Family",
+        story:
+            "A family known for their significant contributions to local politics and community service.",
+        imageUrl: "assets/images/al_basha.jpg",
+      ),
+      FeaturedFamily(
+        familyName: "Haddad Family",
+        story: "A prominent family with roots tracing back to the early 1800s.",
+        imageUrl: "assets/images/haddad.jpg",
+      ),
+      // Add more families...
+    ];
+
+    return Container(
+      height: 150,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: featuredFamily.length,
+        itemBuilder: (context, index) {
+          return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            elevation: 4,
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            child: Container(
+              width: 200,
+              padding: EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    AppImageAsset.logo,
+                    height: 40,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    featuredFamily[index],
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -140,6 +207,15 @@ class PersonListView extends StatelessWidget {
       },
     );
   }
+}
+
+class FeaturedFamily {
+  final String familyName;
+  final String story;
+  final String imageUrl;
+
+  FeaturedFamily(
+      {required this.familyName, required this.story, required this.imageUrl});
 }
 
 class PersonCard extends StatelessWidget {

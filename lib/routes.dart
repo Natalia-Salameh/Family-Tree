@@ -1,3 +1,4 @@
+import 'package:family_tree_application/classes/animated_tutorial.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/Forms/child_form.dart';
 import 'package:family_tree_application/view/screens/Forms/marriage_form.dart';
@@ -49,4 +50,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.childForm, page: () => ChildForm()),
   GetPage(
       name: AppRoute.spouseMarriageStatus, page: () => SpouseMarriageStatus()),
+  GetPage(name: AppRoute.TutorialScreen, page: () => TutorialScreen()),
 ];

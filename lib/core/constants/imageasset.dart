@@ -19,4 +19,12 @@ class AppImageAsset {
   static const String boy = "$rootImages/boy.png";
 
   static const String tree2 = "$rootImages/3884952.png";
+
+  static const String point2 = "$rootImages/point2.png";
+
+  static const String handS = "$rootImages/handS.png";
+  
+  static const String FillForm = "$rootImages/FillForm.png";
+  
+  static const String AddClick = "$rootImages/AddClick.png";
 }
