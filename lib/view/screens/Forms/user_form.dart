@@ -23,10 +23,18 @@ class UserForm extends StatelessWidget {
     UserFormController userFormController = Get.put(UserFormController());
 
     return Scaffold(
-      // appBar: AppBar(
-      //     title: Text("Add Spouse".tr),
-      //     centerTitle: true,
-      //     automaticallyImplyLeading: false),
+      appBar: AppBar(
+        title: Get.arguments == "parent" ? Text("Add first parent".tr) : Text("Add the starting person".tr),
+        centerTitle: true,
+        leading: Get.arguments == null
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Get.back(result: "false");
+                },
+              ),
+      ),
       body: Form(
         key: formKey,
         child: SingleChildScrollView(
@@ -310,7 +318,7 @@ class UserForm extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    SizedBox(
+                               SizedBox(
                       child: Button(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
@@ -318,10 +326,17 @@ class UserForm extends StatelessWidget {
                             }
                           },
                           color: CustomColors.primaryColor,
-                          child: Text(
-                            "Next".tr,
-                            style: const TextStyle(color: CustomColors.white),
-                          )),
+                          child: Get.arguments == "parent"
+                              ? Text(
+                                  "Next".tr,
+                                  style: const TextStyle(
+                                      color: CustomColors.white),
+                                )
+                              : Text(
+                                  "Add".tr,
+                                  style: const TextStyle(
+                                      color: CustomColors.white),
+                                )),
                     )
                   ],
                 ),

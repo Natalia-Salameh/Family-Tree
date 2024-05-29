@@ -20,10 +20,8 @@ class ChildForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final FamilyNameController familyNameController =
         Get.put(FamilyNameController());
-    //UserFormController userFormController = Get.put(UserFormController());
     final ChildFormController childFormController =
         Get.put(ChildFormController());
-    final ChildController childController = Get.put(ChildController());
 
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +30,7 @@ class ChildForm extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Get.back(result: true);
+            Get.back(result: "false");
           },
         ),
       ),

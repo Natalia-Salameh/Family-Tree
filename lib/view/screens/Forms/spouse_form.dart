@@ -23,9 +23,19 @@ class SpouseForm extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text("Add Spouse".tr),
-          centerTitle: true,
-          automaticallyImplyLeading: false),
+        title: Get.arguments == "parent"
+            ? Text("Add second parent".tr)
+            : Text("Add spouse".tr),
+        centerTitle: true,
+        leading: Get.arguments == "parent"
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Get.back(result: "false");
+                },
+              ),
+      ),
       body: Form(
         key: formKey,
         child: SingleChildScrollView(

@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:family_tree_application/controller/family_name_controller.dart';
+import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
@@ -12,6 +14,8 @@ import '../core/constants/routes.dart';
 class UserFormController extends GetxController {
   final MarriageFormController marriageFormController =
       Get.put(MarriageFormController());
+  final SpouseFormController spouseFormController =
+      Get.put(SpouseFormController());
   final selectedGender = Rx<Gender?>(null);
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController secondNameController = TextEditingController();
@@ -23,6 +27,8 @@ class UserFormController extends GetxController {
   final TextEditingController idController = TextEditingController();
   final lifeStatus = Rx<LifeStatus?>(null);
   final TextEditingController person1Id = TextEditingController();
+  final FamilyNameController familyNameController =
+      Get.put(FamilyNameController());
 
   var family = '';
   var gender = '';
@@ -59,9 +65,12 @@ class UserFormController extends GetxController {
     lastNameController.clear();
     birthDateController.clear();
     deathDateController.clear();
+    idController.clear();
     selectedGender.value = null;
     lifeStatus.value = null;
     selectedFile.value = null;
+    familyNameController.clearLastName();
+    print("Clearing form controllers and state");
   }
 
   void addForm() async {
@@ -99,6 +108,7 @@ class UserFormController extends GetxController {
       gender = responseData['gender'];
 
       if (Get.arguments == "parent") {
+        spouseFormController.clearForm();
         Get.toNamed(AppRoute.spouseForm);
       } else {
         Get.toNamed(AppRoute.tree);

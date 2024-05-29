@@ -17,7 +17,7 @@ class MarriageFormController extends GetxController {
   final marriageStatus = Rx<MarriageStatus?>(null);
   final TextEditingController dateOfMarriage = TextEditingController();
   final TextEditingController marriageIda = TextEditingController();
-    final TextEditingController marriageId = TextEditingController();
+  final TextEditingController marriageId = TextEditingController();
 
   final ParentController parentController = Get.put(ParentController());
   final TextEditingController selectedNodeIdPerson1 = TextEditingController();
@@ -55,13 +55,13 @@ class MarriageFormController extends GetxController {
 
       if (Get.arguments == "spouseForm") {
         parentController.addParent();
-        Get.back();
-        Get.back();
-        Get.back();
+        Get.back(result: "true");
+        Get.back(result: "true");
+        Get.back(result: "true");
       } else {
-        Get.back();
-        Get.back();
-        Get.back();
+        Get.back(result: "true");
+        Get.back(result: "true");
+        Get.back(result: "true");
       }
     } else {
       Get.defaultDialog(

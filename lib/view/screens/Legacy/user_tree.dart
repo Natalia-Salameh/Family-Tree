@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:family_tree_application/controller/add_child_controller.dart';
 import 'package:family_tree_application/controller/add_parent_controller%20copy.dart';
@@ -17,9 +15,7 @@ import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/model/extended_node_model.dart';
 import 'package:family_tree_application/services.dart';
-import 'package:family_tree_application/view/screens/Legacy/user_legacy.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:graphview/GraphView.dart' as n;
@@ -33,35 +29,34 @@ class FamilyTreePage extends StatefulWidget {
 
 class _TreeState extends State<FamilyTreePage> {
   Graph graph = Graph();
-
   BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
   Map<String, List<String>> nodeNames = {};
   List<n.Node> nodes = [];
   String? selectedNodeId;
   Map<String, bool> isSpouseMap = {};
   double _scale = 1.0;
+  late bool isSpouse;
+  bool isLoading = true;
 
   final UserFormController userFormController = Get.put(UserFormController());
   final MarriageFormController marriageFormController =
       Get.put(MarriageFormController());
   final ChildSpouseController childSpouseController =
       Get.put(ChildSpouseController());
-  late bool isSpouse;
   final UserLegacyController userLegacyController =
       Get.put(UserLegacyController());
-  bool isLoading = true;
-
   final SpouseFormController spouseFormController =
       Get.put(SpouseFormController());
   final ChildController childController = Get.put(ChildController());
   final ParentController parentController = Get.put(ParentController());
   final ChildFormController childFormController =
       Get.put(ChildFormController());
-  String? initialNodeId;
   final AddVoteController addVoteController = Get.put(AddVoteController());
   final GetVoteController getVoteController = Get.put(GetVoteController());
   final DeleteVoteController deleteVoteController =
       Get.put(DeleteVoteController());
+
+  String? initialNodeId;
 
   @override
   void initState() {
@@ -164,7 +159,7 @@ class _TreeState extends State<FamilyTreePage> {
                           builder: (node) => _nodeWidget(node),
                         ),
                       ),
-              )
+              ),
             ],
           ),
         ),
@@ -178,246 +173,230 @@ class _TreeState extends State<FamilyTreePage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(children: [
-          if (names.length > 1) ...[const SizedBox(width: 120)],
-          for (var i = 0; i < names.length; i++) ...[
-            if (i != 0) ...[
-              Container(
-                height: 2.5,
-                width: 60,
-                color: Colors.black,
-              ),
-            ],
-            Column(
-              children: [
-                Stack(
-                  children: [
-                    if (initialNodeId != node.key?.value || i != 0)
-                      GestureDetector(
-                        onTap: () {
-                          if (i == 0) {
-                            setState(() => selectedNodeId = node.key?.value);
-                          } else {
-                            setState(() =>
-                                selectedNodeId = node.secondaryKey?.value);
-                          }
-                          print("Selected node ID: ${selectedNodeId}");
-                          Get.offAllNamed(
-                            AppRoute.userLegacy,
-                            arguments: {'id': selectedNodeId},
-                          );
-                        },
-                        child: DottedBorder(
+        Row(
+          children: [
+            if (names.length > 1) const SizedBox(width: 120),
+            for (var i = 0; i < names.length; i++) ...[
+              if (i != 0)
+                Container(
+                  height: 2.5,
+                  width: 60,
+                  color: Colors.black,
+                ),
+              Column(
+                children: [
+                  Stack(
+                    children: [
+                      if (initialNodeId != node.key?.value || i != 0)
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedNodeId = (i == 0)
+                                  ? node.key?.value
+                                  : node.secondaryKey?.value;
+                            });
+                            print("Selected node ID: $selectedNodeId");
+                            Get.offAllNamed(
+                              AppRoute.userLegacy,
+                              arguments: {'id': selectedNodeId},
+                            );
+                          },
+                          child: DottedBorder(
+                            borderType: BorderType.Circle,
+                            color: _getBorderColor(i, extendedNode),
+                            strokeWidth: 1,
+                            dashPattern: [5, 5],
+                            child: CircleAvatar(
+                              radius: 30,
+                              backgroundImage:
+                                  _getBackgroundImage(i, extendedNode),
+                            ),
+                          ),
+                        )
+                      else
+                        DottedBorder(
                           borderType: BorderType.Circle,
-                          color: i == 0
-                              ? (extendedNode.getPrimaryState == "No_Decision"
-                                  ? Color.fromARGB(255, 126, 133, 126)
-                                  : Colors.transparent)
-                              : (extendedNode.getSecondaryState == "No_Decision"
-                                  ? Color.fromARGB(255, 126, 133, 126)
-                                  : Colors.transparent),
+                          color: _getBorderColor(i, extendedNode),
                           strokeWidth: 1,
                           dashPattern: [5, 5],
                           child: CircleAvatar(
                             radius: 30,
-                            backgroundImage: i == 0
-                                ? (extendedNode.primaryImage != null
-                                    ? MemoryImage(extendedNode.primaryImage!)
-                                        as ImageProvider<Object>?
-                                    : (extendedNode.getPrimaryGender == "Female"
-                                        ? const AssetImage(AppImageAsset.mother)
-                                            as ImageProvider<Object>?
-                                        : const AssetImage(AppImageAsset.father)
-                                            as ImageProvider<Object>?))
-                                : (extendedNode.secondaryImage != null
-                                    ? MemoryImage(extendedNode.secondaryImage!)
-                                        as ImageProvider<Object>?
-                                    : (extendedNode.getSecondaryGender ==
-                                            "Female"
-                                        ? const AssetImage(AppImageAsset.mother)
-                                            as ImageProvider<Object>?
-                                        : const AssetImage(AppImageAsset.father)
-                                            as ImageProvider<Object>?)),
+                            backgroundImage:
+                                _getBackgroundImage(i, extendedNode),
                           ),
                         ),
-                      )
-                    else
-                      DottedBorder(
-                        borderType: BorderType.Circle,
-                        color: i == 0
-                            ? (extendedNode.getPrimaryState == "No_Decision"
-                                ? Color.fromARGB(255, 126, 133, 126)
-                                : Colors.transparent)
-                            : (extendedNode.getSecondaryState == "No_Decision"
-                                ? Color.fromARGB(255, 126, 133, 126)
-                                : Colors.transparent),
-                        strokeWidth: 1,
-                        dashPattern: [5, 5],
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundImage: i == 0
-                              ? (extendedNode.primaryImage != null
-                                  ? MemoryImage(extendedNode.primaryImage!)
-                                      as ImageProvider<Object>?
-                                  : (extendedNode.getPrimaryGender == "Female"
-                                      ? const AssetImage(AppImageAsset.mother)
-                                          as ImageProvider<Object>?
-                                      : const AssetImage(AppImageAsset.father)
-                                          as ImageProvider<Object>?))
-                              : (extendedNode.secondaryImage != null
-                                  ? MemoryImage(extendedNode.secondaryImage!)
-                                      as ImageProvider<Object>?
-                                  : (extendedNode.getSecondaryGender == "Female"
-                                      ? const AssetImage(AppImageAsset.mother)
-                                          as ImageProvider<Object>?
-                                      : const AssetImage(AppImageAsset.father)
-                                          as ImageProvider<Object>?)),
-                        ),
-                      ),
-                    if (i == 0 && initialNodeId == node.key?.value) ...[
-                      Positioned(
-                        right: -10,
-                        bottom: -10,
-                        child: Material(
-                          color: Colors.transparent,
-                          shape: const CircleBorder(),
-                          clipBehavior: Clip.hardEdge,
-                          child: PopupMenuButton(
-                            color: Colors.white,
-                            onSelected: (value) {
-                              setState(() => selectedNodeId = node.key?.value);
-                              print(
-                                  "Selected node ID: ${node.key?.value} $selectedNodeId");
-                              if (value == "Confirm") {
-                                addVoteController.memberIdController.text =
-                                    selectedNodeId!;
-                                addVoteController.voteController.text =
-                                    "Confirm";
-                                addVoteController.reasonController.text =
-                                    "No_Reason";
-
-                                if (approvalService
-                                        .approvalMap[selectedNodeId!] ==
-                                    "Confirm") {
-                                  deleteVoteController.voteId =
-                                      getVoteController.id;
-                                  deleteVoteController.deleteVote();
-                                  approvalService.saveApproval(
-                                      selectedNodeId!, "");
-                                } else {
-                                  addVoteController.addVote();
-                                  approvalService.saveApproval(
-                                      selectedNodeId!, "Confirm");
-                                }
-                              } else if (value == "Report") {
-                                addVoteController.memberIdController.text =
-                                    selectedNodeId!;
-                                addVoteController.voteController.text =
-                                    "Report";
-                                addVoteController.reasonController.text =
-                                    "No_Reason";
-                                if (approvalService
-                                        .approvalMap[selectedNodeId!] ==
-                                    "Report") {
-                                  deleteVoteController.voteId =
-                                      getVoteController.id;
-                                  deleteVoteController.deleteVote();
-                                  approvalService.saveApproval(
-                                      selectedNodeId!, "");
-                                } else {
-                                  addVoteController.addVote();
-                                  approvalService.saveApproval(
-                                      selectedNodeId!, "Report");
-                                }
-                              } else if (value == "add") {
-                                print(
-                                    "Add family member action for node ID ${node.key?.value}");
-                              }
-                            },
-                            itemBuilder: (context) {
-                              final isApproved = approvalService
-                                      .approvalMap[node.key?.value] ==
-                                  "Confirm";
-
-                              final isReported = approvalService
-                                      .approvalMap[node.key?.value] ==
-                                  "Report";
-
-                              return [
-                                PopupMenuItem(
-                                  value: "Confirm",
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 40,
-                                    width: 200,
-                                    color: isApproved
-                                        ? Color.fromARGB(255, 58, 125, 60)
-                                        : Colors.transparent,
-                                    child: Text(
-                                      isApproved ? "Approved" : "Approve",
-                                      style: TextStyle(
-                                          color: isApproved
-                                              ? Colors.white
-                                              : Colors.black),
-                                    ),
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  value: "Report",
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 40,
-                                    width: 200,
-                                    color: isReported
-                                        ? Color.fromARGB(255, 239, 27, 27)
-                                        : Colors.transparent,
-                                    child: Text(
-                                      isReported ? "Reported" : "Report",
-                                      style: TextStyle(
-                                          color: isReported
-                                              ? Colors.white
-                                              : Colors.black),
-                                    ),
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  value: "add",
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 40,
-                                    width: 200,
-                                    child: Text("Add Family Member"),
-                                  ),
-                                ),
-                              ];
-                            },
-                            icon: const CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 12,
-                              child: Icon(Icons.more_vert,
-                                  size: 20, color: Colors.black),
-                            ),
-                          ),
-                        ),
-                      ),
+                      if (i == 0 && initialNodeId == node.key?.value)
+                        _buildPopupMenuButton(node),
                     ],
-                  ],
-                ),
-                RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                      text: '${names[i].split(' ')[0]} ',
-                      style: const TextStyle(color: Colors.black)),
-                  TextSpan(
-                      text: names[i].split(' ')[1],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black)),
-                ])),
-              ],
-            )
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '${names[i].split(' ')[0]} ',
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                        TextSpan(
+                          text: names[i].split(' ')[1],
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ],
-        ]),
+        ),
       ],
     );
+  }
+
+  Color _getBorderColor(int i, ExtendedNode extendedNode) {
+    return i == 0
+        ? (extendedNode.getPrimaryState == "No_Decision"
+            ? const Color.fromARGB(255, 126, 133, 126)
+            : Colors.transparent)
+        : (extendedNode.getSecondaryState == "No_Decision"
+            ? const Color.fromARGB(255, 126, 133, 126)
+            : Colors.transparent);
+  }
+
+  ImageProvider<Object>? _getBackgroundImage(int i, ExtendedNode extendedNode) {
+    if (i == 0) {
+      if (extendedNode.primaryImage != null) {
+        return MemoryImage(extendedNode.primaryImage!);
+      } else {
+        return (extendedNode.getPrimaryGender == "Female"
+            ? const AssetImage(AppImageAsset.mother)
+            : const AssetImage(AppImageAsset.father));
+      }
+    } else {
+      if (extendedNode.secondaryImage != null) {
+        return MemoryImage(extendedNode.secondaryImage!);
+      } else {
+        return (extendedNode.getSecondaryGender == "Female"
+            ? const AssetImage(AppImageAsset.mother)
+            : const AssetImage(AppImageAsset.father));
+      }
+    }
+  }
+
+  Positioned _buildPopupMenuButton(n.Node node) {
+    return Positioned(
+      right: -10,
+      bottom: -10,
+      child: Material(
+        color: Colors.transparent,
+        shape: const CircleBorder(),
+        clipBehavior: Clip.hardEdge,
+        child: PopupMenuButton(
+          color: Colors.white,
+          onSelected: (value) => _handlePopupMenuSelection(value, node),
+          itemBuilder: (context) => _buildPopupMenuItems(node),
+          icon: const CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 12,
+            child: Icon(Icons.more_vert, size: 20, color: Colors.black),
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<PopupMenuEntry<String>> _buildPopupMenuItems(n.Node node) {
+    final isApproved =
+        approvalService.approvalMap[node.key?.value] == "Confirm";
+    final isReported = approvalService.approvalMap[node.key?.value] == "Report";
+
+    return [
+      PopupMenuItem(
+        value: "Confirm",
+        child: Container(
+          alignment: Alignment.center,
+          height: 40,
+          width: 200,
+          color: isApproved
+              ? const Color.fromARGB(255, 58, 125, 60)
+              : Colors.transparent,
+          child: Text(
+            isApproved ? "Approved" : "Approve",
+            style: TextStyle(color: isApproved ? Colors.white : Colors.black),
+          ),
+        ),
+      ),
+      PopupMenuItem(
+        value: "Report",
+        child: Container(
+          alignment: Alignment.center,
+          height: 40,
+          width: 200,
+          color: isReported
+              ? const Color.fromARGB(255, 239, 27, 27)
+              : Colors.transparent,
+          child: Text(
+            isReported ? "Reported" : "Report",
+            style: TextStyle(color: isReported ? Colors.white : Colors.black),
+          ),
+        ),
+      ),
+      PopupMenuItem(
+        value: "add",
+        child: Container(
+          alignment: Alignment.center,
+          height: 40,
+          width: 200,
+          child: const Text("Add Family Member"),
+        ),
+      ),
+    ];
+  }
+
+  void _handlePopupMenuSelection(String value, n.Node node) {
+    setState(() => selectedNodeId = node.key?.value);
+    print("Selected node ID: ${node.key?.value} $selectedNodeId");
+
+    switch (value) {
+      case "Confirm":
+        _handleConfirmAction();
+        break;
+      case "Report":
+        _handleReportAction();
+        break;
+      case "add":
+        print("Add family member action for node ID ${node.key?.value}");
+        break;
+    }
+  }
+
+  void _handleConfirmAction() {
+    addVoteController.memberIdController.text = selectedNodeId!;
+    addVoteController.voteController.text = "Confirm";
+    addVoteController.reasonController.text = "No_Reason";
+
+    if (approvalService.approvalMap[selectedNodeId!] == "Confirm") {
+      deleteVoteController.voteId = getVoteController.id;
+      deleteVoteController.deleteVote();
+      approvalService.saveApproval(selectedNodeId!, "");
+    } else {
+      addVoteController.addVote();
+      approvalService.saveApproval(selectedNodeId!, "Confirm");
+    }
+  }
+
+  void _handleReportAction() {
+    addVoteController.memberIdController.text = selectedNodeId!;
+    addVoteController.voteController.text = "Report";
+    addVoteController.reasonController.text = "No_Reason";
+
+    if (approvalService.approvalMap[selectedNodeId!] == "Report") {
+      deleteVoteController.voteId = getVoteController.id;
+      deleteVoteController.deleteVote();
+      approvalService.saveApproval(selectedNodeId!, "");
+    } else {
+      addVoteController.addVote();
+      approvalService.saveApproval(selectedNodeId!, "Report");
+    }
   }
 }

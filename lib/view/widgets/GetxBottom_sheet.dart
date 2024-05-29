@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomBottomSheet extends StatefulWidget {
-  final List<Widget> children; // Change to List<Widget> to accept any widget
+  final List<Widget> children; // List of widgets to display
+  final List<String> imageTexts; // List of text descriptions for the widgets
 
-  CustomBottomSheet({required this.children});
-
-  final List<String> imageTexts = ["60".tr, "61".tr, "62".tr];
+  CustomBottomSheet({required this.children, required this.imageTexts});
 
   @override
   _CustomBottomSheetState createState() => _CustomBottomSheetState();
@@ -26,58 +25,64 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
       ),
       child: Stack(
         children: [
-          Positioned.fill(
-            child: GestureDetector(
-                onTap: () {
-                  // Get.to(
-                  //   const UserAdd(
-                  //     role: '',
-                  //   ),
-                  // );
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 200,
-                      height: 200,
-                      child: widget.children[currentIndex],
-                    ),
-                    Text(widget.imageTexts[currentIndex]),
-                  ],
-                )),
-          ),
           Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    if (currentIndex > 0) {
-                      setState(() {
-                        currentIndex--;
-                      });
-                    }
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    if (currentIndex < widget.children.length - 1) {
-                      setState(() {
-                        currentIndex++;
-                      });
-                    }
-                  },
-                ),
-              ],
+            top: 10,
+            right: 10,
+            child: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                Get.back();
+              },
             ),
           ),
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: () {},
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 200,
+                    height: 200,
+                    child: widget.children[currentIndex],
+                  ),
+                  Text(widget.imageTexts[currentIndex]),
+                ],
+              ),
+            ),
+          ),
+          if (widget.children.length > 1)
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      if (currentIndex > 0) {
+                        setState(() {
+                          currentIndex--;
+                        });
+                      }
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_forward),
+                    onPressed: () {
+                      if (currentIndex < widget.children.length - 1) {
+                        setState(() {
+                          currentIndex++;
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );

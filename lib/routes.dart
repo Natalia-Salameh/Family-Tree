@@ -20,7 +20,7 @@ import 'package:family_tree_application/view/screens/onBoarding/on_boarding2.dar
 import 'package:family_tree_application/view/screens/onBoarding/on_boarding3.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/member_tree.dart';
 import 'package:family_tree_application/view/screens/onBoardingForm/diary.dart';
-import 'package:family_tree_application/view/screens/onBoardingForm/member_form.dart';
+import 'package:family_tree_application/view/screens/Forms/member_form.dart';
 import 'package:family_tree_application/view/screens/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -37,7 +37,10 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.signUp, page: () => SignUp()),
   GetPage(name: AppRoute.verifyCode, page: () => VerifyCode()),
   GetPage(name: AppRoute.home, page: () => const Home()),
-  GetPage(name: AppRoute.userForm, page: () => UserForm()),
+  GetPage(
+    name: AppRoute.userForm,
+    page: () => UserForm(),
+  ),
   GetPage(name: AppRoute.editLegacy, page: () => EditLegacy()),
   GetPage(name: AppRoute.legacy, page: () => Legacy()),
   GetPage(name: AppRoute.memberForm, page: () => MemberForm()),
@@ -50,5 +53,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.childForm, page: () => ChildForm()),
   GetPage(
       name: AppRoute.spouseMarriageStatus, page: () => SpouseMarriageStatus()),
-  GetPage(name: AppRoute.TutorialScreen, page: () => TutorialScreen()),
+  // GetPage(name: AppRoute.TutorialScreen, page: () => TutorialScreen()),
 ];
