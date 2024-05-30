@@ -1,3 +1,4 @@
+import 'package:family_tree_application/classes/showPopOut_addM.dart';
 import 'package:family_tree_application/controller/family_name_controller.dart';
 import 'package:family_tree_application/controller/member_form_controller.dart';
 import 'package:family_tree_application/controller/progress_bar.dart';
@@ -13,8 +14,31 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MemberForm extends StatelessWidget {
+class MemberForm extends StatefulWidget {
   MemberForm({super.key});
+
+  @override
+  State<MemberForm> createState() => _MemberFormState();
+}
+
+class _MemberFormState extends State<MemberForm> {
+  void _showPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return PopupContentTree();
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showPopup(context);
+    });
+  }
+
   final formKey = GlobalKey<FormState>();
 
   @override

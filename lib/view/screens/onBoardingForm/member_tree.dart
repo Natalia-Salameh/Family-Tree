@@ -16,6 +16,8 @@ import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/widgets/button.dart';
 
+import '../../../classes/showPopOut_addM.dart';
+
 class TreeState extends StatefulWidget {
   const TreeState({Key? key}) : super(key: key);
 
@@ -52,6 +54,15 @@ class _TreeState extends State<TreeState> {
       ..subtreeSeparation = 100
       ..orientation = BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM;
     _initializeGraph();
+  }
+
+  void _showPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return PopupContentTree();
+      },
+    );
   }
 
   void _initializeGraph() {

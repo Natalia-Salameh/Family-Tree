@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../classes/showPopOut.dart';
+import '../../../classes/showPopOutf_home.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

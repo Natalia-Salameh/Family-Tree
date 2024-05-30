@@ -23,8 +23,13 @@ class AppImageAsset {
   static const String point2 = "$rootImages/point2.png";
 
   static const String handS = "$rootImages/handS.png";
-  
-  static const String FillForm = "$rootImages/FillForm.png";
-  
-  static const String AddClick = "$rootImages/AddClick.png";
+
+  static const String fillForm = "$rootImages/FillForm.png";
+
+  static const String addClick = "$rootImages/AddClick.png";
+  static const String bttomS = "$rootImages/BootomS.png";
+  static const String clicktoadd = "$rootImages/clicktoadd.png";
+  static const String filltreeform = "$rootImages/Filltreeform.png";
+  static const String finaltree = "$rootImages/finaltree.png";
+  static const String mDate = "$rootImages/MDate.png";
 }
