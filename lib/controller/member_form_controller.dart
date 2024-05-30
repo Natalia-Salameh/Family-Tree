@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:family_tree_application/controller/family_name_controller.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
@@ -22,6 +23,8 @@ class MemberFormController extends GetxController {
   final TextEditingController person1Id = TextEditingController();
   final MarriageFormController marriageFormController =
       Get.put(MarriageFormController());
+  final FamilyNameController familyNameController =
+      Get.put(FamilyNameController());
 
   var family = '';
   var gender = '';
@@ -47,6 +50,32 @@ class MemberFormController extends GetxController {
   }
 
   String? photoBase64;
+
+  @override
+  void onInit() {
+    clearForm();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    clearForm();
+    super.onClose();
+  }
+
+  void clearForm() {
+    firstNameController.clear();
+    secondNameController.clear();
+    thirdNameController.clear();
+    birthDateController.clear();
+    deathDateController.clear();
+    idController.clear();
+    selectedGender.value = null;
+    lifeStatus.value = null;
+    selectedFile.value = null;
+    familyNameController.clearLastName();
+    print("Clearing form controllers and state");
+  }
 
   addForm() async {
     List<File> files = [];

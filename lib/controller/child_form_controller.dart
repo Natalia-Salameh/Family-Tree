@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:family_tree_application/controller/add_child_controller.dart';
+import 'package:family_tree_application/controller/family_name_controller.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
@@ -14,6 +15,8 @@ import 'package:family_tree_application/enums.dart';
 class ChildFormController extends GetxController {
   final MarriageFormController marriageFormController =
       Get.put(MarriageFormController());
+  final FamilyNameController familyNameController =
+      Get.put(FamilyNameController());
   final ChildController childController = Get.put(ChildController());
   final selectedGender = Rx<Gender?>(null);
   final TextEditingController firstNameController = TextEditingController();
@@ -65,6 +68,7 @@ class ChildFormController extends GetxController {
     selectedGender.value = null;
     lifeStatus.value = null;
     selectedFile.value = null;
+    familyNameController.clearLastName();
   }
 
   addForm() async {
@@ -104,7 +108,7 @@ class ChildFormController extends GetxController {
       gender = responseData['gender'];
 
       childController.addChild();
-      Get.back();
+      Get.back(result: "true");
     } else {
       Get.defaultDialog(
         title: "Error",

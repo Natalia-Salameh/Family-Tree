@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:family_tree_application/controller/add_child_controller.dart';
 import 'package:family_tree_application/controller/add_parent_controller%20copy.dart';
 import 'package:family_tree_application/controller/child_form_controller.dart';
@@ -105,7 +106,8 @@ class _TreeState extends State<TreeState> {
               ),
               Button(
                 onPressed: () {
-                  Get.offAllNamed(AppRoute.diary);
+                  Get.offAllNamed(AppRoute.userLegacy,
+                      arguments: {'id': initialNodeId});
                 },
                 color: CustomColors.primaryColor,
                 child: Text("Add".tr,
@@ -125,84 +127,47 @@ class _TreeState extends State<TreeState> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(children: [
+          if (names.length > 1) ...[const SizedBox(width: 120)],
           for (var i = 0; i < names.length; i++) ...[
             if (i != 0) ...[
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    height: 2.5,
-                    width: 60,
-                    color: Colors.black,
-                  ),
-                  Material(
-                    shape: const CircleBorder(),
-                    clipBehavior: Clip.hardEdge,
-                    child: InkWell(
-                      onTap: () async {
-                        var marriageIdSelectedNode =
-                            (node as ExtendedNode).marriageKey?.value;
-
-                        childController.marriageId.text =
-                            marriageIdSelectedNode!;
-
-                        parentController.marriageId.text =
-                            marriageIdSelectedNode!;
-
-                        setState(() => selectedNodeId = node.key?.value);
-
-                        print(
-                            "selected node when adding child ${selectedNodeId}");
-                        childFormController.clearForm();
-
-                        // final result =
-                        await Get.toNamed(
-                          AppRoute.childForm,
-                          // arguments: "child"
-                        );
-
-                        // if (result == true) {
-                        final firstName =
-                            "${childFormController.firstNameController.text} ${childFormController.family}";
-                        final newChildId = childFormController.person1Id.text;
-
-                        _addChild(firstName, newChildId);
-                        // }
-                      },
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 12,
-                        child: Icon(
-                          Icons.add,
-                          size: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              Container(
+                height: 2.5,
+                width: 60,
+                color: Colors.black,
               ),
             ],
             Column(
               children: [
                 Stack(
                   children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundImage:
-                          (node as ExtendedNode).getPrimaryGender == "Female"
-                              ? const AssetImage(AppImageAsset.mother)
-                              : const AssetImage(AppImageAsset.father),
-                    ),
-                    if (i != 0) ...[
-                      CircleAvatar(
+                    DottedBorder(
+                      borderType: BorderType.Circle,
+                      color: Color.fromARGB(255, 126, 133, 126),
+                      strokeWidth: 1,
+                      dashPattern: [5, 5],
+                      child: CircleAvatar(
                         radius: 30,
                         backgroundImage:
-                            (node as ExtendedNode).getSecondaryGender ==
-                                    "Female"
+                            (node as ExtendedNode).getPrimaryGender == "Female"
                                 ? const AssetImage(AppImageAsset.mother)
                                 : const AssetImage(AppImageAsset.father),
                       ),
+                    ),
+                    if (i != 0) ...[
+                      DottedBorder(
+                        borderType: BorderType.Circle,
+                        color: Color.fromARGB(255, 126, 133, 126),
+                        strokeWidth: 1,
+                        dashPattern: [5, 5],
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundImage:
+                              (node as ExtendedNode).getSecondaryGender ==
+                                      "Female"
+                                  ? const AssetImage(AppImageAsset.mother)
+                                  : const AssetImage(AppImageAsset.father),
+                        ),
+                      )
                     ],
                     Positioned(
                       right: 0,
@@ -215,10 +180,12 @@ class _TreeState extends State<TreeState> {
                             setState(() => selectedNodeId = node.key?.value);
                             print(
                                 "selected node when adding child ${selectedNodeId}");
-                            _showBottomSheet(context);
+
+                            _showBottomSheet(context, node);
                           },
                           child: node.secondaryKey?.value == null ||
-                                  isInitialPrimaryNode && i == 0
+                                  isInitialPrimaryNode && i == 0 ||
+                                  i == 0
                               ? const CircleAvatar(
                                   backgroundColor: Colors.white,
                                   radius: 12,
@@ -304,45 +271,85 @@ class _TreeState extends State<TreeState> {
     setState(() {});
   }
 
-  void _showBottomSheet(BuildContext context) {
+  void _showBottomSheet(BuildContext context, n.Node node) {
+    bool hasParents =
+        graph.getInEdges(graph.getNodeUsingId(selectedNodeId!)).isNotEmpty;
+    bool hasSpouse = (node as ExtendedNode).secondaryKey != null;
+
+    List<Widget> options = [];
+    List<String> optionTexts = [];
+
+    if (!hasParents) {
+      options.add(GestureDetector(
+        onTap: () async {
+          userFormController.clearForm();
+          parentController.childId.text = selectedNodeId!;
+
+          final result =
+              await Get.offNamed(AppRoute.userForm, arguments: "parent");
+          if (result == "true") {
+            final person1FirstName =
+                "${userFormController.firstNameController.text} ${userFormController.family}";
+            final newParent1Id = userFormController.person1Id.text;
+            final newMarriageId = parentController.marriageId.text;
+            _addParent(person1FirstName, newParent1Id, newMarriageId);
+          }
+        },
+        child: Image.asset(AppImageAsset.mother),
+      ));
+      optionTexts.add("Add Parents".tr);
+    }
+
+    options.add(GestureDetector(
+      onTap: () async {
+        spouseFormController.clearForm();
+        marriageFormController.selectedNodeIdPerson1.text = selectedNodeId!;
+        final result =
+            await Get.toNamed(AppRoute.spouseForm, arguments: "spouse");
+        if (result == 'true') {
+          final firstName =
+              "${spouseFormController.firstNameController.text} ${spouseFormController.family}";
+          final newSpouseId = spouseFormController.person2Id.text;
+          final newMarriageId = marriageFormController.marriageIda.text;
+          _addSpouse(firstName, newSpouseId, newMarriageId);
+        }
+      },
+      child: Image.asset(AppImageAsset.couple, height: 50),
+    ));
+    optionTexts.add("Add Spouse".tr);
+
+    if (hasSpouse) {
+      options.add(GestureDetector(
+        onTap: () async {
+          var marriageIdSelectedNode =
+              (node as ExtendedNode).marriageKey?.value;
+
+          childController.marriageId.text = marriageIdSelectedNode!;
+
+          parentController.marriageId.text = marriageIdSelectedNode!;
+
+          print("selected node when adding child ${selectedNodeId}");
+          childFormController.clearForm();
+
+          final result = await Get.toNamed(AppRoute.childForm);
+
+          if (result == "true") {
+            final firstName =
+                "${childFormController.firstNameController.text} ${childFormController.family}";
+            final newChildId = childFormController.person1Id.text;
+
+            _addChild(firstName, newChildId);
+          }
+        },
+        child: Image.asset(AppImageAsset.child, height: 50),
+      ));
+      optionTexts.add("Add Child".tr);
+    }
+
     Get.bottomSheet(
       CustomBottomSheet(
-        children: [
-          GestureDetector(
-            onTap: () async {
-              userFormController.clearForm();
-
-              parentController.childId.text = selectedNodeId!;
-
-              await Get.offNamed(AppRoute.userForm, arguments: "parent");
-              // if (result == true) {
-              final person1FirstName =
-                  "${userFormController.firstNameController.text} ${userFormController.family}";
-              final newParent1Id = userFormController.person1Id.text;
-              final newMarriageId = parentController.marriageId.text;
-              _addParent(person1FirstName, newParent1Id, newMarriageId);
-              // }
-            },
-            child: Image.asset(AppImageAsset.mother),
-          ),
-          GestureDetector(
-            onTap: () async {
-              spouseFormController.clearForm();
-              // final result =
-              marriageFormController.selectedNodeIdPerson1.text =
-                  selectedNodeId!;
-              await Get.toNamed(AppRoute.spouseForm, arguments: "spouse");
-              // if (result == true) {
-              final firstName =
-                  "${spouseFormController.firstNameController.text} ${spouseFormController.family}";
-              final newSpouseId = spouseFormController.person2Id.text;
-              final newMarriageId = marriageFormController.marriageIda.text;
-              _addSpouse(firstName, newSpouseId, newMarriageId);
-              // }
-            },
-            child: Image.asset(AppImageAsset.couple, height: 50),
-          ),
-        ],
+        children: options,
+        imageTexts: optionTexts,
       ),
       isScrollControlled: true,
       enableDrag: true,

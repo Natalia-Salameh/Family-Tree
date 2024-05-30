@@ -16,6 +16,10 @@ class FamilyNameController extends GetxController {
     fetchFamilyNames();
   }
 
+  void clearLastName() {
+    lastNameController.clear();
+  }
+
   fetchFamilyNames() async {
     var response = await NetworkHandler.getRequest(
       AppLink.familyName,

@@ -1,5 +1,6 @@
 import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
 import 'package:family_tree_application/controller/home_page_controller.dart';
+import 'package:family_tree_application/controller/user_form_controller.dart'; // Import UserFormController
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
@@ -42,6 +43,12 @@ class _HomeState extends State<Home> {
     );
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +68,11 @@ class _HomeState extends State<Home> {
                 Expanded(child: PersonListView(homeController: homeController)),
               ],
             ),
-            UserForm(),
+            GetBuilder<UserFormController>(
+              init: UserFormController(),
+              dispose: (_) => Get.delete<UserFormController>(),
+              builder: (_) => UserForm(),
+            ),
             Legacy(),
           ],
         );
@@ -112,10 +123,9 @@ class _HomeState extends State<Home> {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          "Welcome back, [User's Name]!",
-          style: GoogleFonts.lobster(
-            fontSize: 24,
-            color: CustomColors.primaryColor,
+          "People with account",
+          style: GoogleFonts.aBeeZee(
+            fontSize: 18,
           ),
         ),
       ),
@@ -182,12 +192,6 @@ class _HomeState extends State<Home> {
         },
       ),
     );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 }
 
@@ -259,7 +263,9 @@ class PersonCard extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    person.fullName,
+                    person.gender.toString() == "Gender.FEMALE"
+                        ? "Female"
+                        : "Male",
                     style: TextStyle(
                         fontSize: 14, color: Color.fromARGB(255, 95, 92, 92)),
                   ),
@@ -267,8 +273,7 @@ class PersonCard extends StatelessWidget {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.arrow_forward_ios,
-                  color: CustomColors.black),
+              icon: Icon(Icons.arrow_forward_ios, color: CustomColors.black),
               onPressed: () {
                 Get.toNamed(AppRoute.userLegacy, arguments: {'id': person.id});
               },
