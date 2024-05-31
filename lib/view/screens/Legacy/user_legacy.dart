@@ -126,6 +126,16 @@ class UserLegacy extends StatelessWidget {
                                                 .split('T')[0],
                                       ),
                                     ),
+                                    // ListTile(
+                                    //   title: Text("Date of Death".tr),
+                                    //   subtitle: Text(
+                                    //     userLegacyController.dateOfBirth == null
+                                    //         ? "No Date of Death added"
+                                    //         : userLegacyController.dateOfDeath
+                                    //             .toString()
+                                    //             .split('T')[0],
+                                    //   ),
+                                    // ),
                                   ],
                                 )),
                           ],
