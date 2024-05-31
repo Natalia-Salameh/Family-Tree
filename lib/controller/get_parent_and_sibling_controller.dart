@@ -24,6 +24,7 @@ class ParentSiblingController extends GetxController {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
+      print('Parent and Sibling: ${response.body}');
       return getParentAndSiblingModelFromJson(response.body);
     } else {
       print('${response.statusCode}');
