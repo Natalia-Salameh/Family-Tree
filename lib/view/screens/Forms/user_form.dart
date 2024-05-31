@@ -24,7 +24,10 @@ class UserForm extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Get.arguments == "parent" ? Text("Add first parent".tr) : Text("Add the starting person".tr),
+        backgroundColor: CustomColors.myCustomColor,
+        title: Get.arguments == "parent"
+            ? Text("Add first parent".tr)
+            : Text("Add the starting person".tr),
         centerTitle: true,
         leading: Get.arguments == null
             ? null
@@ -46,7 +49,7 @@ class UserForm extends StatelessWidget {
                 child: Column(
                   children: [
                     //--------- Profile Image -----------
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 1),
                     Obx(() => Profile(
                           onImagePicked: (file) {
                             userFormController.setImage(
@@ -123,41 +126,48 @@ class UserForm extends StatelessWidget {
                       height: 40,
                     ),
                     //--------- Gender -----------
-                    Row(children: [
-                      Expanded(
-                          flex: 0,
-                          child: Text(
-                            "30".tr,
-                            style: const TextStyle(fontSize: 16),
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "31".tr,
-                              genderValue: Gender.female,
-                              selectedGender:
-                                  userFormController.selectedGender.value,
-                              onGenderSelected: (val) {
-                                userFormController.updateGender(Gender.female);
-                              },
-                            )),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "32".tr,
-                              genderValue: Gender.male,
-                              selectedGender:
-                                  userFormController.selectedGender.value,
-                              onGenderSelected: (val) {
-                                userFormController.updateGender(Gender.male);
-                              },
-                            )),
-                      ),
-                    ]),
-                    const SizedBox(
-                      height: 10,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Gender", style: const TextStyle(fontSize: 16)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Obx(() => RadioButton(
+                                    label: "31".tr,
+                                    genderValue: Gender.female,
+                                    selectedGender:
+                                        userFormController.selectedGender.value,
+                                    onGenderSelected: (val) {
+                                      userFormController
+                                          .updateGender(Gender.female);
+                                    },
+                                  )),
+                            ),
+                            const SizedBox(width: 8), // Adjust width as needed
+                            Expanded(
+                              flex: 1,
+                              child: Obx(() => RadioButton(
+                                    label: "32".tr,
+                                    genderValue: Gender.male,
+                                    selectedGender:
+                                        userFormController.selectedGender.value,
+                                    onGenderSelected: (val) {
+                                      userFormController
+                                          .updateGender(Gender.male);
+                                    },
+                                  )),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
                     ),
+
                     //--------- Birth Date -----------
                     GestureDetector(
                       onTap: () {
@@ -218,40 +228,50 @@ class UserForm extends StatelessWidget {
                       height: 20,
                     ),
                     //--------- Life Status -----------
-                    Row(children: [
-                      Expanded(
-                          flex: 0,
-                          child: Text(
-                            "Life Status".tr,
-                            style: const TextStyle(fontSize: 16),
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "Alive".tr,
-                              genderValue: LifeStatus.alive,
-                              selectedGender:
-                                  userFormController.lifeStatus.value,
-                              onGenderSelected: (val) {
-                                userFormController
-                                    .updateLifeStatus(LifeStatus.alive);
-                              },
-                            )),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "Dead".tr,
-                              genderValue: LifeStatus.dead,
-                              selectedGender:
-                                  userFormController.lifeStatus.value,
-                              onGenderSelected: (val) {
-                                userFormController
-                                    .updateLifeStatus(LifeStatus.dead);
-                              },
-                            )),
-                      ),
-                    ]),
+                    //--------- Life Status -----------
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Life Status",
+                            style: const TextStyle(fontSize: 16)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Obx(() => RadioButton(
+                                    label: "Alive".tr,
+                                    genderValue: LifeStatus.alive,
+                                    selectedGender:
+                                        userFormController.lifeStatus.value,
+                                    onGenderSelected: (val) {
+                                      userFormController
+                                          .updateLifeStatus(LifeStatus.alive);
+                                    },
+                                  )),
+                            ),
+                            const SizedBox(width: 8), // Adjust width as needed
+                            Expanded(
+                              flex: 1,
+                              child: Obx(() => RadioButton(
+                                    label: "Dead".tr,
+                                    genderValue: LifeStatus.dead,
+                                    selectedGender:
+                                        userFormController.lifeStatus.value,
+                                    onGenderSelected: (val) {
+                                      userFormController
+                                          .updateLifeStatus(LifeStatus.dead);
+                                    },
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+
                     //--------- Death Date -----------
                     Obx(() => Visibility(
                           visible: userFormController.lifeStatus.value ==
@@ -318,7 +338,7 @@ class UserForm extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                               SizedBox(
+                    SizedBox(
                       child: Button(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {

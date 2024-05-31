@@ -25,7 +25,7 @@ void main() async {
                 expiration == null ||
                 expiration.isBefore(DateTime.now()))
             ? AppRoute.getStarted
-            : AppRoute.memberForm),
+            : AppRoute.home),
   );
 }
 
@@ -36,11 +36,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: initialRoute,
-      getPages: routes,
-      locale: Get.deviceLocale,
-      translations: MyLocale()
-    );
+        debugShowCheckedModeBanner: false,
+        initialRoute: initialRoute,
+        getPages: routes,
+        locale: Get.deviceLocale,
+        translations: MyLocale());
   }
 }
