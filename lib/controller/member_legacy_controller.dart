@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
 import 'package:family_tree_application/controller/get_parent_and_sibling_controller.dart';
 import 'package:family_tree_application/model/member_legacy_model.dart';
@@ -14,6 +13,7 @@ class MemberLegacyController extends GetxController {
   final ParentSiblingController parentChildController =
       Get.put(ParentSiblingController());
   static MemberLegacyController get to => Get.find();
+
   var location = ''.obs;
   var work = ''.obs;
   var legacyStory = ''.obs;
@@ -26,13 +26,16 @@ class MemberLegacyController extends GetxController {
   var photoBase64 = ''.obs;
   Uint8List? imageBytes;
   var decision = ''.obs;
+  var isLoading = false.obs;
+
   @override
   void onInit() {
     super.onInit();
     legacyInfo();
   }
 
-  legacyInfo() async {
+  Future<void> legacyInfo() async {
+    isLoading.value = true;
     var response = await NetworkHandler.getRequest(
       AppLink.memberLegacy,
       includeToken: true,
@@ -59,5 +62,6 @@ class MemberLegacyController extends GetxController {
       print('Failed to fetch family names: ${response.statusCode}');
       print('Error details: ${response.body}');
     }
+    isLoading.value = false;
   }
 }

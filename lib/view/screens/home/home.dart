@@ -1,8 +1,8 @@
+import 'package:family_tree_application/classes/featured_fam.dart';
 import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
 import 'package:family_tree_application/controller/home_page_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/model/home_page_model.dart';
 import 'package:family_tree_application/view/screens/Forms/user_form.dart';
@@ -25,15 +25,25 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   final HomeController homeController = Get.put(HomeController());
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final args = Get.arguments;
       final bool fromSignup = args != null && args['fromSignup'] == true;
       if (fromSignup) {
         _showPopup(context);
+      }
+    });
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+              _scrollController.position.maxScrollExtent &&
+          !homeController.isFetchingMore.value) {
+        homeController.fetchHomePageMembers(isMore: true);
       }
     });
   }
@@ -54,6 +64,12 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _selectedIndex == 0 ? _buildAppBar(context) : null,
@@ -65,15 +81,7 @@ class _HomeState extends State<Home> {
         return IndexedStack(
           index: _selectedIndex,
           children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildGreeting(),
-                  _buildFeaturedFamily(),
-                  _buildPersonListView(),
-                ],
-              ),
-            ),
+            _buildHomeView(),
             GetBuilder<UserFormController>(
               init: UserFormController(),
               dispose: (_) => Get.delete<UserFormController>(),
@@ -92,12 +100,17 @@ class _HomeState extends State<Home> {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text(
-        "Ajial",
-        style: GoogleFonts.lobster(
-          fontSize: 28,
-          color: Colors.white,
-        ),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Ajial",
+            style: GoogleFonts.lobster(
+              fontSize: 28,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
       backgroundColor: CustomColors.myCustomColor,
       elevation: 0,
@@ -112,10 +125,35 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget _buildHomeView() {
+    return NotificationListener<ScrollNotification>(
+      onNotification: (ScrollNotification scrollInfo) {
+        if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
+            !homeController.isFetchingMore.value) {
+          homeController.fetchHomePageMembers(isMore: true);
+          return true;
+        }
+        return false;
+      },
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        child: Column(
+          children: [
+            _buildGreeting(),
+            FeaturedFamilies(families: featuredFamilies),
+            _buildPersonListView(),
+            if (homeController.isFetchingMore.value)
+              Center(child: CircularProgressIndicator()),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildGreeting() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: CustomColors.myCustomColor,
         borderRadius: BorderRadius.only(
@@ -126,88 +164,17 @@ class _HomeState extends State<Home> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Welcome to Ajial!",
-            style: GoogleFonts.aBeeZee(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            "Explore your family history and connections.",
-            style: GoogleFonts.aBeeZee(
-              fontSize: 16,
-              color: Colors.white70,
+          Center(
+            child: Text(
+              "Connect with your roots",
+              style: GoogleFonts.aBeeZee(
+                fontSize: 21,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildFeaturedFamily() {
-    List<FeaturedFamily> featuredFamilies = [
-      FeaturedFamily(
-        familyName: "Al-Shomali Family",
-        story: "Contributions to local politics ",
-      ),
-      FeaturedFamily(
-        familyName: "Haddad Family",
-        story: "Roots tracing back to the early 1800s.",
-      ),
-    ];
-    Text(
-      "People with account",
-      style: GoogleFonts.aBeeZee(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
-      ),
-    );
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 17),
-      height: 120,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: featuredFamilies.length,
-        itemBuilder: (context, index) {
-          return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            elevation: 4,
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Container(
-              width: 200,
-              padding: EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 10),
-                  Text(
-                    featuredFamilies[index].familyName,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    featuredFamilies[index].story,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[700],
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
       ),
     );
   }
@@ -218,7 +185,7 @@ class _HomeState extends State<Home> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10),
+          SizedBox(height: 2),
           ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
@@ -231,34 +198,6 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-}
-
-class PersonListView extends StatelessWidget {
-  final HomeController homeController;
-
-  const PersonListView({Key? key, required this.homeController})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      controller: homeController.scrollController,
-      itemCount: homeController.homePageList.length,
-      itemBuilder: (context, index) {
-        return PersonCard(person: homeController.homePageList[index]);
-      },
-    );
-  }
-}
-
-class FeaturedFamily {
-  final String familyName;
-  final String story;
-
-  FeaturedFamily({
-    required this.familyName,
-    required this.story,
-  });
 }
 
 class PersonCard extends StatelessWidget {

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:family_tree_application/controller/add_child_controller.dart';
 import 'package:family_tree_application/controller/add_parent_controller%20copy.dart';
@@ -32,7 +31,6 @@ class MemberFamilyTreePage extends StatefulWidget {
 
 class _TreeState extends State<MemberFamilyTreePage> {
   Graph graph = Graph();
-
   BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
   Map<String, List<String>> nodeNames = {};
   List<n.Node> nodes = [];
@@ -75,7 +73,35 @@ class _TreeState extends State<MemberFamilyTreePage> {
     } else {
       print('Error: personIdController is empty.');
     }
-    setState(() => isLoading = false);
+    if (mounted) {
+      setState(() => isLoading = false);
+    }
+  }
+
+  Future<void> _refreshData() async {
+    if (mounted) {
+      setState(() {
+        isLoading = true;
+      });
+    }
+    await fetchInitialData();
+  }
+
+  @override
+  void dispose() {
+    userFormController.dispose();
+    marriageFormController.dispose();
+    childSpouseController.dispose();
+    memberLegacyController.dispose();
+    spouseFormController.dispose();
+    childController.dispose();
+    parentController.dispose();
+    childFormController.dispose();
+    addVoteController.dispose();
+    getVoteController.dispose();
+    deleteVoteController.dispose();
+    parentSiblingController.dispose();
+    super.dispose();
   }
 
   void _clearGraph() {
@@ -227,18 +253,22 @@ class _TreeState extends State<MemberFamilyTreePage> {
               Expanded(
                 child: isLoading
                     ? const Center(child: CircularProgressIndicator())
-                    : InteractiveViewer(
-                        transformationController: TransformationController()
-                          ..value = Matrix4.diagonal3Values(_scale, _scale, 1),
-                        constrained: false,
-                        boundaryMargin: const EdgeInsets.all(100),
-                        minScale: 0.01,
-                        maxScale: 5.6,
-                        child: GraphView(
-                          graph: graph,
-                          algorithm: BuchheimWalkerAlgorithm(
-                              builder, TreeEdgeRenderer(builder)),
-                          builder: (node) => _nodeWidget(node),
+                    : RefreshIndicator(
+                        onRefresh: _refreshData,
+                        child: InteractiveViewer(
+                          transformationController: TransformationController()
+                            ..value =
+                                Matrix4.diagonal3Values(_scale, _scale, 1),
+                          constrained: false,
+                          boundaryMargin: const EdgeInsets.all(100),
+                          minScale: 0.01,
+                          maxScale: 5.6,
+                          child: GraphView(
+                            graph: graph,
+                            algorithm: BuchheimWalkerAlgorithm(
+                                builder, TreeEdgeRenderer(builder)),
+                            builder: (node) => _nodeWidget(node),
+                          ),
                         ),
                       ),
               )

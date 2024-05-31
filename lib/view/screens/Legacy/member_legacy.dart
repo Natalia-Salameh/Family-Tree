@@ -17,6 +17,7 @@ class Legacy extends StatelessWidget {
   Legacy({super.key});
   final legacyController = Get.put(MemberLegacyController());
   final updateController = Get.put(UpdateMemberLegacyProfile());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,121 +99,136 @@ class Legacy extends StatelessWidget {
               icon: const Icon(Icons.dehaze_sharp))
         ],
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Obx(() {
-                return Column(
-                  children: [
-                    Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        if (legacyController.imageBytes != null)
-                          CircleAvatar(
-                            radius:
-                                60, // Slightly increased size for visual enhancement
-                            backgroundImage:
-                                MemoryImage(legacyController.imageBytes!),
-                          )
-                        else
-                          const CircleAvatar(
-                            radius: 60,
-                            child: Icon(Icons.person,
-                                size: 70), // Adjusted size for consistency
+      body: Obx(() {
+        return RefreshIndicator(
+          onRefresh: () async {
+            await legacyController.legacyInfo();
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          if (legacyController.imageBytes != null)
+                            CircleAvatar(
+                              radius:
+                                  60, // Slightly increased size for visual enhancement
+                              backgroundImage:
+                                  MemoryImage(legacyController.imageBytes!),
+                            )
+                          else
+                            const CircleAvatar(
+                              radius: 60,
+                              child: Icon(Icons.person,
+                                  size: 70), // Adjusted size for consistency
+                            ),
+                          Container(
+                            height: 35,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 243, 243, 243),
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              icon: const Icon(Icons.edit_sharp,
+                                  color: Color.fromARGB(255, 0, 0, 0)),
+                              onPressed: () => _selectAndUploadImage(context),
+                            ),
                           ),
-                        Container(
-                          height: 35,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 243, 243, 243),
-                            shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.edit_sharp,
-                                color: Color.fromARGB(255, 0, 0, 0)),
-                            onPressed: () => _selectAndUploadImage(context),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Text(
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
                         "${legacyController.firstName.value} ${legacyController.secondName.value} ${legacyController.thirdName.value} ${legacyController.family.value.familyName}",
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                        )),
-                    const SizedBox(height: 10),
-                    LegacyTabBar(
-                      views: [
-                        Container(
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      LegacyTabBar(
+                        views: [
+                          Container(
                             alignment: Alignment.center,
-                            child: const MemberFamilyTreePage()),
-                        Container(
-                            alignment: Alignment.center,
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  title: Text("35".tr),
-                                  subtitle: Text(
-                                    legacyController.location.value.isEmpty
-                                        ? "No Location added"
-                                        : legacyController.location.value,
+                            child: RefreshIndicator(
+                              onRefresh: () async {
+                                // Trigger the refresh of the family tree data
+                                await legacyController.legacyInfo();
+                                // Add any specific refresh logic for the MemberFamilyTreePage here if needed
+                              },
+                              child: const MemberFamilyTreePage(),
+                            ),
+                          ),
+                          Container(
+                              alignment: Alignment.center,
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    title: Text("35".tr),
+                                    subtitle: Text(
+                                      legacyController.location.value.isEmpty
+                                          ? "No Location added"
+                                          : legacyController.location.value,
+                                    ),
                                   ),
-                                ),
-                                ListTile(
-                                  title: Text("36".tr),
-                                  subtitle: Text(
-                                    legacyController.work.value.isEmpty
-                                        ? "No Work added".tr
-                                        : legacyController.work.value,
+                                  ListTile(
+                                    title: Text("36".tr),
+                                    subtitle: Text(
+                                      legacyController.work.value.isEmpty
+                                          ? "No Work added".tr
+                                          : legacyController.work.value,
+                                    ),
                                   ),
-                                ),
-                                ListTile(
-                                  title: Text("41".tr),
-                                  subtitle: Text(
-                                    legacyController.legacyStory.value.isEmpty
-                                        ? "No Diary added".tr
-                                        : legacyController.legacyStory.value,
+                                  ListTile(
+                                    title: Text("41".tr),
+                                    subtitle: Text(
+                                      legacyController.legacyStory.value.isEmpty
+                                          ? "No Diary added".tr
+                                          : legacyController.legacyStory.value,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            )),
-                        Container(
-                            alignment: Alignment.center,
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  title: Text("30".tr),
-                                  subtitle: Text(
-                                    legacyController.gender.value.isEmpty
-                                        ? "No Gender added".tr
-                                        : legacyController.gender.value,
+                                ],
+                              )),
+                          Container(
+                              alignment: Alignment.center,
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    title: Text("30".tr),
+                                    subtitle: Text(
+                                      legacyController.gender.value.isEmpty
+                                          ? "No Gender added".tr
+                                          : legacyController.gender.value,
+                                    ),
                                   ),
-                                ),
-                                ListTile(
-                                  title: Text("DateofBirth".tr),
-                                  subtitle: Text(
-                                    legacyController.dateOfBirth.value == null
-                                        ? "No Date of Birth added"
-                                        : legacyController.dateOfBirth.value
-                                            .toString()
-                                            .split('T')[0],
+                                  ListTile(
+                                    title: Text("DateofBirth".tr),
+                                    subtitle: Text(
+                                      legacyController.dateOfBirth.value == null
+                                          ? "No Date of Birth added"
+                                          : legacyController.dateOfBirth.value
+                                              .toString()
+                                              .split('T')[0],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            )),
-                      ],
-                    ),
-                  ],
-                );
-              }),
+                                ],
+                              )),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
@@ -258,7 +274,7 @@ class Legacy extends StatelessWidget {
       updateController.setImage(imageFile);
       await updateController.updateImage(legacyController.family.value.id);
       // Reload the legacy info after updating the image
-      legacyController.legacyInfo();
+      await legacyController.legacyInfo();
     } else {
       // Handle the user not selecting an image
       Get.snackbar(

@@ -1,4 +1,5 @@
 import 'package:family_tree_application/classes/animated_tutorial.dart';
+import 'package:family_tree_application/classes/family_details.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/Forms/child_form.dart';
 import 'package:family_tree_application/view/screens/Forms/marriage_form.dart';
@@ -54,4 +55,5 @@ List<GetPage<dynamic>>? routes = [
   GetPage(
       name: AppRoute.spouseMarriageStatus, page: () => SpouseMarriageStatus()),
   // GetPage(name: AppRoute.TutorialScreen, page: () => TutorialScreen()),
+  GetPage(name: '/family-details', page: () => FamilyDetailsPage()),
 ];
