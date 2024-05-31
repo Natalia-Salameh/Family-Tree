@@ -11,7 +11,6 @@ class HomeController extends GetxController {
   Set<String> memberIDs = {}; // Set to track unique member IDs
   int currentPage = 0;
   late ScrollController scrollController;
-  // Controller for managing scroll events
 
   @override
   void onInit() {
@@ -46,8 +45,7 @@ class HomeController extends GetxController {
           includeToken: true,
           queryParams: {
             'numOfMembers': '20',
-            'page':
-                currentPage.toString(), // Pass the current page for pagination
+            'page': currentPage.toString(),
           });
 
       if (response.statusCode == 200) {
@@ -75,8 +73,7 @@ class HomeController extends GetxController {
 
   @override
   void onClose() {
-    scrollController
-        .dispose(); // Dispose controller when the controller is removed
+    scrollController.dispose();
     super.onClose();
   }
 }

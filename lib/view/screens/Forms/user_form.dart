@@ -57,13 +57,12 @@ class UserForm extends StatelessWidget {
                   const SizedBox(height: 1),
                   Obx(() => Profile(
                         onImagePicked: (file) {
-                          userFormController.setImage(
-                              file); // This will store the file in the controller
+                          userFormController.setImage(file);
                         },
-                        imageFile: userFormController.selectedFile
-                            .value, // Ensure this is displayed correctly
+                        imageFile: userFormController.selectedFile.value,
                       )),
                   //--------- Full Name -----------
+                  const SizedBox(height: 25),
                   Row(
                     children: [
                       Expanded(
@@ -128,7 +127,7 @@ class UserForm extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
                   //--------- Gender -----------
                   Column(
@@ -230,7 +229,6 @@ class UserForm extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  //--------- Life Status -----------
                   //--------- Life Status -----------
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -336,7 +334,7 @@ class UserForm extends StatelessWidget {
                         ),
                       )),
                   const SizedBox(
-                    height: 10,
+                    height: 1,
                   ),
                   SizedBox(
                     child: Button(

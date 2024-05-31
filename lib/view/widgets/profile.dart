@@ -16,31 +16,49 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(26),
+      padding: const EdgeInsets.all(10),
       child: Stack(
         children: [
           Transform.scale(
             scale: 0.6,
             child: CircleAvatar(
-              radius: 70,
+              radius: 50,
               backgroundImage: imageFile != null ? FileImage(imageFile!) : null,
               child: imageFile == null
-                  ? ImagePickerWidget(
-                      fit: BoxFit.cover,
-                      diameter: 140,
-                      shape: ImagePickerWidgetShape.circle,
-                      modalOptions: ModalOptions(
-                        cameraColor: CustomColors.primaryColor,
-                        galleryColor: CustomColors.primaryColor,
+                  ? null
+                  : Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.5),
+                        shape: BoxShape.circle,
                       ),
-                      isEditable: true,
-                      imagePickerOptions: ImagePickerOptions(imageQuality: 10),
-                      onChange: (File file) {
-                        print("I changed the file to: ${file.path}");
-                        onImagePicked(file);
-                      },
-                    )
-                  : null,
+                      child: Center(
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.white,
+                          size: 50,
+                        ),
+                      ),
+                    ),
+            ),
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.center,
+              child: ImagePickerWidget(
+                fit: BoxFit.cover,
+                diameter: 140,
+                shape: ImagePickerWidgetShape.circle,
+                modalOptions: ModalOptions(
+                  cameraColor: CustomColors.primaryColor,
+                  galleryColor: CustomColors.primaryColor,
+                ),
+                isEditable: true,
+                imagePickerOptions: ImagePickerOptions(imageQuality: 10),
+                onChange: (File file) {
+                  print("I changed the file to: ${file.path}");
+                  onImagePicked(file);
+                },
+              ),
             ),
           ),
         ],
