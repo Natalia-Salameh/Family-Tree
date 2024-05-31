@@ -1,6 +1,6 @@
 import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
 import 'package:family_tree_application/controller/home_page_controller.dart';
-import 'package:family_tree_application/controller/user_form_controller.dart'; // Import UserFormController
+import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
@@ -30,7 +30,11 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showPopup(context);
+      final args = Get.arguments;
+      final bool fromSignup = args != null && args['fromSignup'] == true;
+      if (fromSignup) {
+        _showPopup(context);
+      }
     });
   }
 
@@ -61,12 +65,14 @@ class _HomeState extends State<Home> {
         return IndexedStack(
           index: _selectedIndex,
           children: [
-            Column(
-              children: [
-                _buildGreeting(),
-                _buildFeaturedFamily(),
-                Expanded(child: PersonListView(homeController: homeController)),
-              ],
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  _buildGreeting(),
+                  _buildFeaturedFamily(),
+                  _buildPersonListView(),
+                ],
+              ),
             ),
             GetBuilder<UserFormController>(
               init: UserFormController(),
@@ -86,110 +92,142 @@ class _HomeState extends State<Home> {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              "Ajial",
-              style: GoogleFonts.lobster(
-                fontSize: 28,
-                color: Colors.black,
-              ),
-            ),
-          ],
+      title: Text(
+        "Ajial",
+        style: GoogleFonts.lobster(
+          fontSize: 28,
+          color: Colors.white,
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: CustomColors.myCustomColor,
       elevation: 0,
       actions: [
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: IconButton(
-            icon: const Icon(Icons.search, color: Colors.black, size: 28),
-            onPressed: () {
-              showSearch(context: context, delegate: CustomSearchDelegate());
-            },
-          ),
+        IconButton(
+          icon: const Icon(Icons.search, color: Colors.white, size: 28),
+          onPressed: () {
+            showSearch(context: context, delegate: CustomSearchDelegate());
+          },
         ),
       ],
     );
   }
 
   Widget _buildGreeting() {
-    return Padding(
+    return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(16.0),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          "People with account",
-          style: GoogleFonts.aBeeZee(
-            fontSize: 18,
-          ),
+      decoration: BoxDecoration(
+        color: CustomColors.myCustomColor,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
         ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Welcome to Ajial!",
+            style: GoogleFonts.aBeeZee(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            "Explore your family history and connections.",
+            style: GoogleFonts.aBeeZee(
+              fontSize: 16,
+              color: Colors.white70,
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildFeaturedFamily() {
-    // Sample data for featured family
-    List<String> featuredFamily = [
-      "Family 1",
-      "Family 2",
-      "Family 3",
-    ];
     List<FeaturedFamily> featuredFamilies = [
       FeaturedFamily(
-        familyName: "Al-Basha Family",
-        story:
-            "A family known for their significant contributions to local politics and community service.",
-        imageUrl: "assets/images/al_basha.jpg",
+        familyName: "Al-Shomali Family",
+        story: "Contributions to local politics ",
       ),
       FeaturedFamily(
         familyName: "Haddad Family",
-        story: "A prominent family with roots tracing back to the early 1800s.",
-        imageUrl: "assets/images/haddad.jpg",
+        story: "Roots tracing back to the early 1800s.",
       ),
-      // Add more families...
     ];
-
+    Text(
+      "People with account",
+      style: GoogleFonts.aBeeZee(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
+    );
     return Container(
-      height: 150,
+      margin: const EdgeInsets.symmetric(vertical: 17),
+      height: 120,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: featuredFamily.length,
+        itemCount: featuredFamilies.length,
         itemBuilder: (context, index) {
           return Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
             elevation: 4,
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            margin: EdgeInsets.symmetric(horizontal: 10),
             child: Container(
               width: 200,
               padding: EdgeInsets.all(10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    AppImageAsset.logo,
-                    height: 40,
-                  ),
                   SizedBox(height: 10),
                   Text(
-                    featuredFamily[index],
+                    featuredFamilies[index].familyName,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
+                  SizedBox(height: 5),
+                  Text(
+                    featuredFamilies[index].story,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[700],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildPersonListView() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 10),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: homeController.homePageList.length,
+            itemBuilder: (context, index) {
+              return PersonCard(person: homeController.homePageList[index]);
+            },
+          ),
+        ],
       ),
     );
   }
@@ -216,10 +254,11 @@ class PersonListView extends StatelessWidget {
 class FeaturedFamily {
   final String familyName;
   final String story;
-  final String imageUrl;
 
-  FeaturedFamily(
-      {required this.familyName, required this.story, required this.imageUrl});
+  FeaturedFamily({
+    required this.familyName,
+    required this.story,
+  });
 }
 
 class PersonCard extends StatelessWidget {
