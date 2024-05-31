@@ -145,13 +145,15 @@ class _TreeState extends State<FamilyTreePage> {
         _expandChildSpouseNode(siblingNode);
       }
     }
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _expandChildSpouseNode(ExtendedNode node) async {
-
     var familyDataList =
         await childSpouseController.fetchSpouseAndChildrenById(node.key!.value);
-    
+
     for (var familyData in familyDataList) {
       if (familyData.spouse.memberPhoto != null &&
           familyData.spouse.memberPhoto.isNotEmpty) {
