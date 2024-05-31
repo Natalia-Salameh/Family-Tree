@@ -113,20 +113,23 @@ class _TreeState extends State<MemberFamilyTreePage> {
         await parentSiblingController.fetchParentAndSibling(node.key!.value);
 
     for (var parentData in parentDataList) {
-      if (parentData.parent1.memberPhoto != null &&
-          parentData.parent1.memberPhoto.isNotEmpty) {
-        node.setPrimaryImage(base64Decode(parentData.parent1.memberPhoto));
-      }
-
-      if (parentData.parent2.memberPhoto != null &&
-          parentData.parent2.memberPhoto.isNotEmpty) {
-        node.setSecondaryImage(base64Decode(parentData.parent2.memberPhoto));
-      }
       final ExtendedNode parent1Node =
           ExtendedNode.dualId(parentData.parent1.memberId);
 
       graph.addNode(parent1Node);
       graph.addEdge(parent1Node, node);
+
+      if (parentData.parent1.memberPhoto != null &&
+          parentData.parent1.memberPhoto.isNotEmpty) {
+        parent1Node
+            .setPrimaryImage(base64Decode(parentData.parent1.memberPhoto));
+      }
+
+      if (parentData.parent2.memberPhoto != null &&
+          parentData.parent2.memberPhoto.isNotEmpty) {
+        parent1Node
+            .setSecondaryImage(base64Decode(parentData.parent2.memberPhoto));
+      }
 
       final parent1Name =
           "${parentData.parent1.firstName} ${parentData.parent1.familyName}";
@@ -161,6 +164,9 @@ class _TreeState extends State<MemberFamilyTreePage> {
         _expandChildSpouseNode(siblingNode);
       }
     }
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _expandChildSpouseNode(ExtendedNode node) async {
@@ -168,16 +174,17 @@ class _TreeState extends State<MemberFamilyTreePage> {
         await childSpouseController.fetchSpouseAndChildrenById(node.key!.value);
 
     for (var familyData in familyDataList) {
-      if (familyData.spouse.memberPhoto != null &&
-          familyData.spouse.memberPhoto.isNotEmpty) {
-        node.setSecondaryImage(base64Decode(familyData.spouse.memberPhoto));
-      }
-
       final ExtendedNode spouseNode =
           graph.getNodeUsingId(node.key!.value) as ExtendedNode;
       spouseNode.setSecondaryId(familyData.spouse.memberId);
       spouseNode.setMarriageId(familyData.marriageId);
       print(spouseNode);
+
+      if (familyData.spouse.memberPhoto != null &&
+          familyData.spouse.memberPhoto.isNotEmpty) {
+        spouseNode
+            .setSecondaryImage(base64Decode(familyData.spouse.memberPhoto));
+      }
 
       final spouseName =
           "${familyData.spouse.firstName} ${familyData.spouse.familyName}";
