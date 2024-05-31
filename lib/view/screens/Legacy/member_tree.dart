@@ -71,7 +71,6 @@ class _TreeState extends State<MemberFamilyTreePage> {
   Future<void> fetchInitialData() async {
     await memberLegacyController.legacyInfo();
     if (childSpouseController.personIdController.text.isNotEmpty) {
-      //  await childSpouseController.fetchSpouseAndChildren();
       _initializeGraph();
     } else {
       print('Error: personIdController is empty.');

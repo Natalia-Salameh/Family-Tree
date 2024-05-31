@@ -22,6 +22,7 @@ class LegacyTabBar extends StatelessWidget {
           tabBarProperties: const TabBarProperties(
               indicatorColor: CustomColors.primaryColor,
               labelColor: CustomColors.primaryColor),
+              
           tabs: const [
             Icon(Icons.groups_outlined),
             Icon(CupertinoIcons.book),
