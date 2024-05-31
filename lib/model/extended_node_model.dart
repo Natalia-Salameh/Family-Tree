@@ -12,6 +12,7 @@ class ExtendedNode extends Node {
   ValueKey primaryId; // Changed to ValueKey
   String? primaryState;
   String? secondaryState;
+  bool isExpanded = false;
 
   ExtendedNode.dualId(
     dynamic primaryId, [

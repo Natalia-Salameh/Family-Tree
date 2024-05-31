@@ -25,7 +25,7 @@ void main() async {
                 expiration == null ||
                 expiration.isBefore(DateTime.now()))
             ? AppRoute.getStarted
-            : AppRoute.memberForm),
+            : AppRoute.home),
   );
 }
 

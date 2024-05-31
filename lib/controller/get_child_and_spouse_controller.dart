@@ -9,37 +9,9 @@ import 'package:get/get.dart';
 
 class ChildSpouseController extends GetxController {
   final TextEditingController personIdController = TextEditingController();
-  List<GetSpouseAndChildrenModel> get getSpouseChildModel => _spouseChildModel;
-  List<GetSpouseAndChildrenModel> _spouseChildModel = [];
-  RxList<GetSpouseAndChildrenModel> spouseChildren = RxList();
   @override
   void onInit() {
     super.onInit();
-  }
-
-  fetchSpouseAndChildren() async {
-    //print(personIdController.text);
-    var response = await NetworkHandler.getRequest(
-      AppLink.getChildSpouse,
-      includeToken: true,
-      queryParams: {'memberId': personIdController.text},
-    );
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      spouseChildren
-          .assignAll(getSpouseAndChildrenModelFromJson(response.body));
-      // List<GetSpouseAndChildrenModel> getSpouseChildModel =
-      //     getSpouseAndChildrenModelFromJson(response.body);
-      // _spouseChildModel = getSpouseAndChildrenModelFromJson(response.body);
-      update();
-      // GetSpouseAndChildrenModel childSpouseInfoModel = GetSpouseAndChildrenModel(marriageId: '', spouse: null, marriageStatus: '', children: []);
-      //  education = childSpouseInfoModel.;
-
-      print(response.body);
-    } else {
-      print('Failed to fetch family names: ${response.statusCode}');
-      print('Error details: ${response.body}');
-    }
   }
 
   Uint8List? getImageBytes(String base64String) {
@@ -52,7 +24,7 @@ class ChildSpouseController extends GetxController {
   Future<List<GetSpouseAndChildrenModel>> fetchSpouseAndChildrenById(
       String memberId) async {
     var response = await NetworkHandler.getRequest(
-      AppLink.getChildSpouse, // Adjust endpoint if necessary
+      AppLink.getChildSpouse,
       includeToken: true,
       queryParams: {'memberId': memberId},
     );

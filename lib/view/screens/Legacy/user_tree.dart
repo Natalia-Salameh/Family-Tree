@@ -6,6 +6,7 @@ import 'package:family_tree_application/controller/add_update_vote_controller.da
 import 'package:family_tree_application/controller/child_form_controller.dart';
 import 'package:family_tree_application/controller/delete_vote_controller.dart';
 import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
+import 'package:family_tree_application/controller/get_parent_and_sibling_controller.dart';
 import 'package:family_tree_application/controller/get_vote_controller.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/controller/spouse_form_controller.dart';
@@ -56,16 +57,18 @@ class _TreeState extends State<FamilyTreePage> {
   final GetVoteController getVoteController = Get.put(GetVoteController());
   final DeleteVoteController deleteVoteController =
       Get.put(DeleteVoteController());
+  final ParentSiblingController parentSiblingController =
+      Get.put(ParentSiblingController());
 
   String? initialNodeId;
 
   @override
   void initState() {
     super.initState();
-    childSpouseController.fetchSpouseAndChildren().then((_) {
-      _initializeGraph();
-      setState(() => isLoading = false);
-    });
+    //  childSpouseController.fetchSpouseAndChildren().then((_) {
+    _initializeGraph();
+    setState(() => isLoading = false);
+    //  });
   }
 
   void _initializeGraph() async {
@@ -85,13 +88,70 @@ class _TreeState extends State<FamilyTreePage> {
     nodeNames[rootPersonId] = [rootPersonName + " (Root)"];
     print("Root node added: Name = $rootPersonName, ID = $rootPersonId");
 
-    _expandNode(rootNode);
+    _expandChildSpouseNode(rootNode);
+    _expandParentSiblingNode(rootNode);
   }
 
-  void _expandNode(ExtendedNode node) async {
+  _expandParentSiblingNode(ExtendedNode node) async {
+    var parentDataList =
+        await parentSiblingController.fetchParentAndSibling(node.key!.value);
+
+    for (var parentData in parentDataList) {
+      if (parentData.parent1.memberPhoto != null &&
+          parentData.parent1.memberPhoto.isNotEmpty) {
+        node.setPrimaryImage(base64Decode(parentData.parent1.memberPhoto));
+      }
+
+      if (parentData.parent2.memberPhoto != null &&
+          parentData.parent2.memberPhoto.isNotEmpty) {
+        node.setSecondaryImage(base64Decode(parentData.parent2.memberPhoto));
+      }
+      final ExtendedNode parent1Node =
+          ExtendedNode.dualId(parentData.parent1.memberId);
+
+      graph.addNode(parent1Node);
+      graph.addEdge(parent1Node, node);
+
+      final parent1Name =
+          "${parentData.parent1.firstName} ${parentData.parent1.familyName}";
+      nodeNames[parentData.parent1.memberId] = [parent1Name];
+      parent1Node.setPrimaryGender(parentData.parent1.gender);
+      parent1Node.setPrimaryState(parentData.parent1.decision);
+
+      parent1Node.setSecondaryId(parentData.parent2.memberId);
+      parent1Node.setMarriageId(parentData.marriageId);
+      parent1Node.setSecondaryGender(parentData.parent2.gender);
+      parent1Node.setSecondaryState(parentData.parent2.decision);
+
+      final parent2Name =
+          "${parentData.parent2.firstName} ${parentData.parent2.familyName}";
+      nodeNames[parentData.parent2.memberId] = [parent2Name];
+      final names = nodeNames[parentData.parent1.memberId];
+      names!.add(parent2Name);
+
+      for (var sibling in parentData.siblings) {
+        final siblingNode = ExtendedNode.dualId(sibling.memberId);
+        graph.addNode(siblingNode);
+        graph.addEdge(parent1Node, siblingNode);
+        nodeNames[sibling.memberId] = [
+          "${sibling.firstName} ${sibling.familyName}"
+        ];
+        siblingNode.setPrimaryGender(sibling.gender);
+        siblingNode.setPrimaryState(sibling.decision);
+
+        if (sibling.memberPhoto != null && sibling.memberPhoto.isNotEmpty) {
+          siblingNode.setPrimaryImage(base64Decode(sibling.memberPhoto));
+        }
+        _expandChildSpouseNode(siblingNode);
+      }
+    }
+  }
+
+  void _expandChildSpouseNode(ExtendedNode node) async {
+
     var familyDataList =
         await childSpouseController.fetchSpouseAndChildrenById(node.key!.value);
-
+    
     for (var familyData in familyDataList) {
       if (familyData.spouse.memberPhoto != null &&
           familyData.spouse.memberPhoto.isNotEmpty) {
@@ -125,7 +185,7 @@ class _TreeState extends State<FamilyTreePage> {
           childNode.setPrimaryImage(base64Decode(child.memberPhoto));
         }
 
-        _expandNode(childNode);
+        _expandChildSpouseNode(childNode);
       }
     }
 

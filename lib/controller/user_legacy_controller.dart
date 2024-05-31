@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
+import 'package:family_tree_application/controller/get_parent_and_sibling_controller.dart';
 import 'package:family_tree_application/model/user_legacy_model.dart';
 import 'package:get/get.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
@@ -10,6 +11,8 @@ import 'package:family_tree_application/core/constants/linkapi.dart';
 class UserLegacyController extends GetxController {
   final ChildSpouseController childSpouseController =
       Get.put(ChildSpouseController());
+  final ParentSiblingController parentChildController =
+      Get.put(ParentSiblingController());
   String location = '';
   String decision = '';
   String work = '';
@@ -23,6 +26,7 @@ class UserLegacyController extends GetxController {
   String photoBase64 = '';
   String userId = '';
   Uint8List? imageBytes;
+  dynamic dateOfDeath;
 
   @override
   void onInit() {
@@ -53,7 +57,9 @@ class UserLegacyController extends GetxController {
       gender = legacyInfoModel.gender;
       dateOfBirth = legacyInfoModel.dateOfBirth;
       decision = legacyInfoModel.decision;
+      dateOfDeath = legacyInfoModel.dateOfDeath;
       childSpouseController.personIdController.text = legacyInfoModel.memberId;
+      parentChildController.personIdController.text = legacyInfoModel.memberId;
       if (legacyInfoModel.photoBase64 != null &&
           legacyInfoModel.photoBase64.isNotEmpty) {
         imageBytes = base64Decode(legacyInfoModel.photoBase64);
