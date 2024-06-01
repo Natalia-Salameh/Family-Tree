@@ -210,12 +210,15 @@ class _TreeState extends State<FamilyTreePage> {
                 child: isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : InteractiveViewer(
+                        panEnabled: true, // Enable or disable panning
+                        scaleEnabled: true, // Enable or disable pinch to zoom
+                        maxScale: 5.0, // Maximum zoom level
+                        minScale: 0.1,
                         transformationController: TransformationController()
                           ..value = Matrix4.diagonal3Values(_scale, _scale, 1),
                         constrained: false,
                         boundaryMargin: const EdgeInsets.all(100),
-                        minScale: 0.01,
-                        maxScale: 5.6,
+
                         child: GraphView(
                           graph: graph,
                           algorithm: BuchheimWalkerAlgorithm(
@@ -229,6 +232,22 @@ class _TreeState extends State<FamilyTreePage> {
         ),
       ),
     );
+  }
+
+  TransformationController transformationController =
+      TransformationController();
+  void _zoomIn() {
+    final currentScale = transformationController.value.getMaxScaleOnAxis();
+    final newScale = currentScale * 1.1; // Increase scale by 10%
+    transformationController.value =
+        Matrix4.diagonal3Values(newScale, newScale, newScale);
+  }
+
+  void _zoomOut() {
+    final currentScale = transformationController.value.getMaxScaleOnAxis();
+    final newScale = currentScale * 0.9; // Decrease scale by 10%
+    transformationController.value =
+        Matrix4.diagonal3Values(newScale, newScale, newScale);
   }
 
   Widget _nodeWidget(n.Node node) {

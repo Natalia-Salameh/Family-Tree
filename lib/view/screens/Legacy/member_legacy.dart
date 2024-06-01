@@ -162,7 +162,13 @@ class Legacy extends StatelessWidget {
                                 await legacyController.legacyInfo();
                                 // Add any specific refresh logic for the MemberFamilyTreePage here if needed
                               },
-                              child: const MemberFamilyTreePage(),
+                              child: InteractiveViewer(
+                                boundaryMargin: const EdgeInsets.all(20.0),
+                                minScale: 0.1,
+                                maxScale: 5.6,
+                                child:
+                                    MemberFamilyTreePage(), // Assuming this is a widget for displaying a family tree.
+                              ),
                             ),
                           ),
                           Container(

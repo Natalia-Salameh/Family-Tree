@@ -10,14 +10,21 @@ import 'dart:convert';
 String getParentAndSiblingModelToJson(GetParentAndSiblingModel data) =>
     json.encode(data.toJson());
 
+
 List<GetParentAndSiblingModel> getParentAndSiblingModelFromJson(String str) {
-  final jsonData = json.decode(str);
-  if (jsonData is List) {
-    return jsonData.map((item) => GetParentAndSiblingModel.fromJson(item)).toList();
-  } else if (jsonData is Map<String, dynamic>) {
-    return [GetParentAndSiblingModel.fromJson(jsonData)];
-  } else {
-    throw Exception("Unexpected JSON format");
+  try {
+    final jsonData = json.decode(str);
+    if (jsonData is List) {
+      return jsonData.map((item) => GetParentAndSiblingModel.fromJson(item)).toList();
+    } else if (jsonData is Map<String, dynamic>) {
+      return [GetParentAndSiblingModel.fromJson(jsonData)];
+    } else {
+      return []; // Return an empty list if JSON format is unexpected
+    }
+  } on FormatException catch (e) {
+    // Log the error or handle it appropriately
+    print('Error parsing JSON: $e');
+    return []; // Return an empty list or handle as needed when JSON is invalid
   }
 }
 
