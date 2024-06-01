@@ -3,13 +3,72 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:family_tree_application/controller/update_legacy_controller.dart';
 import 'package:family_tree_application/controller/family_name_controller.dart';
+import 'package:family_tree_application/controller/login_controller.dart';
 import 'package:intl/intl.dart'; // for date formatting
 
 class EditLegacy extends StatelessWidget {
-  final FamilyNameController familyNameController =
-      Get.put(FamilyNameController());
-  final UpdateLegacyController updateLegacyController =
-      Get.find<UpdateLegacyController>();
+  final FamilyNameController familyNameController = Get.put(FamilyNameController());
+  final UpdateLegacyController updateLegacyController = Get.find<UpdateLegacyController>();
+  final RxString currentLanguage = RxString(Get.locale?.languageCode ?? 'en');
+
+  void switchLanguage(String langCode) {
+    Locale newLocale = Locale(langCode, '');
+    Get.updateLocale(newLocale);
+    currentLanguage.value = langCode;
+  }
+
+  void showLanguagePicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Select Language',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Obx(
+                () => DropdownButton<String>(
+                  value: currentLanguage.value,
+                  icon: const Icon(Icons.language, color: Colors.black),
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.black87),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.black87,
+                  ),
+                  onChanged: (String? newValue) {
+                    if (newValue != null) {
+                      switchLanguage(newValue);
+                      Navigator.pop(context); // Close the bottom sheet
+                    }
+                  },
+                  items: <String>['en', 'ar']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value == 'en' ? 'English' : 'Arabic',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +76,9 @@ class EditLegacy extends StatelessWidget {
       appBar: AppBar(
         title: Text('Edit Legacy'),
         actions: [
-          IconButton(
-            icon: Icon(Icons.save),
-            onPressed: () => updateLegacyController.updateLegacyInfo(),
-          ),
+          MaterialButton(
+              child: Text("Save"),
+              onPressed: () => updateLegacyController.updateLegacyInfo())
         ],
       ),
       body: SingleChildScrollView(
@@ -46,15 +104,22 @@ class EditLegacy extends StatelessWidget {
               _buildDateOfBirthInputCard(
                   context, "Date of Birth", updateLegacyController.dateOfBirth),
               SizedBox(height: 20),
-              // Center(
-              //   child: ElevatedButton(
-              //     onPressed: updateLegacyController.updateLegacyInfo,
-              //     child: Text("Save Changes"),
-              //     style: ElevatedButton.styleFrom(
-              //       padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-              //       textStyle: TextStyle(fontSize: 16),
-              //     ),
-              //   ),),
+              _buildSettingsTile(
+                context,
+                "Change Language",
+                Icons.language,
+                () {
+                  showLanguagePicker(context);
+                },
+              ),
+              _buildSettingsTile(
+                context,
+                "Logout",
+                Icons.logout,
+                () {
+                  LoginController().logout();
+                },
+              ),
             ],
           );
         }),
@@ -141,6 +206,35 @@ class EditLegacy extends StatelessWidget {
               labelText: label,
               border: OutlineInputBorder(),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSettingsTile(BuildContext context, String title, IconData icon, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        elevation: 5,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+              Icon(icon, color: Colors.black),
+            ],
           ),
         ),
       ),

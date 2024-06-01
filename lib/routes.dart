@@ -6,7 +6,6 @@ import 'package:family_tree_application/view/screens/Forms/spouse_form.dart';
 import 'package:family_tree_application/view/screens/Forms/user_form.dart';
 import 'package:family_tree_application/view/screens/Legacy/member_legacy.dart';
 
-import 'package:family_tree_application/view/screens/Legacy/settings.dart';
 import 'package:family_tree_application/view/screens/Legacy/update_legacy.dart';
 import 'package:family_tree_application/view/screens/Legacy/user_legacy.dart';
 import 'package:family_tree_application/view/screens/auth/get_started.dart';
@@ -47,7 +46,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.tree, page: () => AddTree()),
   GetPage(name: AppRoute.treeForm, page: () => const TreeState()),
   GetPage(name: AppRoute.diary, page: () => const Diary()),
-  GetPage(name: AppRoute.settings, page: () => const Settings()),
   GetPage(name: AppRoute.userLegacy, page: () => UserLegacy()),
   GetPage(name: AppRoute.spouseForm, page: () => SpouseForm()),
   GetPage(name: AppRoute.childForm, page: () => ChildForm()),

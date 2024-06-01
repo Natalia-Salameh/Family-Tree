@@ -1,15 +1,14 @@
 import 'dart:io';
 
+import 'package:family_tree_application/controller/login_controller.dart';
 import 'package:family_tree_application/controller/member_legacy_controller.dart';
 import 'package:family_tree_application/controller/update_legacy_controller.dart';
 import 'package:family_tree_application/controller/update_profile_image_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
-import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/Legacy/member_tree.dart';
 import 'package:family_tree_application/view/screens/Legacy/update_legacy.dart';
 import 'package:family_tree_application/view/widgets/tabbar.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -17,6 +16,55 @@ class Legacy extends StatelessWidget {
   Legacy({super.key});
   final legacyController = Get.put(MemberLegacyController());
   final updateController = Get.put(UpdateMemberLegacyProfile());
+  final RxString currentLanguage = RxString(Get.locale?.languageCode ?? 'en');
+
+  void switchLanguage(String langCode) {
+    Locale newLocale = Locale(langCode, '');
+    Get.updateLocale(newLocale);
+    currentLanguage.value = langCode;
+  }
+
+  void showLanguagePicker(BuildContext context) {
+    showModalBottomSheet(
+      showDragHandle: true,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(15),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return ListView(
+          shrinkWrap: true,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.language),
+              title: const Text('English'),
+              onTap: () {
+                switchLanguage('en');
+                Navigator.pop(context); 
+              },
+            ),
+            const Divider(
+              indent: 40,
+              endIndent: 40,
+              height: 1,
+              thickness: 1,
+              color: CustomColors.lightGrey,
+            ),
+            ListTile(
+              leading: const Icon(Icons.language),
+              title: const Text('Arabic'),
+              onTap: () {
+                switchLanguage('ar');
+                Navigator.pop(context); // Close the bottom sheet
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,71 +80,84 @@ class Legacy extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                showModalBottomSheet(
-                    showDragHandle: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(15),
+            onPressed: () {
+              showModalBottomSheet(
+                showDragHandle: true,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(15),
+                  ),
+                ),
+                context: context,
+                builder: (context) {
+                  return ListView(
+                    shrinkWrap: true,
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.edit),
+                        title: Text("39".tr),
+                        onTap: () async {
+                          // This will create UpdateLegacyController only when it's needed
+                          Get.lazyPut(() => UpdateLegacyController());
+
+                          // Now we can find UpdateLegacyController without error
+                          final updateLegacyController =
+                              Get.find<UpdateLegacyController>();
+
+                          // If MemberLegacyController is already put in GetX storage,
+                          // we can retrieve it like this:
+                          final memberLegacyController =
+                              Get.find<MemberLegacyController>();
+
+                          // Load initial data from MemberLegacyController into UpdateLegacyController
+                          updateLegacyController
+                              .loadInitialData(memberLegacyController);
+
+                          // Navigate to EditLegacy
+                          var result = await Get.to(() => EditLegacy());
+                          if (result == 'updateSuccessful') {
+                            memberLegacyController.legacyInfo();
+                          }
+                        },
                       ),
-                    ),
-                    context: context,
-                    builder: (context) {
-                      return ListView(
-                        children: [
-                          ListTile(
-                            leading: const Icon(Icons.settings),
-                            title: Text("43".tr),
-                            onTap: () {
-                              Get.toNamed(AppRoute.settings);
-                            },
-                          ),
-                          const Divider(
-                            height: 1,
-                            indent: 40,
-                            endIndent: 40,
-                            thickness: 1,
-                            color: CustomColors.lightGrey,
-                          ),
-                          ListTile(
-                            leading: const Icon(Icons.edit),
-                            title: Text("39".tr),
-                            onTap: () async {
-                              // This will create UpdateLegacyController only when it's needed
-                              Get.lazyPut(() => UpdateLegacyController());
-
-                              // Now we can find UpdateLegacyController without error
-                              final updateLegacyController =
-                                  Get.find<UpdateLegacyController>();
-
-                              // If MemberLegacyController is already put in GetX storage,
-                              // we can retrieve it like this:
-                              final memberLegacyController =
-                                  Get.find<MemberLegacyController>();
-
-                              // Load initial data from MemberLegacyController into UpdateLegacyController
-                              updateLegacyController
-                                  .loadInitialData(memberLegacyController);
-
-                              // Navigate to EditLegacy
-                              var result = await Get.to(() => EditLegacy());
-                              if (result == 'updateSuccessful') {
-                                memberLegacyController.legacyInfo();
-                              }
-                            },
-                          ),
-                          const Divider(
-                            indent: 40,
-                            endIndent: 40,
-                            height: 1,
-                            thickness: 1,
-                            color: CustomColors.lightGrey,
-                          ),
-                        ],
-                      );
-                    });
-              },
-              icon: const Icon(Icons.dehaze_sharp))
+                      const Divider(
+                        indent: 40,
+                        endIndent: 40,
+                        height: 1,
+                        thickness: 1,
+                        color: CustomColors.lightGrey,
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.language),
+                        title: Text("Change Language".tr),
+                        onTap: () {
+                          Navigator.pop(
+                              context); // Close the current bottom sheet
+                          showLanguagePicker(
+                              context); // Show the language picker bottom sheet
+                        },
+                      ),
+                      const Divider(
+                        indent: 40,
+                        endIndent: 40,
+                        height: 1,
+                        thickness: 1,
+                        color: CustomColors.lightGrey,
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.exit_to_app_rounded),
+                        title: Text("Log out".tr),
+                        onTap: () {
+                          LoginController().logout();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            icon: const Icon(Icons.dehaze_sharp),
+          ),
         ],
       ),
       body: Obx(() {
@@ -162,69 +223,65 @@ class Legacy extends StatelessWidget {
                                 await legacyController.legacyInfo();
                                 // Add any specific refresh logic for the MemberFamilyTreePage here if needed
                               },
-                              child: InteractiveViewer(
-                                boundaryMargin: const EdgeInsets.all(20.0),
-                                minScale: 0.1,
-                                maxScale: 5.6,
-                                child:
-                                    MemberFamilyTreePage(), // Assuming this is a widget for displaying a family tree.
-                              ),
+                              child: const MemberFamilyTreePage(),
                             ),
                           ),
                           Container(
-                              alignment: Alignment.center,
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                    title: Text("35".tr),
-                                    subtitle: Text(
-                                      legacyController.location.value.isEmpty
-                                          ? "No Location added"
-                                          : legacyController.location.value,
-                                    ),
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text("35".tr),
+                                  subtitle: Text(
+                                    legacyController.location.value.isEmpty
+                                        ? "No Location added"
+                                        : legacyController.location.value,
                                   ),
-                                  ListTile(
-                                    title: Text("36".tr),
-                                    subtitle: Text(
-                                      legacyController.work.value.isEmpty
-                                          ? "No Work added".tr
-                                          : legacyController.work.value,
-                                    ),
+                                ),
+                                ListTile(
+                                  title: Text("36".tr),
+                                  subtitle: Text(
+                                    legacyController.work.value.isEmpty
+                                        ? "No Work added".tr
+                                        : legacyController.work.value,
                                   ),
-                                  ListTile(
-                                    title: Text("41".tr),
-                                    subtitle: Text(
-                                      legacyController.legacyStory.value.isEmpty
-                                          ? "No Diary added".tr
-                                          : legacyController.legacyStory.value,
-                                    ),
+                                ),
+                                ListTile(
+                                  title: Text("41".tr),
+                                  subtitle: Text(
+                                    legacyController.legacyStory.value.isEmpty
+                                        ? "No Diary added".tr
+                                        : legacyController.legacyStory.value,
                                   ),
-                                ],
-                              )),
+                                ),
+                              ],
+                            ),
+                          ),
                           Container(
-                              alignment: Alignment.center,
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                    title: Text("30".tr),
-                                    subtitle: Text(
-                                      legacyController.gender.value.isEmpty
-                                          ? "No Gender added".tr
-                                          : legacyController.gender.value,
-                                    ),
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text("30".tr),
+                                  subtitle: Text(
+                                    legacyController.gender.value.isEmpty
+                                        ? "No Gender added".tr
+                                        : legacyController.gender.value,
                                   ),
-                                  ListTile(
-                                    title: Text("DateofBirth".tr),
-                                    subtitle: Text(
-                                      legacyController.dateOfBirth.value == null
-                                          ? "No Date of Birth added"
-                                          : legacyController.dateOfBirth.value
-                                              .toString()
-                                              .split('T')[0],
-                                    ),
+                                ),
+                                ListTile(
+                                  title: Text("DateofBirth".tr),
+                                  subtitle: Text(
+                                    legacyController.dateOfBirth.value == null
+                                        ? "No Date of Birth added"
+                                        : legacyController.dateOfBirth.value
+                                            .toString()
+                                            .split('T')[0],
                                   ),
-                                ],
-                              )),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ],
