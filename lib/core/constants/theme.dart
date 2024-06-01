@@ -11,6 +11,6 @@ class AppTheme {
     //   // titleLarge: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
     //   // bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
     // ),
-    scaffoldBackgroundColor: Color.fromARGB(248, 255, 255, 255),
+    scaffoldBackgroundColor: Colors.white,
   );
 }

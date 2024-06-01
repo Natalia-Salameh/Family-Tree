@@ -97,49 +97,46 @@ class _TreeState extends State<FamilyTreePage> {
   }
 
   _expandParentSiblingNode(ExtendedNode node) async {
-    await parentSiblingController.fetchParentAndSibling(node.key!.value);
+    var parentDataList =
+        await parentSiblingController.fetchParentAndSibling(node.key!.value);
 
-    if (parentSiblingController.parent1MemberId.isEmpty &&
-        parentSiblingController.parent2MemberId.isEmpty) {
-      return;
-    }
-    if (parentSiblingController.parent1MemberId.isNotEmpty) {
+    for (var parentData in parentDataList) {
       final ExtendedNode parent1Node =
-          ExtendedNode.dualId(parentSiblingController.parent1MemberId);
+          ExtendedNode.dualId(parentData.parent1.memberId);
 
       graph.addNode(parent1Node);
       graph.addEdge(parent1Node, node);
 
-      if (parentSiblingController.parent1Image != null &&
-          parentSiblingController.parent1Image.isNotEmpty) {
-        parent1Node.setPrimaryImage(
-            base64Decode(parentSiblingController.parent1Image));
+      if (parentData.parent1.memberPhoto != null &&
+          parentData.parent1.memberPhoto.isNotEmpty) {
+        parent1Node
+            .setPrimaryImage(base64Decode(parentData.parent1.memberPhoto));
       }
 
-      if (parentSiblingController.parent2Image != null &&
-          parentSiblingController.parent2Image.isNotEmpty) {
-        parent1Node.setSecondaryImage(
-            base64Decode(parentSiblingController.parent2Image));
+      if (parentData.parent2.memberPhoto != null &&
+          parentData.parent2.memberPhoto.isNotEmpty) {
+        parent1Node
+            .setSecondaryImage(base64Decode(parentData.parent2.memberPhoto));
       }
 
       final parent1Name =
-          "${parentSiblingController.parent1firstName} ${parentSiblingController.parent1lastName}";
-      nodeNames[parentSiblingController.parent1MemberId] = [parent1Name];
-      parent1Node.setPrimaryGender(parentSiblingController.parent1Gender);
-      parent1Node.setPrimaryState(parentSiblingController.parent1Decision);
+          "${parentData.parent1.firstName} ${parentData.parent1.familyName}";
+      nodeNames[parentData.parent1.memberId] = [parent1Name];
+      parent1Node.setPrimaryGender(parentData.parent1.gender);
+      parent1Node.setPrimaryState(parentData.parent1.decision);
 
-      parent1Node.setSecondaryId(parentSiblingController.parent2MemberId);
-      parent1Node.setMarriageId(parentSiblingController.marriageId);
-      parent1Node.setSecondaryGender(parentSiblingController.parent2Gender);
-      parent1Node.setSecondaryState(parentSiblingController.parent2Decision);
+      parent1Node.setSecondaryId(parentData.parent2.memberId);
+      parent1Node.setMarriageId(parentData.marriageId);
+      parent1Node.setSecondaryGender(parentData.parent2.gender);
+      parent1Node.setSecondaryState(parentData.parent2.decision);
 
       final parent2Name =
-          "${parentSiblingController.parent2firstName} ${parentSiblingController.parent2lastName}";
-      nodeNames[parentSiblingController.parent2MemberId] = [parent2Name];
-      final names = nodeNames[parentSiblingController.parent1MemberId];
+          "${parentData.parent2.firstName} ${parentData.parent2.familyName}";
+      nodeNames[parentData.parent2.memberId] = [parent2Name];
+      final names = nodeNames[parentData.parent1.memberId];
       names!.add(parent2Name);
 
-      for (var sibling in parentSiblingController.siblings) {
+      for (var sibling in parentData.siblings) {
         final siblingNode = ExtendedNode.dualId(sibling.memberId);
         graph.addNode(siblingNode);
         graph.addEdge(parent1Node, siblingNode);
@@ -220,12 +217,15 @@ class _TreeState extends State<FamilyTreePage> {
                 child: isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : InteractiveViewer(
+                        panEnabled: true, // Enable or disable panning
+                        scaleEnabled: true, // Enable or disable pinch to zoom
+                        maxScale: 5.0, // Maximum zoom level
+                        minScale: 0.1,
                         transformationController: TransformationController()
                           ..value = Matrix4.diagonal3Values(_scale, _scale, 1),
                         constrained: false,
                         boundaryMargin: const EdgeInsets.all(100),
-                        minScale: 0.01,
-                        maxScale: 5.6,
+
                         child: GraphView(
                           graph: graph,
                           algorithm: BuchheimWalkerAlgorithm(
@@ -239,6 +239,22 @@ class _TreeState extends State<FamilyTreePage> {
         ),
       ),
     );
+  }
+
+  TransformationController transformationController =
+      TransformationController();
+  void _zoomIn() {
+    final currentScale = transformationController.value.getMaxScaleOnAxis();
+    final newScale = currentScale * 1.1; // Increase scale by 10%
+    transformationController.value =
+        Matrix4.diagonal3Values(newScale, newScale, newScale);
+  }
+
+  void _zoomOut() {
+    final currentScale = transformationController.value.getMaxScaleOnAxis();
+    final newScale = currentScale * 0.9; // Decrease scale by 10%
+    transformationController.value =
+        Matrix4.diagonal3Values(newScale, newScale, newScale);
   }
 
   Widget _nodeWidget(n.Node node) {
