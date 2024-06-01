@@ -107,9 +107,9 @@ class _HomeState extends State<Home> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Ajial",
+            "7".tr,
             style: GoogleFonts.lobster(
-              fontSize: 25,
+              fontSize: 30,
               color: Colors.white,
             ),
           ),
@@ -118,11 +118,14 @@ class _HomeState extends State<Home> {
       backgroundColor: CustomColors.myCustomColor,
       elevation: 0,
       actions: [
-        IconButton(
-          icon: const Icon(Icons.search, color: Colors.white, size: 28),
-          onPressed: () {
-            showSearch(context: context, delegate: CustomSearchDelegate());
-          },
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: IconButton(
+            icon: const Icon(Icons.search, color: Colors.white, size: 30),
+            onPressed: () {
+              showSearch(context: context, delegate: CustomSearchDelegate());
+            },
+          ),
         ),
       ],
     );
@@ -219,7 +222,7 @@ class PersonCard extends StatelessWidget {
                     backgroundColor: CustomColors.lightGrey,
                     child: Image.asset(
                       person.gender.toString() == "Gender.FEMALE"
-                          ? AppImageAsset.mother
+                          ? AppImageAsset.female
                           : AppImageAsset.father,
                     )),
             const SizedBox(width: 16),
@@ -235,8 +238,8 @@ class PersonCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     person.gender.toString() == "Gender.FEMALE"
-                        ? "Female"
-                        : "Male",
+                        ? "31".tr
+                        : "32".tr,
                     style: const TextStyle(
                         fontSize: 14, color: Color.fromARGB(255, 95, 92, 92)),
                   ),

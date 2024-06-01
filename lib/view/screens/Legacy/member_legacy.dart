@@ -227,36 +227,35 @@ class Legacy extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            alignment: Alignment.center,
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  title: Text("35".tr),
-                                  subtitle: Text(
-                                    legacyController.location.value.isEmpty
-                                        ? "No Location added"
-                                        : legacyController.location.value,
+                              alignment: Alignment.center,
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    title: Text("35".tr),
+                                    subtitle: Text(
+                                      legacyController.location.value.isEmpty
+                                          ? "No Location added".tr
+                                          : legacyController.location.value,
+                                    ),
                                   ),
-                                ),
-                                ListTile(
-                                  title: Text("36".tr),
-                                  subtitle: Text(
-                                    legacyController.work.value.isEmpty
-                                        ? "No Work added".tr
-                                        : legacyController.work.value,
+                                  ListTile(
+                                    title: Text("36".tr),
+                                    subtitle: Text(
+                                      legacyController.work.value.isEmpty
+                                          ? "No Work added".tr
+                                          : legacyController.work.value,
+                                    ),
                                   ),
-                                ),
-                                ListTile(
-                                  title: Text("41".tr),
-                                  subtitle: Text(
-                                    legacyController.legacyStory.value.isEmpty
-                                        ? "No Diary added".tr
-                                        : legacyController.legacyStory.value,
+                                  ListTile(
+                                    title: Text("41".tr),
+                                    subtitle: Text(
+                                      legacyController.legacyStory.value.isEmpty
+                                          ? "No Diary added".tr
+                                          : legacyController.legacyStory.value,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                ],
+                              )),
                           Container(
                             alignment: Alignment.center,
                             child: Column(
