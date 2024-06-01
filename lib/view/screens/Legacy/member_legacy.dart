@@ -179,7 +179,7 @@ class Legacy extends StatelessWidget {
                                     title: Text("35".tr),
                                     subtitle: Text(
                                       legacyController.location.value.isEmpty
-                                          ? "No Location added"
+                                          ? "No Location added".tr
                                           : legacyController.location.value,
                                     ),
                                   ),

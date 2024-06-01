@@ -15,19 +15,19 @@ class CustomFloatingBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(15)),
           color: Colors.white,
           border: Border(
             top: BorderSide(
-              color: Colors.grey,
+              color: Color.fromARGB(255, 240, 235, 235),
               width: 0.5,
             ),
           ),
         ),
-        height: 65.0,
+        height: 70,
         child: BottomAppBar(
           shape: const CircularNotchedRectangle(),
-          color: Colors.transparent,
           elevation: 0,
           child: Row(
             mainAxisSize: MainAxisSize.max,
@@ -41,15 +41,15 @@ class CustomFloatingBottomBar extends StatelessWidget {
                 onPressed: () => onItemTapped(0),
               ),
               Container(
-                height: 30.0,
-                width: 30.0,
+                height: 50,
+                width: 50,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: CustomColors.primaryColor,
                 ),
                 child: IconButton(
                   icon: const Icon(Icons.add),
-                  iconSize: 15.0, 
+                  iconSize: 20,
                   color: CustomColors.white,
                   onPressed: () => onItemTapped(1),
                 ),

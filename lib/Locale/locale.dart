@@ -89,7 +89,9 @@ class MyLocale implements Translations {
           "DateofBirth": 'تاريخ الولادة',
           "No Gender added": "لم يتم اضافة الجنس",
           "No Work added": 'لم يتم اضافة العمل',
-          "No Diary added": 'لم يتم اضافة المذكرة'
+          "No Diary added": 'لم يتم اضافة المذكرة',
+          "No Location added": "لم يتم اضافة الموقع",
+          "No Date of Birth added": "لم يتم اضافة ناريخ الولادة"
         },
         "en": {
           "1": "Discover Your Roots, \nHonor All Branches",
@@ -177,6 +179,8 @@ class MyLocale implements Translations {
           "No Gender added": 'No Gender added',
           "No Work added": "No Work added",
           "No Diary added": "No Diary added",
+          "No Location added": "No Location added",
+          "No Date of Birth added": "No Date of Birth added",
         }
       };
 }

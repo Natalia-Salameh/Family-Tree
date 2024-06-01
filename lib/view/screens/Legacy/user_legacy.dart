@@ -82,7 +82,7 @@ class UserLegacy extends StatelessWidget {
                                       title: Text("35".tr),
                                       subtitle: Text(
                                         userLegacyController.location == ""
-                                            ? "No Location added"
+                                            ? "No Location added".tr
                                             : userLegacyController.location,
                                       ),
                                     ),
@@ -90,7 +90,7 @@ class UserLegacy extends StatelessWidget {
                                       title: Text("36".tr),
                                       subtitle: Text(
                                         userLegacyController.work == ""
-                                            ? "No Work added"
+                                            ? "No Work added".tr
                                             : userLegacyController.work,
                                       ),
                                     ),
@@ -98,7 +98,7 @@ class UserLegacy extends StatelessWidget {
                                       title: Text("41".tr),
                                       subtitle: Text(
                                         userLegacyController.legacyStory == ""
-                                            ? "No Diary added"
+                                            ? "No Diary added".tr
                                             : userLegacyController.legacyStory,
                                       ),
                                     ),
@@ -112,7 +112,7 @@ class UserLegacy extends StatelessWidget {
                                       title: Text("30".tr),
                                       subtitle: Text(
                                         userLegacyController.gender == ""
-                                            ? "No Gender added"
+                                            ? "No Gender added".tr
                                             : userLegacyController.gender,
                                       ),
                                     ),
@@ -120,7 +120,7 @@ class UserLegacy extends StatelessWidget {
                                       title: Text("DateofBirth".tr),
                                       subtitle: Text(
                                         userLegacyController.dateOfBirth == null
-                                            ? "No Date of Birth added"
+                                            ? "No Date of Birth added".tr
                                             : userLegacyController.dateOfBirth
                                                 .toString()
                                                 .split('T')[0],

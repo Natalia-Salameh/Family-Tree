@@ -9,7 +9,7 @@ class FeaturedFamilies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 5, right: 5, top: 15, bottom: 5),
+      padding: const EdgeInsets.only(left: 5, right: 15, top: 15, bottom: 5),
       child: Container(
         height: 247,
         child: ListView.builder(
@@ -28,7 +28,7 @@ class FeaturedFamilies extends StatelessWidget {
                 color: Colors.white,
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: Container(
-                  width: 390,
+                  width: 320,
                   padding: const EdgeInsets.all(5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +40,7 @@ class FeaturedFamilies extends StatelessWidget {
                             Image.asset(
                               family.crestImage,
                               height: 235,
-                              width: 380,
+                              width: 340,
                               fit: BoxFit.cover,
                             ),
                             Container(
@@ -124,14 +124,10 @@ class FeaturedFamily {
 
 List<FeaturedFamily> featuredFamilies = [
   FeaturedFamily(
-    familyName: "Al-Shomali Family",
-    story: "The Shomali family came from Wadi Musa, Jordan.",
+    familyName: "Al-Shomali Family".tr,
+    story: "The Shomali family came from Wadi Musa, Jordan.".tr,
     crestImage: 'assets/images/ShomaliPic.jpg', // Example crest image
-    details:
-        """Groups from neighboring countries began emigrating to Beit Sahour to escape religious or social persecution. Among the first were the 'Ajajia families (families of Abu Hindi and Abu Ghantur) who left the town of 'Ajajia in Wadi Musa-Jordan, where they lived in caves under the Shaheen building in the center of the town.
-Shortly after the arrival of Ajajia family, Khalawi, ancestor of the Jarayseh (Salsa' and Shomali), arrived in Beit Sahour from the same area in Wadi Musa (valley of Moses). It is widely believed that he came from a village called "Sala" to the north-west of the Jordanian city of Ma'an, and that his family lived in caves under the house of Anton Yousef Abu Zuluf. It is worth mentioning that one of the Jarayseh family' branches left Beit Sahour later and lived in the Galilee - Acre, then moved to Kufur Kanna, then to Nazareth, and part of it to the east of Madaba in Jordan, whose family still live today under the name Bisharat.
-...
-""", // Continue the text here
+    details: "shomali".tr, // Continue the text here
   ),
   FeaturedFamily(
     familyName: "Bannourah Family",
