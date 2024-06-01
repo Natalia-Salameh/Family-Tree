@@ -49,10 +49,10 @@ class _GetStartedState extends State<GetStarted> {
                   child: Text(
                     "7".tr,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.playball(
+                    style: GoogleFonts.lobster(
                       color: CustomColors.black,
                       fontSize: 55,
-                      fontWeight: FontWeight.bold,
+                     // fontWeight: FontWeight.bold,
                       height: 0,
                     ),
                   ),

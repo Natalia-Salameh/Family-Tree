@@ -7,8 +7,10 @@ import 'package:family_tree_application/controller/login_controller.dart';
 import 'package:intl/intl.dart'; // for date formatting
 
 class EditLegacy extends StatelessWidget {
-  final FamilyNameController familyNameController = Get.put(FamilyNameController());
-  final UpdateLegacyController updateLegacyController = Get.find<UpdateLegacyController>();
+  final FamilyNameController familyNameController =
+      Get.put(FamilyNameController());
+  final UpdateLegacyController updateLegacyController =
+      Get.find<UpdateLegacyController>();
   final RxString currentLanguage = RxString(Get.locale?.languageCode ?? 'en');
 
   void switchLanguage(String langCode) {
@@ -104,22 +106,6 @@ class EditLegacy extends StatelessWidget {
               _buildDateOfBirthInputCard(
                   context, "Date of Birth", updateLegacyController.dateOfBirth),
               SizedBox(height: 20),
-              _buildSettingsTile(
-                context,
-                "Change Language",
-                Icons.language,
-                () {
-                  showLanguagePicker(context);
-                },
-              ),
-              _buildSettingsTile(
-                context,
-                "Logout",
-                Icons.logout,
-                () {
-                  LoginController().logout();
-                },
-              ),
             ],
           );
         }),
@@ -206,35 +192,6 @@ class EditLegacy extends StatelessWidget {
               labelText: label,
               border: OutlineInputBorder(),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSettingsTile(BuildContext context, String title, IconData icon, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        elevation: 5,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              Icon(icon, color: Colors.black),
-            ],
           ),
         ),
       ),

@@ -37,4 +37,7 @@ class AppImageAsset {
   static const String woman = "$rootImages/woman.png";
   static const String female = "$rootImages/femaleG.png";
   static const String female2 = "$rootImages/femaleG2.png";
+
+    static const String f = "$rootImages/f.png";
+      static const String g = "$rootImages/g.png";
 }

@@ -87,7 +87,7 @@ class _HomeState extends State<Home> {
             _buildHomeView(),
             GetBuilder<UserFormController>(
               init: UserFormController(),
-              //  dispose: (_) => Get.delete<UserFormController>(),
+              dispose: (_) => Get.delete<UserFormController>(),
               builder: (_) => UserForm(),
             ),
             Legacy(),
@@ -219,11 +219,11 @@ class PersonCard extends StatelessWidget {
                   )
                 : CircleAvatar(
                     radius: 30,
-                    backgroundColor: CustomColors.lightGrey,
+                    backgroundColor: Color.fromARGB(255, 255, 248, 241),
                     child: Image.asset(
                       person.gender.toString() == "Gender.FEMALE"
-                          ? AppImageAsset.female
-                          : AppImageAsset.father,
+                          ? AppImageAsset.g
+                          : AppImageAsset.f,
                     )),
             const SizedBox(width: 16),
             Expanded(
