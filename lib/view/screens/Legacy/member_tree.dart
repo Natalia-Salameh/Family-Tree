@@ -87,30 +87,6 @@ class _TreeState extends State<MemberFamilyTreePage> {
     await fetchInitialData();
   }
 
-  @override
-  void dispose() {
-    userFormController.dispose();
-    marriageFormController.dispose();
-    childSpouseController.dispose();
-    memberLegacyController.dispose();
-    spouseFormController.dispose();
-    childController.dispose();
-    parentController.dispose();
-    childFormController.dispose();
-    addVoteController.dispose();
-    getVoteController.dispose();
-    deleteVoteController.dispose();
-    parentSiblingController.dispose();
-    super.dispose();
-  }
-
-  void _clearGraph() {
-    List<n.Node> nodes = List.from(graph.nodes);
-    for (var node in nodes) {
-      graph.removeNode(node);
-    }
-  }
-
   void _initializeGraph() async {
     graph = Graph();
     final String rootPersonId = childSpouseController.personIdController.text;
@@ -134,46 +110,49 @@ class _TreeState extends State<MemberFamilyTreePage> {
   }
 
   _expandParentSiblingNode(ExtendedNode node) async {
-    var parentDataList =
-        await parentSiblingController.fetchParentAndSibling(node.key!.value);
+    await parentSiblingController.fetchParentAndSibling(node.key!.value);
 
-    for (var parentData in parentDataList) {
+    if (parentSiblingController.parent1MemberId.isEmpty &&
+        parentSiblingController.parent2MemberId.isEmpty) {
+      return;
+    }
+    if (parentSiblingController.parent1MemberId.isNotEmpty) {
       final ExtendedNode parent1Node =
-          ExtendedNode.dualId(parentData.parent1.memberId);
+          ExtendedNode.dualId(parentSiblingController.parent1MemberId);
 
       graph.addNode(parent1Node);
       graph.addEdge(parent1Node, node);
 
-      if (parentData.parent1.memberPhoto != null &&
-          parentData.parent1.memberPhoto.isNotEmpty) {
-        parent1Node
-            .setPrimaryImage(base64Decode(parentData.parent1.memberPhoto));
+      if (parentSiblingController.parent1Image != null &&
+          parentSiblingController.parent1Image.isNotEmpty) {
+        parent1Node.setPrimaryImage(
+            base64Decode(parentSiblingController.parent1Image));
       }
 
-      if (parentData.parent2.memberPhoto != null &&
-          parentData.parent2.memberPhoto.isNotEmpty) {
-        parent1Node
-            .setSecondaryImage(base64Decode(parentData.parent2.memberPhoto));
+      if (parentSiblingController.parent2Image != null &&
+          parentSiblingController.parent2Image.isNotEmpty) {
+        parent1Node.setSecondaryImage(
+            base64Decode(parentSiblingController.parent2Image));
       }
 
       final parent1Name =
-          "${parentData.parent1.firstName} ${parentData.parent1.familyName}";
-      nodeNames[parentData.parent1.memberId] = [parent1Name];
-      parent1Node.setPrimaryGender(parentData.parent1.gender);
-      parent1Node.setPrimaryState(parentData.parent1.decision);
+          "${parentSiblingController.parent1firstName} ${parentSiblingController.parent1lastName}";
+      nodeNames[parentSiblingController.parent1MemberId] = [parent1Name];
+      parent1Node.setPrimaryGender(parentSiblingController.parent1Gender);
+      parent1Node.setPrimaryState(parentSiblingController.parent1Decision);
 
-      parent1Node.setSecondaryId(parentData.parent2.memberId);
-      parent1Node.setMarriageId(parentData.marriageId);
-      parent1Node.setSecondaryGender(parentData.parent2.gender);
-      parent1Node.setSecondaryState(parentData.parent2.decision);
+      parent1Node.setSecondaryId(parentSiblingController.parent2MemberId);
+      parent1Node.setMarriageId(parentSiblingController.marriageId);
+      parent1Node.setSecondaryGender(parentSiblingController.parent2Gender);
+      parent1Node.setSecondaryState(parentSiblingController.parent2Decision);
 
       final parent2Name =
-          "${parentData.parent2.firstName} ${parentData.parent2.familyName}";
-      nodeNames[parentData.parent2.memberId] = [parent2Name];
-      final names = nodeNames[parentData.parent1.memberId];
+          "${parentSiblingController.parent2firstName} ${parentSiblingController.parent2lastName}";
+      nodeNames[parentSiblingController.parent2MemberId] = [parent2Name];
+      final names = nodeNames[parentSiblingController.parent1MemberId];
       names!.add(parent2Name);
 
-      for (var sibling in parentData.siblings) {
+      for (var sibling in parentSiblingController.siblings) {
         final siblingNode = ExtendedNode.dualId(sibling.memberId);
         graph.addNode(siblingNode);
         graph.addEdge(parent1Node, siblingNode);
@@ -188,9 +167,9 @@ class _TreeState extends State<MemberFamilyTreePage> {
         }
         _expandChildSpouseNode(siblingNode);
       }
-    }
-    if (mounted) {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 

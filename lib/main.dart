@@ -4,6 +4,7 @@ import 'package:family_tree_application/controller/home_page_controller.dart';
 import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/controller/signup_controller.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
+import 'package:family_tree_application/core/constants/theme.dart';
 import 'package:family_tree_application/core/functions/network_handler.dart';
 import 'package:family_tree_application/routes.dart';
 import 'package:flutter/material.dart';
@@ -36,10 +37,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: initialRoute,
-        getPages: routes,
-        locale: Get.deviceLocale,
-        translations: MyLocale());
+      debugShowCheckedModeBanner: false,
+      initialRoute: initialRoute,
+      getPages: routes,
+      locale: Get.deviceLocale,
+      translations: MyLocale(),
+      theme: AppTheme.lightTheme,
+    );
   }
 }

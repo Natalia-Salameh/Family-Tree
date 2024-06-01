@@ -10,8 +10,9 @@ class FamilyDetailsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(family.familyName),
+        title: Text(family.familyName, style: TextStyle(color: Colors.white)),
         backgroundColor: CustomColors.myCustomColor,
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

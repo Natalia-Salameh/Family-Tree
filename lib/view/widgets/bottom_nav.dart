@@ -1,5 +1,5 @@
-import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:family_tree_application/core/constants/colors.dart';
 
 class CustomFloatingBottomBar extends StatelessWidget {
   final int selectedIndex;
@@ -14,41 +14,55 @@ class CustomFloatingBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(1)),
-      child: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 5,
-        color: Color.fromARGB(255, 247, 244, 244),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.home),
-              color: selectedIndex == 0
-                  ? CustomColors.primaryColor
-                  : Colors.black54,
-              onPressed: () => onItemTapped(0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey,
+              width: 0.5,
             ),
-            Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: CustomColors.primaryColor,
+          ),
+        ),
+        height: 65.0,
+        child: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          color: Colors.transparent,
+          elevation: 0,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.home_outlined),
+                color: selectedIndex == 0
+                    ? CustomColors.primaryColor
+                    : Colors.black54,
+                onPressed: () => onItemTapped(0),
               ),
-              child: IconButton(
-                icon: const Icon(Icons.add),
-                color: CustomColors.white,
-                onPressed: () => onItemTapped(1),
+              Container(
+                height: 30.0,
+                width: 30.0,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: CustomColors.primaryColor,
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.add),
+                  iconSize: 15.0, 
+                  color: CustomColors.white,
+                  onPressed: () => onItemTapped(1),
+                ),
               ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.person),
-              color: selectedIndex == 2
-                  ? CustomColors.primaryColor
-                  : Colors.black54,
-              onPressed: () => onItemTapped(2),
-            ),
-          ],
+              IconButton(
+                icon: const Icon(Icons.person_outline_outlined),
+                color: selectedIndex == 2
+                    ? CustomColors.primaryColor
+                    : Colors.black54,
+                onPressed: () => onItemTapped(2),
+              ),
+            ],
+          ),
         ),
       ),
     );

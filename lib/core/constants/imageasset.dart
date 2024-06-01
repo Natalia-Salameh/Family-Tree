@@ -32,4 +32,7 @@ class AppImageAsset {
   static const String filltreeform = "$rootImages/Filltreeform.png";
   static const String finaltree = "$rootImages/finaltree.png";
   static const String mDate = "$rootImages/MDate.png";
+
+  static const String man = "$rootImages/man.png";
+  static const String woman = "$rootImages/woman.png";
 }

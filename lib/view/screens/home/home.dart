@@ -1,8 +1,11 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:family_tree_application/classes/featured_fam.dart';
 import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
 import 'package:family_tree_application/controller/home_page_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/colors.dart';
+import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/model/home_page_model.dart';
 import 'package:family_tree_application/view/screens/Forms/user_form.dart';
@@ -76,7 +79,7 @@ class _HomeState extends State<Home> {
       body: Obx(() {
         if (homeController.isLoading.value &&
             homeController.homePageList.isEmpty) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         return IndexedStack(
           index: _selectedIndex,
@@ -84,7 +87,7 @@ class _HomeState extends State<Home> {
             _buildHomeView(),
             GetBuilder<UserFormController>(
               init: UserFormController(),
-              dispose: (_) => Get.delete<UserFormController>(),
+              //  dispose: (_) => Get.delete<UserFormController>(),
               builder: (_) => UserForm(),
             ),
             Legacy(),
@@ -106,7 +109,7 @@ class _HomeState extends State<Home> {
           Text(
             "Ajial",
             style: GoogleFonts.lobster(
-              fontSize: 28,
+              fontSize: 25,
               color: Colors.white,
             ),
           ),
@@ -143,7 +146,7 @@ class _HomeState extends State<Home> {
             FeaturedFamilies(families: featuredFamilies),
             _buildPersonListView(),
             if (homeController.isFetchingMore.value)
-              Center(child: CircularProgressIndicator()),
+              const Center(child: CircularProgressIndicator()),
           ],
         ),
       ),
@@ -154,27 +157,12 @@ class _HomeState extends State<Home> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: CustomColors.myCustomColor,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Text(
-              "Connect with your roots",
-              style: GoogleFonts.aBeeZee(
-                fontSize: 21,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -185,10 +173,10 @@ class _HomeState extends State<Home> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 2),
+          const SizedBox(height: 2),
           ListView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: homeController.homePageList.length,
             itemBuilder: (context, index) {
               return PersonCard(person: homeController.homePageList[index]);
@@ -212,8 +200,6 @@ class PersonCard extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       color: Colors.white,
-      shadowColor: Colors.grey.withOpacity(0.5),
-      elevation: 4,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -228,30 +214,38 @@ class PersonCard extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   )
-                : Icon(Icons.person,
-                    size: 60, color: Color.fromARGB(255, 78, 76, 76)),
-            SizedBox(width: 16),
+                : CircleAvatar(
+                    radius: 30,
+                    backgroundColor: CustomColors.lightGrey,
+                    child: Image.asset(
+                      person.gender.toString() == "Gender.FEMALE"
+                          ? AppImageAsset.mother
+                          : AppImageAsset.father,
+                    )),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     person.fullName,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     person.gender.toString() == "Gender.FEMALE"
                         ? "Female"
                         : "Male",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 14, color: Color.fromARGB(255, 95, 92, 92)),
                   ),
                 ],
               ),
             ),
             IconButton(
-              icon: Icon(Icons.arrow_forward_ios, color: CustomColors.black),
+              icon: const Icon(Icons.arrow_forward_ios,
+                  color: CustomColors.black),
               onPressed: () {
                 Get.toNamed(AppRoute.userLegacy, arguments: {'id': person.id});
               },

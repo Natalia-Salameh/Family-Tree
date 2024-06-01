@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:family_tree_application/core/constants/colors.dart';
 
 class FeaturedFamilies extends StatelessWidget {
   final List<FeaturedFamily> families;
@@ -11,9 +9,8 @@ class FeaturedFamilies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(left: 5, right: 5, top: 15, bottom: 5),
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 5),
         height: 247,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -26,57 +23,77 @@ class FeaturedFamilies extends StatelessWidget {
               },
               child: Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                elevation: 4,
-                margin: EdgeInsets.symmetric(horizontal: 10),
+                color: Colors.white,
+                margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: Container(
-                  width: 300,
-                  padding: EdgeInsets.all(5),
+                  width: 390,
+                  padding: const EdgeInsets.all(5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.asset(
-                          family.crestImage,
-                          height: 120,
-                          width: 290,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      SizedBox(height: 1),
-                      Text(
-                        family.familyName,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        family.story,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[700],
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: TextButton(
-                          onPressed: () {
-                            Get.toNamed('/family-details', arguments: family);
-                          },
-                          child: Text(
-                            "View More",
-                            style: TextStyle(
-                              color: CustomColors.primaryColor,
-                              fontSize: 14,
-                              decoration: TextDecoration.underline,
+                        borderRadius: BorderRadius.circular(10),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              family.crestImage,
+                              height: 235,
+                              width: 380,
+                              fit: BoxFit.cover,
                             ),
-                          ),
+                            Container(
+                              height: 235,
+                              width: 380,
+                              color: Colors.black.withOpacity(0.45),
+                            ),
+                            Positioned(
+                              bottom: 10,
+                              left: 10,
+                              right: 10,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    family.familyName,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    family.story,
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  const SizedBox(height: 10),
+                                  // Align(
+                                  //   alignment: Alignment.bottomRight,
+                                  //   child: TextButton(
+                                  //     onPressed: () {
+                                  //       Get.toNamed('/family-details',
+                                  //           arguments: family);
+                                  //     },
+                                  //     child: const Text(
+                                  //       textAlign: TextAlign.right,
+                                  //       "View More",
+                                  //       style: TextStyle(
+                                  //         color: Colors.white,
+                                  //         fontSize: 14,
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
