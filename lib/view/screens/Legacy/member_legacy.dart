@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../classes/showPopOutf_home.dart';
+
 class Legacy extends StatelessWidget {
   Legacy({super.key});
   final legacyController = Get.put(MemberLegacyController());
@@ -42,7 +44,7 @@ class Legacy extends StatelessWidget {
               title: const Text('English'),
               onTap: () {
                 switchLanguage('en');
-                Navigator.pop(context); 
+                Navigator.pop(context);
               },
             ),
             const Divider(
@@ -135,6 +137,25 @@ class Legacy extends StatelessWidget {
                               context); // Close the current bottom sheet
                           showLanguagePicker(
                               context); // Show the language picker bottom sheet
+                        },
+                      ),
+                      const Divider(
+                        indent: 40,
+                        endIndent: 40,
+                        height: 1,
+                        thickness: 1,
+                        color: CustomColors.lightGrey,
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.info_outline_rounded),
+                        title: Text("open dialog".tr),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return PopupContent();
+                            },
+                          );
                         },
                       ),
                       const Divider(

@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_const
-
 import 'package:family_tree_application/classes/featured_fam.dart';
 import 'package:family_tree_application/controller/get_child_and_spouse_controller.dart';
 import 'package:family_tree_application/controller/home_page_controller.dart';
@@ -12,6 +10,7 @@ import 'package:family_tree_application/view/screens/Forms/user_form.dart';
 import 'package:family_tree_application/view/screens/Legacy/member_legacy.dart';
 import 'package:family_tree_application/view/screens/home/search.dart';
 import 'package:family_tree_application/view/widgets/bottom_nav.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,6 +33,8 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    homeController.fetchHomePageMembers();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final args = Get.arguments;
       final bool fromSignup = args != null && args['fromSignup'] == true;
@@ -72,6 +73,10 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
+//  return RefreshIndicator(
+//           onRefresh: () async {
+//             await homeController.fetchHomePageMembers();
+//           },
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +89,11 @@ class _HomeState extends State<Home> {
         return IndexedStack(
           index: _selectedIndex,
           children: [
-            _buildHomeView(),
+            RefreshIndicator(
+                onRefresh: () async {
+                  await homeController.fetchHomePageMembers();
+                },
+                child: _buildHomeView()),
             GetBuilder<UserFormController>(
               init: UserFormController(),
               dispose: (_) => Get.delete<UserFormController>(),
