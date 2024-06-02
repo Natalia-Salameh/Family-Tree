@@ -1,4 +1,5 @@
 import 'package:family_tree_application/controller/user_legacy_controller.dart';
+import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/view/screens/Legacy/user_tree.dart';
 import 'package:family_tree_application/view/widgets/bottom_nav.dart';
@@ -19,7 +20,9 @@ class UserLegacy extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             body: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: CustomColors.primaryColor,
+              ),
             ),
           );
         } else {

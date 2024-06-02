@@ -84,7 +84,10 @@ class _HomeState extends State<Home> {
       body: Obx(() {
         if (homeController.isLoading.value &&
             homeController.homePageList.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+              child: CircularProgressIndicator(
+            color: CustomColors.primaryColor,
+          ));
         }
         return IndexedStack(
           index: _selectedIndex,
@@ -158,7 +161,10 @@ class _HomeState extends State<Home> {
             FeaturedFamilies(families: featuredFamilies),
             _buildPersonListView(),
             if (homeController.isFetchingMore.value)
-              const Center(child: CircularProgressIndicator()),
+              const Center(
+                  child: CircularProgressIndicator(
+                color: CustomColors.primaryColor,
+              )),
           ],
         ),
       ),

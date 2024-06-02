@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:family_tree_application/classes/showPopOutf_home.dart';
 import 'package:family_tree_application/controller/login_controller.dart';
 import 'package:family_tree_application/controller/member_legacy_controller.dart';
 import 'package:family_tree_application/controller/update_legacy_controller.dart';
@@ -11,8 +12,6 @@ import 'package:family_tree_application/view/widgets/tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../classes/showPopOutf_home.dart';
 
 class Legacy extends StatelessWidget {
   Legacy({super.key});

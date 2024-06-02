@@ -12,6 +12,7 @@ import 'package:family_tree_application/controller/marriage_form_controller.dart
 import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/controller/user_legacy_controller.dart';
+import 'package:family_tree_application/core/constants/colors.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:family_tree_application/model/extended_node_model.dart';
@@ -215,7 +216,10 @@ class _TreeState extends State<FamilyTreePage> {
               const SizedBox(height: 10),
               Expanded(
                 child: isLoading
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                        color: CustomColors.primaryColor,
+                      ))
                     : InteractiveViewer(
                         panEnabled: true, // Enable or disable panning
                         scaleEnabled: true, // Enable or disable pinch to zoom
