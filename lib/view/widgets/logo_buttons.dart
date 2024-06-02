@@ -21,13 +21,7 @@ class LogoButton extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: screenHeight * 0.01),
               child: InkWell(
-                onTap: () async {
-                  final user = await GoogleSignInService.signInWithGoogle();
-                  if (user != null) {
-                    // Handle successful sign-in
-                    print("User signed in: ${user.displayName}");
-                  }
-                },
+                onTap: () {},
                 child: Frame(imagePath: AppImageAsset.google),
               ),
             ),
