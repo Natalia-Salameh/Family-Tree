@@ -36,11 +36,11 @@ class Login extends StatelessWidget {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: screenHeight * 0.13),
+                              horizontal: screenHeight * 0.14),
                           child: Text(
                             "8".tr,
                             style: const TextStyle(
-                                fontSize: 35, fontWeight: FontWeight.bold),
+                                fontSize: 27, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
@@ -104,39 +104,6 @@ class Login extends StatelessWidget {
                     const SizedBox(
                       height: 30,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: screenHeight * 0.03),
-                            child: const Divider(
-                              thickness: 0.6,
-                              color: Color.fromARGB(255, 179, 174, 174),
-                            ),
-                          ),
-                        ),
-                        Text(
-                          "15".tr,
-                          style:
-                              const TextStyle(color: CustomColors.background),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: screenHeight * 0.03),
-                            child: const Divider(
-                              thickness: 0.8,
-                              color: CustomColors.background,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const LogoButton()
                   ],
                 ),
               ),
