@@ -67,6 +67,7 @@ class _FamilyNameDropDownState extends State<FamilyNameDropDown> {
     return Obx(() {
       if (controller.familyNames.isEmpty) {
         return const CircularProgressIndicator(
+          color: CustomColors.primaryColor,
           valueColor: AlwaysStoppedAnimation<Color>(Colors.white38),
         );
       }
