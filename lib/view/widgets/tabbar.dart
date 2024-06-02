@@ -22,13 +22,18 @@ class LegacyTabBar extends StatelessWidget {
           tabBarProperties: const TabBarProperties(
               indicatorColor: CustomColors.primaryColor,
               labelColor: CustomColors.primaryColor),
-              
           tabs: const [
             Icon(Icons.groups_outlined),
             Icon(CupertinoIcons.book),
             Icon(CupertinoIcons.info_circle),
           ],
-          views: views,
+          views: views.map((view) {
+            return GestureDetector(
+              onHorizontalDragUpdate: (details) {
+              },
+              child: view,
+            );
+          }).toList(),
         ),
       ),
     );
