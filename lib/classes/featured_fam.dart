@@ -127,7 +127,27 @@ List<FeaturedFamily> featuredFamilies = [
     familyName: "Al-Shomali Family".tr,
     story: "The Shomali family came from Wadi Musa, Jordan.".tr,
     crestImage: 'assets/images/ShomaliPic.jpg', // Example crest image
-    details: "shomali".tr, // Continue the text here
+    details:
+        """Groups from neighboring countries began emigrating to Beit Sahour to escape religious or social persecution. Among the first were the 'Ajajia families (families of Abu Hindi and Abu Ghantur) who left the town of 'Ajajia in Wadi Musa-Jordan, where they lived in caves under the Shaheen building in the center of the town.
+
+Shortly after the arrival of Ajajia family, Khalawi, ancestor of the Jarayseh (Salsa' and Shomali), arrived in Beit Sahour from the same area in Wadi Musa (valley of Moses). It is widely believed that he came from a village called "Sala" to the north-west of the Jordanian city of Ma'an, and that his family lived in caves under the house of Anton Yousef Abu Zuluf. It is worth mentioning that one of the Jarayseh family' branches left Beit Sahour later and lived in the Galilee - Acre, then moved to Kufur Kanna, then to Nazareth, and part of it to the east of Madaba in Jordan, whose family still live today under the name Bisharat.
+
+In the first half of the 17th century (1630 AD), Dawoud, ancestor of Al Qazaha, fled with his family to Beit Sahour to escape religious persecution and the injustices of Turkish rule. Dawoud's family was from a village called "Qazhit El-Binit," in Wadi Musa, the remains of the Ghassanid Christian State. He lived with his family in the caves at the center of the town, where he had two sons: Habbas and Issa.
+
+Habbas had three sons, the ancestors of the "Al-Qazaha Al-Tahata." They were:
+
+Salem (Fr. Barnabas, the first Arab priest in Beit Sahour, ordained as a priest in 1735 AD), the ancestor of Qassis family. This priest had a son, Fr. Jiries; Fr. Jiries had a son, Fr. Khalil; and Fr. Khalil had three boys: Zacharia (ancestor of Abu Aita family), Issa (ancestor of Issa family), and Fr. Nasir, ancestor of the Khoury and Yacoub families.
+
+It is worth mentioning that Fr. Nasir's son was the priest Nicholas; Fr. Nicholas's son was the priest Ibrahim Tanas, whose sons were Fr. Khoury (who died in Amman, Jordan) and Fr. Ibrahim, current priest at the Beit Sahour Church. Thus, Father Ibrahim is an eighth-generation descendant of Father Salem, ancestor of the Qassis family.
+
+Zakharia, the ancestor of Abu Aita family, had three sons: Jiries, Habbas and Hanna, who are the ancestors of the main Abu Aita family' branches.
+
+The second son of Habbas was Ibrahim, ancestor of Ibrahim family, father of Saleh.Saleh had a son, Elias, and Elias had four sons: Barhoum, Sababa, Abdullah and Saleh, ancestor of the main Ibrahim family' branches.
+
+The third son of Habbas was Elias, who fathered three sons: Salameh (ancestor of Sous and Abdil-Masih Al-Hayik families), Hanna (ancestor of Hannouneh family), and Isaac (ancestor of Isaac family).
+
+
+The other son of Dawoud (ancestor of "Al-Qazaha Al-Tahata") was Issa. Though Issa had no biological sons, he adopted a son called Msallam (ancestor of the Rishmawi family). Msallam worked for Issa as a farmer after he had fled from an area in Syria called "Rashma." Msallam married Issa's daughter, and Issa bequeathed a portion of his land to the couple. Msallam had a son, Salamah, who in turn had two sons: Sulaiman and Jiries. Sulaiman had a son called Abdallah, and Jiries had a son called Khalil, cousins who are the ancestors of Rishmawi family' branches.""", // Continue the text here
   ),
   FeaturedFamily(
     familyName: "Bannourah Family",
