@@ -46,7 +46,7 @@ class ChildForm extends StatelessWidget {
                   children: [
                     //--------- Profile Image -----------
                     const SizedBox(height: 20),
-                   Obx(() => Profile(
+                    Obx(() => Profile(
                           onImagePicked: (file) {
                             childFormController.setImage(
                                 file); // This will store the file in the controller
@@ -128,38 +128,42 @@ class ChildForm extends StatelessWidget {
                       height: 40,
                     ),
                     //--------- Gender -----------
-                    Row(children: [
-                      Expanded(
-                          flex: 0,
-                          child: Text(
-                            "30".tr,
-                            style: const TextStyle(fontSize: 16),
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "31".tr,
-                              genderValue: Gender.female,
-                              selectedGender:
-                                  childFormController.selectedGender.value,
-                              onGenderSelected: (val) {
-                                childFormController.updateGender(Gender.female);
-                              },
-                            )),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "32".tr,
-                              genderValue: Gender.male,
-                              selectedGender:
-                                  childFormController.selectedGender.value,
-                              onGenderSelected: (val) {
-                                childFormController.updateGender(Gender.male);
-                              },
-                            )),
-                      ),
-                    ]),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Gender", style: const TextStyle(fontSize: 16)),
+                        Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Obx(() => RadioButton(
+                                      label: "31".tr,
+                                      genderValue: Gender.female,
+                                      selectedGender: childFormController
+                                          .selectedGender.value,
+                                      onGenderSelected: (val) {
+                                        childFormController
+                                            .updateGender(Gender.female);
+                                      },
+                                    )),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Obx(() => RadioButton(
+                                      label: "32".tr,
+                                      genderValue: Gender.male,
+                                      selectedGender: childFormController
+                                          .selectedGender.value,
+                                      onGenderSelected: (val) {
+                                        childFormController
+                                            .updateGender(Gender.male);
+                                      },
+                                    )),
+                              ),
+                            ]),
+                      ],
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -223,40 +227,43 @@ class ChildForm extends StatelessWidget {
                       height: 20,
                     ),
                     //--------- Life Status -----------
-                    Row(children: [
-                      Expanded(
-                          flex: 0,
-                          child: Text(
-                            "Life Status".tr,
-                            style: const TextStyle(fontSize: 16),
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "Alive".tr,
-                              genderValue: LifeStatus.alive,
-                              selectedGender:
-                                  childFormController.lifeStatus.value,
-                              onGenderSelected: (val) {
-                                childFormController
-                                    .updateLifeStatus(LifeStatus.alive);
-                              },
-                            )),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "Dead".tr,
-                              genderValue: LifeStatus.dead,
-                              selectedGender:
-                                  childFormController.lifeStatus.value,
-                              onGenderSelected: (val) {
-                                childFormController
-                                    .updateLifeStatus(LifeStatus.dead);
-                              },
-                            )),
-                      ),
-                    ]),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Life Status",
+                            style: const TextStyle(fontSize: 16)),
+                        Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Obx(() => RadioButton(
+                                      label: "Alive".tr,
+                                      genderValue: LifeStatus.alive,
+                                      selectedGender:
+                                          childFormController.lifeStatus.value,
+                                      onGenderSelected: (val) {
+                                        childFormController
+                                            .updateLifeStatus(LifeStatus.alive);
+                                      },
+                                    )),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Obx(() => RadioButton(
+                                      label: "Dead".tr,
+                                      genderValue: LifeStatus.dead,
+                                      selectedGender:
+                                          childFormController.lifeStatus.value,
+                                      onGenderSelected: (val) {
+                                        childFormController
+                                            .updateLifeStatus(LifeStatus.dead);
+                                      },
+                                    )),
+                              ),
+                            ]),
+                      ],
+                    ),
                     //--------- Death Date -----------
                     Obx(() => Visibility(
                           visible: childFormController.lifeStatus.value ==
@@ -321,7 +328,7 @@ class ChildForm extends StatelessWidget {
                           ),
                         )),
                     const SizedBox(
-                      height: 10,
+                      height: 40,
                     ),
                     SizedBox(
                       child: Button(

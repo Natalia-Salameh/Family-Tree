@@ -76,7 +76,11 @@ class UserLegacy extends StatelessWidget {
                           views: [
                             Container(
                                 alignment: Alignment.center,
-                                child: const FamilyTreePage()),
+                                child: RefreshIndicator(
+                                    onRefresh: () async {
+                                      await FamilyTreePage();
+                                    },
+                                    child: const FamilyTreePage())),
                             Container(
                                 alignment: Alignment.center,
                                 child: Column(
