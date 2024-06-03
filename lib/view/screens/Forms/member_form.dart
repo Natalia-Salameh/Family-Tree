@@ -12,6 +12,7 @@ import 'package:family_tree_application/view/widgets/form/progress_Indicator.dar
 import 'package:family_tree_application/view/widgets/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class MemberForm extends StatefulWidget {
@@ -147,39 +148,42 @@ class _MemberFormState extends State<MemberForm> {
                     const SizedBox(
                       height: 40,
                     ),
-                    Row(children: [
-                      Expanded(
-                          flex: 0,
-                          child: Text(
-                            "30".tr,
-                            style: const TextStyle(fontSize: 16),
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "31".tr,
-                              genderValue: Gender.female,
-                              selectedGender:
-                                  memberFormController.selectedGender.value,
-                              onGenderSelected: (val) {
-                                memberFormController
-                                    .updateGender(Gender.female);
-                              },
-                            )),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "32".tr,
-                              genderValue: Gender.male,
-                              selectedGender:
-                                  memberFormController.selectedGender.value,
-                              onGenderSelected: (val) {
-                                memberFormController.updateGender(Gender.male);
-                              },
-                            )),
-                      ),
-                    ]),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Gender", style: const TextStyle(fontSize: 16)),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Obx(() => RadioButton(
+                                      label: "31".tr,
+                                      genderValue: Gender.female,
+                                      selectedGender: memberFormController
+                                          .selectedGender.value,
+                                      onGenderSelected: (val) {
+                                        memberFormController
+                                            .updateGender(Gender.female);
+                                      },
+                                    )),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Obx(() => RadioButton(
+                                      label: "32".tr,
+                                      genderValue: Gender.male,
+                                      selectedGender: memberFormController
+                                          .selectedGender.value,
+                                      onGenderSelected: (val) {
+                                        memberFormController
+                                            .updateGender(Gender.male);
+                                      },
+                                    )),
+                              ),
+                            ]),
+                      ],
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -240,7 +244,7 @@ class _MemberFormState extends State<MemberForm> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 50,
                     ),
                     SizedBox(
                       child: Button(

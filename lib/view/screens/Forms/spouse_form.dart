@@ -124,39 +124,42 @@ class SpouseForm extends StatelessWidget {
                       height: 40,
                     ),
                     //--------- Gender -----------
-                    Row(children: [
-                      Expanded(
-                          flex: 0,
-                          child: Text(
-                            "30".tr,
-                            style: const TextStyle(fontSize: 16),
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "31".tr,
-                              genderValue: Gender.female,
-                              selectedGender:
-                                  spouseFormController.selectedGender.value,
-                              onGenderSelected: (val) {
-                                spouseFormController
-                                    .updateGender(Gender.female);
-                              },
-                            )),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "32".tr,
-                              genderValue: Gender.male,
-                              selectedGender:
-                                  spouseFormController.selectedGender.value,
-                              onGenderSelected: (val) {
-                                spouseFormController.updateGender(Gender.male);
-                              },
-                            )),
-                      ),
-                    ]),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Gender", style: const TextStyle(fontSize: 16)),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Obx(() => RadioButton(
+                                      label: "31".tr,
+                                      genderValue: Gender.female,
+                                      selectedGender: spouseFormController
+                                          .selectedGender.value,
+                                      onGenderSelected: (val) {
+                                        spouseFormController
+                                            .updateGender(Gender.female);
+                                      },
+                                    )),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Obx(() => RadioButton(
+                                      label: "32".tr,
+                                      genderValue: Gender.male,
+                                      selectedGender: spouseFormController
+                                          .selectedGender.value,
+                                      onGenderSelected: (val) {
+                                        spouseFormController
+                                            .updateGender(Gender.male);
+                                      },
+                                    )),
+                              ),
+                            ]),
+                      ],
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -220,40 +223,43 @@ class SpouseForm extends StatelessWidget {
                       height: 20,
                     ),
                     //--------- Life Status -----------
-                    Row(children: [
-                      Expanded(
-                          flex: 0,
-                          child: Text(
-                            "Life Status".tr,
-                            style: const TextStyle(fontSize: 16),
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "Alive".tr,
-                              genderValue: LifeStatus.alive,
-                              selectedGender:
-                                  spouseFormController.lifeStatus.value,
-                              onGenderSelected: (val) {
-                                spouseFormController
-                                    .updateLifeStatus(LifeStatus.alive);
-                              },
-                            )),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Obx(() => RadioButton(
-                              label: "Dead".tr,
-                              genderValue: LifeStatus.dead,
-                              selectedGender:
-                                  spouseFormController.lifeStatus.value,
-                              onGenderSelected: (val) {
-                                spouseFormController
-                                    .updateLifeStatus(LifeStatus.dead);
-                              },
-                            )),
-                      ),
-                    ]),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Life Status",
+                            style: const TextStyle(fontSize: 16)),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Obx(() => RadioButton(
+                                      label: "Alive".tr,
+                                      genderValue: LifeStatus.alive,
+                                      selectedGender:
+                                          spouseFormController.lifeStatus.value,
+                                      onGenderSelected: (val) {
+                                        spouseFormController
+                                            .updateLifeStatus(LifeStatus.alive);
+                                      },
+                                    )),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Obx(() => RadioButton(
+                                      label: "Dead".tr,
+                                      genderValue: LifeStatus.dead,
+                                      selectedGender:
+                                          spouseFormController.lifeStatus.value,
+                                      onGenderSelected: (val) {
+                                        spouseFormController
+                                            .updateLifeStatus(LifeStatus.dead);
+                                      },
+                                    )),
+                              ),
+                            ]),
+                      ],
+                    ),
                     //--------- Death Date -----------
                     Obx(() => Visibility(
                           visible: spouseFormController.lifeStatus.value ==
