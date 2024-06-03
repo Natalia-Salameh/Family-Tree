@@ -36,7 +36,7 @@ class VerifyCode extends StatelessWidget {
                 Text(
                   "16".tr,
                   style: const TextStyle(
-                    fontSize: 28,
+                    fontSize: 26,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -107,7 +107,7 @@ class VerifyCode extends StatelessWidget {
                       child: Text(
                         "21".tr,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: CustomColors.primaryColor,
                         ),
                       ),
                     ),
@@ -118,7 +118,7 @@ class VerifyCode extends StatelessWidget {
                       },
                       child: Text(
                         "22".tr,
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: CustomColors.primaryColor),
                       ),
                     ),
                   ],

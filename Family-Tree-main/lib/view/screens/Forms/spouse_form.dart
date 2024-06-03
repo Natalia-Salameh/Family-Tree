@@ -23,6 +23,7 @@ class SpouseForm extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: CustomColors.myCustomColor,
         title: Get.arguments == "parent"
             ? Text(
                 "Add second parent".tr,

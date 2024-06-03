@@ -26,7 +26,6 @@ class VerifyEmailController extends GetxController {
       email: email!,
       code: code.value,
     );
-
     var response = await NetworkHandler.postRequest(
       AppLink.codeVerification,
       verifyEmailData.toJson(),
@@ -42,35 +41,27 @@ class VerifyEmailController extends GetxController {
         AppLink.login,
         loginData.toJson(),
       );
+
       var tokendata = json.decode(tokenResponse.body);
       if (tokenResponse.statusCode == 200 || tokenResponse.statusCode == 201) {
         await NetworkHandler.storeToken(tokendata["token"]);
         await NetworkHandler.storeExpirationDate(tokendata["expiration"]);
+
         print(tokenResponse.body);
         Get.offAllNamed(AppRoute.memberForm);
       } else {
-        handleErrorResponse(data);
+        Get.defaultDialog(
+          title: "Error",
+          middleText: data['titel'],
+        );
         print(tokenResponse.body);
       }
     } else {
-      handleErrorResponse(data);
+      Get.defaultDialog(
+        title: "Error",
+        middleText: data['titel'],
+      );
       print(response.body);
-    }
-  }
-
-  void handleErrorResponse(Map<String, dynamic> data) {
-    if (data['titel'] == "The verification code is incorrect.") {
-      Get.defaultDialog(
-        title: "65".tr,
-        middleText: "verification_code_incorrect".tr,
-      );
-    } else {
-      // Default error handling
-      Get.defaultDialog(
-        title: "65".tr,
-        middleText: data[
-            'titel'], // Assume 'titel' is directly translatable or add more conditions if needed
-      );
     }
   }
 }

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:family_tree_application/core/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:family_tree_application/core/constants/linkapi.dart';
@@ -49,15 +52,28 @@ class HomeController extends GetxController {
           });
 
       if (response.statusCode == 200) {
-        var newMembers = homePageModelFromJson(response.body);
-        if (isMore) {
-          newMembers = newMembers
-              .where((member) => memberIDs.add(member.id))
-              .toList(); // Filter out duplicates
-          homePageList.addAll(newMembers);
+        var legacyResponse = await NetworkHandler.getRequest(
+          AppLink.memberLegacy,
+          includeToken: true,
+        );
+
+        var profileData = json.decode(legacyResponse.body);
+
+        if (profileData['titel'] == "member doesn't exist") {
+          Get.offAllNamed(AppRoute.memberForm);
+        } else if (profileData['titel'] == "This User doesn't have a Legacy") {
+          Get.offAllNamed(AppRoute.diary);
         } else {
-          memberIDs.addAll(newMembers.map((m) => m.id));
-          homePageList.assignAll(newMembers);
+          var newMembers = homePageModelFromJson(response.body);
+          if (isMore) {
+            newMembers = newMembers
+                .where((member) => memberIDs.add(member.id))
+                .toList(); // Filter out duplicates
+            homePageList.addAll(newMembers);
+          } else {
+            memberIDs.addAll(newMembers.map((m) => m.id));
+            homePageList.assignAll(newMembers);
+          }
         }
       } else {
         print(

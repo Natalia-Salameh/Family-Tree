@@ -4,11 +4,13 @@ import 'package:family_tree_application/controller/add_parent_controller%20copy.
 import 'package:family_tree_application/controller/child_form_controller.dart';
 import 'package:family_tree_application/controller/marriage_form_controller.dart';
 import 'package:family_tree_application/controller/member_form_controller.dart';
+import 'package:family_tree_application/controller/progress_bar.dart';
 import 'package:family_tree_application/controller/spouse_form_controller.dart';
 import 'package:family_tree_application/controller/user_form_controller.dart';
 import 'package:family_tree_application/core/constants/imageasset.dart';
 import 'package:family_tree_application/model/extended_node_model.dart';
 import 'package:family_tree_application/view/widgets/GetxBottom_sheet.dart';
+import 'package:family_tree_application/view/widgets/form/progress_Indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphview/GraphView.dart';
@@ -45,6 +47,7 @@ class _TreeState extends State<TreeState> {
       Get.put(ChildFormController());
   final MemberFormController memberFormController =
       Get.put(MemberFormController());
+  final ProgressController progressController = Get.find<ProgressController>();
 
   @override
   void initState() {
@@ -87,7 +90,19 @@ class _TreeState extends State<TreeState> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
+              const SizedBox(height: 20),
+              ProgressBar(
+                progress: progressController.progress.value,
+              ),
               const SizedBox(height: 10),
+              Text(
+                "Click on the add button to start adding your relatives!".tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Expanded(
                 child: InteractiveViewer(
                   transformationController: TransformationController()
@@ -106,10 +121,11 @@ class _TreeState extends State<TreeState> {
               ),
               Button(
                 onPressed: () {
+                  progressController.updateProgress();
                   Get.offAllNamed(AppRoute.diary);
                 },
                 color: CustomColors.primaryColor,
-                child: Text("Add".tr,
+                child: Text("Next".tr,
                     style: const TextStyle(color: CustomColors.white)),
               ),
             ],

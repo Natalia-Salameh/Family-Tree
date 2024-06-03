@@ -39,6 +39,7 @@ class UserForm extends StatelessWidget {
             ? null
             : IconButton(
                 icon: const Icon(Icons.arrow_back),
+                color: Colors.white,
                 onPressed: () {
                   Get.back(result: "false");
                 },
