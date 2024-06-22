@@ -101,12 +101,18 @@ class VerifyCode extends StatelessWidget {
                   onPressed: () {
                     sendCodeController.sendCode();
                   },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: CustomColors.primaryColor,
+                      foregroundColor: CustomColors.white), // Updated to green
                   child: Text("21".tr),
                 ),
                 ElevatedButton(
                   onPressed: () {
                     Get.offAllNamed(AppRoute.getStarted);
                   },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: CustomColors.primaryColor,
+                      foregroundColor: CustomColors.white), // Updated to green
                   child: Text("22".tr),
                 ),
                 Padding(
